@@ -11,8 +11,8 @@ class User extends Authenticatable
 
     protected $connection = 'account';
     protected $table = 'TB_User';
-    protected $guarded = [];
     protected $primaryKey = 'JID';
+    protected $guarded = [];
     public $timestamps = false;
 
     public function getGravatarAttribute()
@@ -23,5 +23,10 @@ class User extends Authenticatable
         }
 
         return "https://www.gravatar.com/avatar/" . md5( strtolower( $this->Email ) );
+    }
+
+    public function Silk()
+    {
+        return $this->hasOne('App\Silk', 'JID', 'JID');
     }
 }

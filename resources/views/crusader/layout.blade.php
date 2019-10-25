@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>SroCMS</title>
-        <link rel="shortcut icon" href="http://www.kann-sro.com/images/favicon.ico">
+        <link rel="shortcut icon" href="{!! Theme::url('images/favicon.gif') !!}">
 
         <!-- Responsive meta tag -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,12 +19,13 @@
         <!-- Load styles -->
         {!! Theme::css('css/cms.css') !!}
         {!! Theme::css('css/main.css') !!}
+        @yield('css')
     </head>
 	<body>
 		<!--[if lte IE 8]>
 			<style type="text/css">
 				body {
-					background-image:url(images/bg.jpg);
+					background-image:url({!! Theme::url('images/bg.jpg') !!});
 					background-position:top center;
 				}
 			</style>
@@ -39,51 +40,52 @@
                 	<div class="login_box_top">
                     	<div class="actions_cont">
 
-                        	{if $isOnline}
+                        	@if (Auth::check())
                             	<div class="account_info">
 
+                                    @if (Auth::user()->gravatar)
                                     <!-- Avatar -->
                                     	<div class="avatar_top">
-                                            <img src="{$CI->user->getAvatar()}" width="50" height="50"/>
+                                            <img src="{{ Auth::user()->gravatar }}" width="50" height="50"/>
                                             <span></span>
                                         </div>
                                     <!-- Avatar . End -->
+                                    @endif
 
                                     <!-- Welcome & VP/DP -->
                                 	<div class="left">
-
-                                        <p>Welcome back, <span>{$CI->user->getUsername()}</span>!</p>
+                                        <p>Welcome back, <span>{{ Auth::user()->Name ?? Auth::user()->StrUserID }}</span>!</p>
+                                        @if (Auth::user()->Silk)
                                         <div class="vpdp">
-
                                         	<div class="vp">
-                                           		<img src="{$url}application/images/icons/lightning.png" align="absmiddle" width="12" height="12" /> VP
-                                                <span>{$CI->user->getVp()}</span>
+                                           		<img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle" width="12" height="12" /> silk_own:
+                                                <span>{{ Auth::user()->Silk->silk_own }}</span>
                                             </div>
                                             <div class="dp">
-                                           		<img src="{$url}application/images/icons/coins.png" align="absmiddle" width="12" height="12"  /> DP
-                                                <span>{$CI->user->getDp()}</span>
+                                           		<img src="{{ Theme::url('images/icons/giftsilk.png') }}" align="absmiddle" width="12" height="12"  /> silk_gift
+                                                <span>{{ Auth::user()->Silk->silk_gift }}</span>
                                             </div>
-
                                         </div>
+                                        @endif
                                     </div>
                                     <!-- Welcome & VP/DP . End-->
                                     	<div class="right">
                                         	<a href="{$url}ucp" class="nice_button">User panel</a>
                                             <a href="{$url}vote" class="nice_button">Vote</a>
-											<a href="{$url}logout" class="nice_button">Log out</a>
+											<a href="{{ route('logout') }}" class="nice_button">Log out</a>
                                         </div>
                                     <!-- Account Panel & Logout -->
 
                                 </div>
-                            {else}
+                            @else
                             	<div class="login_form_top">
-                                    {form_open('login')}
-                                            <input type="text" name="login_username" id="login_username" value="" placeholder="Username">
-                                            <input type="password" name="login_password" id="login_password" value="" placeholder="Password">
-                                            <input type="submit" name="login_submit" value="Login">
-                                    </form>
+                                    {{ Form::open(['route' => 'login']) }}
+                                        <input type="text" name="username" id="username" value="" placeholder="Username">
+                                        <input type="password" name="password" id="password" value="" placeholder="Password">
+                                        <input type="submit" value="Login">
+                                    {{ Form::close() }}
                             	</div>
-                            {/if}
+                            @endif
 
                         </div>
                     </div>
@@ -97,7 +99,7 @@
                     </div>
                 </div>
 
-                <a id="server_logo" href="./" title="{$serverName}"><p>{$serverName}</p></a>
+                <a id="server_logo" href="{{ route('home') }}" title="{$serverName}"><p>{$serverName}</p></a>
 
 				<div id="flash_content">
                 	<object id="animation"
@@ -142,11 +144,11 @@
 
 				<aside id="left">
 
-                	{if $isOnline}
+                    @if (Auth::check())
                 		<a href="{$url}vote" id="vote_banner"><p>Vote for us</p></a>
-                    {else}
+                    @else
                     	<a href="{$url}register" id="register_banner"><p>Create Account</p></a>
-                    {/if}
+                    @endif
 
                     <article>
 						<ul id="left_menu">
@@ -169,7 +171,7 @@
 				</aside>
 
 				<aside id="right">
-                    @yield('content')
+                    @yield ('content')
 				</aside>
 
 				<div class="clear"></div>
@@ -179,6 +181,8 @@
              	<a href="http://evil.duloclan.com" id="evil-logo" target="_blank" title="Design by EvilSystem"><span>Design by EvilSystem</span></a>
 				<a href="https://github.com/RevoLand" id="fcms-logo" target="_blank"><span>Powered by SroCMS</span></a>
 			</footer>
-		</section>
+        </section>
+        @include('sweetalert::alert')
+        @yield('js')
 	</body>
 </html>

@@ -1,6 +1,6 @@
-@extends('layout')
+@extends ('layout')
 
-@section('content')
+@section ('content')
 <article class="news_row">
     <div class="news_head">
         <a href="{{ route('showArticle', [$article->id, $article->slug]) }}" class="top">{{ $article->title }}</a>
@@ -45,17 +45,25 @@
             @endif
         </div>
 
-        <form>
-            @if (isset($User))
-                <textarea spellcheck="false" {$field_id} placeholder="Type a comment..." onkeyup="UI.limitCharacters(this, 'characters_remaining_{$id}')" maxlength="255"></textarea>
-                <div class="characters_remaining"><span id="characters_remaining_{$id}">0 / 255</span> characters</div>
-                <input type="submit" value="Submit comment" id="comment_button_{$id}" />
-            @else
-                <textarea disabled placeholder="Please log in to comment"></textarea>
-                <input type="submit" disabled="disabled" value="Submit comment"/>
+        @if (Auth::check())
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
-        </form>
-        <div class="clear"></div>
+        {{ Form::open(['route' => ['storeComment', $article->id, $article->slug], 'method' => 'PUT']) }}
+            <textarea name="comment" spellcheck="false" placeholder="Type a comment..." maxlength="255"></textarea>
+            <input type="submit" value="Submit comment" id="comment_button_{$id}" />
+        {{ Form::close() }}
+        @else
+            <textarea disabled placeholder="Please log in to comment"></textarea>
+            <input type="submit" disabled="disabled" value="Submit comment"/>
+        @endif
+    <div class="clear"></div>
         {{ $paginatedComments->links() }}
     </section>
 </article>

@@ -230,6 +230,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Asset' => Orchestra\Support\Facades\Asset::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];

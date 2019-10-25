@@ -14,11 +14,16 @@
 // Geçici
 Theme::set('crusader');
 
-Route::get('/', 'ArticleController@index')->name('articles');
+Route::get('/', 'ArticleController@index')->name('home');
+
+Route::post('/login', 'LoginController@authenticate')->name('login');
+Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::group(['prefix' => 'articles'], function()
 {
     Route::get('/', 'ArticleController@index')->name('articles');
 
     Route::get('{id}-{slug}', 'ArticleController@show')->name('showArticle');
+
+    Route::put('comment/{id}-{slug}', 'ArticleCommentController@store')->name('storeComment');
 });

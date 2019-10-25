@@ -1,6 +1,6 @@
-@extends('layout')
+@extends ('layout')
 
-@section('content')
+@section ('content')
 <section id="slider_bg" {if !$show_slider}style="display:none;"{/if}>
     <div id="slider">
         <div class="overlay"></div>
@@ -41,6 +41,5 @@
 		</section>
 	</article>
 @endforeach
-
 
 @endsection
