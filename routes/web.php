@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Geçici
+Theme::set('crusader');
+
+Route::get('/', 'ArticleController@index')->name('articles');
+
+Route::group(['prefix' => 'articles'], function()
+{
+    Route::get('/', 'ArticleController@index')->name('articles');
+
+    Route::get('{id}-{slug}', 'ArticleController@show')->name('showArticle');
 });
