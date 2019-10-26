@@ -42,4 +42,6 @@
 	</article>
 @endforeach
 
+{{ $articles->links() }}
+
 @endsection

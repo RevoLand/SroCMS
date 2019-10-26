@@ -104,7 +104,7 @@
                                 {{-- {% if loginAttempt.Success %} --}}
                                 Başarıyla giriş yapıldı.
                                 {{-- {% else %} --}}
-                                Giriş denemesi başarısız oldu.
+                                {{-- Giriş denemesi başarısız oldu. --}}
                                 {{-- {% endif %} --}}
                             </span>
                             <br />
@@ -116,6 +116,58 @@
                 </ul>
             </div>
 
+            <div class="clear"></div><br />
+        </section>
+
+        <div class="ucp_divider"></div>
+
+        <section id="ucp_buttons">
+            {{-- {if hasPermission('view', "vote") && $config['vote']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/vote_panel.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('view', "donate") && $config['donate']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/donate_panel.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('view', "store") && $config['store']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/item_store.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('canUpdateAccountSettings', 'ucp') && $config['settings']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/account_settings.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('canChangeExpansion', "ucp") && $config['expansion']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/change_expansion.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('view', "teleport") && $config['teleport']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/teleport_hub.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('view', "gm") && $config['gm']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/gm_panel.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            {{-- {if hasPermission('view', "admin") && $config['admin']} --}}
+                <a href="#" style="background-image:url({{ Theme::url('images/ucp/admin_panel.jpg') }})"></a>
+            {{-- {/if} --}}
+
+            <div class="clear"></div>
+        </section>
+
+        <div class="ucp_divider"></div>
+
+        <section id="ucp_characters">
+            {{-- {foreach from=$realms item=realm} --}}
+                <h1>Server Ismi</h1>
+                {{-- {foreach from=$realm->getCharacters()->getCharactersByAccount($id) item=character} --}}
+                    <a href="#">
+                        <img src="{$url}application/images/avatars/{$realmsObj->formatAvatarPath($character)}.gif" />
+                    </a>
+                {{-- {/foreach} --}}
+            {{-- {/foreach} --}}
             <div class="clear"></div>
         </section>
     </section>

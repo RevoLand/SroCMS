@@ -70,7 +70,7 @@
                                     </div>
                                     <!-- Welcome & VP/DP . End-->
                                     	<div class="right">
-                                        	<a href="#" class="nice_button">User panel</a>
+                                            <a href="{{ route('user') }}" class="nice_button">User panel</a>
                                             <a href="{$url}vote" class="nice_button">Vote</a>
 											<a href="{{ route('logout') }}" class="nice_button">Log out</a>
                                         </div>

@@ -15,6 +15,7 @@
 
 Route::get('/', 'ArticleController@index')->name('home');
 
+Route::get('/login', 'LoginController@show')->name('loginPage');
 Route::middleware('throttle:60,1')->post('/login', 'LoginController@authenticate')->name('login');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 

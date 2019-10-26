@@ -23,7 +23,7 @@ class LoginController extends Controller
 
         if (Auth::check())
         {
-            return redirect()->back();
+            return redirect()->route('user');
         }
 
         $user = User::where('StrUserID', $request->username)->where('password', md5($request->password))->first();
@@ -35,7 +35,7 @@ class LoginController extends Controller
             // Alert::success('Success!', 'Successfully logged in.');
             toast('Successfully logged in.','success');
 
-            return redirect()->route('home');
+            return redirect()->route('user');
         }
         else
         {
@@ -46,14 +46,23 @@ class LoginController extends Controller
         }
     }
 
-    public function logout()
+    public function show()
     {
-        if (!Auth::check())
+        if (Auth::check())
         {
-            return redirect()->back();
+            return redirect()->route('user');
         }
 
-        Auth::logout();
+        return view('user.login');
+    }
+
+    public function logout()
+    {
+        if (Auth::check())
+        {
+            Auth::logout();
+        }
+
         return redirect()->route('home');
     }
 }
