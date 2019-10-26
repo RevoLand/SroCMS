@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Carbon\Carbon;
+use Igaster\LaravelTheme\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -16,6 +17,7 @@ class ArticleController extends Controller
                 $query->where('published_at', '=', NULL)
                     ->orWhere('published_at', '<=', Carbon::now());
             })
+            ->orderByDesc('updated_at')
             ->paginate(5);
 
         return view('articles.index', compact('articles'));

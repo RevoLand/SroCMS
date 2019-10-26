@@ -11,12 +11,11 @@
 |
 */
 
-// Geçici
-Theme::set('crusader');
+// Theme::set('crusader');
 
 Route::get('/', 'ArticleController@index')->name('home');
 
-Route::post('/login', 'LoginController@authenticate')->name('login');
+Route::middleware('throttle:60,1')->post('/login', 'LoginController@authenticate')->name('login');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::group(['prefix' => 'articles'], function()
@@ -26,4 +25,9 @@ Route::group(['prefix' => 'articles'], function()
     Route::get('{id}-{slug}', 'ArticleController@show')->name('showArticle');
 
     Route::put('comment/{id}-{slug}', 'ArticleCommentController@store')->name('storeComment');
+});
+
+Route::group(['middleware' => 'user', 'prefix' => 'user'], function()
+{
+    Route::get('/', 'UserController@index')->name('user');
 });

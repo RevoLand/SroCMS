@@ -25,7 +25,7 @@
 		<!--[if lte IE 8]>
 			<style type="text/css">
 				body {
-					background-image:url({!! Theme::url('images/bg.jpg') !!});
+					background-image:url({{ Theme::url('images/bg.jpg') }});
 					background-position:top center;
 				}
 			</style>
@@ -70,7 +70,7 @@
                                     </div>
                                     <!-- Welcome & VP/DP . End-->
                                     	<div class="right">
-                                        	<a href="{$url}ucp" class="nice_button">User panel</a>
+                                        	<a href="#" class="nice_button">User panel</a>
                                             <a href="{$url}vote" class="nice_button">Vote</a>
 											<a href="{{ route('logout') }}" class="nice_button">Log out</a>
                                         </div>

@@ -175,9 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Igaster\LaravelTheme\themeServiceProvider::class,
         Orchestra\Asset\AssetServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-
     ],
 
     /*
@@ -229,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Theme' => Igaster\LaravelTheme\Facades\Theme::class,
         'Asset' => Orchestra\Support\Facades\Asset::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
