@@ -27,6 +27,18 @@ class User extends Authenticatable
 
     public function Silk()
     {
-        return $this->hasOne('App\Silk', 'JID', 'JID');
+        return $this->hasOne('App\Silk', 'JID', 'JID')->withDefault(function ($silk)
+        {
+            $silk->JID = $this->JID;
+            $silk->silk_own = 0;
+            $silk->silk_gift = 0;
+            $silk->silk_point = 0;
+            $silk->save();
+        });
+    }
+
+    public function LoginAttempts()
+    {
+        return $this->hasMany('App\LoginAttempt', 'username', 'StrUserID')->orderByDesc('updated_at');
     }
 }

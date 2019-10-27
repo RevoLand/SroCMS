@@ -89,7 +89,7 @@
             <div class="recent-activity">
                 <h3>Son 5 giriş denemesi</h3>
                 <ul class="achievements">
-                    {{-- {% for loginAttempt in loginAttempts %} --}}
+                    @foreach (Auth::user()->LoginAttempts->take(5) as $loginAttempt)
                     <li class="achievement">
                         <div id="icon">
                             <span class="icon">
@@ -101,18 +101,18 @@
                         </div>
                         <div id="info">
                             <span id="descr">
-                                {{-- {% if loginAttempt.Success %} --}}
+                                @if ($loginAttempt->success)
                                 Başarıyla giriş yapıldı.
-                                {{-- {% else %} --}}
-                                {{-- Giriş denemesi başarısız oldu. --}}
-                                {{-- {% endif %} --}}
+                                @else
+                                Giriş denemesi başarısız oldu.
+                                @endif
                             </span>
                             <br />
-                            <span id="date"># - IP: #</span>
+                            <span id="date">{{ $loginAttempt->created_at }} - IP: {{ $loginAttempt->ip }}</span>
                         </div>
                         <div class="clear"></div>
                     </li>
-                    {{-- {% endfor %} --}}
+                    @endforeach
                 </ul>
             </div>
 

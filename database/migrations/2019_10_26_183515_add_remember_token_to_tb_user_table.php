@@ -14,7 +14,7 @@ class AddRememberTokenToTbUserTable extends Migration
     public function up()
     {
         Schema::connection('account')->table('TB_User', function (Blueprint $table) {
-            $table->string('remember_token')->nullable();
+            $table->string('remember_token', 100)->nullable();
         });
     }
 
