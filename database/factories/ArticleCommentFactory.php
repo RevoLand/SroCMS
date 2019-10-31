@@ -4,7 +4,6 @@
 
 use App\Article;
 use App\ArticleComment;
-use App\Model;
 use App\User;
 use Faker\Generator as Faker;
 

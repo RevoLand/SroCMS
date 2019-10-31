@@ -4,28 +4,31 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    public $timestamps = false;
 
     protected $connection = 'account';
     protected $table = 'TB_User';
     protected $primaryKey = 'JID';
     protected $guarded = [];
-    public $timestamps = false;
 
     public function getGravatarAttribute()
     {
-        if ($this->Email == "")
+        if (is_null($this->Email))
         {
             return;
         }
 
-        return "https://www.gravatar.com/avatar/" . md5( strtolower( $this->Email ) );
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->Email));
     }
 
-    public function Silk()
+    public function silk()
     {
         return $this->hasOne('App\Silk', 'JID', 'JID')->withDefault(function ($silk)
         {
@@ -37,8 +40,28 @@ class User extends Authenticatable
         });
     }
 
-    public function LoginAttempts()
+    public function loginAttempts()
     {
         return $this->hasMany('App\LoginAttempt', 'username', 'StrUserID')->orderByDesc('updated_at');
+    }
+
+    public function updateEmail($newEmail)
+    {
+        $this->Email = $newEmail;
+        $this->save();
+
+        // TODO: E-posta doğrulamasının tekrar istenmesi?
+
+        Alert::success('E-posta adresiniz başarıyla değiştirildi.'); // Doğrulama gerekiyor mu?
+
+        return true;
+    }
+
+    public function updatePassword($newPassword)
+    {
+        $this->password = Hash::make($newPassword);
+        $this->save();
+
+        // TODO: Şifreyi değiştirmeden önce e-posta doğrulaması?
     }
 }

@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class ArticleComment extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'articles_comments';
+    protected $table = 'article_comments';
     protected $guarded = [];
 
-    public function Article()
+    public function article()
     {
         return $this->belongsTo('App\Article', 'article_id', 'id');
     }
 
-    public function User()
+    public function user()
     {
         return $this->belongsTo('App\User', 'user_id', 'JID');
     }

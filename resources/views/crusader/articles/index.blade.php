@@ -14,12 +14,12 @@
 @foreach ($articles as $article)
 	<article class="news_row">
     	<div class="news_head">
-            <a href="{{ route('showArticle', [$article->id, $article->slug]) }}" class="top">{{ $article->title }}</a>
+            <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}" class="top">{{ $article->title }}</a>
         </div>
 		<section class="body">
-            @if ($article->User->gravatar)
+            @if ($article->user->gravatar)
             <div class="avatar">
-                <img src="{{ $article->User->gravatar }}" alt="avatar" height="120" width="120">
+                <img src="{{ $article->user->gravatar }}" alt="avatar" height="120" width="120">
             </div>
             @endif
 
@@ -28,11 +28,11 @@
 			<div class="clear"></div>
 
             <div class="post_info">
-            <p>Posted by <a href="#" data-tip="View profile"> {{ $article->User->Name ?? $article->User->StrUserID }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
+            <p>Posted by <a href="#" data-tip="View profile"> {{ $article->user->Name ?? $article->user->StrUserID }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
                 <span>
-                    @if ($article->Comments->count() > 0)
+                    @if ($article->articleComments->count() > 0)
                     <a href="#" class="comments_button">
-                        Comments ({{ $article->Comments->count() }})
+                        Comments ({{ $article->articleComments->count() }})
                     </a>
                     @endif
                 </span>

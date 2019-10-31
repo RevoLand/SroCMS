@@ -20,7 +20,7 @@
                                 <td width="10%"><img src="{{ Theme::url('images/icons/user.png') }}"></td>
                                 <td width="40%">Kullanıcı adı</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="http://armagedon-wow.com/ucp/settings" data-tip="Change nickname" style="float:right;margin-right:10px;">
+                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}" data-tip="Change nickname" style="float:right;margin-right:10px;">
                                         <img src="{{ Theme::url('images/icons/pencil.png') }}" align="absbottom"></a>
                                     <a href="#"
                                         data-tip="View profile">{{ Auth::user()->Name ?? Auth::user()->StrUserID }}</a>
@@ -30,7 +30,7 @@
                                 <td width="10%"><img src="{{ Theme::url('images/icons/world.png') }}"></td>
                                 <td width="40%">Localización</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="http://armagedon-wow.com/ucp/settings" data-tip="Change location" style="float:right;margin-right:10px;">
+                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}" data-tip="Change location" style="float:right;margin-right:10px;">
                                         <img src="{{ Theme::url('images/icons/pencil.png') }}" align="absbottom"></a>
                                     Unknown
                                 </td>
@@ -89,7 +89,7 @@
             <div class="recent-activity">
                 <h3>Son 5 giriş denemesi</h3>
                 <ul class="achievements">
-                    @foreach (Auth::user()->LoginAttempts->take(5) as $loginAttempt)
+                    @foreach (Auth::user()->loginAttempts->take(5) as $loginAttempt)
                     <li class="achievement">
                         <div id="icon">
                             <span class="icon">

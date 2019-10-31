@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticlesCommentsTable extends Migration
+class CreateArticleCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateArticlesCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('srocms')->create('articles_comments', function (Blueprint $table) {
+        Schema::connection('srocms')->create('article_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('article_id');
-            $table->integer('user_id');
-            $table->integer('parent_id')->nullable();
-            $table->string('content', 500);
+            $table->string('slug');
+            $table->string('title');
             $table->boolean('is_visible')->default(true);
-            $table->boolean('is_approved')->default(true);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateArticlesCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('srocms')->dropIfExists('articles_comments');
+        Schema::connection('srocms')->dropIfExists('article_categories');
     }
 }

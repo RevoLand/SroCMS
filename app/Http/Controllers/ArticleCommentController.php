@@ -13,7 +13,7 @@ class ArticleCommentController extends Controller
     public function store($id, $slug, Request $request)
     {
         $request->validate([
-            'comment' => ['required', 'string', 'max:255']
+            'comment' => ['required', 'string', 'min:6', 'max:255'],
         ]);
 
         $article = Article::where('id', $id)->where('slug', $slug)->firstOrFail();
@@ -22,6 +22,7 @@ class ArticleCommentController extends Controller
         if (!$user || !$article->is_visible || !$article->can_comment_on)
         {
             Alert::error('Hata!', 'Bu yazıya yorum yapamazsınız!');
+
             return redirect()->back();
         }
 
@@ -32,7 +33,6 @@ class ArticleCommentController extends Controller
         // TODO: Ayar tablosundan default ayarları al?
         $comment->is_visible = true;
         $comment->is_approved = true;
-        // TODO: Ayar tablosundan default ayarları al?
 
         if ($comment->save())
         {

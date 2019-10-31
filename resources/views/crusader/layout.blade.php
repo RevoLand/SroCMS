@@ -70,16 +70,16 @@
                                     </div>
                                     <!-- Welcome & VP/DP . End-->
                                     	<div class="right">
-                                            <a href="{{ route('user') }}" class="nice_button">User panel</a>
+                                            <a href="{{ route('users.current_user') }}" class="nice_button">User panel</a>
                                             <a href="{$url}vote" class="nice_button">Vote</a>
-											<a href="{{ route('logout') }}" class="nice_button">Log out</a>
+											<a href="{{ route('users.do_logout') }}" class="nice_button">Log out</a>
                                         </div>
                                     <!-- Account Panel & Logout -->
 
                                 </div>
                             @else
                             	<div class="login_form_top">
-                                    {{ Form::open(['route' => 'login']) }}
+                                    {{ Form::open(['route' => 'users.do_login']) }}
                                         <input type="text" name="username" id="username" value="" placeholder="Username">
                                         <input type="password" name="password" id="password" value="" placeholder="Password">
                                         <input type="submit" value="Login">
@@ -101,30 +101,6 @@
 
                 <a id="server_logo" href="{{ route('home') }}" title="{$serverName}"><p>{$serverName}</p></a>
 
-				<div id="flash_content">
-                	<object id="animation"
-                    width="1026" height="359"
-                    align="middle"
-                    type="application/x-shockwave-flash"
-                    name="animation"
-                    data=" {$url}application/themes/crusader_theme/flash/animation.swf">
-                        <param name="quality" value="low">
-                        <param name="bgcolor" value="#1b1b1b">
-                        <param name="play" value="true">
-                        <param name="loop" value="true">
-                        <param name="wmode" value="direct">
-                        <param name="menu" value="true">
-                        <param name="devicefont" value="false">
-                        <param name="salign" value="">
-                        <param name="wmode" value="opaque" />
-                    </object>
-
-                    <!--<a href="http://www.adobe.com/go/getflash">-->
-                    <!--<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />-->
-                    <!--</a>-->
-                    <!--<p>This page requires Flash Player version 10.2.153 or higher.</p>-->
-                </div>
-
                 <!--<div class="accp_register">
                     {if $isOnline}
                         <a href="./ucp" id="accp_button"><h1>Account Panel</h1></a>
@@ -140,10 +116,7 @@
 
             <div class="top_border"></div>
 			<div id="main">
-
-
 				<aside id="left">
-
                     @if (Auth::check())
                 		<a href="{$url}vote" id="vote_banner"><p>Vote for us</p></a>
                     @else
@@ -167,7 +140,6 @@
 							</section>
 						</article>
 					{/foreach}
-
 				</aside>
 
 				<aside id="right">

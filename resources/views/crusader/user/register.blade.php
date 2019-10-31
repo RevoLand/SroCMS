@@ -15,7 +15,7 @@
                     </div>
                 @endif
             </div>
-            {{ Form::open(['route' => 'register']) }}
+            {{ Form::open(['route' => 'users.do_register']) }}
                 <table style="width:80%">
                     <tbody>
                     <tr>

@@ -10,31 +10,33 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Theme::set('crusader');
-
 Route::get('/', 'ArticleController@index')->name('home');
 
-Route::group(['prefix' => 'articles'], function()
+Route::group(['prefix' => 'articles'], function ()
 {
-    Route::get('/', 'ArticleController@index')->name('articles');
+    Route::get('/', 'ArticleController@index')->name('articles.show_articles');
 
-    Route::get('{id}-{slug}', 'ArticleController@show')->name('showArticle');
+    Route::get('{id}-{slug}', 'ArticleController@show')->name('articles.show_article');
 
-    Route::post('comment/{id}-{slug}', 'ArticleCommentController@store')->name('storeComment');
+    Route::post('articleComment/{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment');
 });
 
-Route::group(['prefix' => 'user'], function()
+Route::group(['prefix' => 'users', 'middleware' => 'guests'], function ()
 {
-    Route::get('/login', 'LoginController@show')->name('loginPage');
-    Route::middleware('throttle:60,1')->post('/login', 'LoginController@authenticate')->name('login');
-    Route::get('/logout', 'LoginController@logout')->name('logout');
+    Route::get('login', 'AuthController@show')->name('users.login_form');
+    Route::middleware('throttle:60,1')->post('/login', 'AuthController@authenticate')->name('users.do_login');
 
-    Route::get('/register', 'RegisterController@show')->name('registerPage');
-    Route::middleware('throttle:60,1')->post('/register', 'RegisterController@register')->name('register');
+    Route::get('register', 'UserController@create')->name('users.register_form');
+    Route::middleware('throttle:60,1')->post('register', 'UserController@store')->name('users.do_register');
 });
 
-Route::group(['middleware' => 'user', 'prefix' => 'user'], function()
+Route::group(['prefix' => 'users', 'middleware' => 'users'], function ()
 {
-    Route::get('/', 'UserController@index')->name('user');
+    Route::get('/', 'UserController@index')->name('users.current_user');
+    Route::get('edit', 'UserController@edit')->name('users.edit_form');
+    Route::post('edit', 'UserController@update')->name('users.update_settings');
+    Route::post('updateEmail', 'UserController@updateEmail')->name('users.update_email');
+    Route::post('updatePassword', 'UserController@updatePassword')->name('users.update_password');
+
+    Route::get('logout', 'AuthController@logout')->name('users.do_logout');
 });

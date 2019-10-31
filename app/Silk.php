@@ -12,7 +12,7 @@ class Silk extends Model
     protected $guarded = [];
     public $timestamps = false;
 
-    public function User()
+    public function user()
     {
         return $this->belongsTo('App\User', 'JID', 'JID');
     }

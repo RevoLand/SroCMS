@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        {{ Form::open(['route' => 'login']) }}
+        {{ Form::open(['route' => 'users.do_login', 'class' => 'page_form']) }}
             <table>
                 <tr>
                     <td><label for="username">{{ __('Username') }}</label></td>
