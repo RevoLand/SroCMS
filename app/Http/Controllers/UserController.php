@@ -90,7 +90,7 @@ class UserController extends Controller
     {
         $request->validate([
             'password' => ['bail', 'required', 'string'],
-            'new_password' => ['bail', 'required', 'string',  'confirmed'],
+            'new_password' => ['bail', 'required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user = User::where('StrUserID', Auth::user()->StrUserID)->where('password', Hash::make($request->password))->first();
