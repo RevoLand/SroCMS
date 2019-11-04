@@ -2,15 +2,17 @@
 
 namespace App;
 
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, MustVerifyEmail, CanResetPassword;
+
     public $timestamps = false;
 
     protected $connection = 'account';
@@ -63,5 +65,15 @@ class User extends Authenticatable
         $this->save();
 
         // TODO: Şifreyi değiştirmeden önce e-posta doğrulaması?
+    }
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->Email;
     }
 }

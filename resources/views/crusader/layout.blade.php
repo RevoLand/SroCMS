@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SroCMS</title>
+        <title>{{ setting('site.title', 'SroCMS') }}</title>
         <link rel="shortcut icon" href="{!! Theme::url('images/favicon.gif') !!}">
 
         <!-- Responsive meta tag -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- Search engine related -->
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
+        <meta name="description" content="{{ setting('site.metadesc') }}" />
+        <meta name="keywords" content="{{ setting('site.metakeys') }}" />
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
@@ -31,8 +31,6 @@
 			</style>
 		<![endif]-->
 		<section id="wrapper">
-			{$modals}
-
             <div id="header">
 
                 <div class="top_container">
@@ -120,7 +118,7 @@
                     @if (Auth::check())
                 		<a href="{$url}vote" id="vote_banner"><p>Vote for us</p></a>
                     @else
-                    	<a href="{$url}register" id="register_banner"><p>Create Account</p></a>
+                    	<a href="{{ route('users.register_form') }}" id="register_banner"><p>Create Account</p></a>
                     @endif
 
                     <article>
