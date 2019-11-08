@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
@@ -25,12 +26,20 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
 
     public function showResetForm(Request $request, $token = null)
     {
         return view('user.password.reset')->with(
             ['token' => $token, 'email' => $request->email]
         );
+    }
+
+    protected function redirectTo()
+    {
+        return route('users.current_user');
     }
 }

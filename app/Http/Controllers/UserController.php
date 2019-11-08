@@ -11,6 +11,16 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['create', 'store']);
+
+        if (setting('users.email_must_be_verified', 0))
+        {
+            $this->middleware('verified')->except(['create', 'store', 'updateEmail']);
+        }
+    }
+
     public function index()
     {
         return view('user.index');
@@ -91,10 +101,25 @@ class UserController extends Controller
     public function updateEmail(Request $request)
     {
         $request->validate([
-            'new_email' => ['bail', 'required', 'string', 'email', 'max:255', 'confirmed', 'unique:account.TB_User,Email'],
+            'new_email' => ['bail', 'required', 'string', 'email', 'max:255', 'confirmed'],
         ]);
 
+        if (setting('register.email.must_be_unique', '1'))
+        {
+            $request->validate([
+                'new_email' => ['unique:account.TB_User,Email'],
+            ]);
+        }
+        elseif (setting('register.email.max_registrations_per_email', '2') > 0 && User::where('Email', '=', $request->new_email)->count() >= setting('register.email.max_registrations_per_email', '2'))
+        {
+            Alert::error('Error!', 'Belirtmiş olduğunuz E-posta adresi daha fazla üyelik ile kullanılamaz.');
+
+            return redirect()->back();
+        }
+
         Auth::user()->updateEmail($request->new_email);
+
+        Alert::success('E-posta adresiniz başarıyla değiştirildi.');
 
         return redirect()->route('users.edit_form');
     }

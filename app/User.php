@@ -2,16 +2,15 @@
 
 namespace App;
 
-use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use RealRashid\SweetAlert\Facades\Alert;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, MustVerifyEmail, CanResetPassword;
+    use Notifiable, CanResetPassword;
 
     public $timestamps = false;
 
@@ -19,6 +18,10 @@ class User extends Authenticatable
     protected $table = 'TB_User';
     protected $primaryKey = 'JID';
     protected $guarded = [];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
 
     public function getGravatarAttribute()
     {
@@ -50,13 +53,8 @@ class User extends Authenticatable
     public function updateEmail($newEmail)
     {
         $this->Email = $newEmail;
+        $this->email_verified_at = null;
         $this->save();
-
-        // TODO: E-posta doğrulamasının tekrar istenmesi?
-
-        Alert::success('E-posta adresiniz başarıyla değiştirildi.'); // Doğrulama gerekiyor mu?
-
-        return true;
     }
 
     public function updatePassword($newPassword)
@@ -67,12 +65,12 @@ class User extends Authenticatable
         // TODO: Şifreyi değiştirmeden önce e-posta doğrulaması?
     }
 
-    /**
-     * Get the e-mail address where password reset links are sent.
-     *
-     * @return string
-     */
     public function getEmailForPasswordReset()
+    {
+        return $this->Email;
+    }
+
+    public function routeNotificationForMail()
     {
         return $this->Email;
     }
