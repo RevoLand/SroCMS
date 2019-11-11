@@ -28,8 +28,8 @@ Route::group(['prefix' => 'users'], function ()
 
     Route::get('logout', 'Auth\LoginController@logout')->name('users.do_logout');
 
-    Route::get('register', 'UserController@create')->name('users.register_form');
-    Route::post('register', 'UserController@store')->name('users.do_register');
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('users.register_form');
+    Route::post('register', 'Auth\RegisterController@register')->name('users.do_register');
 
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');

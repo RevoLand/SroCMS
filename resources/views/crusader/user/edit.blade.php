@@ -2,7 +2,7 @@
 
 @section ('content')
 <article>
-    <h1 class="top">Login<div></div>
+    <h1 class="top">Üyelik Bilgilerimi Düzenle<div></div>
     </h1>
     <section class="body">
         @if ($errors->any())
