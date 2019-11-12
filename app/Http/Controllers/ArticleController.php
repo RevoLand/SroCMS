@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Carbon\Carbon;
-use Igaster\LaravelTheme\Theme;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
 class ArticleController extends Controller
@@ -13,8 +11,9 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::where('is_visible', true)
-            ->where(function ($query) {
-                $query->where('published_at', '=', NULL)
+            ->where(function ($query)
+            {
+                $query->where('published_at', '=', null)
                     ->orWhere('published_at', '<=', Carbon::now());
             })
             ->orderByDesc('updated_at')

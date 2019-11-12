@@ -55,12 +55,17 @@
                     </ul>
                 </div>
             @endif
+        @can ('post comments')
         {{ Form::open(['route' => ['articles.store_comment', $article->id, $article->slug], 'method' => 'POST']) }}
             <textarea name="comment" spellcheck="false" placeholder="Type a comment..." maxlength="255"></textarea>
-            <input type="submit" value="Submit comment" id="comment_button_{$id}" />
+            <input type="submit" value="Submit comment" />
         {{ Form::close() }}
         @else
-            <textarea disabled placeholder="Please log in to comment"></textarea>
+        <textarea disabled placeholder="Yorum yapma yetkiniz bulunmamaktadır."></textarea>
+        <input type="submit" disabled="disabled" value="Submit comment"/>
+        @endcan
+        @else
+            <textarea disabled placeholder="Yorum yapmak için lütfen giriş yapın."></textarea>
             <input type="submit" disabled="disabled" value="Submit comment"/>
         @endif
     <div class="clear"></div>

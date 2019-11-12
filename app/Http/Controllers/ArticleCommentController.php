@@ -10,6 +10,13 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ArticleCommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('throttle:5,1')->only('store');
+        $this->middleware('permission:post comments');
+    }
+
     public function store($id, $slug, Request $request)
     {
         $request->validate([

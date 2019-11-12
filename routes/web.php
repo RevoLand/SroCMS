@@ -17,10 +17,12 @@ Route::group(['prefix' => 'articles'], function ()
     Route::get('/', 'ArticleController@index')->name('articles.show_articles');
 
     Route::get('{id}-{slug}', 'ArticleController@show')->name('articles.show_article');
-
-    Route::post('articleComment/{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment')->middleware(['auth', 'throttle:5,1']);
+    Route::post('{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment');
 });
 
+// Misafir işlemleri
+// Not: İlgili işlemlerin middleware'ları kontrolcülerin içerisinde constructor olarak yer almaktadır.
+// Middleware: guest
 Route::group(['prefix' => 'users'], function ()
 {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('users.login_form');
@@ -37,6 +39,9 @@ Route::group(['prefix' => 'users'], function ()
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 });
 
+// Üye işlemleri.
+// Not: İlgili işlemlerin middleware'ları kontrolcülerin içerisinde constructor olarak yer almaktadır.
+// Middleware: auth
 Route::group(['prefix' => 'users'], function ()
 {
     Route::get('/', 'UserController@index')->name('users.current_user');
