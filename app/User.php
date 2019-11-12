@@ -62,8 +62,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->password = Hash::make($newPassword);
         $this->save();
-
-        // TODO: Şifreyi değiştirmeden önce e-posta doğrulaması?
     }
 
     public function getEmailForPasswordReset()

@@ -37,9 +37,8 @@ class ArticleCommentController extends Controller
         $comment->article_id = $article->id;
         $comment->user_id = $user->JID;
         $comment->content = $request->comment;
-        // TODO: Ayar tablosundan default ayarları al?
-        $comment->is_visible = true;
-        $comment->is_approved = true;
+        $comment->is_visible = setting('article.comments.default_is_visible', 1);
+        $comment->is_approved = setting('article.comments.default_is_approved', 1);
 
         if ($comment->save())
         {

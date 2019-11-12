@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -73,24 +72,15 @@ class UserController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'password' => ['bail', 'required', 'string'],
+            'password' => ['bail', 'required', 'string', 'password'],
             'new_password' => ['bail', 'required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $user = User::where('StrUserID', Auth::user()->StrUserID)->where('password', Hash::make($request->password))->first();
+        Auth::user()->updatePassword($request->new_password);
+        Alert::success('Şifreniz başarıyla değiştirildi, otomatik olarak çıkış yaptınız.');
 
-        if ($user)
-        {
-            Auth::user()->updatePassword($request->new_password);
-            Alert::success('Şifreniz başarıyla değiştirildi, otomatik olarak çıkış yaptınız.');
+        Auth::logout();
 
-            Auth::logout();
-
-            return redirect()->route('users.login_form');
-        }
-
-        Alert::error('Mevcut şifreniz hatalı.');
-
-        return redirect()->back();
+        return redirect()->route('users.login_form');
     }
 }
