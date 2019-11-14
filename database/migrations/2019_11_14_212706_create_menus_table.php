@@ -18,7 +18,7 @@ class CreateMenusTable extends Migration
             $table->string('href')->nullable();
             $table->integer('target_page_id')->nullable();
             $table->string('route_name')->nullable();
-            $table->integer('order')->nullable();
+            $table->integer('order')->default(0);
             $table->string('location')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamps();

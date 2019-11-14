@@ -9,5 +9,6 @@ $factory->define(Sidebar::class, function (Faker $faker)
     return [
         'title' => $faker->sentence,
         'content' => $faker->randomHtml,
+        'order' => $faker->randomDigit,
     ];
 });

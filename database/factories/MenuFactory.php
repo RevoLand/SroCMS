@@ -12,5 +12,6 @@ $factory->define(Menu::class, function (Faker $faker)
         'href' => $faker->url,
         'target_page_id' => Page::all()->random()->id,
         'location' => $faker->randomElement(['header', 'sidebar']),
+        'order' => $faker->randomDigit,
     ];
 });
