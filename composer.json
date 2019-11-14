@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "akaunting/setting": "^1.1",
+        "cviebrock/eloquent-sluggable": "^6.0",
         "fideloper/proxy": "^4.0",
         "igaster/laravel-theme": "^2.0",
         "laravel/framework": "^6.2",

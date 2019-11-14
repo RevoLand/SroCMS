@@ -55,3 +55,9 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 });
+
+Route::group(['prefix' => 'pages'], function ()
+{
+    Route::get('/', 'PageController@index')->name('pages.show_pages');
+    Route::get('{slug}', 'PageController@show')->name('pages.show_page');
+});
