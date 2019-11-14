@@ -84,7 +84,6 @@
                                     {{ Form::close() }}
                             	</div>
                             @endif
-
                         </div>
                     </div>
 
@@ -130,14 +129,14 @@
 						</ul>
 					</article>
 
-                    {foreach from=$sideboxes item=sidebox}
-						<article class="sidebox">
-							<h1 class="top"><p>{$sidebox.name}</p></h1>
-							<section class="body">
-								{$sidebox.data}
-							</section>
-						</article>
-					{/foreach}
+                    @foreach (\App\Http\Controllers\SidebarController::getSidebars(5) as $sidebar)
+                    <article class="sidebox">
+                        <h1 class="top"><p>{{ $sidebar->title }}</p></h1>
+                        <section class="body">
+                            {!! $sidebar->getContent() !!}
+                        </section>
+                    </article>
+                    @endforeach
 				</aside>
 
 				<aside id="right">
@@ -147,7 +146,7 @@
 				<div class="clear"></div>
 			</div>
 			<footer>
-            	<h3>{$serverName} &copy; Copyright 2012 </h3>
+            	<h3>{$serverName} &copy; Copyright 2019 </h3>
              	<a href="http://evil.duloclan.com" id="evil-logo" target="_blank" title="Design by EvilSystem"><span>Design by EvilSystem</span></a>
 				<a href="https://github.com/RevoLand" id="fcms-logo" target="_blank"><span>Powered by SroCMS</span></a>
 			</footer>
