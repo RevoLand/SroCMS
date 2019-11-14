@@ -12,6 +12,11 @@ class Menu extends Model
 
     public function getHref()
     {
+        if (isset($this->route_name))
+        {
+            return route($this->route_name);
+        }
+
         if (isset($this->page))
         {
             return route('pages.show_page', $this->page->slug);

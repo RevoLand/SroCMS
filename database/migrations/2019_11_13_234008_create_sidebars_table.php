@@ -18,7 +18,7 @@ class CreateSidebarsTable extends Migration
             $table->longText('content')->nullable();
             $table->integer('template')->nullable();
             $table->integer('order')->nullable();
-            $table->boolean('enabled')->default(false);
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
     }

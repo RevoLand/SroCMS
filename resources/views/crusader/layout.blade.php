@@ -94,7 +94,7 @@
 
                     <div class="top_menu">
                         <ul id="top_menu">
-                            @foreach (\App\Http\Controllers\MenuController::getMenus('header', 6) as $menuItem)
+                            @foreach (\App\Http\Controllers\MenuController::getMenus('header', 3) as $menuItem)
                             <li>
                                 <a href="{{ $menuItem->getHref() }}">
                                     {{ $menuItem->getTitle() }}
@@ -135,7 +135,7 @@
 
                     <article>
                         <ul id="left_menu">
-                            @foreach (\App\Http\Controllers\MenuController::getMenus('sidebar') as $menuItem)
+                            @foreach (\App\Http\Controllers\MenuController::getMenus('sidebar', 5) as $menuItem)
                             <li>
                                 <a href="{{ $menuItem->getHref() }}">
                                     <img src="{{ Theme::url('images/bullet.png') }}" />
