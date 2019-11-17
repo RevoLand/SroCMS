@@ -20,7 +20,8 @@
                                 <td width="10%"><img src="{{ Theme::url('images/icons/user.png') }}"></td>
                                 <td width="40%">Kullanıcı adı</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}" data-tip="Change nickname" style="float:right;margin-right:10px;">
+                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}"
+                                        data-tip="Change nickname" style="float:right;margin-right:10px;">
                                         <img src="{{ Theme::url('images/icons/pencil.png') }}" align="absbottom"></a>
                                     <a href="#"
                                         data-tip="View profile">{{ Auth::user()->Name ?? Auth::user()->StrUserID }}</a>
@@ -30,7 +31,8 @@
                                 <td width="10%"><img src="{{ Theme::url('images/icons/world.png') }}"></td>
                                 <td width="40%">Localización</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}" data-tip="Change location" style="float:right;margin-right:10px;">
+                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}"
+                                        data-tip="Change location" style="float:right;margin-right:10px;">
                                         <img src="{{ Theme::url('images/icons/pencil.png') }}" align="absbottom"></a>
                                     Unknown
                                 </td>
@@ -39,7 +41,8 @@
                                 <td width="10%"><img src="{{ Theme::url('images/icons/plugin.png') }}"></td>
                                 <td width="40%">Expansion</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="http://armagedon-wow.com/ucp/expansion" data-tip="Change expansion" style="float:right;margin-right:10px;">
+                                    <a data-hasevent="1" href="http://armagedon-wow.com/ucp/expansion"
+                                        data-tip="Change expansion" style="float:right;margin-right:10px;">
                                         <img src="{{ Theme::url('images/icons/cog.png') }}" align="absbottom"></a>
                                     WotLK
                                 </td>
@@ -123,35 +126,35 @@
 
         <section id="ucp_buttons">
             {{-- {if hasPermission('view', "vote") && $config['vote']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/vote_panel.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/vote_panel.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('view', "donate") && $config['donate']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/donate_panel.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/donate_panel.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('view', "store") && $config['store']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/item_store.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/item_store.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('canUpdateAccountSettings', 'ucp') && $config['settings']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/account_settings.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/account_settings.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('canChangeExpansion', "ucp") && $config['expansion']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/change_expansion.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/change_expansion.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('view', "teleport") && $config['teleport']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/teleport_hub.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/teleport_hub.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('view', "gm") && $config['gm']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/gm_panel.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/gm_panel.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('view', "admin") && $config['admin']} --}}
-                <a href="#" style="background-image:url({{ Theme::url('images/ucp/admin_panel.jpg') }})"></a>
+            <a href="#" style="background-image:url({{ Theme::url('images/ucp/admin_panel.jpg') }})"></a>
             {{-- {/if} --}}
 
             <div class="clear"></div>
@@ -160,14 +163,12 @@
         <div class="ucp_divider"></div>
 
         <section id="ucp_characters">
-            {{-- {foreach from=$realms item=realm} --}}
-                <h1>Server Ismi</h1>
-                {{-- {foreach from=$realm->getCharacters()->getCharactersByAccount($id) item=character} --}}
-                    <a href="#">
-                        <img src="{$url}application/images/avatars/{$realmsObj->formatAvatarPath($character)}.gif" />
-                    </a>
-                {{-- {/foreach} --}}
-            {{-- {/foreach} --}}
+            <h1>Server Ismi</h1>
+            @foreach (Auth::user()->characters as $character)
+            <a href="{{ route('users.characters.show', $character) }}">
+                <img src="{{ Theme::url('images/characters/' . $character->RefObjID . '.gif') }}" />
+            </a>
+            @endforeach
             <div class="clear"></div>
         </section>
     </section>

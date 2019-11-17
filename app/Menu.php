@@ -12,9 +12,9 @@ class Menu extends Model
 
     public function getHref()
     {
-        if (isset($this->route_name))
+        if (isset($this->route))
         {
-            return route($this->route_name);
+            return route($this->route);
         }
 
         if (isset($this->page))

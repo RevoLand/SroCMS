@@ -8,10 +8,12 @@ use Faker\Generator as Faker;
 $factory->define(Menu::class, function (Faker $faker)
 {
     return [
-        'title' => $faker->sentence,
+        'title' => $faker->sentence(2),
         'href' => $faker->url,
-        'target_page_id' => Page::all()->random()->id,
+        'target_page_id' => $faker->optional()->passthrough(Page::all()->random()->id),
         'location' => $faker->randomElement(['header', 'sidebar']),
+        'route' => $faker->optional()->randomElement(['home', 'users.login_form', 'users.register_form', 'password.request', 'users.current_user', 'users.edit_form']),
         'order' => $faker->randomDigit,
+        'enabled' => $faker->boolean,
     ];
 });

@@ -7,8 +7,9 @@ use Faker\Generator as Faker;
 $factory->define(Sidebar::class, function (Faker $faker)
 {
     return [
-        'title' => $faker->sentence,
-        'content' => $faker->randomHtml,
+        'title' => $faker->sentence(3),
+        'content' => $faker->randomHtml(4, 4),
         'order' => $faker->randomDigit,
+        'enabled' => $faker->boolean,
     ];
 });

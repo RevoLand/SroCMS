@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(ArticleCategory::class, 5)->create();
+        factory(ArticleCategory::class, 6)->create();
         factory(Article::class, 100)->create();
-        factory(ArticleComment::class, 1000)->create();
-        factory(Sidebar::class, 5)->create();
-        factory(Page::class, 10)->create();
-        factory(Menu::class, 20)->create();
+        factory(ArticleComment::class, 500)->create();
+        factory(Sidebar::class, 10)->create();
+        factory(Page::class, 30)->create();
+        factory(Menu::class, 30)->create();
     }
 }

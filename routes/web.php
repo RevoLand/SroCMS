@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', 'ArticleController@index')->name('home');
 
 Route::group(['prefix' => 'articles'], function ()
@@ -54,10 +55,24 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
+    Route::group(['prefix' => 'characters'], function ()
+    {
+        Route::get('/', 'CharacterController@index')->name('users.characters.index');
+        Route::get('{character}', 'CharacterController@show')->name('users.characters.show');
+    });
 });
 
 Route::group(['prefix' => 'pages'], function ()
 {
     Route::get('/', 'PageController@index')->name('pages.show_pages');
     Route::get('{slug}', 'PageController@show')->name('pages.show_page');
+});
+
+// Debug
+\Event::listen('Illuminate\Database\Events\QueryExecuted', function ($query)
+{
+    Log::info(json_encode($query->sql));
+    Log::info(json_encode($query->bindings));
+    Log::info(json_encode($query->time));
 });

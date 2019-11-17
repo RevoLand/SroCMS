@@ -1210,9 +1210,7 @@ a#register_banner:hover {
 #ucp_characters a {
 	float:left;
 	display:block;
-	width:64px;
-	height:64px;
-	margin-right:15px;
+	margin-right:10px;
 	margin-bottom:15px;
 }
 

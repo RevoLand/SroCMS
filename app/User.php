@@ -73,4 +73,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->Email;
     }
+
+    public function characters()
+    {
+        return $this->hasManyThrough('App\Character', 'App\ShardUser', 'UserJID', 'CharID', 'JID', 'CharID');
+    }
 }
