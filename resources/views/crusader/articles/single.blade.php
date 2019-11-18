@@ -17,7 +17,7 @@
         <div class="clear"></div>
 
         <div class="post_info">
-        <p>Posted by <a href="#" data-tip="View profile"> {{ $article->user->Name ?? $article->user->StrUserID }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
+        <p>Posted by <a href="{{ route('users.show_user', $article->user) }}" data-tip="View profile"> {{ $article->user->getName() }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
             <span>
                 @if ($article->articleComments->count() > 0)
                 <a href="#" class="comments_button">
@@ -34,10 +34,10 @@
                 @foreach ($paginatedComments = $article->articleComments()->paginate(10) as $comment)
                     <div class="comment">
                         <div class="comment_date">{{ $comment->created_at }}</div>
-                        <a href="#" data-tip="View profile>
+                        <a href="{{ route('users.show_user', $comment->user) }}" data-tip="View profile>
                             <img src="{{ $comment->user->gravatar }}" height="44" width="44">
                         </a>
-                        <a class="comment_author" href="#" data-tip="View profile"> {{ $comment->user->Name ?? $comment->user->StrUserID }}</a>
+                        <a class="comment_author" href="{{ route('users.show_user', $comment->user) }}" data-tip="View profile"> {{ $comment->user->getName() }}</a>
                         {{ $comment->content }}
                         <div class="clear"></div>
                     </div>

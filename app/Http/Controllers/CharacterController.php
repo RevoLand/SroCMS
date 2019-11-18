@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class CharacterController extends Controller
 {
+    public function __construct()
+    {
+        if (setting('users.show_character_requires_auth', 0))
+        {
+            $this->middleware('auth');
+        }
+    }
+
     public function index(Request $request)
     {
         // TODO: Karakterler listelenecek.

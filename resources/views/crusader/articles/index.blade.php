@@ -28,7 +28,7 @@
 			<div class="clear"></div>
 
             <div class="post_info">
-            <p>Posted by <a href="#" data-tip="View profile"> {{ $article->user->Name ?? $article->user->StrUserID }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
+            <p>Posted by <a href="{{ route('users.show_user', $article->user) }}" data-tip="View profile"> {{ $article->user->getName() }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
                 <span>
                     @if ($article->articleComments->count() > 0)
                     <a href="#" class="comments_button">

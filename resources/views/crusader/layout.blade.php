@@ -3,7 +3,7 @@
 
     <head>
         <title>{{ setting('site.title', 'SroCMS') }}</title>
-        <link rel="shortcut icon" href="{!! Theme::url('images/favicon.gif') !!}">
+        <link rel="shortcut icon" href="{{ Theme::url('images/favicon.gif') }}">
 
         <!-- Responsive meta tag -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,7 +54,7 @@
 
                                 <!-- Welcome & VP/DP -->
                                 <div class="left">
-                                    <p>Welcome back, <span>{{ Auth::user()->Name ?? Auth::user()->StrUserID }}</span>!
+                                    <p>Welcome back, <span>{{ Auth::user()->getName() }}</span>!
                                     </p>
                                     @if (Auth::user()->Silk)
                                     <div class="vpdp">
@@ -176,5 +176,4 @@
         @include('sweetalert::alert')
         @yield('js')
     </body>
-
 </html>

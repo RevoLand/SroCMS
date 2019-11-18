@@ -46,6 +46,7 @@ Route::group(['prefix' => 'users'], function ()
 Route::group(['prefix' => 'users'], function ()
 {
     Route::get('/', 'UserController@index')->name('users.current_user');
+    Route::get('{user}', 'UserController@show')->name('users.show_user');
 
     Route::get('edit', 'UserController@edit')->name('users.edit_form');
     Route::post('edit', 'UserController@update')->name('users.update_settings');

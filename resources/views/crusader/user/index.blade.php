@@ -18,22 +18,16 @@
                         <tbody>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/user.png') }}"></td>
-                                <td width="40%">Kullanıcı adı</td>
+                                <td width="40%">İsim</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}"
-                                        data-tip="Change nickname" style="float:right;margin-right:10px;">
-                                        <img src="{{ Theme::url('images/icons/pencil.png') }}" align="absbottom"></a>
-                                    <a href="#"
-                                        data-tip="View profile">{{ Auth::user()->Name ?? Auth::user()->StrUserID }}</a>
+                                    <a href="{{ route('users.show_user', Auth::user()) }}"
+                                        data-tip="View profile">{{ Auth::user()->getName() }}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/world.png') }}"></td>
                                 <td width="40%">Localización</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="{{ route('users.edit_form') }}"
-                                        data-tip="Change location" style="float:right;margin-right:10px;">
-                                        <img src="{{ Theme::url('images/icons/pencil.png') }}" align="absbottom"></a>
                                     Unknown
                                 </td>
                             </tr>
@@ -41,17 +35,20 @@
                                 <td width="10%"><img src="{{ Theme::url('images/icons/plugin.png') }}"></td>
                                 <td width="40%">Expansion</td>
                                 <td width="50%">
-                                    <a data-hasevent="1" href="http://armagedon-wow.com/ucp/expansion"
-                                        data-tip="Change expansion" style="float:right;margin-right:10px;">
-                                        <img src="{{ Theme::url('images/icons/cog.png') }}" align="absbottom"></a>
                                     WotLK
                                 </td>
                             </tr>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/award_star_bronze_1.png') }}">
                                 </td>
-                                <td width="40%">Yetki</td>
-                                <td width="50%">#</td>
+                                <td width="40%">Üye Yetki Grupları</td>
+                                <td width="50%">
+                                    @forelse (Auth::user()->getRoleNames() as $userRole)
+                                    {{ $userRole }}
+                                    @empty
+                                    Yok
+                                    @endforelse
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -125,6 +122,11 @@
         <div class="ucp_divider"></div>
 
         <section id="ucp_buttons">
+            {{-- {if hasPermission('canUpdateAccountSettings', 'ucp') && $config['settings']} --}}
+            <a href="{{ route('users.edit_form') }}"
+                style="background-image:url({{ Theme::url('images/ucp/account_settings.jpg') }})"></a>
+            {{-- {/if} --}}
+
             {{-- {if hasPermission('view', "vote") && $config['vote']} --}}
             <a href="#" style="background-image:url({{ Theme::url('images/ucp/vote_panel.jpg') }})"></a>
             {{-- {/if} --}}
@@ -135,10 +137,6 @@
 
             {{-- {if hasPermission('view', "store") && $config['store']} --}}
             <a href="#" style="background-image:url({{ Theme::url('images/ucp/item_store.jpg') }})"></a>
-            {{-- {/if} --}}
-
-            {{-- {if hasPermission('canUpdateAccountSettings', 'ucp') && $config['settings']} --}}
-            <a href="#" style="background-image:url({{ Theme::url('images/ucp/account_settings.jpg') }})"></a>
             {{-- {/if} --}}
 
             {{-- {if hasPermission('canChangeExpansion', "ucp") && $config['expansion']} --}}
@@ -163,7 +161,7 @@
         <div class="ucp_divider"></div>
 
         <section id="ucp_characters">
-            <h1>Server Ismi</h1>
+            <h1>Karakterlerim</h1>
             @foreach (Auth::user()->characters as $character)
             <a href="{{ route('users.characters.show', $character) }}">
                 <img src="{{ Theme::url('images/characters/' . $character->RefObjID . '.gif') }}" />

@@ -12,8 +12,8 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, CanResetPassword, HasRoles;
-
-    public $timestamps = false;
+    const CREATED_AT = 'regtime';
+    const UPDATED_AT = null;
 
     protected $connection = 'account';
     protected $table = 'TB_User';
@@ -34,6 +34,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->Email));
     }
 
+    public function getName()
+    {
+        return $this->Name ?? $this->StrUserID;
+    }
+
     public function silk()
     {
         return $this->hasOne('App\Silk', 'JID', 'JID')->withDefault(function ($silk)
@@ -48,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function loginAttempts()
     {
-        return $this->hasMany('App\LoginAttempt', 'username', 'StrUserID')->orderByDesc('updated_at');
+        return $this->hasMany('App\LoginAttempt', 'username', 'StrUserID')->latest();
     }
 
     public function updateEmail($newEmail)

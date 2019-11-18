@@ -11,17 +11,27 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['create', 'store']);
+        $this->middleware('auth')->except(['create', 'store', 'show']);
 
         if (setting('users.email_must_be_verified', 0))
         {
             $this->middleware('verified')->except(['create', 'store', 'updateEmail']);
+        }
+
+        if (setting('users.show_user_requires_auth', 0))
+        {
+            $this->middleware('auth')->only('show');
         }
     }
 
     public function index()
     {
         return view('user.index');
+    }
+
+    public function show(User $user)
+    {
+        return view('user.show', compact('user'));
     }
 
     public function edit()
