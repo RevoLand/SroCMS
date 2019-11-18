@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShardUser extends Model
 {
-    public $connection = 'shard';
     public $timestamps = false;
+    protected $connection = 'shard';
     protected $table = '_User';
     protected $guarded = [];
 

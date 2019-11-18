@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
 {
-    public $connection = 'shard';
     public $timestamps = false;
+    protected $connection = 'shard';
     protected $primaryKey = 'CharID';
     protected $table = '_Char';
     protected $guarded = [];

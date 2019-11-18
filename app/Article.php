@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    public $connection = 'srocms';
+    protected $connection = 'srocms';
     protected $table = 'articles';
     protected $guarded = [];
 

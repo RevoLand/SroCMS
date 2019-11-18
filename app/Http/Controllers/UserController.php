@@ -11,11 +11,11 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['create', 'store', 'show']);
+        $this->middleware('auth')->except('show');
 
         if (setting('users.email_must_be_verified', 0))
         {
-            $this->middleware('verified')->except(['create', 'store', 'updateEmail']);
+            $this->middleware('verified')->except('updateEmail');
         }
 
         if (setting('users.show_user_requires_auth', 0))

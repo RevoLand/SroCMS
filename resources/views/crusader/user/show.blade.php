@@ -56,12 +56,12 @@
                         <tbody>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/lightning.png') }}"></td>
-                                <td width="40%">Silk</td>
+                                <td width="40%">{{ setting('silk.silk_own_name', 'Silk') }}</td>
                                 <td width="50%">{{ $user->Silk->silk_own }}</td>
                             </tr>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/coins.png') }}"></td>
-                                <td width="40%">Silk (Gift)</td>
+                                <td width="40%">{{ setting('silk.silk_gift_name', 'Silk (Gift)') }}</td>
                                 <td width="50%">{{ $user->Silk->silk_gift }}</td>
                             </tr>
                             <tr>
@@ -73,7 +73,7 @@
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/date.png') }}"></td>
                                 <td width="40%">Üyelik tarihi:</td>
-                                <td width="50%">#</td>
+                                <td width="50%">{{ $user->regtime }}</td>
                             </tr>
                         </tbody>
                     </table>

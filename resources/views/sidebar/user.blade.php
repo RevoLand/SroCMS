@@ -2,15 +2,15 @@
 <table width="100%">
     <tbody>
         <tr>
-            <td><img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"> Silk</td>
+            <td><img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"> {{ setting('silk.silk_own_name', 'Silk') }}</td>
             <td>{{ Auth::user()->silk->silk_own }}</td>
         </tr>
         <tr>
-            <td><img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"> Gift Silk</td>
+            <td><img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"> {{ setting('silk.silk_gift_name', 'Silk (Gift)') }}</td>
             <td>{{ Auth::user()->silk->silk_gift }}</td>
         </tr>
         <tr>
-            <td><img src="{{ Theme::url('images/icons/giftsilk.png') }}" align="absmiddle"> Point Silk</td>
+            <td><img src="{{ Theme::url('images/icons/giftsilk.png') }}" align="absmiddle"> {{ setting('silk.silk_point_name', 'Silk (Point)') }}</td>
             <td>{{ Auth::user()->silk->silk_point }}</td>
         </tr>
     </tbody>
