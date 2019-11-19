@@ -23,6 +23,6 @@ class CharacterController extends Controller
 
     public function show(Character $character)
     {
-        dd($character);
+        return view('user.character', compact('character'));
     }
 }

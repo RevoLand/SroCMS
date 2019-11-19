@@ -61,12 +61,13 @@
                                         <div class="vp">
                                             <img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"
                                                 width="12" height="12" /> {{ setting('silk.silk_own_name', 'Silk') }}:
-                                            <span>{{ Auth::user()->Silk->silk_own }}</span>
+                                            <span>{{ number_format(Auth::user()->Silk->silk_own) }}</span>
                                         </div>
                                         <div class="dp">
                                             <img src="{{ Theme::url('images/icons/giftsilk.png') }}" align="absmiddle"
-                                                width="12" height="12" /> {{ setting('silk.silk_gift_name', 'Silk (Gift)') }}
-                                            <span>{{ Auth::user()->Silk->silk_gift }}</span>
+                                                width="12" height="12" />
+                                            {{ setting('silk.silk_gift_name', 'Silk (Gift)') }}
+                                            <span>{{ number_format(Auth::user()->Silk->silk_gift) }}</span>
                                         </div>
                                     </div>
                                     @endif
@@ -176,4 +177,5 @@
         @include('sweetalert::alert')
         @yield('js')
     </body>
+
 </html>

@@ -22,6 +22,6 @@ class Article extends Model
 
     public function articleComments()
     {
-        return $this->hasMany('App\ArticleComment', 'article_id', 'id')->where('is_visible', true)->where('is_approved', true)->orderByDesc('updated_at');
+        return $this->hasMany('App\ArticleComment', 'article_id', 'id')->where('is_visible', true)->where('is_approved', true)->latest();
     }
 }

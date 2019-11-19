@@ -60,12 +60,12 @@
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/lightning.png') }}"></td>
                                 <td width="40%">{{ setting('silk.silk_own_name', 'Silk') }}</td>
-                                <td width="50%">{{ Auth::user()->Silk->silk_own }}</td>
+                                <td width="50%">{{ number_format(Auth::user()->Silk->silk_own) }}</td>
                             </tr>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/coins.png') }}"></td>
                                 <td width="40%">{{ setting('silk.silk_gift_name', 'Silk (Gift)') }}</td>
-                                <td width="50%">{{ Auth::user()->Silk->silk_gift }}</td>
+                                <td width="50%">{{ number_format(Auth::user()->Silk->silk_gift) }}</td>
                             </tr>
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/shield.png') }}"></td>

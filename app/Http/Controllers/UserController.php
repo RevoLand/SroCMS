@@ -59,13 +59,13 @@ class UserController extends Controller
             'new_email' => ['bail', 'required', 'string', 'email', 'max:255', 'confirmed'],
         ]);
 
-        if (setting('register.email.must_be_unique', '1'))
+        if (setting('register.email.must_be_unique', 1))
         {
             $request->validate([
                 'new_email' => ['unique:account.TB_User,Email'],
             ]);
         }
-        elseif (setting('register.email.max_registrations_per_email', '2') > 0 && User::where('Email', '=', $request->new_email)->count() >= setting('register.email.max_registrations_per_email', '2'))
+        elseif (setting('register.email.max_registrations_per_email', 2) > 0 && User::where('Email', '=', $request->new_email)->count() >= setting('register.email.max_registrations_per_email', 2))
         {
             Alert::error('Error!', 'Belirtmiş olduğunuz E-posta adresi daha fazla üyelik ile kullanılamaz.');
 

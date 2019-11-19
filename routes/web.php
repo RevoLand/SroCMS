@@ -75,5 +75,4 @@ Route::group(['prefix' => 'pages'], function ()
 {
     Log::info(json_encode($query->sql));
     Log::info(json_encode($query->bindings));
-    Log::info(json_encode($query->time));
 });
