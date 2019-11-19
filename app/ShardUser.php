@@ -10,14 +10,15 @@ class ShardUser extends Model
     protected $connection = 'shard';
     protected $table = '_User';
     protected $guarded = [];
+    protected $primaryKey;
 
     public function characters()
     {
         return $this->hasMany('App\Character', 'CharID', 'CharID');
     }
 
-    public function user()
+    public function account()
     {
-        return $this->belongsTo('App\User', 'JID', 'UserJID');
+        return $this->hasOne('App\User', 'JID', 'UserJID');
     }
 }

@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -34,12 +33,11 @@ return [
     */
 
     'connections' => [
-
         'srocms' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
+            'database' => env('DB_DATABASE', 'SroCMS'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
@@ -51,7 +49,7 @@ return [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST_ACC', 'localhost'),
             'port' => env('DB_PORT_ACC', '1433'),
-            'database' => env('DB_DATABASE_ACC', 'forge'),
+            'database' => env('DB_DATABASE_ACC', 'SRO_VT_ACCOUNT'),
             'username' => env('DB_USERNAME_ACC', 'forge'),
             'password' => env('DB_PASSWORD_ACC', ''),
             'charset' => 'utf8',
@@ -63,7 +61,7 @@ return [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST_LOG', 'localhost'),
             'port' => env('DB_PORT_LOG', '1433'),
-            'database' => env('DB_DATABASE_LOG', 'forge'),
+            'database' => env('DB_DATABASE_LOG', 'SRO_VT_LOG'),
             'username' => env('DB_USERNAME_LOG', 'forge'),
             'password' => env('DB_PASSWORD_LOG', ''),
             'charset' => 'utf8',
@@ -75,14 +73,13 @@ return [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST_SHARD', 'localhost'),
             'port' => env('DB_PORT_SHARD', '1433'),
-            'database' => env('DB_DATABASE_SHARD', 'forge'),
+            'database' => env('DB_DATABASE_SHARD', 'SRO_VT_SHARD'),
             'username' => env('DB_USERNAME_SHARD', 'forge'),
             'password' => env('DB_PASSWORD_SHARD', ''),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
         ],
-
     ],
 
     /*
@@ -110,12 +107,11 @@ return [
     */
 
     'redis' => [
-
         'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
@@ -133,7 +129,5 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
         ],
-
     ],
-
 ];

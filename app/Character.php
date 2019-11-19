@@ -12,7 +12,7 @@ class Character extends Model
     protected $table = '_Char';
     protected $guarded = [];
 
-    public function shardUser()
+    public function user()
     {
         return $this->belongsTo('App\ShardUser', 'CharID', 'CharID');
     }
@@ -25,5 +25,10 @@ class Character extends Model
     public function guild()
     {
         return $this->hasOne('App\Guild', 'ID', 'GuildID');
+    }
+
+    public function inventory()
+    {
+        return $this->hasMany('App\Inventory', 'CharID', 'CharID');
     }
 }
