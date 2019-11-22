@@ -15,7 +15,7 @@
             <img class="avatar" src="{{ Theme::url('images/characters/' . $character->RefObjID . '.gif') }}" />
 
             <section id="armory_name">
-                <h1>{{ $character->CharName16 }} @isset($character->guild) <a href="#">{{ $character->guild->Name }}</a>
+                <h1>{{ $character->CharName16 }} @isset($character->guild) <a href="{{ route('users.guilds.show', $character->guild) }}">{{ $character->guild->Name }}</a>
                     @endisset</h1>
                 <h2><b>{{ $character->CurLevel }}</b></h2>
             </section>

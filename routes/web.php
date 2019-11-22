@@ -62,8 +62,15 @@ Route::group(['prefix' => 'users'], function ()
         Route::get('/', 'CharacterController@index')->name('users.characters.index');
         Route::get('{character}', 'CharacterController@show')->name('users.characters.show');
     });
+
+    Route::group(['prefix' => 'guilds'], function ()
+    {
+        Route::get('{guild}', 'GuildController@show')->name('users.guilds.show');
+    });
 });
 
+// Dinamik sayfa işlemleri
+// Middleware: dinamik olarak atanmaktadır.
 Route::group(['prefix' => 'pages'], function ()
 {
     Route::get('/', 'PageController@index')->name('pages.show_pages');

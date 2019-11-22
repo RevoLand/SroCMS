@@ -9,6 +9,7 @@ class LogEventChar extends Model
     public $timestamps = false;
     protected $connection = 'log';
     protected $table = '_LogEventChar';
+    protected $primaryKey = 'ID';
     protected $guarded = [];
 
     public function character()

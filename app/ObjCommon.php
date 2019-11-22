@@ -9,6 +9,7 @@ class ObjCommon extends Model
     public $timestamps = false;
     protected $connection = 'shard';
     protected $table = '_RefObjCommon';
+    protected $primaryKey = 'ID';
     protected $guarded = [];
 
     public function objItem()

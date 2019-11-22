@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"editor.copyWithSyntaxHighlighting": false,
-		"editor.emptySelectionClipboard": false
+		"editor.emptySelectionClipboard": false,
+		"git.ignoreLimitWarning": true
 	}
 }
