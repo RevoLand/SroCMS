@@ -30,11 +30,9 @@
             <div class="post_info">
             <p>Posted by <a href="{{ route('users.show_user', $article->user) }}" data-tip="View profile"> {{ $article->user->getName() }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
                 <span>
-                    @if ($article->articleComments->count() > 0)
                     <a href="#" class="comments_button">
-                        Comments ({{ $article->articleComments->count() }})
+                        Comments ({{ $article->article_comments_count }})
                     </a>
-                    @endif
                 </span>
                 <div class="clear"></div>
            	</div>

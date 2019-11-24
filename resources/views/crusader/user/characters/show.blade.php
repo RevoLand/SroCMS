@@ -17,7 +17,7 @@
             <section id="armory_name">
                 <h1>{{ $character->CharName16 }} @isset($character->guild) <a href="{{ route('users.guilds.show', $character->guild) }}">{{ $character->guild->Name }}</a>
                     @endisset</h1>
-                <h2><b>{{ $character->CurLevel }}</b></h2>
+                <h2><b>{{ $character->CurLevel }} Level</b></h2>
             </section>
 
             <div class="clear"></div>
@@ -26,13 +26,38 @@
         <div class="ucp_divider"></div>
 
         <!-- Main part -->
+        {{--
+            0:  Head
+            1:  Chest
+            2:  Shoulder
+            3:  Gauntlet
+            4:  Pants
+            5:  Boots
+            6:  Weapon
+            7:  Shield/Ammo
+
+            9:  Earring
+            10: Necklace
+            11: L-Ring
+            12: R-Ring
+
+
+            Weapon   -  Shield / Ammo
+
+            Head        Shoulder
+            Chest       Gauntlet
+            Pants       Boots
+            Earring     Necklace
+            L-Ring      R-Ring
+            --}}
+
         <section id="armory" style="background-image:url({{ Theme::url('images/misc/silvermoon.png') }})">
             <section id="armory_left">
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
+                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 0)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 0)->first()->item->objCommon->image }}" /></div>
+                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 1)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 1)->first()->item->objCommon->image }}" /></div>
+                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 4)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 4)->first()->item->objCommon->image }}" /></div>
+                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 9)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 9)->first()->item->objCommon->image }}" /></div>
+                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 11)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 11)->first()->item->objCommon->image }}" /></div>
             </section>
 
             <section id="armory_stats">
@@ -72,17 +97,17 @@
             </section>
 
             <section id="armory_right">
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
+                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 2)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 2)->first()->item->objCommon->image }}" /></div>
+                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 3)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 3)->first()->item->objCommon->image }}" /></div>
+                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 5)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 5)->first()->item->objCommon->image }}" /></div>
+                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 10)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 10)->first()->item->objCommon->image }}" /></div>
+                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 12)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 12)->first()->item->objCommon->image }}" /></div>
             </section>
 
             <section id="armory_bottom">
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
+                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 6)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 6)->first()->item->objCommon->image }}" /></div>
                 <div class="item"></div>
-                <div class="item"><a></a><img src="http://lorempixel.com/56/56/" /></div>
+                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 7)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 7)->first()->item->objCommon->image }}" /></div>
             </section>
         </section>
 </article>

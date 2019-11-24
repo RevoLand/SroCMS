@@ -16,6 +16,7 @@ class ArticleController extends Controller
                 $query->where('published_at', '=', null)
                     ->orWhere('published_at', '<=', Carbon::now());
             })
+            ->withCount('articleComments')
             ->orderByDesc('updated_at')
             ->paginate(5);
 
@@ -24,6 +25,13 @@ class ArticleController extends Controller
 
     public function show($id, $slug)
     {
-        return view('articles.single', ['article' => Article::where('id', $id)->where('slug', $slug)->firstOrFail()]);
+        return view('articles.single', ['article' => Article::where('id', $id)
+            ->where('slug', $slug)
+            ->where(function ($query)
+            {
+                $query->where('published_at', '=', null)
+                    ->orWhere('published_at', '<=', Carbon::now());
+            })
+            ->firstOrFail(), ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ObjCommon extends Model
 {
@@ -20,5 +21,15 @@ class ObjCommon extends Model
     public function objChar()
     {
         return $this->hasOne('App\ObjChar', 'ID', 'Link');
+    }
+
+    public function getImageAttribute()
+    {
+        if ($this->AssocFileIcon128 == 'xxx')
+        {
+            return theme_url('images/media/no_item.png');
+        }
+
+        return theme_url('images/media/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
     }
 }

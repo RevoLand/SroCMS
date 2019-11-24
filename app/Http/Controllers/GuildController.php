@@ -16,6 +16,15 @@ class GuildController extends Controller
 
     public function show(Guild $guild)
     {
-        return view('user.guilds.show', compact('guild'));
+        $sortedGuildMembers = $guild->members->sortBy(function ($guildf)
+        {
+            return [
+                $guildf->MemberClass,
+                -$guildf->GP_Donation,
+                -$guildf->Level,
+            ];
+        });
+
+        return view('user.guilds.show', compact('guild', 'sortedGuildMembers'));
     }
 }

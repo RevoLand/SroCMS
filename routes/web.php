@@ -46,7 +46,7 @@ Route::group(['prefix' => 'users'], function ()
 Route::group(['prefix' => 'users'], function ()
 {
     Route::get('/', 'UserController@index')->name('users.current_user');
-    Route::get('{user}', 'UserController@show')->name('users.show_user');
+    Route::get('show/{user}', 'UserController@show')->name('users.show_user');
 
     Route::get('edit', 'UserController@edit')->name('users.edit_form');
     Route::post('edit', 'UserController@update')->name('users.update_settings');
@@ -60,12 +60,12 @@ Route::group(['prefix' => 'users'], function ()
     Route::group(['prefix' => 'characters'], function ()
     {
         Route::get('/', 'CharacterController@index')->name('users.characters.index');
-        Route::get('{character}', 'CharacterController@show')->name('users.characters.show');
+        Route::get('show/{character}', 'CharacterController@show')->name('users.characters.show');
     });
 
     Route::group(['prefix' => 'guilds'], function ()
     {
-        Route::get('{guild}', 'GuildController@show')->name('users.guilds.show');
+        Route::get('show/{guild}', 'GuildController@show')->name('users.guilds.show');
     });
 });
 
@@ -75,11 +75,4 @@ Route::group(['prefix' => 'pages'], function ()
 {
     Route::get('/', 'PageController@index')->name('pages.show_pages');
     Route::get('{slug}', 'PageController@show')->name('pages.show_page');
-});
-
-// Debug
-\Event::listen('Illuminate\Database\Events\QueryExecuted', function ($query)
-{
-    Log::info(json_encode($query->sql));
-    Log::info(json_encode($query->bindings));
 });
