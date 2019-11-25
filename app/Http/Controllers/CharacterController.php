@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Character;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CharacterController extends Controller
 {
@@ -25,6 +26,14 @@ class CharacterController extends Controller
 
     public function show(Character $character)
     {
-        return view('user.characters.show', compact('character'));
+        $characterInventory = DB::connection('shard')
+            ->table('_Inventory')
+            ->join('_Items', '_Inventory.ItemID', '=', '_Items.ID64')
+            ->join('_RefObjCommon', '_Items.RefItemID', '=', '_RefObjCommon.ID')
+            ->select('_Inventory.*', '_Items.*', '_RefObjCommon.*')
+            ->where('CharID', $character->CharID)
+            ->get();
+
+        return view('user.characters.show', compact(['character', 'characterInventory']));
     }
 }

@@ -25,39 +25,30 @@
 
         <div class="ucp_divider"></div>
 
-        <!-- Main part -->
         {{--
-            0:  Head
-            1:  Chest
-            2:  Shoulder
-            3:  Gauntlet
-            4:  Pants
-            5:  Boots
-            6:  Weapon
-            7:  Shield/Ammo
+            config('constants.inventory.slots.helm'),           0
+            config('constants.inventory.slots.chest'),          1
+            config('constants.inventory.slots.shoulders'),      2
+            config('constants.inventory.slots.gauntlet'),       3
+            config('constants.inventory.slots.pants'),          4
+            config('constants.inventory.slots.boots'),          5
+            config('constants.inventory.slots.weapon'),         6
+            config('constants.inventory.slots.shield'),         7
+            config('constants.inventory.slots.earring'),        9
+            config('constants.inventory.slots.necklace'),       10
+            config('constants.inventory.slots.lring'),          11
+            config('constants.inventory.slots.rring'),          12
+        --}}
 
-            9:  Earring
-            10: Necklace
-            11: L-Ring
-            12: R-Ring
-
-
-            Weapon   -  Shield / Ammo
-
-            Head        Shoulder
-            Chest       Gauntlet
-            Pants       Boots
-            Earring     Necklace
-            L-Ring      R-Ring
-            --}}
-
+        <!-- Main part -->
         <section id="armory" style="background-image:url({{ Theme::url('images/misc/silvermoon.png') }})">
             <section id="armory_left">
-                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 0)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 0)->first()->item->objCommon->image }}" /></div>
-                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 1)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 1)->first()->item->objCommon->image }}" /></div>
-                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 4)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 4)->first()->item->objCommon->image }}" /></div>
-                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 9)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 9)->first()->item->objCommon->image }}" /></div>
-                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 11)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 11)->first()->item->objCommon->image }}" /></div>
+                {{-- 0 - 1 - 4 - 9- 11 --}}
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.helm'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.helm'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.chest'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.chest'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.pants'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.pants'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.earring'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.earring'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.lring'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.lring'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
             </section>
 
             <section id="armory_stats">
@@ -97,17 +88,18 @@
             </section>
 
             <section id="armory_right">
-                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 2)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 2)->first()->item->objCommon->image }}" /></div>
-                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 3)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 3)->first()->item->objCommon->image }}" /></div>
-                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 5)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 5)->first()->item->objCommon->image }}" /></div>
-                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 10)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 10)->first()->item->objCommon->image }}" /></div>
-                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 12)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 12)->first()->item->objCommon->image }}" /></div>
+                {{-- 2 - 3 - 5 - 10 - 12 --}}
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.shoulders'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.shoulders'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.gauntlet'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.gauntlet'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.boots'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.boots'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.necklace'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.necklace'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.rring'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.rring'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
             </section>
 
             <section id="armory_bottom">
-                    <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 6)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 6)->first()->item->objCommon->image }}" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.weapon'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.weapon'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
                 <div class="item"></div>
-                <div class="item"><a></a><img title="{{ $character->inventory->where('Slot', 7)->first()->item->objCommon->CodeName128 }}" width="56px" height="56px" src="{{ $character->inventory->where('Slot', 7)->first()->item->objCommon->image }}" /></div>
+                <div class="item"><a></a><img title="{{ $characterInventory->where('Slot', config('constants.inventory.slots.shield'))->first()->CodeName128 }}" width="56px" height="56px" src="@component('components.inventory.item') {{ $characterInventory->where('Slot', config('constants.inventory.slots.shield'))->first()->AssocFileIcon128 }} @endcomponent" /></div>
             </section>
         </section>
 </article>
