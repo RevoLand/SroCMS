@@ -32,4 +32,16 @@ return [
             'rring' => '12',
         ],
     ],
+    'skill' => [
+        'mastery_names' => [
+        ],
+    ],
+    'siege' => [
+        'names' => [
+            '1' => 'Jangan',
+            '3' => 'Hotan',
+            '4' => 'Constantinople',
+            '6' => 'Bandit',
+        ],
+    ],
 ];

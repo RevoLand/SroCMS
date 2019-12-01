@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogEventChar extends Model
 {
-    public $timestamps = false;
+    const CREATED_AT = 'EventTime';
+    const UPDATED_AT = null;
     protected $connection = 'log';
     protected $table = '_LogEventChar';
     protected $primaryKey = 'ID';

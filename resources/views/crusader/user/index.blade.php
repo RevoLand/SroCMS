@@ -163,9 +163,12 @@
         <section id="ucp_characters">
             <h1>Karakterlerim</h1>
             @foreach (Auth::user()->characters as $character)
-            <a href="{{ route('users.characters.show', $character) }}">
-                <img src="{{ Theme::url('images/characters/' . $character->RefObjID . '.gif') }}" />
-            </a>
+            <div style="float:left">
+                <a href="{{ route('users.characters.show', $character) }}">
+                    <img src="@component('components.character.image', ['refObjId' => $character->RefObjID])@endcomponent" />
+                </a>
+                <p>{{ $character->CharName16 }}</p>
+            </div>
             @endforeach
             <div class="clear"></div>
         </section>

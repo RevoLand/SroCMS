@@ -4,6 +4,12 @@
 <article>
     <h1 class="top">Guild: {{ $guild->Name }} ({{ $guild->Lvl }} Level)</h1>
     <section class="body">
+        @isset ($guild->siegeFortress)
+            <img src="{{ $guild->siegeFortress->image }}" /> <b>{{ $guild->siegeFortress->Name }}</b> Kalesinin sahibi.
+
+            <br />
+            <div class="ucp_divider"></div>
+        @endisset
         <table class="nice_table" style="width: 100%">
             <thead>
                 <tr>

@@ -21,4 +21,9 @@ class Guild extends Model
     {
         return $this->hasMany('App\GuildMember', 'GuildID', 'ID');
     }
+
+    public function siegeFortress()
+    {
+        return $this->hasOne('App\SiegeFortress', 'GuildID', 'ID');
+    }
 }

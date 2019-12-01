@@ -56,17 +56,17 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+});
 
-    Route::group(['prefix' => 'characters'], function ()
-    {
-        Route::get('/', 'CharacterController@index')->name('users.characters.index');
-        Route::get('show/{character}', 'CharacterController@show')->name('users.characters.show');
-    });
+Route::group(['prefix' => 'characters'], function ()
+{
+    Route::get('/', 'CharacterController@index')->name('users.characters.index');
+    Route::get('show/{character}', 'CharacterController@show')->name('users.characters.show');
+});
 
-    Route::group(['prefix' => 'guilds'], function ()
-    {
-        Route::get('show/{guild}', 'GuildController@show')->name('users.guilds.show');
-    });
+Route::group(['prefix' => 'guilds'], function ()
+{
+    Route::get('show/{guild}', 'GuildController@show')->name('users.guilds.show');
 });
 
 // Dinamik sayfa işlemleri

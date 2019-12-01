@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>{{ setting('site.title', 'SroCMS') }}</title>
+        <title>{{ setting('site.title', 'SroCMS') }}@yield ('pagetitle')</title>
         <link rel="shortcut icon" href="{{ Theme::url('images/favicon.gif') }}">
 
         <!-- Responsive meta tag -->
@@ -19,7 +19,7 @@
 
         <!-- Load styles -->
         {!! Theme::css('css/cms.css') !!}
-        {!! Theme::css('css/main.css') !!}
+        {!! Theme::css('css/main.css?' . time()) !!}
         @yield('css')
     </head>
 
@@ -109,14 +109,6 @@
                 <a id="server_logo" href="{{ route('home') }}" title="{{ setting('site.title', 'SroCMS') }}">
                     <p>{{ setting('site.title', 'SroCMS') }}</p>
                 </a>
-
-                <!--<div class="accp_register">
-                    {if $isOnline}
-                        <a href="./ucp" id="accp_button"><h1>Account Panel</h1></a>
-                        {else}
-                        <a href="./register" id="register_button"><h1>Register</h1></a>
-                    {/if}
-                </div>-->
             </div>
 
             <div class="sword"></div>

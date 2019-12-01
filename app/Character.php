@@ -31,4 +31,9 @@ class Character extends Model
     {
         return $this->hasMany('App\Inventory', 'CharID', 'CharID');
     }
+
+    public function skillMastery()
+    {
+        return $this->hasMany('App\CharacterSkillMastery', 'CharID');
+    }
 }
