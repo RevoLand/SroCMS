@@ -27,9 +27,9 @@ class ObjCommon extends Model
     {
         if ($this->AssocFileIcon128 == 'xxx')
         {
-            return theme_url('images/media/no_item.png');
+            return theme_url('images/silkroad/no_item.png');
         }
 
-        return theme_url('images/media/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
+        return theme_url('images/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
     }
 }

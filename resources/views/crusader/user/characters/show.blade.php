@@ -29,9 +29,9 @@
         <div class="ucp_divider"></div>
         <section id="armory_mid_info">
             <div class="recent-activity">
-                <h3>Son 5 girişi</h3>
+                <h3>Son 5 Giriş/Çıkış</h3>
                 <ul class="achievements">
-                    @foreach ($character->logEventChar->where('EventID', '4')->take(5) as $logins)
+                    @foreach ($character->logEventChar->whereIn('EventID', ['4', '6'])->take(5) as $login)
                     <li class="achievement">
                         <div id="icon">
                             <span class="icon">
@@ -43,10 +43,14 @@
                         </div>
                         <div id="info">
                             <span id="descr">
+                                @if ($login->EventID == 4)
                                 Giriş yapıldı.
+                                @else
+                                Çıkış yapıldı.
+                                @endif
                             </span>
                             <br />
-                            <span id="date">{{ $logins->EventTime }}</span>
+                            <span id="date">{{ $login->EventTime }}</span>
                         </div>
                         <div class="clear"></div>
                     </li>
@@ -68,7 +72,7 @@
                                                 <img src="{{ Theme::url('images/silkroad/skills/masteries/' . $mastery->ID . '.png') }}" alt="" width="16" height="16">
                                             </span>
                                         </span>
-                                        <span class="name">{{ $mastery->Code }}</span>
+                                        <span class="name">{{ config('constants.skillmastery.names.' . $mastery->ID) }}</span>
                                         <span class="value">{{ $mastery->Level }}/{{ setting('skillmastery.maxlevel', 110) }}</span>
                                     </div>
                                 </div>

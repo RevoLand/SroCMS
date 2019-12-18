@@ -61,12 +61,12 @@ Route::group(['prefix' => 'users'], function ()
 Route::group(['prefix' => 'characters'], function ()
 {
     Route::get('/', 'CharacterController@index')->name('users.characters.index');
-    Route::get('show/{character}', 'CharacterController@show')->name('users.characters.show');
+    Route::get('{character}', 'CharacterController@show')->name('users.characters.show');
 });
 
 Route::group(['prefix' => 'guilds'], function ()
 {
-    Route::get('show/{guild}', 'GuildController@show')->name('users.guilds.show');
+    Route::get('{guild}', 'GuildController@show')->name('users.guilds.show');
 });
 
 // Dinamik sayfa işlemleri
@@ -75,4 +75,17 @@ Route::group(['prefix' => 'pages'], function ()
 {
     Route::get('/', 'PageController@index')->name('pages.show_pages');
     Route::get('{slug}', 'PageController@show')->name('pages.show_page');
+});
+
+Route::group(['prefix' => 'items'], function ()
+{
+    Route::get('{item}', 'ItemController@show')->name('items.show_item');
+});
+
+Route::group(['prefix' => 'votes'], function ()
+{
+    Route::get('/', 'VoteController@index')->name('votes.show_votes');
+    Route::post('{voteProvider}/vote', 'VoteController@vote')->name('votes.do_vote');
+
+    Route::match(['get', 'post'], '{voteprovider_secret}', 'VoteController@callback');
 });

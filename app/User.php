@@ -83,4 +83,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasManyThrough('App\Character', 'App\ShardUser', 'UserJID', 'CharID', 'JID', 'CharID');
     }
+
+    public function voteLogs()
+    {
+        return $this->hasMany('App\VoteLog', 'user_id', 'JID');
+    }
+
+    public function voteLogsById($voteProviderId)
+    {
+        return $this->hasMany('App\VoteLog', 'user_id', 'JID')->where('vote_provider_id', $voteProviderId);
+    }
+
+    public function lastVoteLog($voteProviderId)
+    {
+        return $this->hasOne('App\VoteLog', 'user_id', 'JID')->where('vote_provider_id', $voteProviderId)->latest('updated_at')->first();
+    }
 }

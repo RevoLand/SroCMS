@@ -1,19 +1,5 @@
 <?php
-/*
-    0:  Head
-    1:  Chest
-    2:  Shoulder
-    3:  Gauntlet
-    4:  Pants
-    5:  Boots
-    6:  Weapon
-    7:  Shield/Ammo
 
-    9:  Earring
-    10: Necklace
-    11: L-Ring
-    12: R-Ring
-*/
 return [
     'inventory' => [
         'slots' => [
@@ -33,11 +19,29 @@ return [
         ],
     ],
     'skill' => [
-        'mastery_names' => [
+    ],
+    'skillmastery' => [
+        'names' => [
+            // MasteryID => Name
+            '257' => 'Blade',
+            '258' => 'Glavie',
+            '259' => 'Bow',
+            '273' => 'Cold',
+            '274' => 'Lightning',
+            '275' => 'Fire',
+            '276' => 'Force',
+
+            '513' => 'Warrior',
+            '514' => 'Warlock',
+            '515' => 'Rogue',
+            '516' => 'Wizard',
+            '517' => 'Bard',
+            '518' => 'Cleric',
         ],
     ],
     'siege' => [
         'names' => [
+            // SiegeID => Name
             '1' => 'Jangan',
             '3' => 'Hotan',
             '4' => 'Constantinople',

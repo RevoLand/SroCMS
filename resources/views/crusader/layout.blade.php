@@ -75,7 +75,7 @@
                                 <!-- Welcome & VP/DP . End-->
                                 <div class="right">
                                     <a href="{{ route('users.current_user') }}" class="nice_button">User panel</a>
-                                    <a href="{$url}vote" class="nice_button">Vote</a>
+                                    <a href="{{ route('votes.show_votes') }}" class="nice_button">Vote</a>
                                     <a href="{{ route('users.do_logout') }}" class="nice_button">Log out</a>
                                 </div>
                                 <!-- Account Panel & Logout -->
@@ -117,7 +117,7 @@
             <div id="main">
                 <aside id="left">
                     @if (Auth::check())
-                    <a href="{$url}vote" id="vote_banner">
+                    <a href="{{ route('votes.show_votes') }}" id="vote_banner">
                         <p>Vote for us</p>
                     </a>
                     @else

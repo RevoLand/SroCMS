@@ -1,4 +1,5 @@
 @if (Auth::check())
+Hoşgeldin, {{ Auth::user()->getName() }}
 <table width="100%">
     <tbody>
         <tr>
