@@ -20,7 +20,7 @@
                 <tbody>
                 <tr>
                     <td><label for="username">Kullanıcı adı:</label></td>
-                    <td><input type="text" name="username" /></td>
+                    <td><input type="text" name="username" value="{{ old('username') }}" /></td>
                 </tr>
                 <tr>
                     <td><label for="password">Şifre:</label></td>
@@ -32,11 +32,11 @@
                 </tr>
                 <tr>
                     <td><label for="email">Eposta:</label></td>
-                    <td><input type="text" name="email" /></td>
+                    <td><input type="text" name="email" value="{{ old('email') }}" /></td>
                 </tr>
                 <tr>
                     <td><label for="name">İsim:</label></td>
-                    <td><input type="text" name="name" /></td>
+                    <td><input type="text" name="name" value="{{ old('name') }}" /></td>
                 </tr>
             </tbody>
         </table>

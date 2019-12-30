@@ -34,16 +34,14 @@
         <center>
             <div id="remember_me">
                 <label for="remember">{{ __('Remember me') }}</label>
-                <input type="checkbox" name="remember" id="remember" />
+                <input type="checkbox" name="remember" />
             </div>
 
             <input type="submit" name="login_submit" value="{{ __('Login') }}" />
 
-            {{-- {if $has_smtp} --}}
             <section id="forgot">
-                <a href="{$url}password_recovery">{{ __('Lost your password?') }}</a>
+                <a href="{{ route('password.request') }}">{{ __('Lost your password?') }}</a>
             </section>
-            {{-- {/if} --}}
         </center>
         {{ Form::close() }}
     </section>

@@ -50,9 +50,10 @@ class VoteController extends Controller
             abort(403, 'User can not be rewarded for this call.');
         }
 
-        $voteLog->voted = true;
-        $voteLog->active = false;
-        $voteLog->save();
+        $voteLog->update([
+            'voted' => true,
+            'active' => false,
+        ]);
 
         foreach ($voteLog->rewardGroup->rewards as $reward)
         {
@@ -117,23 +118,18 @@ class VoteController extends Controller
 
             if ($userLastVoteLog->active)
             {
-                $userLastVoteLog->active = false;
-                $userLastVoteLog->save();
+                $userLastVoteLog->update(['active' => false]);
             }
         }
 
-        $userVoteLog = new VoteLog();
-        $userVoteLog->secret = $this->generateVoteLogSecret();
-        $userVoteLog->user_id = Auth::user()->JID;
-        $userVoteLog->vote_provider_id = $voteProvider->id;
-        $userVoteLog->selected_reward_group_id = request('reward');
+        $userVoteLog = VoteLog::create([
+            'secret' => $this->generateVoteLogSecret(),
+            'user_id' => Auth::user()->JID,
+            'vote_provider_id' => $voteProvider->id,
+            'selected_reward_group_id' => request('reward'),
+        ]);
 
-        if ($userVoteLog->save())
-        {
-            return redirect($voteProvider->getVoteUrl($userVoteLog));
-        }
-
-        abort(500, 'İşlem sırasında bir hata ile karşılaşıldı.');
+        return redirect($voteProvider->getVoteUrl($userVoteLog));
     }
 
     private function generateVoteLogSecret($length = 40)

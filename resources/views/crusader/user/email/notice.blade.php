@@ -40,7 +40,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="text" name="new_email" />
+                    <input type="text" name="new_email" value="{{ old('new_email') }}" />
                 </td>
             </tr>
             <tr>
@@ -50,7 +50,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="text" name="new_email_confirmation" />
+                    <input type="text" name="new_email_confirmation" value="{{ old('new_email_confirmation') }}" />
                 </td>
             </tr>
         </table>

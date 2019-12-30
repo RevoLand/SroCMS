@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CharacterController extends Controller
@@ -18,7 +17,7 @@ class CharacterController extends Controller
         }
     }
 
-    public function index(Request $request)
+    public function index()
     {
         // TODO: Mevcut hesabın karakterleri listelenecek.
         return 'Not implemented.';

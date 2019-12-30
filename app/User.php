@@ -58,15 +58,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function updateEmail($newEmail)
     {
-        $this->Email = $newEmail;
-        $this->email_verified_at = null;
-        $this->save();
+        $this->update([
+            'Email' => $newEmail,
+            'email_verified_at' => null,
+        ]);
     }
 
     public function updatePassword($newPassword)
     {
-        $this->password = Hash::make($newPassword);
-        $this->save();
+        $this->update([
+            'password' => Hash::make($newPassword),
+            'email_verified_at' => null,
+        ]);
     }
 
     public function getEmailForPasswordReset()

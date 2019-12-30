@@ -39,14 +39,11 @@ class UserController extends Controller
         return view('user.edit', ['user' => Auth::user()]);
     }
 
-    public function update(Request $request)
+    public function update()
     {
-        $request->validate([
+        Auth::user()->update(request()->validate([
             'name' => ['bail', 'required', 'string', 'min:3', 'max:255'],
-        ]);
-
-        Auth::user()->Name = $request->name;
-        Auth::user()->save();
+        ]));
 
         Alert::success('Bilgileriniz güncellendi.');
 

@@ -56,13 +56,13 @@
                 </div>
             @endif
         @can ('post comments')
-        {{ Form::open(['route' => ['articles.store_comment', $article->id, $article->slug], 'method' => 'POST']) }}
-            <textarea name="comment" spellcheck="false" placeholder="Type a comment..." maxlength="255"></textarea>
-            <input type="submit" value="Submit comment" />
-        {{ Form::close() }}
+            {{ Form::open(['route' => ['articles.store_comment', $article->id, $article->slug], 'method' => 'POST']) }}
+                <textarea name="comment" spellcheck="false" placeholder="Type a comment..." maxlength="255"></textarea>
+                <input type="submit" value="Submit comment" />
+            {{ Form::close() }}
         @else
-        <textarea disabled placeholder="Yorum yapma yetkiniz bulunmamaktadır."></textarea>
-        <input type="submit" disabled="disabled" value="Submit comment"/>
+            <textarea disabled placeholder="Yorum yapma yetkiniz bulunmamaktadır."></textarea>
+            <input type="submit" disabled="disabled" value="Submit comment"/>
         @endcan
         @else
             <textarea disabled placeholder="Yorum yapmak için lütfen giriş yapın."></textarea>

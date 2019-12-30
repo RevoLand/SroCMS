@@ -17,37 +17,31 @@ class ArticleCommentController extends Controller
         $this->middleware('permission:post comments');
     }
 
-    public function store($id, $slug, Request $request)
+    public function store($id, $slug)
     {
-        $request->validate([
+        request()->validate([
             'comment' => ['required', 'string', 'min:6', 'max:255'],
         ]);
 
         $article = Article::where('id', $id)->where('slug', $slug)->firstOrFail();
         $user = Auth::user();
 
-        if (!$user || !$article->is_visible || !$article->can_comment_on)
+        if (!$article->is_visible || !$article->can_comment_on)
         {
             Alert::error('Hata!', 'Bu yazıya yorum yapamazsınız!');
 
             return redirect()->back();
         }
 
-        $comment = new ArticleComment();
-        $comment->article_id = $article->id;
-        $comment->user_id = $user->JID;
-        $comment->content = $request->comment;
-        $comment->is_visible = setting('article.comments.default_is_visible', 1);
-        $comment->is_approved = setting('article.comments.default_is_approved', 1);
+        ArticleComment::create([
+            'article_id' => $article->id,
+            'user_id' => $user->JID,
+            'content' => request('comment'),
+            'is_visible' => setting('article.comments.default_is_visible', 1),
+            'is_approved' => setting('article.comments.default_is_approved', 1),
+        ]);
 
-        if ($comment->save())
-        {
-            Alert::success('Başarılı!', 'Yorumunuz kaydedildi.');
-        }
-        else
-        {
-            Alert::warning('Hata!', 'Yorumunuz kaydedilirken bir hata oluştu.');
-        }
+        Alert::success('Başarılı!', 'Yorumunuz kaydedildi.');
 
         return redirect()->back();
     }

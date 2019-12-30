@@ -50,12 +50,11 @@ class LoginController extends Controller
             return $this->sendLockoutResponse($request);
         }
 
-        $loginAttempt = new LoginAttempt();
-
-        $loginAttempt->username = $request->username;
-        $loginAttempt->ip = $request->ip();
-        $loginAttempt->success = $this->attemptLogin($request);
-        $loginAttempt->save();
+        $loginAttempt = LoginAttempt::create([
+            'username' => $request->username,
+            'ip' => $request->ip(),
+            'success' => $this->attemptLogin($request),
+        ]);
 
         if ($loginAttempt->success)
         {
