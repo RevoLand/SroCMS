@@ -18,6 +18,7 @@ class CreateVoteLogsTable extends Migration
             $table->bigInteger('vote_provider_id');
             $table->bigInteger('selected_reward_group_id');
             $table->boolean('voted')->default(false);
+            $table->boolean('active')->default(true);
             $table->timestamps();
 
             $table->foreign('vote_provider_id')->references('id')->on('vote_providers')->onDelete('cascade');

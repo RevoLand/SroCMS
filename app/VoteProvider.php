@@ -29,4 +29,14 @@ class VoteProvider extends Model
     {
         return $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . http_build_query([$this->url_user_name => $voteLogId]);
     }
+
+    public function lastVoteLog($userId)
+    {
+        return $this->hasOne('App\VoteLog', 'user_id', $userId)->where('vote_provider_id', $this->id)->latest('updated_at')->first();
+    }
+
+    public function lastActiveVoteLog($userId)
+    {
+        return $this->hasOne('App\VoteLog', 'user_id', $userId)->where('vote_provider_id', $this->id)->where('active', true)->latest('updated_at')->first();
+    }
 }

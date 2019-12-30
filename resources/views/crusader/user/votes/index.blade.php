@@ -8,11 +8,15 @@
 <article>
     <h1 class="top">Vote</h1>
     <section class="body">
+        @error('reward')
+            <p>{{ $errors->first('reward') }}</p>
+            <br />
+        @enderror
         <table width="100%">
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Time between Votes</th>
+                    <th>Time between Votes (minutes)</th>
                     <th>Can be Voted</th>
                     <th>Action</th>
                 </tr>
