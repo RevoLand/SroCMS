@@ -25,9 +25,9 @@ class VoteProvider extends Model
         })->count() == 0;
     }
 
-    public function getVoteUrl($voteLogId)
+    public function getVoteUrl(VoteLog $voteLog)
     {
-        return $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . http_build_query([$this->url_user_name => $voteLogId]);
+        return $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . http_build_query([$this->url_user_name => $voteLog->secret]);
     }
 
     public function lastVoteLog($userId)

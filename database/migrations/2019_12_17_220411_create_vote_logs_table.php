@@ -14,6 +14,7 @@ class CreateVoteLogsTable extends Migration
         Schema::connection('srocms')->create('vote_logs', function (Blueprint $table)
         {
             $table->bigIncrements('id');
+            $table->string('secret');
             $table->bigInteger('user_id');
             $table->bigInteger('vote_provider_id');
             $table->bigInteger('selected_reward_group_id');

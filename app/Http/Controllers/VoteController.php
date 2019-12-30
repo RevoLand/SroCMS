@@ -7,6 +7,7 @@ use App\VoteProvider;
 use App\VoteProviderIp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class VoteController extends Controller
 {
@@ -37,7 +38,7 @@ class VoteController extends Controller
             }
         }
 
-        $voteLog = VoteLog::findOrFail(request()->input($voteProvider->callback_user_name));
+        $voteLog = VoteLog::where('secret', request()->input($voteProvider->callback_user_name))->firstOrFail();
 
         if ($voteLog->voted)
         {
@@ -107,27 +108,38 @@ class VoteController extends Controller
 
         $userLastVoteLog = $voteProvider->lastActiveVoteLog(Auth::user()->id);
 
-        if (!$userLastVoteLog->voted && $userLastVoteLog->selected_reward_group_id == request('reward'))
+        if ($userLastVoteLog)
         {
-            return redirect($voteProvider->getVoteUrl($userLastVoteLog->id));
-        }
+            if (!$userLastVoteLog->voted && $userLastVoteLog->selected_reward_group_id == request('reward'))
+            {
+                return redirect($voteProvider->getVoteUrl($userLastVoteLog));
+            }
 
-        if ($userLastVoteLog->active)
-        {
-            $userLastVoteLog->active = false;
-            $userLastVoteLog->save();
+            if ($userLastVoteLog->active)
+            {
+                $userLastVoteLog->active = false;
+                $userLastVoteLog->save();
+            }
         }
 
         $userVoteLog = new VoteLog();
+        $userVoteLog->secret = $this->generateVoteLogSecret();
         $userVoteLog->user_id = Auth::user()->JID;
         $userVoteLog->vote_provider_id = $voteProvider->id;
         $userVoteLog->selected_reward_group_id = request('reward');
 
         if ($userVoteLog->save())
         {
-            return redirect($voteProvider->getVoteUrl($userVoteLog->id));
+            return redirect($voteProvider->getVoteUrl($userVoteLog));
         }
 
         abort(500, 'İşlem sırasında bir hata ile karşılaşıldı.');
+    }
+
+    private function generateVoteLogSecret($length = 40)
+    {
+        $randomString = Str::random($length);
+
+        return VoteLog::where('secret', $randomString)->count() > 0 ? $this->generateVoteLogSecret() : $randomString;
     }
 }
