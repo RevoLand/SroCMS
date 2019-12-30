@@ -14,16 +14,16 @@ class Guild extends Model
 
     public function characters()
     {
-        return $this->hasMany('App\Character', 'GuildID', 'ID');
+        return $this->hasMany(Character::class, 'GuildID', 'ID');
     }
 
     public function members()
     {
-        return $this->hasMany('App\GuildMember', 'GuildID', 'ID');
+        return $this->hasMany(GuildMember::class, 'GuildID', 'ID');
     }
 
     public function siegeFortress()
     {
-        return $this->hasOne('App\SiegeFortress', 'GuildID', 'ID');
+        return $this->hasOne(SiegeFortress::class, 'GuildID', 'ID');
     }
 }

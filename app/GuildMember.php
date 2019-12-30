@@ -14,11 +14,11 @@ class GuildMember extends Model
 
     public function guild()
     {
-        return $this->hasOne('App\Guild', 'ID', 'GuildID');
+        return $this->hasOne(Guild::class, 'ID', 'GuildID');
     }
 
     public function character()
     {
-        return $this->hasOne('App\Character', 'CharID', 'CharID');
+        return $this->hasOne(Character::class, 'CharID', 'CharID');
     }
 }

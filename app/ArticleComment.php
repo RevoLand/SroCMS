@@ -12,11 +12,11 @@ class ArticleComment extends Model
 
     public function article()
     {
-        return $this->belongsTo('App\Article', 'article_id', 'id');
+        return $this->belongsTo(Article::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'user_id', 'JID');
+        return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 }

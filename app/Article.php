@@ -12,16 +12,16 @@ class Article extends Model
 
     public function articleCategory()
     {
-        return $this->belongsTo('App\ArticleCategory', 'category_id', 'id');
+        return $this->belongsTo(ArticleCategory::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'author_id', 'JID');
+        return $this->belongsTo(User::class, 'author_id', 'JID');
     }
 
     public function articleComments()
     {
-        return $this->hasMany('App\ArticleComment', 'article_id', 'id')->where('is_visible', true)->where('is_approved', true)->latest();
+        return $this->hasMany(ArticleComment::class)->where('is_visible', true)->where('is_approved', true)->latest();
     }
 }

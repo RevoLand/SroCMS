@@ -14,7 +14,7 @@ class CreateVoteProviderRewardsTable extends Migration
         Schema::connection('srocms')->create('vote_provider_rewards', function (Blueprint $table)
         {
             $table->bigIncrements('id');
-            $table->bigInteger('vote_provider_reward_group_id');
+            $table->unsignedBigInteger('vote_provider_reward_group_id');
             $table->smallInteger('type')->default(1);
             $table->string('codename')->nullable();
             $table->integer('amount')->default(0);

@@ -12,11 +12,11 @@ class VoteLog extends Model
 
     public function rewardgroup()
     {
-        return $this->hasOne('App\VoteProviderRewardGroup', 'id', 'selected_reward_group_id');
+        return $this->hasOne(VoteProviderRewardGroup::class, 'id', 'selected_reward_group_id');
     }
 
     public function user()
     {
-        return $this->hasOne('App\User', 'JID', 'user_id');
+        return $this->hasOne(User::class, 'JID', 'user_id');
     }
 }

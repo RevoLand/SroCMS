@@ -15,12 +15,12 @@ class ObjCommon extends Model
 
     public function objItem()
     {
-        return $this->hasOne('App\ObjItem', 'ID', 'Link');
+        return $this->hasOne(ObjItem::class, 'ID', 'Link');
     }
 
     public function objChar()
     {
-        return $this->hasOne('App\ObjChar', 'ID', 'Link');
+        return $this->hasOne(ObjChar::class, 'ID', 'Link');
     }
 
     public function getImageAttribute()

@@ -41,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function silk()
     {
-        return $this->hasOne('App\Silk', 'JID', 'JID')->withDefault(function ($silk)
+        return $this->hasOne(Silk::class, 'JID')->withDefault(function ($silk)
         {
             $silk->JID = $this->JID;
             $silk->silk_own = 0;
@@ -53,7 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function loginAttempts()
     {
-        return $this->hasMany('App\LoginAttempt', 'username', 'StrUserID')->latest();
+        return $this->hasMany(LoginAttempt::class, 'username', 'StrUserID')->latest();
     }
 
     public function updateEmail($newEmail)
@@ -84,16 +84,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function characters()
     {
-        return $this->hasManyThrough('App\Character', 'App\ShardUser', 'UserJID', 'CharID', 'JID', 'CharID');
+        return $this->hasManyThrough(Character::class, ShardUser::class, 'UserJID', 'CharID', 'JID', 'CharID');
     }
 
     public function voteLogs()
     {
-        return $this->hasMany('App\VoteLog', 'user_id', 'JID');
+        return $this->hasMany(VoteLog::class, 'user_id');
     }
 
     public function voteLogsById($voteProviderId)
     {
-        return $this->hasMany('App\VoteLog', 'user_id', 'JID')->where('vote_provider_id', $voteProviderId);
+        return $this->hasMany(VoteLog::class, 'user_id')->where('vote_provider_id', $voteProviderId);
     }
 }

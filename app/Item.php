@@ -14,6 +14,6 @@ class Item extends Model
 
     public function objCommon()
     {
-        return $this->hasOne('App\ObjCommon', 'ID', 'RefItemID');
+        return $this->hasOne(ObjCommon::class, 'ID', 'RefItemID');
     }
 }

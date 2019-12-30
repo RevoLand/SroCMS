@@ -15,15 +15,22 @@ class CreateVoteLogsTable extends Migration
         {
             $table->bigIncrements('id');
             $table->string('secret');
-            $table->bigInteger('user_id');
-            $table->bigInteger('vote_provider_id');
-            $table->bigInteger('selected_reward_group_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('vote_provider_id');
+            $table->unsignedBigInteger('selected_reward_group_id');
             $table->boolean('voted')->default(false);
             $table->boolean('active')->default(true);
             $table->timestamps();
 
-            $table->foreign('vote_provider_id')->references('id')->on('vote_providers')->onDelete('cascade');
-            $table->foreign('selected_reward_group_id')->references('id')->on('vote_provider_reward_groups')->onDelete('no action');
+            $table->foreign('vote_provider_id')
+                ->references('id')
+                ->on('vote_providers')
+                ->onDelete('cascade');
+
+            $table->foreign('selected_reward_group_id')
+                ->references('id')
+                ->on('vote_provider_reward_groups')
+                ->onDelete('no action');
         });
     }
 

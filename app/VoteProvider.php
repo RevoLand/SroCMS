@@ -14,7 +14,7 @@ class VoteProvider extends Model
 
     public function rewardGroups()
     {
-        return $this->hasMany('App\VoteProviderRewardGroup', 'vote_provider_id');
+        return $this->hasMany(VoteProviderRewardGroup::class);
     }
 
     public function canUserVote()
@@ -32,11 +32,11 @@ class VoteProvider extends Model
 
     public function lastVoteLog($userId)
     {
-        return $this->hasOne('App\VoteLog', 'user_id', $userId)->where('vote_provider_id', $this->id)->latest('updated_at')->first();
+        return $this->hasOne(VoteLog::class)->where('user_id', $userId)->latest('updated_at')->first();
     }
 
     public function lastActiveVoteLog($userId)
     {
-        return $this->hasOne('App\VoteLog', 'user_id', $userId)->where('vote_provider_id', $this->id)->where('active', true)->latest('updated_at')->first();
+        return $this->hasOne(VoteLog::class)->where('user_id', $userId)->where('active', true)->latest('updated_at')->first();
     }
 }

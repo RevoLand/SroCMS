@@ -103,11 +103,11 @@ class VoteController extends Controller
 
         if (!$voteProvider->canUserVote())
         {
-            // hata ile vote sayfasına yönlendirilebilir.
+            // alternatif olarak hata ile vote sayfasına yönlendirilebilir.
             abort(403, 'Şuanda oy kullanamazsınız.');
         }
 
-        $userLastVoteLog = $voteProvider->lastActiveVoteLog(Auth::user()->id);
+        $userLastVoteLog = $voteProvider->lastActiveVoteLog(Auth::user()->JID);
 
         if ($userLastVoteLog)
         {

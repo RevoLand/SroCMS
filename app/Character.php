@@ -14,26 +14,26 @@ class Character extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\ShardUser', 'CharID', 'CharID');
+        return $this->belongsTo(ShardUser::class, 'CharID', 'CharID');
     }
 
     public function logEventChar()
     {
-        return $this->hasMany('App\LogEventChar', 'CharID', 'CharID')->latest();
+        return $this->hasMany(LogEventChar::class, 'CharID', 'CharID')->latest();
     }
 
     public function guild()
     {
-        return $this->hasOne('App\Guild', 'ID', 'GuildID');
+        return $this->hasOne(Guild::class, 'ID', 'GuildID');
     }
 
     public function inventory()
     {
-        return $this->hasMany('App\Inventory', 'CharID', 'CharID');
+        return $this->hasMany(Inventory::class, 'CharID', 'CharID');
     }
 
     public function skillMastery()
     {
-        return $this->hasMany('App\CharacterSkillMastery', 'CharID');
+        return $this->hasMany(CharacterSkillMastery::class, 'CharID');
     }
 }

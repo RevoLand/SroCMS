@@ -14,11 +14,11 @@ class ShardUser extends Model
 
     public function characters()
     {
-        return $this->hasMany('App\Character', 'CharID', 'CharID');
+        return $this->hasMany(Character::class, 'CharID', 'CharID');
     }
 
     public function account()
     {
-        return $this->hasOne('App\User', 'JID', 'UserJID');
+        return $this->hasOne(User::class, 'JID', 'UserJID');
     }
 }

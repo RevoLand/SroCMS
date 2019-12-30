@@ -14,11 +14,11 @@ class Inventory extends Model
 
     public function character()
     {
-        return $this->belongsTo('App\Character', 'CharID', 'CharID');
+        return $this->belongsTo(Character::class, 'CharID', 'CharID');
     }
 
     public function item()
     {
-        return $this->hasOne('App\Item', 'ID64', 'ItemID');
+        return $this->hasOne(Item::class, 'ID64', 'ItemID');
     }
 }
