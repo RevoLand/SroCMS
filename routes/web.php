@@ -97,8 +97,3 @@ Route::group(['prefix' => 'votes'], function ()
 
     Route::match(['get', 'post'], '{voteprovider_secret}', 'VoteController@callback');
 });
-
-Route::get('test', function ()
-{
-    // $user = Auth::user();
-});

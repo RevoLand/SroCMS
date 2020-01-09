@@ -31,7 +31,7 @@ class Silk extends Model
         $this->logSilkChange($type, $offset, $reason, $desc);
     }
 
-    public function logSilkChange($type, $offset, $reason, $desc = '')
+    private function logSilkChange($type, $offset, $reason, $desc = '')
     {
         $remain = $this->{config('constants.silk.types.' . $type)};
 

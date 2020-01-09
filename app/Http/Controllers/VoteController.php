@@ -57,7 +57,6 @@ class VoteController extends Controller
 
         foreach ($voteLog->rewardGroup->rewards as $reward)
         {
-            // TODO: Vote sistemi Item ödülünün verilmesi.
             switch ($reward->type)
             {
                 /*
@@ -85,7 +84,7 @@ class VoteController extends Controller
                 break;
                 // Item
                 case 4:
-
+                    $voteLog->user->addChestItem($reward->codename, $reward->amount, $reward->plus);
                 break;
             }
         }

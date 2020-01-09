@@ -6,6 +6,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -105,5 +106,18 @@ class User extends Authenticatable implements MustVerifyEmail
     public function voteLogsById($voteProviderId)
     {
         return $this->hasMany(VoteLog::class, 'user_id')->where('vote_provider_id', $voteProviderId);
+    }
+
+    public function addChestItem($itemCodeName, $data, $optLevel)
+    {
+        DB::connection('shard')->statement(
+            'exec _ADD_ITEM_EXTERN_CHEST @account_name = ?, @codename = ?, @data = ?, @opt_level = ?',
+            [
+                $this->StrUserID,
+                $itemCodeName,
+                $data,
+                $optLevel,
+            ]
+        );
     }
 }
