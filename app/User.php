@@ -51,6 +51,16 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function silkBuyList()
+    {
+        return $this->hasMany(SilkBuyList::class, 'UserJID', 'JID');
+    }
+
+    public function silkChangeByWeb()
+    {
+        return $this->hasMany(SilkChangeByWeb::class, 'JID');
+    }
+
     public function loginAttempts()
     {
         return $this->hasMany(LoginAttempt::class, 'username', 'StrUserID')->latest();

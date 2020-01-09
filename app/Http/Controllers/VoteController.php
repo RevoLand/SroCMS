@@ -57,20 +57,31 @@ class VoteController extends Controller
 
         foreach ($voteLog->rewardGroup->rewards as $reward)
         {
-            // TODO: Vote sistemi ödüllerinin verilmesi.
+            // TODO: Vote sistemi Item ödülünün verilmesi.
             switch ($reward->type)
             {
+                /*
+                    //-- Sadece Görsel, işlem silk_type üzerinden yapılıyor --\\
+
+                    reason
+                        0	= silk_own add
+                        1	= silk_own remove
+                        2	= Job Points add
+                        3	= (You have SENT [x] Coin as gift) (remove)
+                        4 	= Points add
+                        5	= (You have USED [x] points) (remove)
+                */
                 // Silk
                 case 1:
-
+                    $voteLog->user->silk->increase(0, $reward->amount, 0, "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Gift Silk
                 case 2:
-
+                    $voteLog->user->silk->increase(1, $reward->amount, 2, "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Point Silk
                 case 3:
-
+                    $voteLog->user->silk->increase(2, $reward->amount, 4, "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Item
                 case 4:
@@ -78,13 +89,13 @@ class VoteController extends Controller
                 break;
             }
         }
+
+        echo 'OK';
     }
 
     public function index()
     {
-        $voteProviders = VoteProvider::where('enabled', true)->get();
-
-        return view('user.votes.index', compact('voteProviders'));
+        return view('user.votes.index', ['voteProviders' => VoteProvider::where('enabled', true)->get()]);
     }
 
     public function vote(VoteProvider $voteProvider)

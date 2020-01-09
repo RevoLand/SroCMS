@@ -11,6 +11,14 @@
 |
 */
 
+/*
+TODO:
+Menüler controller değil de model içerisinden getByName gibi çağrılabilir/çağrılmalı?
+Örnek:
+use Harimayco\Menu\Facades\Menu;
+$menuList = Menu::getByName('Admin');
+*/
+
 Route::get('/', 'ArticleController@index')->name('home');
 
 Route::group(['prefix' => 'articles'], function ()
@@ -88,4 +96,9 @@ Route::group(['prefix' => 'votes'], function ()
     Route::post('{voteProvider}/vote', 'VoteController@vote')->name('votes.do_vote');
 
     Route::match(['get', 'post'], '{voteprovider_secret}', 'VoteController@callback');
+});
+
+Route::get('test', function ()
+{
+    // $user = Auth::user();
 });

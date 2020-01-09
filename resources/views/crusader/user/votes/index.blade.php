@@ -9,7 +9,7 @@
     <h1 class="top">Vote</h1>
     <section class="body">
         @error('reward')
-            <p>{{ $errors->first('reward') }}</p>
+            <p>{{ $message }}</p>
             <br />
         @enderror
         <table width="100%">

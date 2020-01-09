@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'silk' => [
+        'types' => [
+            '0' => 'silk_own',
+            '1' => 'silk_gift',
+            '2' => 'silk_point',
+        ],
+    ],
     'inventory' => [
         'slots' => [
             'helm' => '0',

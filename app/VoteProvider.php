@@ -14,7 +14,7 @@ class VoteProvider extends Model
 
     public function rewardGroups()
     {
-        return $this->hasMany(VoteProviderRewardGroup::class);
+        return $this->hasMany(VoteProviderRewardGroup::class)->where('enabled', true);
     }
 
     public function canUserVote()
