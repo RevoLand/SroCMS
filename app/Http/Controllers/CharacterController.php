@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Character;
-use Illuminate\Support\Facades\DB;
 
 class CharacterController extends Controller
 {
@@ -25,22 +24,8 @@ class CharacterController extends Controller
 
     public function show(Character $character)
     {
-        // Karakter envanteri, envanterde bulunan itemlerin _Items tablosu ve _RefObjCommon tablosu verileri ile birlikte.
-        $characterInventory = DB::connection('shard')
-            ->table('_Inventory')
-            ->join('_Items', '_Inventory.ItemID', '=', '_Items.ID64')
-            ->join('_RefObjCommon', '_Items.RefItemID', '=', '_RefObjCommon.ID')
-            ->select('_Inventory.*', '_Items.*', '_RefObjCommon.*')
-            ->where('CharID', $character->CharID)
-            ->get();
+        $character->load(['guild', 'inventory', 'inventory.item', 'inventory.item.objCommon', 'skillMastery']);
 
-        // Karakter skill mastery bilgisi, mastery'e ait bilgiler ile birlikte.
-        $characterMastery = $character->skillMastery()
-            ->join('_RefSkillMastery', 'MasteryID', '=', '_RefSkillMastery.ID')
-            ->where('Level', '!=', 0)
-            ->orderByDesc('Level')
-            ->get();
-
-        return view('user.characters.show', compact(['character', 'characterInventory', 'characterMastery']));
+        return view('user.characters.show', compact(['character']));
     }
 }

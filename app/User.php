@@ -48,7 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail
             $silk->silk_own = 0;
             $silk->silk_gift = 0;
             $silk->silk_point = 0;
-            $silk->save();
         });
     }
 

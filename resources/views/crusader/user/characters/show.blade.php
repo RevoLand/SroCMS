@@ -61,7 +61,7 @@
             <div class="professions">
                     <h3>Skill Mastery</h3>
                     <ul class="profession">
-                        @foreach ($characterMastery as $mastery)
+                        @foreach ($character->skillMastery->where('Level', '>', 0) as $mastery)
                         <li class="achievement">
                             <div class="profile-progress border-3">
                                 <div class="bar border-3 hover" style="width: {{ round($mastery->Level * 100 / setting('skillmastery.maxlevel', 110)) }}%"></div>
@@ -69,10 +69,10 @@
                                     <div class="profession-details">
                                         <span class="icon">
                                             <span class="icon-frame frame-12">
-                                                <img src="{{ Theme::url('images/silkroad/skills/masteries/' . $mastery->ID . '.png') }}" alt="" width="16" height="16">
+                                                <img src="{{ Theme::url('images/silkroad/skills/masteries/' . $mastery->MasteryID . '.png') }}" alt="" width="16" height="16">
                                             </span>
                                         </span>
-                                        <span class="name">{{ config('constants.skillmastery.names.' . $mastery->ID) }}</span>
+                                        <span class="name">{{ config('constants.skillmastery.names.' . $mastery->MasteryID) }}</span>
                                         <span class="value">{{ $mastery->Level }}/{{ setting('skillmastery.maxlevel', 110) }}</span>
                                     </div>
                                 </div>
@@ -89,31 +89,31 @@
             <table width="100%" border="0">
                 <tr>
                     <td>
-                        @component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.weapon'))->first()])@endcomponent
+                        @component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.weapon'))->first()])@endcomponent
                     </td>
                     <td>
-                        @component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.shield'))->first()]) @endcomponent
+                        @component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.shield'))->first()]) @endcomponent
                     </td>
                 </tr>
                 <tr>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.helm'))->first()]) @endcomponent</td>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.shoulders'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.helm'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.shoulders'))->first()]) @endcomponent</td>
                 </tr>
                 <tr>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.chest'))->first()]) @endcomponent</td>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.gauntlet'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.chest'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.gauntlet'))->first()]) @endcomponent</td>
                 </tr>
                 <tr>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.pants'))->first()]) @endcomponent</td>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.boots'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.pants'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.boots'))->first()]) @endcomponent</td>
                 </tr>
                 <tr>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.earring'))->first()]) @endcomponent</td>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.necklace'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.earring'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.necklace'))->first()]) @endcomponent</td>
                 </tr>
                 <tr>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.lring'))->first()]) @endcomponent</td>
-                    <td>@component ('components.inventory.item', ['item' => $characterInventory->where('Slot', config('constants.inventory.slots.rring'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.lring'))->first()]) @endcomponent</td>
+                    <td>@component ('components.inventory.item', ['item' => $character->inventory->where('Slot', config('constants.inventory.slots.rring'))->first()]) @endcomponent</td>
                 </tr>
             </table>
             <div class="clear"></div>

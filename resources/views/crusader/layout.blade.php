@@ -56,18 +56,18 @@
                                 <div class="left">
                                     <p>Welcome back, <span>{{ Auth::user()->getName() }}</span>!
                                     </p>
-                                    @if (Auth::user()->Silk)
+                                    @if (Auth::user()->silk)
                                     <div class="vpdp">
                                         <div class="vp">
                                             <img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"
                                                 width="12" height="12" /> {{ setting('silk.silk_own_name', 'Silk') }}:
-                                            <span>{{ number_format(Auth::user()->Silk->silk_own) }}</span>
+                                            <span>{{ number_format(Auth::user()->silk->silk_own) }}</span>
                                         </div>
                                         <div class="dp">
                                             <img src="{{ Theme::url('images/icons/giftsilk.png') }}" align="absmiddle"
                                                 width="12" height="12" />
                                             {{ setting('silk.silk_gift_name', 'Silk (Gift)') }}
-                                            <span>{{ number_format(Auth::user()->Silk->silk_gift) }}</span>
+                                            <span>{{ number_format(Auth::user()->silk->silk_gift) }}</span>
                                         </div>
                                     </div>
                                     @endif

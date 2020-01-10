@@ -34,6 +34,6 @@ class Character extends Model
 
     public function skillMastery()
     {
-        return $this->hasMany(CharacterSkillMastery::class, 'CharID');
+        return $this->hasMany(CharacterSkillMastery::class, 'CharID', 'CharID');
     }
 }

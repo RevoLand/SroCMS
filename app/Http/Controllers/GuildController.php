@@ -16,6 +16,8 @@ class GuildController extends Controller
 
     public function show(Guild $guild)
     {
+        $guild->load(['siegeFortress', 'members']);
+
         $sortedGuildMembers = $guild->members->sortBy(function ($guildf)
         {
             return [

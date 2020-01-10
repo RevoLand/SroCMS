@@ -14,6 +14,6 @@ class MenuController extends Controller
             {
                 $query->whereLocation($location);
             }
-        })->orderBy('order')->limit($limit)->get();
+        })->with('page')->orderBy('order')->limit($limit)->get();
     }
 }

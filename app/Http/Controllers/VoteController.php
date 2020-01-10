@@ -72,15 +72,15 @@ class VoteController extends Controller
                 */
                 // Silk
                 case 1:
-                    $voteLog->user->silk->increase(0, $reward->amount, 0, "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
+                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_own'), $reward->amount, config('constants.silk.reason.inc.silk_own'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Gift Silk
                 case 2:
-                    $voteLog->user->silk->increase(1, $reward->amount, 2, "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
+                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_gift'), $reward->amount, config('constants.silk.reason.inc.silk_gift'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Point Silk
                 case 3:
-                    $voteLog->user->silk->increase(2, $reward->amount, 4, "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
+                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_point'), $reward->amount, config('constants.silk.reason.inc.silk_point'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Item
                 case 4:
@@ -94,7 +94,7 @@ class VoteController extends Controller
 
     public function index()
     {
-        return view('user.votes.index', ['voteProviders' => VoteProvider::where('enabled', true)->get()]);
+        return view('user.votes.index', ['voteProviders' => VoteProvider::where('enabled', true)->with(['rewardGroups'])->get()]);
     }
 
     public function vote(VoteProvider $voteProvider)

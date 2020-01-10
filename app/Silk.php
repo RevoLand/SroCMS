@@ -19,21 +19,21 @@ class Silk extends Model
 
     public function increase($type, $offset, $reason, $desc = '')
     {
-        $this->increment(config('constants.silk.types.' . $type), $offset);
+        $this->increment(config('constants.silk.type.name.' . $type), $offset);
 
         $this->logSilkChange($type, $offset, $reason, $desc);
     }
 
     public function decrease($type, $offset, $reason, $desc = '')
     {
-        $this->decrement(config('constants.silk.types.' . $type), $offset);
+        $this->decrement(config('constants.silk.type.name.' . $type), $offset);
 
         $this->logSilkChange($type, $offset, $reason, $desc);
     }
 
     private function logSilkChange($type, $offset, $reason, $desc = '')
     {
-        $remain = $this->{config('constants.silk.types.' . $type)};
+        $remain = $this->{config('constants.silk.type.name.' . $type)};
 
         $this->user->silkBuyList()->create([
             'Silk_Type' => $type,

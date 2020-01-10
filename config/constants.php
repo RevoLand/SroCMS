@@ -2,10 +2,29 @@
 
 return [
     'silk' => [
-        'types' => [
-            '0' => 'silk_own',
-            '1' => 'silk_gift',
-            '2' => 'silk_point',
+        'type' => [
+            'name' => [
+                '0' => 'silk_own',
+                '1' => 'silk_gift',
+                '2' => 'silk_point',
+            ],
+            'id' => [
+                'silk_own' => '0',
+                'silk_gift' => '1',
+                'silk_point' => '2',
+            ],
+        ],
+        'reason' => [
+            'inc' => [
+                'silk_own' => '0',
+                'silk_gift' => '2',
+                'silk_point' => '4',
+            ],
+            'dec' => [
+                'silk_own' => '1',
+                'silk_gift' => '3',
+                'silk_point' => '5',
+            ],
         ],
     ],
     'inventory' => [

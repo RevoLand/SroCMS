@@ -6,9 +6,9 @@
         <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}" class="top">{{ $article->title }}</a>
     </div>
     <section class="body">
-        @if ($article->User->gravatar)
+        @if ($article->user->gravatar)
         <div class="avatar">
-            <img src="{{ $article->User->gravatar }}" alt="avatar" height="120" width="120">
+            <img src="{{ $article->user->gravatar }}" alt="avatar" height="120" width="120">
         </div>
         @endif
 
@@ -19,9 +19,9 @@
         <div class="post_info">
         <p>Posted by <a href="{{ route('users.show_user', $article->user) }}" data-tip="View profile"> {{ $article->user->getName() }}</a> on {{ $article->published_at ?? $article->updated_at }}</p>
             <span>
-                @if ($article->articleComments->count() > 0)
+                @if ($article->article_comments_count > 0)
                 <a href="#" class="comments_button">
-                    Comments ({{ $article->articleComments->count() }})
+                    Comments ({{ $article->article_comments_count }})
                 </a>
                 @endif
             </span>
@@ -30,19 +30,19 @@
         <div class="divider"></div>
 
         <div class="comments_area">
-            @if ($article->articleComments->count() > 0)
-                @foreach ($paginatedComments = $article->articleComments()->paginate(10) as $comment)
-                    <div class="comment">
-                        <div class="comment_date">{{ $comment->created_at }}</div>
-                        <a href="{{ route('users.show_user', $comment->user) }}" data-tip="View profile>
-                            <img src="{{ $comment->user->gravatar }}" height="44" width="44">
-                        </a>
-                        <a class="comment_author" href="{{ route('users.show_user', $comment->user) }}" data-tip="View profile"> {{ $comment->user->getName() }}</a>
-                        {{ $comment->content }}
-                        <div class="clear"></div>
-                    </div>
-                @endforeach
-            @endif
+            @forelse ($articleComments as $comment)
+                <div class="comment">
+                    <div class="comment_date">{{ $comment->created_at }}</div>
+                    <a href="{{ route('users.show_user', $comment->user) }}" data-tip="View profile>
+                        <img src="{{ $comment->user->gravatar }}" height="44" width="44">
+                    </a>
+                    <a class="comment_author" href="{{ route('users.show_user', $comment->user) }}" data-tip="View profile"> {{ $comment->user->getName() }}</a>
+                    {{ $comment->content }}
+                    <div class="clear"></div>
+                </div>
+            @empty
+                Bu yazıya herhangi bir yorum yapılmadı.
+            @endforelse
         </div>
 
         @if (Auth::check())
@@ -69,7 +69,7 @@
             <input type="submit" disabled="disabled" value="Submit comment"/>
         @endif
     <div class="clear"></div>
-        {{ $paginatedComments->links() }}
+        {{ $articleComments->links() }}
     </section>
 </article>
 @endsection

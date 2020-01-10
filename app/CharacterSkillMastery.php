@@ -19,6 +19,6 @@ class CharacterSkillMastery extends Model
 
     public function mastery()
     {
-        //return $this->belongsTo('App\SkillMastery', 'MasteryID', 'ID');
+        return $this->belongsTo(SkillMastery::class, 'MasteryID', 'ID');
     }
 }

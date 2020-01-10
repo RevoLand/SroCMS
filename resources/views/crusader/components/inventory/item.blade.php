@@ -1,9 +1,9 @@
-@if ($item->ID == 0)
-<img title="{{ $item->CodeName128 }}" width="56px" height="56px" src="{{ Theme::url('images/silkroad/inventory/' . $item->Slot . '.png') }}" />
+@if ($item->ItemID == 0)
+<img width="56px" height="56px" src="{{ Theme::url('images/silkroad/inventory/' . $item->Slot . '.png') }}" />
 Boş
 @else
-<img title="{{ $item->CodeName128 }}" width="56px" height="56px"
-    src="@if ($slot == 'xxx') {{ Theme::url('images/silkroad/no_item.png') }} @else {{ Theme::url('images/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $item->AssocFileIcon128))) }} @endif" />
+<img title="{{ $item->item->objCommon->CodeName128 }}" width="56px" height="56px"
+    src="@if ($slot == 'xxx') {{ Theme::url('images/silkroad/no_item.png') }} @else {{ Theme::url('images/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $item->item->objCommon->AssocFileIcon128))) }} @endif" />
 
-{{ $item->CodeName128 }} (+{{ $item->OptLevel }}) - {{ $item->Rarity }}
+{{ $item->item->objCommon->CodeName128 }} (+{{ $item->item->objCommon->OptLevel }}) - {{ $item->item->objCommon->Rarity }}
 @endif
