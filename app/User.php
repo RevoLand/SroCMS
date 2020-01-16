@@ -44,10 +44,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(Silk::class, 'JID')->withDefault(function ($silk)
         {
-            $silk->JID = $this->JID;
             $silk->silk_own = 0;
             $silk->silk_gift = 0;
             $silk->silk_point = 0;
+            $silk->save();
+        });
+    }
+
+    public function balance()
+    {
+        return $this->hasOne(UserBalance::class, 'user_id', 'JID')->withDefault(function ($balance)
+        {
+            $balance->balance = 0;
+            $balance->balance_point = 0;
+            $balance->save();
         });
     }
 

@@ -15,9 +15,10 @@ class CreateVoteProviderRewardsTable extends Migration
         {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('vote_provider_reward_group_id');
-            $table->smallInteger('type')->default(1);
+            $table->tinyInteger('type')->default(3);
             $table->string('codename')->nullable();
             $table->integer('amount')->default(0);
+            $table->decimal('balance', 13, 2)->default(0)->nullable();
             $table->integer('plus')->default(0);
             $table->boolean('enabled')->default(true);
             $table->timestamps();

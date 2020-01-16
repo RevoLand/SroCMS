@@ -14,6 +14,19 @@ Hoşgeldin, {{ Auth::user()->getName() }}
             <td><img src="{{ Theme::url('images/icons/giftsilk.png') }}" align="absmiddle"> {{ setting('silk.silk_point_name', 'Silk (Point)') }}</td>
             <td>{{ number_format(Auth::user()->silk->silk_point) }}</td>
         </tr>
+        <tr>
+            <td colspan="2">
+                <hr />
+            </td>
+        </tr>
+        <tr>
+            <td>Bakiye:</td>
+            <td>{{ Auth::user()->balance->balance }}</td>
+        </tr>
+        <tr>
+            <td>Bakiye:</td>
+            <td>{{ Auth::user()->balance->balance_point }}</td>
+        </tr>
     </tbody>
 </table>
 <br />

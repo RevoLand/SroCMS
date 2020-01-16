@@ -20,6 +20,8 @@ class CreateVoteLogsTable extends Migration
             $table->unsignedBigInteger('selected_reward_group_id');
             $table->boolean('voted')->default(false);
             $table->boolean('active')->default(true);
+            $table->string('user_ip')->nullable();
+            $table->string('callback_ip')->nullable();
             $table->timestamps();
 
             $table->foreign('vote_provider_id')

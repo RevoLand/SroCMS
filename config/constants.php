@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'payment_types' => [
+        'balance' => '1',
+        'balance_point' => '2',
+        'silk' => '3',
+        'silk_gift' => '4',
+        'silk_point' => '5',
+        'item' => 6,
+    ],
     'silk' => [
         'type' => [
             'name' => [
@@ -25,6 +33,25 @@ return [
                 'silk_gift' => '3',
                 'silk_point' => '5',
             ],
+        ],
+    ],
+    'balance' => [
+        'source' => [
+            'admin' => '0',
+            'deposit' => '1',
+            'epin' => '2',
+            'itemmall' => '3',
+            'vote' => '4',
+            'sent_to_user' => '5',
+            'sent_by_user' => '6',
+        ],
+        'type' => [
+            'balance' => 'balance',
+            'point' => 'balance_point',
+        ],
+        'log_type' => [
+            'balance' => '1',
+            'balance_point' => '2',
         ],
     ],
     'inventory' => [

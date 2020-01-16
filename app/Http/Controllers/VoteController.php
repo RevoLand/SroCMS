@@ -53,37 +53,35 @@ class VoteController extends Controller
         $voteLog->update([
             'voted' => true,
             'active' => false,
+            'callback_ip' => request()->getClientIp(),
         ]);
 
         foreach ($voteLog->rewardGroup->rewards as $reward)
         {
             switch ($reward->type)
             {
-                /*
-                    //-- Sadece Görsel, işlem silk_type üzerinden yapılıyor --\\
-
-                    reason
-                        0	= silk_own add
-                        1	= silk_own remove
-                        2	= Job Points add
-                        3	= (You have SENT [x] Coin as gift) (remove)
-                        4 	= Points add
-                        5	= (You have USED [x] points) (remove)
-                */
+                // Balance
+                case config('constants.payment_types.balance'):
+                    $voteLog->user->balance->increase(config('constants.balance.type.balance'), $reward->balance, config('constants.balance.source.vote'));
+                break;
+                // Balance Point
+                case config('constants.payment_types.balance_point'):
+                    $voteLog->user->balance->increase(config('constants.balance.type.point'), $reward->balance, config('constants.balance.source.vote'));
+                break;
                 // Silk
-                case 1:
+                case config('constants.payment_types.silk'):
                     $voteLog->user->silk->increase(config('constants.silk.type.id.silk_own'), $reward->amount, config('constants.silk.reason.inc.silk_own'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Gift Silk
-                case 2:
+                case config('constants.payment_types.silk_gift'):
                     $voteLog->user->silk->increase(config('constants.silk.type.id.silk_gift'), $reward->amount, config('constants.silk.reason.inc.silk_gift'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Point Silk
-                case 3:
+                case config('constants.payment_types.silk_point'):
                     $voteLog->user->silk->increase(config('constants.silk.type.id.silk_point'), $reward->amount, config('constants.silk.reason.inc.silk_point'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Item
-                case 4:
+                case config('constants.payment_types.item'):
                     $voteLog->user->addChestItem($reward->codename, $reward->amount, $reward->plus);
                 break;
             }
@@ -94,7 +92,7 @@ class VoteController extends Controller
 
     public function index()
     {
-        return view('user.votes.index', ['voteProviders' => VoteProvider::where('enabled', true)->with(['rewardGroups'])->get()]);
+        return view('user.votes.index', ['voteProviders' => VoteProvider::where('enabled', true)->with('rewardGroups')->get()]);
     }
 
     public function vote(VoteProvider $voteProvider)
@@ -137,6 +135,7 @@ class VoteController extends Controller
             'user_id' => Auth::user()->JID,
             'vote_provider_id' => $voteProvider->id,
             'selected_reward_group_id' => request('reward'),
+            'user_ip' => request()->getClientIp(),
         ]);
 
         return redirect($voteProvider->getVoteUrl($userVoteLog));

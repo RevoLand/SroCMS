@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VoteProviderIp extends Model
+class UserBalanceLog extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
 
-    public function logs()
+    public function user()
     {
-        return $this->hasMany(VoteLog::class, 'callback_ip', 'ip');
+        return $this->belongsTo(User::class, 'JID', 'user_id');
     }
 }
