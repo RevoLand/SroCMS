@@ -25,7 +25,7 @@
                 <td><a href="{{ route('users.characters.show', $guildMember->CharID) }}">{{ $guildMember->CharName }}</a></td>
                 <td>{{ $guildMember->CharLevel }}</td>
                 <td>{{ number_format($guildMember->GP_Donation) }}</td>
-                <td>{{ number_format($guildMember->GuildWarKill - $guildMember->GuildWarKilled) }} ({{ number_format($guildMember->GuildWarKill) }} - {{ number_format($guildMember->GuildWarKille) }})</td>
+                <td>{{ number_format($guildMember->GuildWarKill - $guildMember->GuildWarKilled) }} ({{ number_format($guildMember->GuildWarKill) }} - {{ number_format($guildMember->GuildWarKilled) }})</td>
                 <td>{{ $guildMember->JoinDate }}</td>
             </tr>
             @endforeach

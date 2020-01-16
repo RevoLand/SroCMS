@@ -40,7 +40,7 @@
                     <div class="login_box_top">
                         <div class="actions_cont">
 
-                            @if (Auth::check())
+                            @auth
                             <div class="account_info">
 
                                 @if (Auth::user()->gravatar)
@@ -56,7 +56,6 @@
                                 <div class="left">
                                     <p>Welcome back, <span>{{ Auth::user()->getName() }}</span>!
                                     </p>
-                                    @if (Auth::user()->silk)
                                     <div class="vpdp">
                                         <div class="vp">
                                             <img src="{{ Theme::url('images/icons/silk.png') }}" align="absmiddle"
@@ -70,7 +69,6 @@
                                             <span>{{ number_format(Auth::user()->silk->silk_gift) }}</span>
                                         </div>
                                     </div>
-                                    @endif
                                 </div>
                                 <!-- Welcome & VP/DP . End-->
                                 <div class="right">
@@ -81,7 +79,8 @@
                                 <!-- Account Panel & Logout -->
 
                             </div>
-                            @else
+                            @endauth
+                            @guest
                             <div class="login_form_top">
                                 {{ Form::open(['route' => 'users.do_login']) }}
                                 <input type="text" name="username" id="username" value="" placeholder="Username">
@@ -89,7 +88,7 @@
                                 <input type="submit" value="Login">
                                 {{ Form::close() }}
                             </div>
-                            @endif
+                            @endguest
                         </div>
                     </div>
 

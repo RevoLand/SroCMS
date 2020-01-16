@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class VoteLog extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'vote_logs';
     protected $guarded = [];
 
     public function rewardgroup()

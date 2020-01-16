@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Sidebar extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'sidebars';
     protected $guarded = [];
 
     public function getContent()

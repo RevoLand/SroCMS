@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'articles';
     protected $guarded = [];
 
     public function articleCategory()

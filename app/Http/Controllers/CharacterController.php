@@ -24,8 +24,8 @@ class CharacterController extends Controller
 
     public function show(Character $character)
     {
-        $character->load(['guild', 'inventory', 'inventory.item', 'inventory.item.objCommon', 'skillMastery']);
+        $character->load('guild', 'inventory.item.objCommon', 'skillMastery', 'logEventChar');
 
-        return view('user.characters.show', compact(['character']));
+        return view('user.characters.show', compact('character'));
     }
 }

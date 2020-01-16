@@ -173,9 +173,14 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // Laravel Collective Html
         Collective\Html\HtmlServiceProvider::class,
 
+        // Md5
         App\Providers\Md5HashServiceProvider::class,
+
+        // Ide Helper
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
@@ -226,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // Laravel collective
         'Form' => Collective\Html\FormFacade::class,
     ],
 ];

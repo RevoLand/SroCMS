@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\App;
 
 class ArticleController extends Controller
 {

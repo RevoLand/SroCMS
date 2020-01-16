@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class VoteProvider extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'vote_providers';
     protected $guarded = [];
 
     public function rewardGroups()

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'menus';
     protected $guarded = [];
 
     public function getHref()

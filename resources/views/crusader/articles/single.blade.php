@@ -12,7 +12,7 @@
         </div>
         @endif
 
-        {{ $article->content }}
+        {!! $article->content !!}
 
         <div class="clear"></div>
 

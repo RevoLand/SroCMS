@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ArticleComment extends Model
 {
     protected $connection = 'srocms';
-    protected $table = 'article_comments';
     protected $guarded = [];
 
     public function article()

@@ -12,7 +12,6 @@ class Page extends Model
     use SluggableScopeHelpers;
 
     protected $connection = 'srocms';
-    protected $table = 'pages';
     protected $guarded = [];
 
     public function sluggable()
