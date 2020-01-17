@@ -64,6 +64,10 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('email/verify', 'Auth\VerificationController@show')->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
+
+    Route::post('referrer/update', 'UserController@updateReferrer')->name('users.update_referrer');
+
+    Route::get('balance', 'UserController@balance')->name('users.balance');
 });
 
 Route::group(['prefix' => 'characters'], function ()
@@ -96,4 +100,9 @@ Route::group(['prefix' => 'votes'], function ()
     Route::post('{voteProvider}/vote', 'VoteController@vote')->name('votes.do_vote');
 
     Route::match(['get', 'post'], '{voteprovider_secret}', 'VoteController@callback');
+});
+
+Route::group(['prefix' => 'api'], function ()
+{
+    Route::get('paywant', 'ApiController@paywant')->name('api.paywant_callback');
 });

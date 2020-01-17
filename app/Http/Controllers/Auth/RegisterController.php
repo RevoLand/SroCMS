@@ -25,28 +25,33 @@ class RegisterController extends Controller
         return view('user.auth.register');
     }
 
-    public function register(Request $request)
+    public function register()
     {
-        $this->validator($request->all())->validate();
+        $this->validator(request()->all())->validate();
 
         if (setting('register.email.must_be_unique', 1))
         {
-            $request->validate([
+            request()->validate([
                 'email' => ['unique:account.TB_User,Email'],
             ]);
         }
-        elseif (setting('register.email.max_registrations_per_email', 2) > 0 && User::where('Email', '=', $request->email)->count() >= setting('register.email.max_registrations_per_email', 2))
+        elseif (setting('register.email.max_registrations_per_email', 2) > 0 && User::where('Email', '=', request()->email)->count() >= setting('register.email.max_registrations_per_email', 2))
         {
             Alert::error('Error!', 'Belirtmiş olduğunuz E-posta adresi ile daha fazla kayıt işlemi gerçekleştiremezsiniz.');
 
             return redirect()->route('users.register_form');
         }
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($user = $this->create(request()->all())));
 
         $this->guard()->login($user);
 
-        return $this->registered($request, $user) ?: redirect()->route('users.register_form');
+        if (request()->has('referrer_name'))
+        {
+            $user->referrer()->create(['referrer_user_id' => User::firstWhere('StrUserID', request('referrer_name'))->JID]);
+        }
+
+        return $this->registered(request(), $user) ?: redirect()->route('users.register_form');
     }
 
     /**
@@ -61,8 +66,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['bail', 'required', 'string', 'max:255'],
             'username' => ['bail', 'required', 'string', 'max:255', 'unique:account.TB_User,StrUserID'],
-            'email' => ['bail', 'required', 'string', 'email', 'max:255'],
+            'email' => ['bail', 'required', 'string', 'email:rfc,dns,spoof', 'max:255'],
             'password' => ['bail', 'required', 'string', 'min:8', 'max:255', 'confirmed'],
+            'referrer_name' => ['nullable', 'string', 'exists:\App\User,StrUserID'],
         ]);
     }
 

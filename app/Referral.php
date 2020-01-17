@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserBalanceLog extends Model
+class Referral extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
@@ -14,8 +14,8 @@ class UserBalanceLog extends Model
         return $this->belongsTo(User::class, 'JID', 'user_id');
     }
 
-    public function getBalanceDifferenceAttribute()
+    public function referrerUser()
     {
-        return $this->balance_after - $this->balance_before;
+        return $this->belongsTo(User::class, 'JID', 'referrer_user_id');
     }
 }

@@ -1,4 +1,4 @@
-@if (Auth::check())
+@auth
 Hoşgeldin, {{ Auth::user()->getName() }}
 <table width="100%">
     <tbody>
@@ -16,16 +16,16 @@ Hoşgeldin, {{ Auth::user()->getName() }}
         </tr>
         <tr>
             <td colspan="2">
-                <hr />
+                <br />
             </td>
         </tr>
         <tr>
             <td>Bakiye:</td>
-            <td>{{ Auth::user()->balance->balance }}</td>
+            <td>{{ number_format(Auth::user()->balance->balance, 2) }}</td>
         </tr>
         <tr>
-            <td>Bakiye:</td>
-            <td>{{ Auth::user()->balance->balance_point }}</td>
+            <td>Bakiye (Puan):</td>
+            <td>{{ number_format(Auth::user()->balance->balance_point, 2) }}</td>
         </tr>
     </tbody>
 </table>
@@ -34,7 +34,8 @@ Hoşgeldin, {{ Auth::user()->getName() }}
     <a href="{{ route('users.current_user') }}" class="nice_button">User panel</a>
     <a href="{{ route('users.do_logout') }}" class="nice_button" data-hasevent="1">Log out</a>
 </center>
-@else
+@endauth
+@guest
 @if ($errors->any())
 <div class="alert alert-danger">
     <ul>
@@ -61,4 +62,4 @@ Hoşgeldin, {{ Auth::user()->getName() }}
     </section>
 </center>
 {{ Form::close() }}
-@endif
+@endguest

@@ -38,6 +38,10 @@
                     <td><label for="name">İsim:</label></td>
                     <td><input type="text" name="name" value="{{ old('name') }}" /></td>
                 </tr>
+                <tr>
+                    <td><label for="referrer_name">Tavsiye eden Kullanıcı:</label></td>
+                    <td><input type="text" name="referrer_name" value="{{ old('referrer_name') }}" /></td>
+                </tr>
             </tbody>
         </table>
         <center><input type="submit" name="registerSubmit" value="Kayıt ol" /></center>

@@ -18,7 +18,7 @@ class UserController extends Controller
             $this->middleware('verified')->except('updateEmail');
         }
 
-        if (setting('users.show_user_requires_auth', 0))
+        if (setting('users.show_user_requires_auth', 1))
         {
             $this->middleware('auth')->only('show');
         }
@@ -53,7 +53,7 @@ class UserController extends Controller
     public function updateEmail(Request $request)
     {
         $request->validate([
-            'new_email' => ['bail', 'required', 'string', 'email', 'max:255', 'confirmed'],
+            'new_email' => ['bail', 'required', 'string', 'email:rfc,dns,spoof', 'max:255', 'confirmed'],
         ]);
 
         if (setting('register.email.must_be_unique', 1))
@@ -89,5 +89,41 @@ class UserController extends Controller
         Auth::logout();
 
         return redirect()->route('users.login_form');
+    }
+
+    public function updateReferrer()
+    {
+        request()->validate([
+            'referrer_name' => ['bail', 'required', 'string', 'exists:\App\User,StrUserID'],
+            'referrer_change_agree' => ['required', 'accepted'],
+        ]);
+
+        if (strcasecmp(Auth::user()->StrUserID, request('referrer_name')) == 0)
+        {
+            Alert::error('Başarısız!', 'Kendi kendinizi tavsiye edemezsiniz!');
+
+            return redirect()->back();
+        }
+
+        if (Auth::user()->referrer)
+        {
+            Alert::error('Başarısız!', 'Zaten sizi tavsiye eden kullanıcıyı belirtmişsiniz!');
+
+            return redirect()->back();
+        }
+
+        Auth::user()->setReferrer(User::firstWhere('StrUserID', request('referrer_name'))->JID);
+
+        Alert::success('Tavsiye eden kullanıcınız başarıyla sisteme kaydedildi.');
+
+        return redirect()->route('users.edit_form');
+    }
+
+    public function balance()
+    {
+        Auth::user()->with('balance.logs');
+        $balanceLogs = Auth::user()->balance->logs()->latest()->paginate(20);
+
+        return view('user.balance.show', compact('balanceLogs'));
     }
 }

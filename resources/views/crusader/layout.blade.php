@@ -5,14 +5,12 @@
         <title>{{ setting('site.title', 'SroCMS') }}@yield ('pagetitle')</title>
         <link rel="shortcut icon" href="{{ Theme::url('images/favicon.gif') }}">
 
-        <!-- Responsive meta tag -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Search engine related -->
         <meta name="description" content="{{ setting('site.metadesc') }}" />
         <meta name="keywords" content="{{ setting('site.metakeys') }}" />
-
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -24,22 +22,11 @@
     </head>
 
     <body>
-        <!--[if lte IE 8]>
-			<style type="text/css">
-				body {
-					background-image:url({{ Theme::url('images/bg.jpg') }});
-					background-position:top center;
-				}
-			</style>
-		<![endif]-->
         <section id="wrapper">
             <div id="header">
-
                 <div class="top_container">
-
                     <div class="login_box_top">
                         <div class="actions_cont">
-
                             @auth
                             <div class="account_info">
 
@@ -151,11 +138,9 @@
                     </article>
                     @endforeach
                 </aside>
-
                 <aside id="right">
                     @yield ('content')
                 </aside>
-
                 <div class="clear"></div>
             </div>
             <footer>

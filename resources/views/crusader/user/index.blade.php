@@ -87,15 +87,14 @@
 
         <section id="armory_mid_info">
             <div class="recent-activity">
-                <h3>Son 5 giriş denemesi</h3>
+                <h4>Son 5 giriş denemesi</h4>
                 <ul class="achievements">
                     @foreach (Auth::user()->loginAttempts->take(5) as $loginAttempt)
                     <li class="achievement">
                         <div id="icon">
                             <span class="icon">
                                 <span class="icon-frame frame-12">
-                                    <img src="{{ Theme::url('images/icons/achievement_bg_winab_underxminutes.jpg') }}"
-                                        alt="" height="16" width="16">
+                                    <img src="{{ Theme::url('images/icons/achievement_bg_winab_underxminutes.jpg') }}" alt="" height="16" width="16">
                                 </span>
                             </span>
                         </div>
@@ -174,5 +173,4 @@
         </section>
     </section>
 </article>
-
 @endsection

@@ -45,9 +45,22 @@ return [
             'sent_to_user' => '5',
             'sent_by_user' => '6',
         ],
+        'source_desc' => [
+            '0' => 'Yönetici tarafından verildi',
+            '1' => 'Bakiye yüklemesi',
+            '2' => 'E-Pin',
+            '3' => 'Item Mall',
+            '4' => 'Vote Sistemi',
+            '5' => 'Kullanıcıya gönderildi',
+            '6' => 'Kullanıcı gönderdi',
+        ],
         'type' => [
             'balance' => 'balance',
             'point' => 'balance_point',
+        ],
+        'type_by_id' => [
+            '1' => 'Bakiye',
+            '2' => 'Bakiye (Puan)',
         ],
         'log_type' => [
             'balance' => '1',

@@ -46,6 +46,38 @@
 
         <div class="ucp_divider"></div>
 
+        @empty ($user->referrer)
+        {{ Form::open(['route' => 'users.update_referrer', 'class' => 'page_form']) }}
+        <table style="width:100%">
+            <tr>
+                <td style="width:25% !important">
+                    <label for="referrer_name">
+                        Tavsiye Eden Kullanıcı:
+                    </label>
+                </td>
+                <td>
+                    <input type="text" name="referrer_name" id="referrer_name" value="{{ old('referrer_name') }}" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Bu işlemi sadece bir kez yapabileceğimi ve bu kullanıcıyı bir daha güncellemeyeceğimi bildiğimi teyit ediyorum.
+                </td>
+                <td>
+                    <input type="checkbox" name="referrer_change_agree" />
+                </td>
+            </tr>
+        </table>
+
+        <center style="margin-bottom:10px;">
+            <input type="submit" value="Bilgilerimi Güncelle" />
+        </center>
+        {{ Form::close() }}
+
+        <div class="ucp_divider"></div>
+
+        @endif
+
         {{ Form::open(['route' => 'users.update_email', 'class' => 'page_form']) }}
         <table style="width:100%">
             <tr>

@@ -1,16 +1,6 @@
 @extends ('layout')
 
 @section ('content')
-<section id="slider_bg" {if !$show_slider}style="display:none;"{/if}>
-    <div id="slider">
-        <div class="overlay"></div>
-        {foreach from=$slider item=image}
-            <a href="{$image.link}"><img src="{$image.image}" title="{$image.text}"/></a>
-        {/foreach}
-    </div>
-    <h1 id="news_title"><p>Latest News</p></h1>
-</section>
-
 @foreach ($articles as $article)
 	<article class="news_row">
     	<div class="news_head">

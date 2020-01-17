@@ -61,6 +61,16 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function referrer()
+    {
+        return $this->hasOne(Referral::class, 'user_id', 'JID');
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(Referral::class, 'referrer_user_id', 'JID');
+    }
+
     public function silkBuyList()
     {
         return $this->hasMany(SilkBuyList::class, 'UserJID', 'JID');
@@ -89,6 +99,13 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->update([
             'password' => Hash::make($newPassword),
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function setReferrer($referrerUserId)
+    {
+        $this->referrer()->create([
+            'referrer_user_id' => $referrerUserId,
         ]);
     }
 
