@@ -29,13 +29,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td width="10%"><img src="{{ Theme::url('images/icons/plugin.png') }}"></td>
-                                <td width="40%">Expansion</td>
-                                <td width="50%">
-                                    WotLK
-                                </td>
-                            </tr>
-                            <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/award_star_bronze_1.png') }}">
                                 </td>
                                 <td width="40%">Üye Yetki Grupları</td>
@@ -47,6 +40,11 @@
                                     @endforelse
                                 </td>
                             </tr>
+                            <tr>
+                                <td width="10%"><img src="{{ Theme::url('images/icons/date.png') }}"></td>
+                                <td width="40%">Üyelik tarihi:</td>
+                                <td width="50%">{{ $user->regtime }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </aside>
@@ -55,25 +53,24 @@
                     <table width="100%">
                         <tbody>
                             <tr>
-                                <td width="10%"><img src="{{ Theme::url('images/icons/lightning.png') }}"></td>
+                                <td width="10%"><img src="{{ Theme::url('images/icons/silk.png') }}"></td>
                                 <td width="40%">{{ setting('silk.silk_own_name', 'Silk') }}</td>
                                 <td width="50%">{{ number_format($user->silk->silk_own) }}</td>
                             </tr>
                             <tr>
-                                <td width="10%"><img src="{{ Theme::url('images/icons/coins.png') }}"></td>
+                                <td width="10%"><img src="{{ Theme::url('images/icons/giftsilk.png') }}"></td>
                                 <td width="40%">{{ setting('silk.silk_gift_name', 'Silk (Gift)') }}</td>
                                 <td width="50%">{{ number_format($user->silk->silk_gift) }}</td>
                             </tr>
                             <tr>
-                                <td width="10%"><img src="{{ Theme::url('images/icons/shield.png') }}"></td>
-                                <td width="40%">Ban durumu</td>
-                                <!-- TODO: Ban durumu yapılacak -->
-                                <td width="50%">todo(!)</td>
+                                <td width="10%"><img src="{{ Theme::url('images/icons/plugin.png') }}"></td>
+                                <td width="40%">{{ setting('silk.silk_point_name', 'Silk (Point)') }}</td>
+                                <td width="50%">{{ number_format($user->silk->silk_point) }}</td>
                             </tr>
                             <tr>
-                                <td width="10%"><img src="{{ Theme::url('images/icons/date.png') }}"></td>
-                                <td width="40%">Üyelik tarihi:</td>
-                                <td width="50%">{{ $user->regtime }}</td>
+                                <td width="10%"><img src="{{ Theme::url('images/icons/user.png') }}"></td>
+                                <td width="40%">{{ setting('referrals.name', 'Referanslar') }}</td>
+                                <td width="50%">{{ number_format($user->referrals->count()) }}</td>
                             </tr>
                         </tbody>
                     </table>
