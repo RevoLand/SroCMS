@@ -91,12 +91,19 @@ class UserController extends Controller
         return redirect()->route('users.login_form');
     }
 
-    public function updateReferrer()
+    public function setReferrer()
     {
         request()->validate([
             'referrer_name' => ['bail', 'required', 'string', 'exists:\App\User,StrUserID'],
             'referrer_change_agree' => ['required', 'accepted'],
         ]);
+
+        if (!setting('referrals.enabled', 1) || !setting('referrals.can_set_later', 0))
+        {
+            Alert::error('Başarısız!', 'Referans sistemi aktive edilmemiş!');
+
+            return redirect()->back();
+        }
 
         if (strcasecmp(Auth::user()->StrUserID, request('referrer_name')) == 0)
         {

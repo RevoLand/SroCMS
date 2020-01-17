@@ -46,6 +46,7 @@
 
         <div class="ucp_divider"></div>
 
+        @if (setting('referrals.enabled', 1) && setting('referrals.can_set_later', 0))
         @empty ($user->referrer)
         {{ Form::open(['route' => 'users.update_referrer', 'class' => 'page_form']) }}
         <table style="width:100%">
@@ -75,7 +76,7 @@
         {{ Form::close() }}
 
         <div class="ucp_divider"></div>
-
+        @endempty
         @endif
 
         {{ Form::open(['route' => 'users.update_email', 'class' => 'page_form']) }}

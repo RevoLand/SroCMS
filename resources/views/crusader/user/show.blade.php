@@ -67,11 +67,13 @@
                                 <td width="40%">{{ setting('silk.silk_point_name', 'Silk (Point)') }}</td>
                                 <td width="50%">{{ number_format($user->silk->silk_point) }}</td>
                             </tr>
+                            @if (setting('referrals.enabled', 1))
                             <tr>
                                 <td width="10%"><img src="{{ Theme::url('images/icons/user.png') }}"></td>
                                 <td width="40%">{{ setting('referrals.name', 'Referanslar') }}</td>
                                 <td width="50%">{{ number_format($user->referrals->count()) }}</td>
                             </tr>
+                            @endif
                         </tbody>
                     </table>
                 </aside>
