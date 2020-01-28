@@ -128,7 +128,6 @@ class UserController extends Controller
 
     public function balance()
     {
-        Auth::user()->with('balance.logs');
         $balanceLogs = Auth::user()->balance->logs()->latest()->paginate(20);
 
         return view('user.balance.show', compact('balanceLogs'));
