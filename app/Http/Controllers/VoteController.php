@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VoteCallbackRequest;
 use App\VoteLog;
 use App\VoteProvider;
 use App\VoteProviderIp;
@@ -21,39 +22,45 @@ class VoteController extends Controller
         }
     }
 
-    public function callback($voteprovider_secret)
+    public function callback(VoteCallbackRequest $request)
     {
-        $voteProvider = VoteProvider::where('callback_secret', $voteprovider_secret)->firstOrFail();
-
-        request()->validate([
-            $voteProvider->callback_user_name => ['required', 'string', 'max:255'],
-            $voteProvider->callback_success_name => ['required', 'string', 'max:255'],
-        ]);
-
         if (setting('votes.callback_ip_check', 1))
         {
-            if (VoteProviderIp::where('ip', request()->getClientIp())->count() == 0)
+            if (VoteProviderIp::where('ip', $request->getClientIp())->count() == 0)
             {
-                abort(403, 'Unauthorized action.');
+                return response()->json([
+                    'message' => 'Unauthorized action.',
+                ], 403);
             }
         }
 
-        $voteLog = VoteLog::where('secret', request()->input($voteProvider->callback_user_name))->firstOrFail();
+        $voteLog = VoteLog::where('secret', $request->input($request->voteProvider->callback_user_name))->first();
+
+        if (!$voteLog)
+        {
+            return response()->json([
+                'message' => 'Invalid ' . $request->voteProvider->callback_user_name,
+            ], 403);
+        }
 
         if ($voteLog->voted)
         {
-            abort(403, 'User already rewarded for this vote call.');
+            return response()->json([
+                'message' => 'User already rewarded for this vote call.',
+            ], 403);
         }
 
         if (!$voteLog->active)
         {
-            abort(403, 'User can not be rewarded for this call.');
+            return response()->json([
+                'message' => 'User can not be rewarded for this call.',
+            ], 403);
         }
 
         $voteLog->update([
             'voted' => true,
             'active' => false,
-            'callback_ip' => request()->getClientIp(),
+            'callback_ip' => $request->getClientIp(),
         ]);
 
         foreach ($voteLog->rewardGroup->rewards as $reward)
@@ -70,15 +77,15 @@ class VoteController extends Controller
                 break;
                 // Silk
                 case config('constants.payment_types.silk'):
-                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_own'), $reward->amount, config('constants.silk.reason.inc.silk_own'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
+                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_own'), $reward->amount, config('constants.silk.reason.inc.silk_own'), "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Gift Silk
                 case config('constants.payment_types.silk_gift'):
-                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_gift'), $reward->amount, config('constants.silk.reason.inc.silk_gift'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
+                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_gift'), $reward->amount, config('constants.silk.reason.inc.silk_gift'), "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Point Silk
                 case config('constants.payment_types.silk_point'):
-                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_point'), $reward->amount, config('constants.silk.reason.inc.silk_point'), "[SroCMS] {$voteProvider->name} üzerinden yapılan oylama ödülü.");
+                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_point'), $reward->amount, config('constants.silk.reason.inc.silk_point'), "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
                 break;
                 // Item
                 case config('constants.payment_types.item'):
@@ -87,7 +94,9 @@ class VoteController extends Controller
             }
         }
 
-        echo 'OK';
+        return response()->json([
+            'message' => 'User successfully voted for the call.',
+        ], 200);
     }
 
     public function index()

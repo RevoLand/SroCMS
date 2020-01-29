@@ -98,8 +98,6 @@ Route::group(['prefix' => 'votes'], function ()
 {
     Route::get('/', 'VoteController@index')->name('votes.show_votes');
     Route::post('{voteProvider}/vote', 'VoteController@vote')->name('votes.do_vote');
-
-    Route::match(['get', 'post'], '{voteprovider_secret}', 'VoteController@callback');
 });
 
 Route::group(['prefix' => 'api'], function ()
