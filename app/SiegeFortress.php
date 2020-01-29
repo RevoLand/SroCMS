@@ -14,7 +14,7 @@ class SiegeFortress extends Model
 
     public function guild()
     {
-        return $this->belongsTo(Guild::class, 'ID', 'GuildID');
+        return $this->belongsTo(Guild::class, 'GuildID', 'ID');
     }
 
     public function getImageAttribute()

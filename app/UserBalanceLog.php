@@ -11,7 +11,7 @@ class UserBalanceLog extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'JID', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 
     public function getBalanceDifferenceAttribute()
