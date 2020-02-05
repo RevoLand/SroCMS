@@ -20,6 +20,9 @@ class CreateMenusTable extends Migration
             $table->string('route')->nullable();
             $table->integer('order')->default(0);
             $table->string('location')->nullable();
+            $table->bigInteger('menu_id')->nullable();
+            $table->boolean('guests_can_view')->default(true);
+            $table->boolean('users_can_view')->default(true);
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

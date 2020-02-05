@@ -28,7 +28,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'default' => 'crusader',
+    'default' => 'front',
 
     /*
     |--------------------------------------------------------------------------
@@ -59,6 +59,11 @@ return [
     'themes' => [
         'crusader' => [
             'asset-path' => 'assets/crusader',
+        ],
+        'front' => [
+            'asset-path' => 'assets/front',
+            'views-path' => 'front',
+            'extends' => '',
         ],
 
         // Add your themes here. These settings will override theme.json settings defined for each theme

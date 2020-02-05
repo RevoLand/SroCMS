@@ -1,0 +1,5 @@
+{
+    "name": "front",
+    "extends": "",
+    "asset-path": "assets\/front"
+}

@@ -3,17 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Menu;
+use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
     public static function getMenus($location = null, $limit = null)
     {
-        return Menu::whereEnabled(true)->where(function ($query) use ($location)
+        return Menu::enabled()->main()->where(function ($query) use ($location)
         {
             if (isset($location))
             {
-                $query->whereLocation($location);
+                $query->location($location);
             }
-        })->with('page')->orderBy('order')->limit($limit)->get();
+
+            if (Auth::check())
+            {
+                $query->where('users_can_view', true);
+            }
+            else
+            {
+                $query->where('guests_can_view', true);
+            }
+        })->with('page')->withCount('childMenus')->orderBy('order')->limit($limit)->get();
     }
 }

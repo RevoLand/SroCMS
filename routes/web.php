@@ -100,7 +100,7 @@ Route::group(['prefix' => 'votes'], function ()
     Route::post('{voteProvider}/vote', 'VoteController@vote')->name('votes.do_vote');
 });
 
-Route::group(['prefix' => 'api'], function ()
+Route::group(['prefix' => 'itemmall'], function ()
 {
-    Route::get('paywant', 'ApiController@paywant')->name('api.paywant_callback');
+    Route::get('/', 'ItemMallController@index')->name('itemmall.index');
 });
