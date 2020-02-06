@@ -16,7 +16,7 @@ class CreateMenusTable extends Migration
             $table->bigIncrements('id');
             $table->string('title')->nullable();
             $table->string('href')->nullable();
-            $table->integer('target_page_id')->nullable();
+            $table->integer('page_id')->nullable();
             $table->string('route')->nullable();
             $table->integer('order')->default(0);
             $table->string('location')->nullable();

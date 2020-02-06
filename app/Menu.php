@@ -55,14 +55,9 @@ class Menu extends Model
         return $query->whereNull('menu_id');
     }
 
-    public function menus()
+    public function scopeViewPermissions($query)
     {
-        return $this->hasMany(Menu::class)->enabled()->orderBy('order');
-    }
-
-    public function childMenus()
-    {
-        return $this->hasMany(Menu::class)->enabled()->with('menus')->withCount('menus')->where(function ($query)
+        return $query->where(function ($query)
         {
             if (Auth::check())
             {
@@ -72,6 +67,16 @@ class Menu extends Model
             {
                 $query->where('guests_can_view', true);
             }
-        })->orderBy('order');
+        });
+    }
+
+    public function menus()
+    {
+        return $this->hasMany(Menu::class)->enabled()->viewPermissions()->orderBy('order');
+    }
+
+    public function childMenus()
+    {
+        return $this->hasMany(Menu::class)->enabled()->viewPermissions()->with('menus')->withCount('menus')->orderBy('order');
     }
 }

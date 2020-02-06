@@ -28,7 +28,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'default' => 'front',
+    'default' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -60,9 +60,9 @@ return [
         'crusader' => [
             'asset-path' => 'assets/crusader',
         ],
-        'front' => [
-            'asset-path' => 'assets/front',
-            'views-path' => 'front',
+        'default' => [
+            'asset-path' => 'assets/default',
+            'views-path' => 'default',
             'extends' => '',
         ],
 
