@@ -13,14 +13,14 @@ class VoteProvider extends Model
 
     public function rewardGroups()
     {
-        return $this->hasMany(VoteProviderRewardGroup::class)->where('enabled', true);
+        return $this->hasMany(VoteProviderRewardGroup::class);
     }
 
     public function canUserVote()
     {
-        return Auth::user()->voteLogs->where('vote_provider_id', $this->id)->where('voted', true)->filter(function ($voteLog)
+        return Auth::user()->voteLogsById($this->id)->voted()->where(function ($voteLogQuery)
         {
-            return $voteLog->updated_at && $voteLog->updated_at->addMinutes($this->minutes_between_votes) > Carbon::now();
+            $voteLogQuery->where('updated_at', '>', Carbon::now()->subMinutes($this->minutes_between_votes));
         })->count() == 0;
     }
 
@@ -29,13 +29,18 @@ class VoteProvider extends Model
         return $this->url . (parse_url($this->url, PHP_URL_QUERY) ? '&' : '?') . http_build_query([$this->url_user_name => $voteLog->secret]);
     }
 
-    public function lastVoteLog($userId)
+    public function lastVoteLogForUser($userId)
     {
-        return $this->hasOne(VoteLog::class)->where('user_id', $userId)->latest('updated_at')->first();
+        return $this->hasOne(VoteLog::class)->user($userId)->latest('updated_at')->first();
     }
 
-    public function lastActiveVoteLog($userId)
+    public function lastActiveVoteLogForUser($userId)
     {
-        return $this->hasOne(VoteLog::class)->where('user_id', $userId)->where('active', true)->latest('updated_at')->first();
+        return $this->hasOne(VoteLog::class)->user($userId)->active()->latest('updated_at')->first();
+    }
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('enabled', true);
     }
 }

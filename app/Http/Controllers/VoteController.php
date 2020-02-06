@@ -70,7 +70,7 @@ class VoteController extends Controller
             'callback_ip' => $request->getClientIp(),
         ]);
 
-        foreach ($voteLog->rewardGroup->rewards as $reward)
+        foreach ($voteLog->rewardGroup->rewards->enabled() as $reward)
         {
             switch ($reward->type)
             {
@@ -108,17 +108,20 @@ class VoteController extends Controller
 
     public function index()
     {
-        return view('user.votes.index', ['voteProviders' => VoteProvider::where('enabled', true)->with('rewardGroups')->get()]);
+        return view('user.votes.index', ['voteProviders' => VoteProvider::enabled()->with(['rewardGroups' => function ($query)
+            {
+                $query->enabled();
+            }, ])->get()]);
     }
 
     public function vote(VoteProvider $voteProvider)
     {
         request()->validate([
-            'reward' => ['required', 'integer', 'exists:App\VoteProviderReward,id'],
+            'reward' => ['required', 'integer', 'exists:App\VoteProviderRewardGroup,id'],
         ]);
 
         // Yukarıda gönderilen ödülün varlığını kontrol ederken, burada o ödülün seçilen vote'a bağlı olup olmadığını kontrol ediyoruz.
-        if ($voteProvider->rewardGroups->where('id', request('reward'))->count() == 0)
+        if ($voteProvider->rewardGroups->enabled()->where('id', request('reward'))->count() == 0)
         {
             alert('Hata!', 'Geçersiz bir ödül seçimi yaptınız.', 'error');
 
@@ -131,7 +134,7 @@ class VoteController extends Controller
             abort(403, 'Şuanda oy kullanamazsınız.');
         }
 
-        $userLastVoteLog = $voteProvider->lastActiveVoteLog(Auth::user()->JID);
+        $userLastVoteLog = $voteProvider->lastActiveVoteLogForUser(Auth::user()->JID);
 
         if ($userLastVoteLog)
         {
@@ -146,9 +149,8 @@ class VoteController extends Controller
             }
         }
 
-        $userVoteLog = VoteLog::create([
+        $userVoteLog = Auth::user()->voteLogs()->create([
             'secret' => $this->generateVoteLogSecret(),
-            'user_id' => Auth::user()->JID,
             'vote_provider_id' => $voteProvider->id,
             'selected_reward_group_id' => request('reward'),
             'user_ip' => request()->getClientIp(),

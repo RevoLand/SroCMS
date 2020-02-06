@@ -23,4 +23,24 @@ class VoteLog extends Model
     {
         return $this->belongsTo(VoteProvider::class);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
+    public function scopeVoted($query)
+    {
+        return $query->where('voted', true);
+    }
+
+    public function scopeUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    public function scopeVoteProvider($query, $providerId)
+    {
+        return $query->where('vote_provider_id', $providerId);
+    }
 }
