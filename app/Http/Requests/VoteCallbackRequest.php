@@ -28,7 +28,7 @@ class VoteCallbackRequest extends FormRequest
 
     public function authorize()
     {
-        $this->voteProvider = VoteProvider::where('callback_secret', $this->route('voteprovider_secret'))->first();
+        $this->voteProvider = VoteProvider::firstWhere('callback_secret', $this->route('voteprovider_secret'));
 
         return $this->voteProvider;
     }

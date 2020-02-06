@@ -18,4 +18,9 @@ class VoteLog extends Model
     {
         return $this->hasOne(User::class, 'JID', 'user_id');
     }
+
+    public function voteProvider()
+    {
+        return $this->belongsTo(VoteProvider::class);
+    }
 }

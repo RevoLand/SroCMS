@@ -39,7 +39,14 @@ class VoteController extends Controller
         if (!$voteLog)
         {
             return response()->json([
-                'message' => 'Invalid ' . $request->voteProvider->callback_user_name,
+                'message' => 'Invalid request.',
+            ], 403);
+        }
+
+        if (!$voteLog->voteProvider->is($request->voteProvider))
+        {
+            return response()->json([
+                'message' => 'This vote log doesn\'t belongs to your service.',
             ], 403);
         }
 
