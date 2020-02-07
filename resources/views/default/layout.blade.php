@@ -42,7 +42,22 @@
                     @yield('content')
                 </div>
                 <div class="col-md-4 mt-4">
-                    Sidebar
+                    @foreach (\App\Http\Controllers\SidebarController::getSidebars(5) as $sidebar)
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="sidebar">
+                                <div class="card mt-4 shadow-sm">
+                                    <div class="card-header">
+                                        {{ $sidebar->title }}
+                                    </div>
+                                    <div class="card-body overflow-auto">
+                                        {!! $sidebar->getContent() !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
