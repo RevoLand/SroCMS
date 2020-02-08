@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -21,6 +22,20 @@ class Article extends Model
 
     public function articleComments()
     {
-        return $this->hasMany(ArticleComment::class)->where('is_visible', true)->where('is_approved', true)->latest();
+        return $this->hasMany(ArticleComment::class);
+    }
+
+    public function scopeVisible($query)
+    {
+        return $query->where('is_visible', true);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where(function ($query)
+        {
+            $query->where('published_at', '=', null)
+                ->orWhere('published_at', '<=', Carbon::now());
+        });
     }
 }

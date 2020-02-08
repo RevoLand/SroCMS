@@ -18,4 +18,14 @@ class ArticleComment extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
+
+    public function scopeVisible($query)
+    {
+        return $query->where('is_visible', true);
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('is_approved', true);
+    }
 }
