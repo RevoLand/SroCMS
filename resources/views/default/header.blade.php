@@ -21,13 +21,13 @@
 
         @auth
         <div class="btn-group" role="group">
-            <a type="button" class="btn btn-sm btn-light" href="{{ route('users.current_user') }}">
+            <a type="button" class="btn btn-sm btn-primary" href="{{ route('users.current_user') }}">
                 @if (Auth::user()->gravatar)
                     <img src="{{ Auth::user()->gravatar }}?s=32" class="img-fluid rounded" width="32" height="32" />
                 @endif
                 {{ Auth::user()->getName() }}
             </a>
-            <button id="headerUserDropdownMenu" type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
+            <button id="headerUserDropdownMenu" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <div class="dropdown-menu shadow-sm" aria-labelledby="headerUserDropdownMenu">

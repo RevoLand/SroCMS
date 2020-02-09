@@ -67,22 +67,7 @@
                 @endguest
             </div>
             @foreach ($articleComments as $articleComment)
-            <div class="row">
-                <div class="col">
-                    <div class="media mt-2 border px-2 py-2">
-                        @if ($articleComment->user->gravatar)
-                            <img src="{{ $articleComment->user->gravatar }}" class="mr-3">
-                        @endif
-                        <div class="media-body">
-                            <div class="float-right text-muted small">
-                                <a data-toggle="tooltip" title="{{ $article->created_at }}"> {{ $articleComment->created_at->diffForHumans()   }}</a>
-                            </div>
-                            <h5 class="mt-0 text-muted">{{ $articleComment->user->getName() }}</h5>
-                            {{ $articleComment->content }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+                @include('articles.comment', ['articleComment' => $articleComment])
             @endforeach
             <div class="mt-3">
                 {{ $articleComments->links() }}
