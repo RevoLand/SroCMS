@@ -121,7 +121,7 @@ class VoteController extends Controller
         ]);
 
         // Yukarıda gönderilen ödülün varlığını kontrol ederken, burada o ödülün seçilen vote'a bağlı olup olmadığını kontrol ediyoruz.
-        if ($voteProvider->rewardGroups->enabled()->where('id', request('reward'))->count() == 0)
+        if ($voteProvider->rewardGroups()->enabled()->where('id', request('reward'))->count() == 0)
         {
             alert('Hata!', 'Geçersiz bir ödül seçimi yaptınız.', 'error');
 

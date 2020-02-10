@@ -26,6 +26,15 @@ class UserController extends Controller
 
     public function index()
     {
+        // Eager load latest referred users, if referral system is enabled
+        if (setting('referrals.enabled', 1))
+        {
+            Auth::user()->load(['referrals' => function ($query)
+                {
+                    $query->limit(5)->with('user')->latest();
+                }, 'referrer.user', ]);
+        }
+
         return view('user.index');
     }
 

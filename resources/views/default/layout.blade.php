@@ -31,8 +31,8 @@
             @include ('header')
         </div>
         <main class="container" role="main">
-            <div class="row">
-                <div class="col-md-8 mt-4">
+            <div class="row mt-5">
+                <div class="col-md-8">
                     @hasSection('contenttitle')
                     <h3 class="pb-3 mb-3 border-bottom">
                         @yield('contenttitle')
@@ -41,12 +41,13 @@
 
                     @yield('content')
                 </div>
-                <div class="col-md-4 mt-4">
+
+                <div class="col-md-4 mt-4 mt-md-0">
                     @foreach (\App\Http\Controllers\SidebarController::getSidebars(5) as $sidebar)
                     <div class="row">
                         <div class="col-12">
                             <div class="sidebar">
-                                <div class="card mt-4 shadow-sm">
+                                <div class="card mb-4 shadow-sm">
                                     <div class="card-header">
                                         {{ $sidebar->title }}
                                     </div>

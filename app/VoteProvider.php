@@ -18,7 +18,7 @@ class VoteProvider extends Model
 
     public function canUserVote()
     {
-        return Auth::user()->voteLogsById($this->id)->voted()->where(function ($voteLogQuery)
+        return Auth::user()->voteLogsByProviderId($this->id)->voted()->where(function ($voteLogQuery)
         {
             $voteLogQuery->where('updated_at', '>', Carbon::now()->subMinutes($this->minutes_between_votes));
         })->count() == 0;

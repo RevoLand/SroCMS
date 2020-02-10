@@ -83,10 +83,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function loginAttempts()
     {
-        return $this->hasMany(LoginAttempt::class, 'username', 'StrUserID')->latest();
+        return $this->hasMany(LoginAttempt::class, 'username', 'StrUserID');
     }
 
-    public function updateEmail($newEmail)
+    public function updateEmail(string $newEmail)
     {
         $this->update([
             'Email' => $newEmail,
@@ -94,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    public function updatePassword($newPassword)
+    public function updatePassword(string $newPassword)
     {
         $this->update([
             'password' => Hash::make($newPassword),
@@ -102,7 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    public function setReferrer($referrerUserId)
+    public function setReferrer(int $referrerUserId)
     {
         $this->referrer()->create([
             'referrer_user_id' => $referrerUserId,
@@ -129,14 +129,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(VoteLog::class, 'user_id');
     }
 
-    public function voteLogsById($voteProviderId)
+    public function voteLogsByProviderId(int $voteProviderId)
     {
-        return $this->hasMany(VoteLog::class, 'user_id')->voteProvider($voteProviderId);
+        return $this->voteLogs()->voteProvider($voteProviderId);
     }
 
-    public function addChestItem($itemCodeName, $data, $optLevel)
+    public function addChestItem(string $itemCodeName, int $data, int $optLevel): bool
     {
-        DB::connection('shard')->statement(
+        return DB::connection('shard')->statement(
             'exec _ADD_ITEM_EXTERN_CHEST @account_name = ?, @codename = ?, @data = ?, @opt_level = ?',
             [
                 $this->StrUserID,

@@ -2,17 +2,17 @@
     <div class="col-12">
         @auth
         <div class="sidebar-user-actions">
-            <table class="table table-borderless table-responsive">
+            <table class="table table-borderless table-responsive-md">
                 <tr>
-                    <td>Bakiye:</td>
+                    <td>{{ setting('balance.name', 'Bakiye') }}:</td>
                     <td>
-                        {{ number_format(Auth::user()->balance->balance, 2) }}
+                        {{ number_format(Auth::user()->balance->balance, 2) }} {{ setting('balance.currency', 'TL') }}
                     </td>
                 </tr>
                 <tr>
-                    <td>Bakiye (Puan):</td>
+                    <td>{{ setting('balance.point_name', 'Bakiye (Puan)') }}:</td>
                     <td>
-                        {{ number_format(Auth::user()->balance->balance_point, 2) }}
+                        {{ number_format(Auth::user()->balance->balance_point, 2) }} {{ setting('balance.currency', 'TL') }}
                     </td>
                 </tr>
                 <tr>
@@ -32,11 +32,11 @@
                 </tr>
                 <tr>
                     <td>
-                    <a class="btn btn-primary btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
-                    <a class="btn btn-primary btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
+                    <a class="btn btn-danger btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
+                    <a class="btn btn-danger btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
                     </td>
                     <td>
-                    <a class="btn btn-primary btn-block" href="{{ route('votes.show_votes') }}" role="button">Voting</a>
+                    <a class="btn btn-danger btn-block" href="{{ route('votes.show_votes') }}" role="button">Voting</a>
                     <a class="btn btn-danger btn-block" href="{{ route('users.do_logout') }}" role="button">Logout</a>
                     </td>
                 </tr>
@@ -46,13 +46,11 @@
 
         @guest
             @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
+                <ul class="alert alert-danger">
                     @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </div>
             @endif
 
             {{ Form::open(['route' => 'users.do_login']) }}

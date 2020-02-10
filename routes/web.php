@@ -34,6 +34,8 @@ Route::group(['prefix' => 'articles'], function ()
 // Middleware: guest
 Route::group(['prefix' => 'users'], function ()
 {
+    //Theme::set('crusader');
+
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('users.login_form');
     Route::post('login', 'Auth\LoginController@login')->name('users.do_login');
 
