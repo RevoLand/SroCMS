@@ -1,6 +1,6 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('content')
+@section('content')
 <article>
     <h1 class="top">Guild: {{ $guild->Name }} ({{ $guild->Lvl }} Level)</h1>
     <section class="body">

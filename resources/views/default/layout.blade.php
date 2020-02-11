@@ -32,16 +32,17 @@
         </div>
         <main class="container" role="main">
             <div class="row mt-5">
-                <div class="col-md-8">
+                <div class="@hasSection('withsidebar') col-md-8 @else col-md-12 @endif">
                     @hasSection('contenttitle')
-                    <h3 class="pb-3 mb-3 border-bottom">
+                    <h2 class="pb-3 mb-3 border-bottom border-secondary">
                         @yield('contenttitle')
-                    </h3>
+                    </h2>
                     @endif
 
                     @yield('content')
                 </div>
 
+                @hasSection ('withsidebar')
                 <div class="col-md-4 mt-4 mt-md-0">
                     @foreach (\App\Http\Controllers\SidebarController::getSidebars(5) as $sidebar)
                     <div class="row">
@@ -60,6 +61,7 @@
                     </div>
                     @endforeach
                 </div>
+                @endif
             </div>
 
             @include('components.footer')

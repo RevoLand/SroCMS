@@ -1,6 +1,6 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('content')
+@section('content')
 @foreach ($articles as $article)
 	<article class="news_row">
     	<div class="news_head">

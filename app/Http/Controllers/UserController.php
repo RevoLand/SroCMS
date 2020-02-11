@@ -51,7 +51,7 @@ class UserController extends Controller
     public function update()
     {
         Auth::user()->update(request()->validate([
-            'name' => ['bail', 'required', 'string', 'min:3', 'max:255'],
+            'name' => ['bail', 'required', 'string', 'min:3', 'max:100'],
         ]));
 
         Alert::success('Bilgileriniz güncellendi.');
@@ -104,7 +104,7 @@ class UserController extends Controller
     {
         request()->validate([
             'referrer_name' => ['bail', 'required', 'string', 'exists:\App\User,StrUserID'],
-            'referrer_change_agree' => ['required', 'accepted'],
+            'referrer_agree_change' => ['required', 'accepted'],
         ]);
 
         if (!setting('referrals.enabled', 1) || !setting('referrals.can_set_later', 0))

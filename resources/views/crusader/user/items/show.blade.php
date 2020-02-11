@@ -1,6 +1,6 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('content')
+@section('content')
 <article>
     <h1 class="top">Item: {{ $item->objCommon->CodeName128 }}</h1>
     <section class="body">

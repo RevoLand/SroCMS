@@ -1,13 +1,15 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('pagetitle')
+@section('withsidebar', true)
+
+@section('pagetitle')
 Kontrol Paneli: {{ auth()->user()->getName() }}
 @endsection
 
-@section ('content')
+@section('content')
 <div class="row">
     <div class="col-12">
-        <div class="user-profile bg-dark px-3 pb-3 shadow-sm rounded-sm py-3">
+        <div class="user-profile bg-dark px-3 py-3 shadow-sm rounded-sm">
             <div class="row border-bottom border-secondary shadow-sm mb-3 pb-3">
                 @if (auth()->user()->gravatar)
                 <div class="col-md-3">
@@ -43,7 +45,7 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
                                 <ul class="list-unstyled">
                                     @if (auth()->user()->referrer)
                                     <li>
-                                        Refere eden:<br/><a href="{{ route('users.show_user', auth()->user()->referrer->user) }}">{{ auth()->user()->referrer->user->getName() }}</a>
+                                        Refere eden:<br/><a href="{{ route('users.show_user', auth()->user()->referrer->referrerUser) }}">{{ auth()->user()->referrer->referrerUser->getName() }}</a>
                                     </li>
                                     @endif
                                 </ul>

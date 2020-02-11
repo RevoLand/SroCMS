@@ -1,10 +1,10 @@
 @extends('layout')
 
-@section ('pagetitle')
+@section('pagetitle')
  | Vote
 @endsection
 
-@section ('content')
+@section('content')
 <article>
     <h1 class="top">Vote</h1>
     <section class="body">

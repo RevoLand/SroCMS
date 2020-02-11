@@ -1,8 +1,8 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('pagetitle', ' - Karakter Görüntüle: ' . $character->CharName16)
+@section('pagetitle', ' - Karakter Görüntüle: ' . $character->CharName16)
 
-@section ('content')
+@section('content')
 <article>
     <h1 class="top">Karakter: {{ $character->CharName16 }}</h1>
     <section class="body">

@@ -1,15 +1,16 @@
-@extends ('layout')
+@extends('layout')
 
+@section('withsidebar', true)
 
-@section ('pagetitle')
+@section('pagetitle')
 Haberler
 @endsection
 
-@section ('contenttitle')
+@section('contenttitle')
 Haberler
 @endsection
 
-@section ('content')
+@section('content')
 <div class="articles">
     @foreach ($articles as $article)
     <div class="row">

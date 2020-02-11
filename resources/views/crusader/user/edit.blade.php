@@ -1,6 +1,6 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('content')
+@section('content')
 <article>
     <h1 class="top">Üyelik Bilgilerimi Düzenle<div></div>
     </h1>
@@ -65,7 +65,7 @@
                     Bu işlemi sadece bir kez yapabileceğimi ve bu kullanıcıyı bir daha güncellemeyeceğimi bildiğimi teyit ediyorum.
                 </td>
                 <td>
-                    <input type="checkbox" name="referrer_change_agree" />
+                    <input type="checkbox" name="referrer_agree_change" />
                 </td>
             </tr>
         </table>

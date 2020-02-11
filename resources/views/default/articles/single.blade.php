@@ -1,10 +1,12 @@
-@extends ('layout')
+@extends('layout')
 
-@section ('pagetitle')
+@section('withsidebar', true)
+
+@section('pagetitle')
 {{ $article->title }}
 @endsection
 
-@section ('content')
+@section('content')
 <div class="row">
 	<div class="col-md-12">
         <div class="article shadow-sm border rounded-sm px-3 pb-5 mb-2" role="article">
