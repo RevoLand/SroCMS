@@ -16,7 +16,7 @@
             @endif
             <div class="row">
                 <div class="col">
-                    <div class="info pb-3">
+                    <div class="password-reset-form pb-3">
                         @include('components.forms.user.reset_password')
                     </div>
                 </div>
