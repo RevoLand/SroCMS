@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
 {
+    use SendsPasswordResetEmails;
     /*
     |--------------------------------------------------------------------------
     | Password Reset Controller
@@ -18,10 +19,6 @@ class ForgotPasswordController extends Controller
     |
     */
 
-    use SendsPasswordResetEmails;
-
-    protected $redirectTo = '/homey';
-
     public function __construct()
     {
         $this->middleware('guest');
@@ -29,6 +26,6 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view('user.password.request');
+        return view('user.auth.request_password');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ResetPasswordController extends Controller
 {
@@ -33,13 +34,15 @@ class ResetPasswordController extends Controller
 
     public function showResetForm(Request $request, $token = null)
     {
-        return view('user.password.reset')->with(
+        return view('user.auth.reset_password')->with(
             ['token' => $token, 'email' => $request->email]
         );
     }
 
     protected function redirectTo()
     {
+        Alert::success('Başarılı!', 'Şifreniz başarıyla güncellendi.');
+
         return route('users.current_user');
     }
 }

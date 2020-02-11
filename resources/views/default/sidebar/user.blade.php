@@ -53,7 +53,7 @@
                 </ul>
             @endif
 
-            @include ('components.forms.user.login')
+            @include('components.forms.user.login')
         @endguest
     </div>
 </div>

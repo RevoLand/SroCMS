@@ -17,7 +17,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarToggler">
         <a class="navbar-brand" href="{{ route('home') }}">SroCMS</a>
-        @include ('components/navbar/menus')
+        @include('components/navbar/menus')
 
         @auth
         <div class="btn-group" role="group">

@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col">
                     <div class="info pb-3">
-                        @include ('components.forms.user.update_profile')
+                        @include('components.forms.user.update_profile')
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col">
                     <div class="referral border-top border-secondary py-2">
-                        @include ('components.forms.user.set_referral')
+                        @include('components.forms.user.set_referral')
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="col">
                     <div class="email border-top border-secondary py-2">
-                        @include ('components.forms.user.change_email', ['currentEmail' => $user->Email])
+                        @include('components.forms.user.change_email', ['currentEmail' => $user->Email])
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col">
                     <div class="password border-top border-secondary pt-2">
-                        @include ('components.forms.user.change_password')
+                        @include('components.forms.user.change_password')
                     </div>
                 </div>
             </div>
