@@ -29,13 +29,13 @@ Route::group(['prefix' => 'articles'], function ()
     Route::post('{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment');
 });
 
+//Theme::set('crusader');
+
 // Misafir işlemleri
 // Not: İlgili işlemlerin middleware'ları kontrolcülerin içerisinde constructor olarak yer almaktadır.
 // Middleware: guest
 Route::group(['prefix' => 'users'], function ()
 {
-    //Theme::set('crusader');
-
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('users.login_form');
     Route::post('login', 'Auth\LoginController@login')->name('users.do_login');
 

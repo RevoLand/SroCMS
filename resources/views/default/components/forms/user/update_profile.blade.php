@@ -3,5 +3,5 @@
         <label for="name">İsim:</label>
         <input id="name" class="form-control" type="text" name="name" value="{{ $user->Name }}" required>
     </div>
-    <button type="submit" class="btn btn-danger btn-block">Kaydet</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Kaydet</button>
 {{ Form::close() }}

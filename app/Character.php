@@ -24,7 +24,7 @@ class Character extends Model
 
     public function guild()
     {
-        return $this->hasOne(Guild::class, 'ID', 'GuildID');
+        return $this->hasOne(Guild::class, 'ID', 'GuildID')->ignoreDummy();
     }
 
     public function inventory()

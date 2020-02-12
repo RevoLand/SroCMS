@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class GuildMember extends Model
 {
-    public $timestamps = false;
+    const CREATED_AT = 'JoinDate';
+    const UPDATED_AT = null;
     protected $connection = 'shard';
     protected $table = '_GuildMember';
     protected $primaryKey;
     protected $guarded = [];
+    protected $dateFormat = 'Y-m-d H:i:s';
 
     public function guild()
     {
@@ -20,5 +22,15 @@ class GuildMember extends Model
     public function character()
     {
         return $this->hasOne(Character::class, 'CharID', 'CharID');
+    }
+
+    public function hasPermission(int $permission)
+    {
+        return $this->Permission & $permission;
+    }
+
+    public function hasSiegePermission(int $permission)
+    {
+        return $this->SiegeAuthority & $permission;
     }
 }

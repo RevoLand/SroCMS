@@ -21,4 +21,9 @@ class CharacterSkillMastery extends Model
     {
         return $this->belongsTo(SkillMastery::class, 'MasteryID', 'ID');
     }
+
+    public function scopeMinLevel($query, $minLevel)
+    {
+        return $query->where('Level', '>=', $minLevel);
+    }
 }

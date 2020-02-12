@@ -64,7 +64,7 @@
             <div class="professions">
                 <h3>Skill Mastery</h3>
                 <ul>
-                    @foreach ($character->skillMastery->where('Level', '>', 0) as $mastery)
+                    @foreach ($character->skillMastery as $mastery)
                     <li class="profession">
                         <div class="profile-progress border-3 @if((round($mastery->Level * 100 / setting('skillmastery.maxlevel', 110)) == 100))completed @endif">
                             <div class="bar border-3 hover" style="width: {{ round($mastery->Level * 100 / setting('skillmastery.maxlevel', 110)) }}%"></div>

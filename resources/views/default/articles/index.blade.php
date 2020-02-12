@@ -2,13 +2,9 @@
 
 @section('withsidebar', true)
 
-@section('pagetitle')
-Haberler
-@endsection
+@section('pagetitle', 'Haberler')
 
-@section('contenttitle')
-Haberler
-@endsection
+@section('contenttitle', 'Haberler')
 
 @section('content')
 <div class="articles">

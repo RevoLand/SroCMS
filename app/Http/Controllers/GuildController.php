@@ -16,17 +16,15 @@ class GuildController extends Controller
 
     public function show(Guild $guild)
     {
-        $guild->load(['siegeFortress', 'members']);
+        $guild->load(['siegeFortress', 'members' => function ($query)
+            {
+                $query->orderBy('MemberClass', 'asc')
+                    ->orderBy('SiegeAuthority', 'asc')
+                    ->orderBy('Permission', 'desc')
+                    ->orderBy('GP_Donation', 'desc')
+                    ->orderBy('CharLevel', 'desc');
+            }, ]);
 
-        $sortedGuildMembers = $guild->members->sortBy(function ($guildf)
-        {
-            return [
-                $guildf->MemberClass,
-                -$guildf->GP_Donation,
-                -$guildf->Level,
-            ];
-        });
-
-        return view('user.guilds.show', compact('guild', 'sortedGuildMembers'));
+        return view('user.guilds.show', compact('guild'));
     }
 }

@@ -26,4 +26,9 @@ class Guild extends Model
     {
         return $this->hasOne(SiegeFortress::class, 'GuildID', 'ID');
     }
+
+    public function scopeIgnoreDummy($query)
+    {
+        return $query->where('ID', '!=', 0);
+    }
 }

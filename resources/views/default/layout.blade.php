@@ -21,6 +21,7 @@
 
         <!-- Additional CSS -->
         {!! Theme::css('vendor/fontawesome/css/fontawesome-all.min.css') !!}
+        {!! Theme::css('vendor/lineawesome/css/line-awesome.min.css') !!}
 
         <!-- Custom CSS -->
         @yield('css')
@@ -34,9 +35,7 @@
             <div class="row mt-5">
                 <div class="@hasSection('withsidebar') col-md-8 @else col-md-12 @endif">
                     @hasSection('contenttitle')
-                    <h2 class="pb-3 mb-3 border-bottom border-secondary">
-                        @yield('contenttitle')
-                    </h2>
+                    <h2 class="pb-3 mb-3 border-bottom border-secondary">@yield('contenttitle')</h2>
                     @endif
 
                     @yield('content')

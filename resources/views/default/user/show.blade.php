@@ -34,7 +34,7 @@ Kontrol Paneli: {{ $user->getName() }}
                                     <li>
                                         Kayıt Tarihi:
                                         @if ($user->regtime)
-                                            <div class="text-muted" data-toggle="tooltip" title="{{ $user->regtime }}">{{ $user->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2]) }}</div>
+                                            <div class="text-muted" data-toggle="tooltip" title="{{ $user->regtime }}">{{ $user->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
                                         @else
                                             Yok.
                                         @endif

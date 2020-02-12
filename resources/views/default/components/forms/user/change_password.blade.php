@@ -11,5 +11,5 @@
         <label for="new_password_confirmation">Yeni Şifre Tekrar</label>
         <input id="new_password_confirmation" class="form-control" type="password" name="new_password_confirmation" required>
     </div>
-    <button type="submit" class="btn btn-danger btn-block">Değiştir</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Değiştir</button>
 {{ Form::close() }}

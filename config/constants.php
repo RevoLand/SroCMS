@@ -105,6 +105,24 @@ return [
             '518' => 'Cleric',
         ],
     ],
+    'guild' => [
+        'permission' => [
+            'all' => -1,
+            'join' => 1,
+            'withdraw' => 2,
+            'union' => 4,
+            'storage' => 8,
+            'notice' => 16,
+        ],
+        'siege' => [
+            '1' => 'Commander',
+            '2' => 'Deputy Commander',
+            '4' => 'Fortress War Administrator',
+            '8' => 'Production Administrator',
+            '16' => 'Training Administrator',
+            '32' => 'Military Engineer',
+        ],
+    ],
     'siege' => [
         'names' => [
             // SiegeID => Name
