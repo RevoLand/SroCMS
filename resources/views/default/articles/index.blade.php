@@ -23,7 +23,7 @@ Haberler
                     <div class="text-muted d-flex align-items-center justify-content-between">
                         <div>
                         <a data-toggle="tooltip" data-placement="bottom" title="{{ $article->published_at ?? $article->updated_at }}">
-                            {{ ($article->published_at) ? $article->published_at->diffForHumans() : $article->updated_at->diffForHumans() }}
+                            {{ ($article->published_at) ? $article->published_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans() : $article->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans() }}
                         </a>
                         by <a href="{{ route('users.show_user', $article->user) }}">
                             {{ $article->user->getName() }}

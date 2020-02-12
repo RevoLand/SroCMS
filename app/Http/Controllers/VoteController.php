@@ -70,7 +70,7 @@ class VoteController extends Controller
             'callback_ip' => $request->getClientIp(),
         ]);
 
-        foreach ($voteLog->rewardGroup->rewards->enabled() as $reward)
+        foreach ($voteLog->rewardGroup->rewards()->enabled() as $reward)
         {
             switch ($reward->type)
             {

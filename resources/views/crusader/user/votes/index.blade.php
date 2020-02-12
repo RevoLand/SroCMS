@@ -20,6 +20,8 @@
                     <th>Can be Voted</th>
                     <th>Action</th>
                 </tr>
+            </thead>
+            <tbody>
                 @foreach ($voteProviders as $voteProvider)
                 <tr>
                     <td>{{ $voteProvider->name }}</td>
@@ -39,7 +41,7 @@
                     </td>
                 </tr>
                 @endforeach
-            </thead>
+            </tbody>
         </table>
     </section>
 </article>

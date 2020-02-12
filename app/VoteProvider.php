@@ -34,6 +34,11 @@ class VoteProvider extends Model
         return $this->hasOne(VoteLog::class)->user($userId)->latest('updated_at')->first();
     }
 
+    public function lastVoteLogForAuthUser()
+    {
+        return $this->lastVoteLogForUser(Auth::user()->JID);
+    }
+
     public function lastActiveVoteLogForUser($userId)
     {
         return $this->hasOne(VoteLog::class)->user($userId)->active()->latest('updated_at')->first();

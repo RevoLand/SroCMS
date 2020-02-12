@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><a href="{{ route('users.show_user', $article->user) }}"> {{ $article->user->getName() }}</a></h5>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted"><a data-toggle="tooltip" data-placement="bottom" title="{{ $article->published_at ?? $article->updated_at }}">{{ ($article->published_at) ? $article->published_at->diffForHumans() : $article->updated_at->diffForHumans() }}</a></small></p>
+                    <p class="card-text"><small class="text-muted"><a data-toggle="tooltip" data-placement="bottom" title="{{ $article->published_at ?? $article->updated_at }}">{{ ($article->published_at) ? $article->published_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans() : $article->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans() }}</a></small></p>
                 </div>
               </div>
             </div>

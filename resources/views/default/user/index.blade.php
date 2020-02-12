@@ -34,7 +34,7 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
                                     <li>
                                         Kayıt Tarihi:
                                         @if (auth()->user()->regtime)
-                                            <div class="text-muted" data-toggle="tooltip" title="{{ auth()->user()->regtime }}">{{ auth()->user()->regtime->diffForHumans() }}</div>
+                                            <div class="text-muted" data-toggle="tooltip" title="{{ auth()->user()->regtime }}">{{ auth()->user()->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2]) }}</div>
                                         @else
                                             Yok.
                                         @endif
