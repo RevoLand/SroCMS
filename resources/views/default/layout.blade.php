@@ -17,7 +17,7 @@
 
         <!-- Main CSS -->
         {!! Theme::css('css/bootstrap.css') !!}
-        {!! Theme::css('css/theme.css?' . time()) !!}
+        {!! Theme::css('css/theme.css') !!}
 
         <!-- Additional CSS -->
         {!! Theme::css('vendor/fontawesome/css/fontawesome-all.min.css') !!}

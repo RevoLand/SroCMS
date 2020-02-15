@@ -27,9 +27,19 @@ class ObjCommon extends Model
     {
         if ($this->AssocFileIcon128 == 'xxx')
         {
-            return theme_url('images/silkroad/no_item.png');
+            return theme_url('img/silkroad/no_item.png');
         }
 
-        return theme_url('images/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
+        return theme_url('img/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
+    }
+
+    public function getSortOfItemAttribute()
+    {
+        return config('constants.item.typeid.' . $this->TypeID3 . '.name') ?: '[DEBUG] Bulunamadı';
+    }
+
+    public function getMountingPartAttribute()
+    {
+        return config('constants.item.typeid.' . $this->TypeID3 . '.' . $this->TypeID4) ?: '[DEBUG] Bulunamadı';
     }
 }

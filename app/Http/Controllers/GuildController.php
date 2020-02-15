@@ -20,9 +20,9 @@ class GuildController extends Controller
             {
                 $query->orderBy('MemberClass', 'asc')
                     ->orderBy('SiegeAuthority', 'asc')
-                    ->orderBy('Permission', 'desc')
-                    ->orderBy('GP_Donation', 'desc')
-                    ->orderBy('CharLevel', 'desc');
+                        //->orderBy('Permission', 'desc')
+                    ->orderBy('CharLevel', 'desc')
+                    ->orderBy('GP_Donation', 'desc');
             }, ]);
 
         return view('user.guilds.show', compact('guild'));

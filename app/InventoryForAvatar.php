@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Inventory extends Model
+class InventoryForAvatar extends Model
 {
     public $timestamps = false;
     protected $connection = 'shard';
     protected $primaryKey;
-    protected $table = '_Inventory';
+    protected $table = '_InventoryForAvatar';
     protected $guarded = [];
 
     public function character()
@@ -25,10 +25,5 @@ class Inventory extends Model
     public function scopeIgnoreDummy($query)
     {
         return $query->where('ItemID', '!=', 0);
-    }
-
-    public function scopeEquipped($query)
-    {
-        return $query->whereIn('Slot', config('constants.inventory.slots'));
     }
 }

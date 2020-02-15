@@ -7,6 +7,15 @@
 <div class="guild-info bg-dark px-3 py-3 shadow-sm rounded-sm">
     <div class="row">
         <div class="col-12">
+            <div class="siege-info mb-2">
+                <h5 class="text-monospace">
+                    @if ($guild->siegeFortress)
+                        <img class="img-fluid" src="{{ $guild->siegeFortress->image }}"> {{  $guild->siegeFortress->name  }} kalesinin sahibi.
+                    @else
+                        Bu guild herhangi bir kaleyi elinde tutmuyor.
+                    @endif
+                </h5>
+            </div>
             <table class="table table-responsive-md">
                 <thead>
                     <tr>

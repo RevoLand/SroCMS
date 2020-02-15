@@ -7,6 +7,7 @@
 <div class="row">
     <div class="col-12">
         <div class="character-info bg-dark px-3 py-3 shadow-sm rounded-sm">
+            {{-- Character image, name, stats --}}
             <div class="row">
                 <div class="col-12 col-md-2">
                     <img class="img-fluid rounded-sm" alt="{{ $character->CharName16 }}" src="{{ Theme::url('img/silkroad/characters/' . $character->RefObjID . '.gif') }}">
@@ -38,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            {{-- Character skill mastery info  --}}
             <div class="row mt-2 border-top border-secondary mt-3 pt-3">
                 <div class="col">
                     Selam.
@@ -63,38 +65,40 @@
                     </div>
                 </div>
             </div>
+            {{-- Character inventory --}}
+            <div class="row">
+                <div class="col-12">
+                    <ul class="nav nav-tabs" id="inventoryTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="inventory-tab" data-toggle="tab" href="#inventory" role="tab" aria-controls="inventory" aria-selected="true">Envanter</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="avatar-inventory-tab" data-toggle="tab" href="#avatar" role="tab" aria-controls="avatar" aria-selected="false">Avatar Envanteri</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="inventoryTabContent">
+                        <div class="tab-pane fade show active" id="inventory" role="tabpanel" aria-labelledby="inventory-tab">
+                            <div class="row row-cols-2">
+                                @foreach ($character->inventory as $inventoryItem)
+                                <div class="col mb-2 pt-2 item-info">
+                                    <img data-toggle="tooltip" data-html="true" data-placement="right" title='@include('components.items.tooltip', ['item' => $inventoryItem->item])' class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->objCommon->CodeName128 }}
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="avatar" role="tabpanel" aria-labelledby="avatar-inventory-tab">
+                            <div class="row row-cols-2">
+                                @foreach ($character->inventoryForAvatar as $inventoryItem)
+                                <div class="col mb-2 pt-2">
+                                    <img class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->objCommon->CodeName128 }}
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-@endsection
-
-@section('js')
-<script type="text/javascript">
-    $(function() {
-
-$(".progress").each(function() {
-
-  var value = $(this).attr('data-value');
-  var left = $(this).find('.progress-left .progress-bar');
-  var right = $(this).find('.progress-right .progress-bar');
-
-  if (value > 0) {
-    if (value <= 50) {
-      right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
-    } else {
-      right.css('transform', 'rotate(180deg)')
-      left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
-    }
-  }
-
-})
-
-function percentageToDegrees(percentage) {
-
-  return percentage / 100 * 360
-
-}
-
-});
-</script>
 @endsection
