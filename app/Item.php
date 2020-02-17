@@ -17,6 +17,11 @@ class Item extends Model
         return $this->hasOne(ObjCommon::class, 'ID', 'RefItemID');
     }
 
+    public function getNameAttribute()
+    {
+        return ($this->objCommon->name) ? $this->objCommon->name->name : $this->objCommon->CodeName128;
+    }
+
     public function getTypeAttribute()
     {
         switch ($this->objCommon->TypeID3)
@@ -33,13 +38,19 @@ class Item extends Model
             case 9:
             case 10:
             case 11:
-            case 7: // Trade items
                 return 'equipment';
+            case 7: // Trade items
+                return 'trade';
             break;
             case 5:
             case 12:
                 return 'accessory';
             break;
+            case 13: // Avatars
+                return 'avatar';
+            break;
+            case 14: // Devil spirit
+                return 'devilspirit';
             default:
                 dd($this->ID64);
             break;
@@ -123,5 +134,79 @@ class Item extends Model
     public function getMagicalMaxReinforcementAttribute()
     {
         return number_format(round($this->objCommon->objItem->MAInt_Max_L + (($this->objCommon->objItem->MAInt_Max_U - $this->objCommon->objItem->MAInt_Max_L) * $this->stats->MagReinforce / 100)) / 10, 1);
+    }
+
+    public function getPhysicalDefensePowerAttribute()
+    {
+        return number_format($this->objCommon->objItem->PD_L + ($this->OptLevel * $this->objCommon->objItem->PDInc) + (($this->objCommon->objItem->PD_U - $this->objCommon->objItem->PD_L) * $this->stats->PhyDefense / 100), 1);
+    }
+
+    public function getMagicalDefensePowerAttribute()
+    {
+        return number_format($this->objCommon->objItem->MD_L + ($this->OptLevel * $this->objCommon->objItem->MDInc) + (($this->objCommon->objItem->MD_U - $this->objCommon->objItem->MD_L) * $this->stats->PhyDefense / 100), 1);
+    }
+
+    public function getParryRateAttribute()
+    {
+        return intval($this->objCommon->objItem->ER_L + ($this->OptLevel * $this->objCommon->objItem->ERInc) + (($this->objCommon->objItem->ER_U - $this->objCommon->objItem->ER_L) * $this->stats->ParryRatio / 100));
+    }
+
+    public function getBlockingRateAttribute()
+    {
+        return intval($this->objCommon->objItem->BR_L + ($this->OptLevel * $this->objCommon->objItem->BRInc) + (($this->objCommon->objItem->BR_U - $this->objCommon->objItem->BR_L) * $this->stats->BlockRatio / 100));
+    }
+
+    public function getPhysicalReinforcementAttribute()
+    {
+        return number_format(round($this->objCommon->objItem->PDStr_L + (($this->objCommon->objItem->PDStr_U - $this->objCommon->objItem->PDStr_L) * $this->stats->PhyReinforce / 100)) / 10, 1);
+    }
+
+    public function getMagicalReinforcementAttribute()
+    {
+        return number_format(round($this->objCommon->objItem->MDInt_L + (($this->objCommon->objItem->MDInt_U - $this->objCommon->objItem->MDInt_L) * $this->stats->MagReinforce / 100)) / 10, 1);
+    }
+
+    // accessories
+    public function getPhysicalAbsorptionAttribute()
+    {
+        return number_format($this->objCommon->objItem->PAR_L + ($this->OptLevel * $this->objCommon->objItem->PARInc) + (($this->objCommon->objItem->PAR_U - $this->objCommon->objItem->PAR_L) * $this->stats->PhyAbsorption / 100), 1);
+    }
+
+    public function getMagicalAbsorptionAttribute()
+    {
+        return number_format($this->objCommon->objItem->MAR_L + ($this->OptLevel * $this->objCommon->objItem->MARInc) + (($this->objCommon->objItem->MAR_U - $this->objCommon->objItem->MAR_L) * $this->stats->MagAbsorption / 100), 1);
+    }
+
+    public function getMagicParamsAttribute()
+    {
+        if (!$this->MagParamNum)
+        {
+            return [];
+        }
+
+        $magicParamValues = [];
+
+        for ($paramIndex = 1; $paramIndex <= $this->MagParamNum; ++$paramIndex)
+        {
+            $magicParamValues[] = $this->parseMagicParamValue($this->{'MagParam' . $paramIndex});
+        }
+
+        return (object) $magicParamValues;
+    }
+
+    private function parseMagicParamValue($magicParam): object
+    {
+        $magicParamInfo = [
+            'magicOpt' => MagicOpt::find($magicParam & 0xFFF),
+            'value' => ($magicParam >> 32) & 0xFF,
+        ];
+
+        // 'magicOpt' => MagicOpt::where('MOptName128', MagicOpt::find($magicParam & 0xFFF)->MOptName128)->where('MLevel', '<=', $this->objCommon->objItem->degree)->enabled()->orderByDesc('MLevel')->first(),
+
+        // $magicParamInfo += [
+        //     'percentage' => intval(($magicParamInfo['value'] / $magicParamInfo['magicOpt']->stats->maxValue) * 100),
+        // ];
+
+        return (object) $magicParamInfo;
     }
 }

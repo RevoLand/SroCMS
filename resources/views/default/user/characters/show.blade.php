@@ -81,7 +81,10 @@
                             <div class="row row-cols-2">
                                 @foreach ($character->inventory as $inventoryItem)
                                 <div class="col mb-2 pt-2 item-info">
-                                    <img data-toggle="tooltip" data-html="true" data-placement="right" title='@include('components.items.tooltip', ['item' => $inventoryItem->item])' class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->objCommon->CodeName128 }}
+                                    {{-- @if ($inventoryItem->item->MagParamNum)
+                                    {{ dd($inventoryItem->item->magicParams) }}
+                                    @endif --}}
+                                    <img data-toggle="tooltip" data-html="true" data-placement="right" title='@include('components.items.tooltip', ['item' => $inventoryItem->item])' class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->name }}
                                 </div>
                                 @endforeach
                             </div>
@@ -90,7 +93,7 @@
                             <div class="row row-cols-2">
                                 @foreach ($character->inventoryForAvatar as $inventoryItem)
                                 <div class="col mb-2 pt-2">
-                                    <img class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->objCommon->CodeName128 }}
+                                    <img data-toggle="tooltip" data-html="true" data-placement="right" title='@include('components.items.avatar_tooltip', ['item' => $inventoryItem->item])' class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->name }}
                                 </div>
                                 @endforeach
                             </div>

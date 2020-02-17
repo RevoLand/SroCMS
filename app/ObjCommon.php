@@ -23,6 +23,11 @@ class ObjCommon extends Model
         return $this->hasOne(ObjChar::class, 'ID', 'Link');
     }
 
+    public function name()
+    {
+        return $this->hasOne(Name::class, 'key', 'NameStrID128');
+    }
+
     public function getImageAttribute()
     {
         if ($this->AssocFileIcon128 == 'xxx')
@@ -35,11 +40,11 @@ class ObjCommon extends Model
 
     public function getSortOfItemAttribute()
     {
-        return config('constants.item.typeid.' . $this->TypeID3 . '.name') ?: '[DEBUG] Bulunamadı';
+        return config('constants.item.typeid.' . $this->TypeID3 . '.name') ?: '[DEBUG] Bulunamadı: ' . $this->TypeID3;
     }
 
     public function getMountingPartAttribute()
     {
-        return config('constants.item.typeid.' . $this->TypeID3 . '.' . $this->TypeID4) ?: '[DEBUG] Bulunamadı';
+        return config('constants.item.typeid.' . $this->TypeID3 . '.' . $this->TypeID4) ?: '[DEBUG] Bulunamadı: ' . $this->TypeID4;
     }
 }

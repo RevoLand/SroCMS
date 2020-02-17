@@ -11,4 +11,14 @@ class SetItemGroup extends Model
     protected $table = '_RefSetItemGroup';
     protected $primaryKey = 'ID';
     protected $guarded = [];
+
+    public function name()
+    {
+        return $this->hasOne(Name::class, 'key', 'NameStrID128');
+    }
+
+    public function getName()
+    {
+        return ($this->name) ? $this->name->name : $this->NameStrID128;
+    }
 }

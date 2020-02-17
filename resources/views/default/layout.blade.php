@@ -13,7 +13,7 @@
         <meta name="keywords" content="{{ setting('site.metakeys') }}" />
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ Theme::url('srocms/img/favicon.png') }}">
+        {{-- <link rel="shortcut icon" href="{{ Theme::url('srocms/img/favicon.png') }}"> --}}
 
         <!-- Main CSS -->
         {!! Theme::css('css/bootstrap.css') !!}
