@@ -20,9 +20,9 @@ class MagicOpt extends Model
         return (object) ['minValue' => $minValue, 'maxValue' => $maxValue];
     }
 
-    public function name()
+    public function getNameAttribute()
     {
-        return $this->hasOne(Name::class, 'key', 'MOptName128');
+        return config('constants.item.magic_attributes.' . $this->MOptName128);
     }
 
     public function scopeEnabled($query)

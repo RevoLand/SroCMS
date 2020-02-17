@@ -19,10 +19,6 @@
         <div class="col mb-4">
             Mounting part: {{ $item->objCommon->mountingPart }}
         </div>
-        @switch($item->type)
-            @case('devil')
-            @break
-        @endswitch
         @if ($item->objCommon->Country)
         <div class="col">
             {{ config('constants.item.country.' . $item->objCommon->Country) }}
@@ -32,9 +28,7 @@
             Max. no. of magic options: {{ $item->objCommon->objItem->MaxMagicOptCount }}Unit
         </div>
         @foreach($item->magicParams as $blue)
-            <h6 class="col text-primary @if($loop->first) mt-4 @endif">
-                [{{ $blue->magicOpt->ID }}] {{ $blue->magicOpt->MOptName128 }} @if($blue->value) {{ $blue->value }} @endif
-            </h6>
+            <h6 class="col text-primary @if($loop->first) mt-4 @endif">{{ sprintf($blue->name, $blue->value) }}</h6>
         @endforeach
     </div>
 </div>

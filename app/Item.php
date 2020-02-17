@@ -201,11 +201,12 @@ class Item extends Model
             'value' => ($magicParam >> 32) & 0xFF,
         ];
 
-        // 'magicOpt' => MagicOpt::where('MOptName128', MagicOpt::find($magicParam & 0xFFF)->MOptName128)->where('MLevel', '<=', $this->objCommon->objItem->degree)->enabled()->orderByDesc('MLevel')->first(),
+        $magicParamInfo += [
+            'name' => config('constants.item.magic_attributes.' . $magicParamInfo['magicOpt']->MOptName128),
+            'percentage' => intval(($magicParamInfo['value'] / $magicParamInfo['magicOpt']->stats->maxValue) * 100),
+        ];
 
-        // $magicParamInfo += [
-        //     'percentage' => intval(($magicParamInfo['value'] / $magicParamInfo['magicOpt']->stats->maxValue) * 100),
-        // ];
+        // 'magicOpt' => MagicOpt::where('MOptName128', MagicOpt::find($magicParam & 0xFFF)->MOptName128)->where('MLevel', '<=', $this->objCommon->objItem->degree)->enabled()->orderByDesc('MLevel')->first(),
 
         return (object) $magicParamInfo;
     }
