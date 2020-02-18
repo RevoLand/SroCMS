@@ -19,6 +19,7 @@ class CreatePagesTable extends Migration
             $table->longText('content')->nullable();
             $table->string('view')->nullable();
             $table->string('middleware')->nullable();
+            $table->boolean('showsidebar')->default(true);
             $table->boolean('enabled')->default(true);
             $table->timestamps();
         });

@@ -18,7 +18,13 @@ class ItemMallController extends Controller
 
     public function index()
     {
-        $itemMallCategories = ItemMallCategory::enabled()->with(['itemGroupsEnabled'])->orderBy('order')->paginate(20);
+        $itemMallCategories = ItemMallCategory::enabled()->with(['itemGroups' => function ($query)
+            {
+                $query->enabled()->orderBy('order')->with(['items' => function ($itemsQuery)
+                    {
+                        $itemsQuery->enabled();
+                    }]);
+            }, ])->orderBy('order')->get();
 
         return view('itemmall.index', compact('itemMallCategories'));
     }

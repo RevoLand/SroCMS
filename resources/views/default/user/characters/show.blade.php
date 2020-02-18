@@ -81,9 +81,6 @@
                             <div class="row row-cols-2">
                                 @foreach ($character->inventory as $inventoryItem)
                                 <div class="col mb-2 pt-2 item-info">
-                                    {{-- @if ($inventoryItem->item->MagParamNum)
-                                    {{ dd($inventoryItem->item->magicParams) }}
-                                    @endif --}}
                                     <img data-toggle="tooltip" data-html="true" data-placement="right" title='@include('components.items.tooltip', ['item' => $inventoryItem->item])' class="img-thumbnail mr-1" src="{{ $inventoryItem->item->objCommon->image }}">
                                     [{{ $inventoryItem->item->ID64 }}] ({{ $inventoryItem->Slot }}) {{ $inventoryItem->item->name }}
                                 </div>

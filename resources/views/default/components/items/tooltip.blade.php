@@ -4,9 +4,15 @@
             {{ $item->name }} (+{{ $item->OptLevel }})
         </h6>
         @if ($item->objCommon->Rarity)
+            @if ($item->objCommon->Rarity != 3)
             <h6 class="col text-warning">
                 {{ $item->objCommon->objItem->rarity }}
             </h6>
+            @else
+            <h6 class="col text-warning">
+                {{ $item->objCommon->objItem->setItem->getName() }}
+            </h6>
+            @endif
             @if ($item->objCommon->Rarity == 6)
                 <div class="col text-warning">
                     {{ $item->objCommon->objItem->setItem->getName() }}

@@ -8,6 +8,13 @@ return [
         'silk_gift' => '4',
         'silk_point' => '5',
         'item' => 6,
+
+        // Vice versa for visual
+        '1' => 'Bakiye',
+        '2' => 'Bakiye (Puan)',
+        '3' => 'Silk',
+        '4' => 'Silk (Gift)',
+        '5' => 'Silk (Point)',
     ],
     'silk' => [
         'type' => [

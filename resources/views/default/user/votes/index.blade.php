@@ -7,13 +7,6 @@
 <div class="row">
     <div class="col-12">
         <div class="user-vote4 bg-dark px-3 py-3 shadow-sm rounded-sm">
-            @if ($errors->any())
-            <ul class="alert alert-danger">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            @endif
             <div class="row">
                 <div class="col">
                     @error('reward')
