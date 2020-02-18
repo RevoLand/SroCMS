@@ -42,26 +42,18 @@
                                                         @if ($itemGroup->price_before && $itemGroup->on_sale)
                                                             <small class="text-muted"><s>{{ $itemGroup->price_before }} {{ config('constants.payment_types.' . $itemGroup->payment_type) }}</s></small>
                                                         @endif
-                                                        <h6>{{ $itemGroup->price }} {{ config('constants.payment_types.' . $itemGroup->payment_type) }}</h6>
+                                                        <span>{{ $itemGroup->price }} {{ config('constants.payment_types.' . $itemGroup->payment_type) }}</span>
                                                     </div>
                                                     <div class="col-md-8 text-right">
-                                                        <a class="btn btn-sm" data-toggle="collapse" href="#itemGroupContent_{{ $itemGroup->id }}" role="button" aria-expanded="false" aria-controls="itemGroupContent_{{ $itemGroup->id }}">İçeriği Göster</a>
+                                                        <a class="btn" data-toggle="collapse" href="#itemGroupContent_{{ $itemGroup->id }}" role="button" aria-expanded="false" aria-controls="itemGroupContent_{{ $itemGroup->id }}"><small class="text-muted">İçeriği Göster</small></a>
                                                         <a href="#" class="btn btn-primary">Sepete Ekle</a>
                                                     </div>
                                                 </div>
                                                 <div class="collapse mt-2" id="itemGroupContent_{{ $itemGroup->id }}">
                                                     <div class="card card-body">
                                                         <ul class="list-group">
-                                                        @foreach($itemGroup->items as $item)
+                                                        @forelse($itemGroup->items as $item)
                                                             @switch($item->type)
-                                                                {{--
-                                                                    'balance' => '1',
-                                                                    'balance_point' => '2',
-                                                                    'silk' => '3',
-                                                                    'silk_gift' => '4',
-                                                                    'silk_point' => '5',
-                                                                    'item' => 6,
-                                                                --}}
                                                                 @case(1)
                                                                 @case(2)
                                                                     <li class="list-group-item">
@@ -94,7 +86,7 @@
                                                                     </li>
                                                                 @break
                                                                 @case(6)
-                                                                <li class="list-group-item mb-0 pb-0">
+                                                                <li class="list-group-item">
                                                                     <img class="img-fluid" src="{{ $item->image ?? $item->objCommon->image }}"/>
                                                                     {{ $item->getName() }} @if($item->plus) (+{{ $item->plus }}) @endif
                                                                     <span class="badge badge-pill bg-secondary float-right">
@@ -106,7 +98,11 @@
                                                                 </li>
                                                                 @break
                                                             @endswitch
-                                                        @endforeach
+                                                            @empty
+                                                            <li class="list-group-item">
+                                                                <h6>Bu grupta herhangi bir ürün tanımlanmamış!</h6>
+                                                            </li>
+                                                        @endforelse
                                                       </ul>
                                                     </div>
                                                 </div>

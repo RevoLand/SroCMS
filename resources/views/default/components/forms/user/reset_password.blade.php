@@ -8,6 +8,10 @@
     <input id="email" class="form-control" type="email" name="email" value="{{ $email }}" required>
 </div>
 <div class="form-group">
+    <label for="StrUserID">Kullanıcı Adınız</label>
+    <input id="StrUserID" class="form-control" type="text" name="StrUserID" required>
+</div>
+<div class="form-group">
     <label for="password">Yeni Şifre</label>
     <input id="password" class="form-control" type="password" name="password" required>
 </div>

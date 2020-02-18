@@ -66,8 +66,7 @@
                                 <!-- Account Panel & Logout -->
 
                             </div>
-                            @endauth
-                            @guest
+                            @else
                             <div class="login_form_top">
                                 {{ Form::open(['route' => 'users.do_login']) }}
                                 <input type="text" name="username" id="username" value="" placeholder="Username">
@@ -75,7 +74,7 @@
                                 <input type="submit" value="Login">
                                 {{ Form::close() }}
                             </div>
-                            @endguest
+                            @endauth
                         </div>
                     </div>
 

@@ -22,8 +22,8 @@ class ItemMallController extends Controller
             {
                 $query->enabled()->orderBy('order')->with(['items' => function ($itemsQuery)
                     {
-                        $itemsQuery->enabled();
-                    }]);
+                        $itemsQuery->enabled()->with('objCommon.name');
+                    }, ]);
             }, ])->orderBy('order')->get();
 
         return view('itemmall.index', compact('itemMallCategories'));

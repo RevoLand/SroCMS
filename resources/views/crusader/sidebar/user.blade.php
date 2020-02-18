@@ -34,8 +34,7 @@ Hoşgeldin, {{ Auth::user()->getName() }}
     <a href="{{ route('users.current_user') }}" class="nice_button">User panel</a>
     <a href="{{ route('users.do_logout') }}" class="nice_button" data-hasevent="1">Log out</a>
 </center>
-@endauth
-@guest
+@else
 @if ($errors->any())
 <div class="alert alert-danger">
     <ul>
@@ -62,4 +61,4 @@ Hoşgeldin, {{ Auth::user()->getName() }}
     </section>
 </center>
 {{ Form::close() }}
-@endguest
+@endauth

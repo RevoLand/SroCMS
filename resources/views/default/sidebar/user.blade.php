@@ -42,9 +42,7 @@
                 </tr>
             </table>
         </div>
-        @endauth
-
-        @guest
+        @else
             @if ($errors->any())
                 <ul class="alert alert-danger">
                     @foreach ($errors->all() as $error)
@@ -54,6 +52,6 @@
             @endif
 
             @include('components.forms.user.login')
-        @endguest
+        @endauth
     </div>
 </div>

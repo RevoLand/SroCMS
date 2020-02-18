@@ -62,11 +62,10 @@
                     @else
                         <textarea class="form-control" name="comment" id="articleComment" rows="3" minlength="1" maxlength="255" disabled placeholder="Yorum yapma yetkiniz bulunmamaktadır."></textarea>
                     @endcan
-                @endauth
-                @guest
+                @else
                     <label for="articleComment">Yorum yap:</label>
                     <textarea class="form-control" name="comment" id="articleComment" rows="3" minlength="1" maxlength="255" disabled placeholder="Bu yazıya yorum yapabilmek için giriş yapmanız gerekmektedir."></textarea>
-                @endguest
+                @endauth
             </div>
             @foreach ($articleComments as $articleComment)
                 @include('articles.comment', ['articleComment' => $articleComment])

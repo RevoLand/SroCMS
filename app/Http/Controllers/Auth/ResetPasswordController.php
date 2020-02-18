@@ -39,6 +39,23 @@ class ResetPasswordController extends Controller
         );
     }
 
+    public function rules()
+    {
+        return [
+            'token' => 'required',
+            'StrUserID' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ];
+    }
+
+    public function credentials(Request $request)
+    {
+        return $request->only(
+            'email', 'StrUserID', 'password', 'password_confirmation', 'token'
+        );
+    }
+
     protected function redirectTo()
     {
         Alert::success('Başarılı!', 'Şifreniz başarıyla güncellendi.');
