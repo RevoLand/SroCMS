@@ -3,9 +3,9 @@
         Deneme
         <ul class="list-inline ml-auto mb-0">
             <li class="list-inline-item">
-                <button class="btn" role="button">
+                <a class="btn" role="button" href="{{ route('itemmall.cart.index') }}">
                     <span class="fas fa-shopping-cart"></span>
-                </button>
+                </a>
             </li>
         </ul>
     </div>

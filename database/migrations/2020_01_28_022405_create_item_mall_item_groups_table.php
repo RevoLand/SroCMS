@@ -22,6 +22,10 @@ class CreateItemMallItemGroupsTable extends Migration
             $table->decimal('price', 13, 2);
             $table->decimal('price_before', 13, 2)->nullable();
             $table->boolean('on_sale')->default(false);
+            $table->boolean('limit_total_purchases')->default(false);
+            $table->integer('total_purchase_limit')->nullable();
+            $table->boolean('limit_user_purchases')->default(false);
+            $table->integer('user_purchase_limit')->nullable();
             $table->boolean('use_customized_referral_options')->default(false);
             $table->boolean('referral_commission_enabled')->default(true);
             $table->tinyInteger('referral_commission_reward_type')->default(2);

@@ -20,7 +20,7 @@ class CreateItemMallItemsTable extends Migration
             $table->string('image')->nullable();
             $table->tinyInteger('type')->default(6);
             $table->string('codename')->nullable();
-            $table->integer('amount')->default(0)->nullable();
+            $table->integer('amount')->default(1)->nullable();
             $table->decimal('balance', 13, 2)->default(0)->nullable();
             $table->tinyInteger('plus')->default(0)->nullable();
             $table->boolean('enabled')->default(true);
