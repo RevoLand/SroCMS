@@ -59,13 +59,13 @@
                                                     <p class="card-text">{{ $itemGroup->description }}</p>
                                                 @endif
                                                 <div class="row align-items-center bg-secondary" style="height: 3em">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-5">
                                                         @if ($itemGroup->on_sale && $itemGroup->price_before)
-                                                            <small class="text-muted"><s>{{ $itemGroup->price_before }} {{ config('constants.payment_types.' . $itemGroup->payment_type) }}</s></small>
+                                                            <small class="text-muted"><s>{{ $itemGroup->price_before }} {{ setting('balance.currency', 'TL') }}</s></small>
                                                         @endif
-                                                        <span>{{ $itemGroup->price }} {{ config('constants.payment_types.' . $itemGroup->payment_type) }}</span>
+                                                        <div>{{ config('constants.payment_types.' . $itemGroup->payment_type) }} {{ $itemGroup->price }} {{ setting('balance.currency', 'TL') }}</div>
                                                     </div>
-                                                    <div class="col-md-8">
+                                                    <div class="col-md-7 text-right">
                                                         <div class="btn-group">
                                                             <a class="btn" data-toggle="collapse" href="#itemGroupContent_{{ $itemGroup->id }}" role="button" aria-expanded="false" aria-controls="itemGroupContent_{{ $itemGroup->id }}"><small class="text-muted">İçeriği Göster</small></a>
                                                             {{ Form::open(['route' => ['itemmall.cart.add', $itemGroup]]) }}

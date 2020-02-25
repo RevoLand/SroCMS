@@ -19,6 +19,9 @@ use Harimayco\Menu\Facades\Menu;
 $menuList = Menu::getByName('Admin');
 */
 
+use App\Item;
+use App\MagicOpt;
+
 Route::get('/', 'ArticleController@index')->name('home');
 
 Route::group(['prefix' => 'articles'], function ()
@@ -27,6 +30,8 @@ Route::group(['prefix' => 'articles'], function ()
 
     Route::get('{id}-{slug}', 'ArticleController@show')->name('articles.show_article');
     Route::post('{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment');
+
+    Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
 });
 
 //Theme::set('crusader');
@@ -105,4 +110,36 @@ Route::group(['prefix' => 'votes'], function ()
 Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
 {
     Route::get('/', 'ItemMallController@index')->name('index');
+
+    Route::group(['prefix' => 'cart', 'as' => 'cart.', 'middleware' => 'auth'], function ()
+    {
+        Route::get('/', 'CartController@index')->name('index');
+        Route::post('add/{itemgroup}', 'CartController@additem')->name('add');
+        Route::patch('update', 'CartController@update')->name('update');
+        Route::delete('delete/{itemgroup}', 'CartController@delete')->name('delete');
+    });
+});
+
+Route::match(['get', 'post'], 'item-test', function ()
+{
+    if ($_POST)
+    {
+        $optId = $_POST['optid'];
+        $value = $_POST['value'] ?: MagicOpt::find($optId)->stats->maxValue;
+
+        $magicParam = ($value << 32) | $optId;
+
+        echo "<h4>{$magicParam}</h4><h5>[{$optId}] {$value}</h5>";
+
+        // Item::find(179384)->update([
+        //     'MagParam1' => $magicParam,
+        // ]);
+    } ?>
+
+    <form method="post" action="">
+        <input class="form-control" type="text" name="optid" placeholder="Magic Option ID">
+        <input class="form-control" type="text" name="value" placeholder="Value">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<?php
 });
