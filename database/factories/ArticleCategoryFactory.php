@@ -1,14 +1,13 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
 use App\ArticleCategory;
 use Faker\Generator as Faker;
 
-$factory->define(ArticleCategory::class, function (Faker $faker) {
+$factory->define(ArticleCategory::class, function (Faker $faker)
+{
     return [
         'slug' => $faker->unique()->slug(),
-        'title' => $faker->realText(50),
-        'is_visible' => true
+        'name' => $faker->realText(15),
     ];
 });

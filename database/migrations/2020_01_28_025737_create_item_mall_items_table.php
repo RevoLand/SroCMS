@@ -26,10 +26,7 @@ class CreateItemMallItemsTable extends Migration
             $table->boolean('enabled')->default(true);
             $table->timestamps();
 
-            $table->foreign('item_mall_item_group_id')
-                ->references('id')
-                ->on('item_mall_item_groups')
-                ->onDelete('cascade');
+            $table->foreign('item_mall_item_group_id')->references('id')->on('item_mall_item_groups')->onDelete('cascade');
         });
     }
 

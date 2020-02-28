@@ -23,12 +23,12 @@
                                         <div class="row">
                                             <div class="col-md" v-show="itemCount !== 0">
                                                 @forelse($cart as $key => $cartItem)
-                                                <table class="table table-bordered table-responsive-md" id="cartitem-{{ $key }}">
-                                                    <thead>
+                                                <table class="table table-borderless table-responsive-md table-hover shadow-sm" id="cartitem-{{ $key }}">
+                                                    <thead class="table-secondary shadow-sm">
                                                         <tr>
-                                                            <th class="col-10">{{ $cartItem['group']->name }} @if($cartItem['group']->description) <small><i class="text-muted">- {{ $cartItem['group']->description }}</i></small>@endif</th>
-                                                            <th class="col-2">
-                                                                <div class="d-inline">
+                                                            <th class="col-6 col-md-9 align-middle">{{ $cartItem['group']->name }} @if($cartItem['group']->description) <small><i class="text-muted">- {{ $cartItem['group']->description }}</i></small>@endif</th>
+                                                            <th class="col-6 col-md-3">
+                                                                <div class="">
                                                                     {{ Form::open(['route' => ['itemmall.cart.delete', $key], 'method' => 'delete', '@submit.prevent' => 'onDeleteCartItem('. $key . ')']) }}
                                                                         <item-quantity qty="{{ $cartItem['quantity'] }}" groupid="{{ $key }}"></item-quantity>
                                                                     {{ Form::close() }}
@@ -36,44 +36,44 @@
                                                             </th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody class="border border-secondary border-left-0 border-right-0 shadow-sm">
                                                         @forelse($cartItem['group']->items as $item)
                                                             <tr>
                                                                 @switch($item->type)
                                                                     @case(1)
                                                                     @case(2)
-                                                                    <td>
+                                                                    <td class="align-middle">
                                                                         @if ($item->image)
-                                                                            <img class="img-fluid" src="{{ $item->image }}">
+                                                                            <img class="img-fluid mr-2" src="{{ $item->image }}">
                                                                         @endif
                                                                         {{ $item->name }}
                                                                         @if ($item->description)<small class="text-muted"><i>- {{ $item->description }}</i></small>@endif
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="align-middle text-right">
                                                                         {{ $item->balance }} {{ setting('balance.currency', 'TL') }}
                                                                     </td>
                                                                     @break
                                                                     @case(3)
                                                                     @case(4)
                                                                     @case(5)
-                                                                    <td>
+                                                                    <td class="align-middle">
                                                                         @if ($item->image)
-                                                                            <img class="img-fluid" src="{{ $item->image }}">
+                                                                            <img class="img-fluid mr-2" src="{{ $item->image }}">
                                                                         @endif
                                                                         {{ $item->name }}
                                                                         @if ($item->description)<small class="text-muted"><i>- {{ $item->description }}</i></small>@endif
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="align-middle text-right">
                                                                         {{ $item->amount }} {{ config('constants.payment_types.' . $item->type) }}
                                                                     </td>
                                                                     @break
                                                                     @case(6)
-                                                                    <td>
-                                                                        <img class="img-fluid" src="{{ $item->image ?? $item->objCommon->image }}"/>
+                                                                    <td class="align-middle">
+                                                                        <img class="img-fluid mr-2" src="{{ $item->image ?? $item->objCommon->image }}"/>
                                                                         {{ $item->getName() }} @if($item->plus) (+{{ $item->plus }}) @endif
                                                                         @if ($item->description)<small class="text-muted"><i>- {{ $item->description }}</i></small>@endif
                                                                     </td>
-                                                                    <td>
+                                                                    <td class="align-middle text-right">
                                                                         {{ $item->amount }} adet
                                                                     </td>
                                                                     @break
@@ -81,13 +81,13 @@
                                                             </tr>
                                                             @empty
                                                             <tr>
-                                                                <td colspan="3">Bu grupta herhangi bir ürün tanımlanmamış!</td>
+                                                                <td colspan="2">Bu grupta herhangi bir ürün tanımlanmamış!</td>
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
-                                                    <tfoot>
+                                                    <tfoot  class="table-secondary shadow-sm">
                                                         <tr>
-                                                            <td colspan="3" class="text-right">
+                                                            <td colspan="2" class="text-right h6">
                                                                 {{ config('constants.payment_types.' . $cartItem['group']->payment_type) }}:
                                                                 {{ $cartItem['group']->price }}
                                                                 @if ($cartItem['group']->on_sale && $cartItem['group']->price_before)
@@ -181,7 +181,7 @@
             return {
                 quantity: 1,
                 groupId: 0,
-                updating: false
+                IsUpdating: false
             }
         },
         mounted() {
@@ -190,19 +190,19 @@
         },
         template: `
             <div>
-                <input type="number" class="form-control mb-2" v-model.number="quantity" />
-                <div class="text-center">
-                    <button type="button" class="btn btn-primary" @click="onUpdateQty" :disabled="updating"><i class="las la-sync"></i></button>
-                    <button type="submit" @deleteitem="onDeleteCartItem" class="btn btn-danger"><i class="las la-trash"></i></button>
+                <div class="btn-group" role="group">
+                    <input type="number" class="form-control w-50" v-model.number="quantity" />
+                    <button type="button" class="btn btn-primary shadow-sm border border-dark" @click="onUpdateQty" :disabled="IsUpdating"><i class="las la-sync"></i></button>
+                    <button type="submit" @deleteitem="onDeleteCartItem" class="btn btn-danger shadow-sm border border-dark"><i class="las la-trash"></i></button>
                 </div>
             </div>
         `,
         methods: {
             onUpdateQty(event) {
-                this.updating = true;
+                this.IsUpdating = true;
 
-                if (this.quantity === 0) {
-                    return this.onDeleteCartItem(this.groupId);
+                if (this.quantity <= 0) {
+                    return Event.$emit('deleteitem', this.groupId, event.target.form.action);
                 }
 
                 axios.patch('{{ route('itemmall.cart.update') }}', {
@@ -213,13 +213,13 @@
                     this.$root.totals = response.data.totals;
                     this.$root.itemCount = response.data.itemCount;
 
-                    //alert(response.data.message);
+                    this.IsUpdating = false;
                 })
                 .catch(error => {
                     alert(error.message);
+                    this.IsUpdating = false;
                 });
 
-                this.updating = false;
             },
 
             onDeleteCartItem($itemGroup) {

@@ -2,16 +2,28 @@
 
 @section('withsidebar', true)
 
-@section('pagetitle', 'Haberler')
+@section('pagetitle')
+    @isset ($articleCategory)
+    Kategori: {{ $articleCategory->name }}
+    @else
+    Haberler
+    @endisset
+@endsection
 
-@section('contenttitle', 'Haberler')
+@section('contenttitle')
+    @isset ($articleCategory)
+    Kategori: {{ $articleCategory->name }}
+    @else
+    Haberler
+    @endisset
+@endsection
 
 @section('content')
 <div class="articles">
     @foreach ($articles as $article)
     <div class="row">
-        <div class="col-md-12">
-            <div class="article shadow-sm rounded px-3 pb-5 mb-2" role="article">
+        <div class="col-12">
+            <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2" role="article">
                 <h2 class="article-title py-2">
                     <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}">{{ $article->title }}</a>
                 </h2>

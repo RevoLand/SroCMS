@@ -23,9 +23,7 @@ class ArticleCommentController extends Controller
             'comment' => ['required', 'string', 'min:6', 'max:255'],
         ]);
 
-        $article = Article::where('id', $id)->where('slug', $slug)->firstOrFail();
-        $user = Auth::user();
-
+        $article = Article::whereId($id)->whereSlug($slug)->firstOrFail();
         if (!$article->is_visible || !$article->can_comment_on)
         {
             Alert::error('Hata!', 'Bu yazıya yorum yapamazsınız!');
@@ -35,7 +33,7 @@ class ArticleCommentController extends Controller
 
         ArticleComment::create([
             'article_id' => $article->id,
-            'user_id' => $user->JID,
+            'user_id' => Auth::user()->JID,
             'content' => request('comment'),
             'is_visible' => setting('article.comments.default_is_visible', 1),
             'is_approved' => setting('article.comments.default_is_approved', 1),

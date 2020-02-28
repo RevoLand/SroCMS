@@ -20,9 +20,8 @@ class CreateItemMallItemGroupsTable extends Migration
             $table->string('image')->nullable();
             $table->tinyInteger('payment_type')->default(1);
             $table->decimal('price', 13, 2);
-            $table->decimal('price_before', 13, 2)->nullable();
             $table->string('price_item_codename')->nullable();
-            $table->boolean('on_sale')->default(false);
+            $table->integer('price_item_amount')->nullable();
             $table->boolean('limit_total_purchases')->default(false);
             $table->integer('total_purchase_limit')->nullable();
             $table->boolean('limit_user_purchases')->default(false);
@@ -31,8 +30,9 @@ class CreateItemMallItemGroupsTable extends Migration
             $table->boolean('referral_commission_enabled')->default(true);
             $table->tinyInteger('referral_commission_reward_type')->default(2);
             $table->integer('referral_commission_percentage')->nullable();
-            $table->boolean('enabled')->default(true);
+            $table->boolean('featured')->default(false);
             $table->integer('order')->default(1)->nullable();
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
 
             $table->foreign('item_mall_category_id')

@@ -3,16 +3,28 @@
 namespace App;
 
 use Carbon\Carbon;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+    use Sluggable, SluggableScopeHelpers;
     protected $connection = 'srocms';
     protected $guarded = [];
 
-    public function articleCategory()
+    public function sluggable()
     {
-        return $this->belongsTo(ArticleCategory::class, 'category_id');
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
+    }
+
+    public function articleCategories()
+    {
+        return $this->belongsToMany(ArticleCategory::class, 'article_category')->enabled();
     }
 
     public function user()

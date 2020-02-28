@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    use Sluggable;
-    use SluggableScopeHelpers;
+    use Sluggable, SluggableScopeHelpers;
 
     protected $connection = 'srocms';
     protected $guarded = [];
@@ -21,5 +20,10 @@ class Page extends Model
                 'source' => 'title',
             ],
         ];
+    }
+
+    public function scopeEnabled($query)
+    {
+        return $query->whereEnabled(true);
     }
 }

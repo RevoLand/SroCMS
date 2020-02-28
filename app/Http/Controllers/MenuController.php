@@ -14,6 +14,9 @@ class MenuController extends Controller
             {
                 $query->location($location);
             }
-        })->with('page')->withCount('childMenus')->orderBy('order')->limit($limit)->get();
+        })->with(['page' => function ($query)
+            {
+                $query->enabled();
+            }, ])->withCount('childMenus')->orderBy('order')->limit($limit)->get();
     }
 }

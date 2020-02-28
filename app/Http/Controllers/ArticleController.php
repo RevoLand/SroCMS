@@ -11,7 +11,10 @@ class ArticleController extends Controller
         $articles = Article::visible()
             ->published()
             ->with('user')
-            ->withCount('articleComments')
+            ->withCount(['articleComments' => function ($query)
+                {
+                    $query->visible()->approved();
+                }, ])
             ->orderByDesc('updated_at')
             ->paginate(5);
 
@@ -24,7 +27,10 @@ class ArticleController extends Controller
             ->whereSlug($slug)
             ->published()
             ->with('user')
-            ->withCount('articleComments')
+            ->withCount(['articleComments' => function ($query)
+                {
+                    $query->visible()->approved();
+                }, ])
             ->firstOrFail();
 
         $articleComments = $article->articleComments()->visible()->approved()->latest()->with('user')->paginate(10);

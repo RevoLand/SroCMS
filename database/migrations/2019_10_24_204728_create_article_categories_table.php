@@ -8,24 +8,21 @@ class CreateArticleCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
-        Schema::connection('srocms')->create('article_categories', function (Blueprint $table) {
+        Schema::connection('srocms')->create('article_categories', function (Blueprint $table)
+        {
             $table->bigIncrements('id');
             $table->string('slug');
-            $table->string('title');
-            $table->boolean('is_visible')->default(true);
+            $table->string('name');
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

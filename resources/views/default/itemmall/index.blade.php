@@ -61,9 +61,9 @@
                                                 <div class="row align-items-center bg-secondary" style="height: 3em">
                                                     <div class="col-md-5">
                                                         @if ($itemGroup->on_sale && $itemGroup->price_before)
-                                                            <small class="text-muted"><s>{{ $itemGroup->price_before }} {{ setting('balance.currency', 'TL') }}</s></small>
+                                                            <small class="text-muted"><s>{{ $itemGroup->price_before }}</s></small>
                                                         @endif
-                                                        <div>{{ config('constants.payment_types.' . $itemGroup->payment_type) }} {{ $itemGroup->price }} {{ setting('balance.currency', 'TL') }}</div>
+                                                        <div>{{ config('constants.payment_types.' . $itemGroup->payment_type) }} {{ $itemGroup->price }}</div>
                                                     </div>
                                                     <div class="col-md-7 text-right">
                                                         <div class="btn-group">

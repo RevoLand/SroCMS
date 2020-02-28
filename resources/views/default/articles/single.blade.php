@@ -9,13 +9,17 @@
 @section ('content')
 <div class="row">
 	<div class="col-md-12">
-        <div class="article shadow-sm border rounded-sm px-3 pb-5 mb-2" role="article">
+        <div class="article bg-dark shadow-sm rounded-sm px-4 py-4 mb-2" role="article">
             <h2 class="article-title py-2">
                 <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}">{{ $article->title }}</a>
             </h2>
             <div class="article-meta">
                 <p class="text-muted font-italic">
-                    {{ $article->articleCategory->title }}
+                    @foreach($article->articleCategories as $category)
+                        <a href="{{ route('articles.get_category', $category->slug) }}" class="mr-3">
+                            {{ $category->name }}
+                        </a>
+                    @endforeach
                 </p>
             </div>
             <div class="article-body">
@@ -37,7 +41,6 @@
               <div class="col-md-9">
                 <div class="card-body">
                     <h5 class="card-title"><a href="{{ route('users.show_user', $article->user) }}"> {{ $article->user->getName() }}</a></h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                     <p class="card-text"><small class="text-muted"><a data-toggle="tooltip" data-placement="bottom" title="{{ $article->published_at ?? $article->updated_at }}">{{ ($article->published_at) ? $article->published_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans() : $article->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans() }}</a></small></p>
                 </div>
               </div>

@@ -28,6 +28,6 @@ class CreateVoteProviderRewardGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('srocms')->dropIfExists('vote_provider_rewards');
+        Schema::connection('srocms')->dropIfExists('vote_provider_reward_groups');
     }
 }

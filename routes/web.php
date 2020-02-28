@@ -31,6 +31,7 @@ Route::group(['prefix' => 'articles'], function ()
     Route::get('{id}-{slug}', 'ArticleController@show')->name('articles.show_article');
     Route::post('{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment');
 
+    Route::get('categories/{slug}', 'ArticleCategoryController@show')->name('articles.get_category');
     Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
 });
 
