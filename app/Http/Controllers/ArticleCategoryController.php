@@ -14,12 +14,13 @@ class ArticleCategoryController extends Controller
             ->visible()
             ->published()
             ->with('user')
-            ->withCount(['articleComments' => function ($query)
-                {
-                    $query->visible()->approved();
-                }, ])
             ->orderByDesc('articles.updated_at')
             ->paginate(5);
+
+        $articles->load(['articleComments' => function ($query)
+            {
+                $query->visible()->approved();
+            }, ]);
 
         return view('articles.index', compact('articles', 'articleCategory'));
     }

@@ -20,7 +20,7 @@
 
 @section('content')
 <div class="articles">
-    @foreach ($articles as $article)
+    @forelse ($articles as $article)
     <div class="row">
         <div class="col-12">
             <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2" role="article">
@@ -39,12 +39,12 @@
                     </div>
 
                         <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}#comments" class="btn btn-sm btn-secondary shadow-sm">
-                            Comments ({{ $article->article_comments_count }})
+                            Comments ({{ $article->article_comments_count ?? $article->articleComments->count() }})
                         </a>
                     </div>
                 </div>
                 <div class="article-body">
-                    @if ($article->user->gravatar)
+                    @isset($article->user->gravatar)
                     <div class="article-avatar float-left px-2 pt-1 mr-2">
                         <img src="{{ $article->user->gravatar }}?s=120" class="article-user-avatar img-fluid rounded shadow" height="120" width="120">
                     </div>
@@ -66,7 +66,15 @@
             </div>
         </div>
     </div>
-    @endforeach
+    @empty
+    <div class="row">
+        <div class="col-12">
+            <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2" role="article">
+                Herhangi bir haber bulunamadı.
+            </div>
+        </div>
+    </div>
+    @endforelse
     <div class="articles-pagination-links">
         {{ $articles->links() }}
     </div>
