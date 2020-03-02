@@ -45,6 +45,20 @@ class CartController extends Controller
             return back();
         }
 
+        if (!$this->checkTotalPurchaseLimit($itemgroup))
+        {
+            Alert::error('Hata!', 'Bu ürün daha fazla satın alınamaz!');
+
+            return back();
+        }
+
+        if (!$this->checkUserPurchaseLimit($itemgroup))
+        {
+            Alert::error('Hata!', 'Bu üründen daha fazla satın alamazsınız.');
+
+            return back();
+        }
+
         $cart = session()->get('cart') ?? [];
 
         if (!array_key_exists($itemgroup->id, $cart))
@@ -104,6 +118,7 @@ class CartController extends Controller
         {
             return response()->json(['message' => 'Güncellemeye çalıştığınız ürün sepetinizde bulunmamaktadır.'], 400);
         }
+
         $cart[request()->groupid]['group']->refresh();
         if (request()->quantity <= 0 || !$cart[request()->groupid]['group']->active)
         {
@@ -111,6 +126,16 @@ class CartController extends Controller
             session()->put('cart', $cart);
 
             return response()->json(['totals' => $this->getTotals(), 'quantity' => 0, 'itemCount' => $this->getCount(), 'message' => 'Ürün sepetinizden silindi.']);
+        }
+
+        if (!$this->checkTotalPurchaseLimit($cart[request()->groupid]['group']))
+        {
+            return response()->json(['message' => 'Bu üründen daha fazla satın alamazsınız.'], 403);
+        }
+
+        if (!$this->checkUserPurchaseLimit($cart[request()->groupid]['group']))
+        {
+            return response()->json(['message' => 'Bu üründen daha fazla satın alamazsınız.'], 403);
         }
 
         $cart[request()->groupid]['quantity'] = request()->quantity;
@@ -156,43 +181,24 @@ class CartController extends Controller
                 return back();
             }
 
-            if ($cartItem['group']->limit_total_purchases)
+            if (!$this->checkTotalPurchaseLimit($cartItem['group']))
             {
-                $totalPurchases = $cartItem['group']->orders->sum('quantity');
+                Alert::error('Hata!', $cartItem['group']->name . ' adlı ürünün toplam satın alım limitine ulaşıldı.');
 
-                if ($totalPurchases >= $cartItem['group']->total_purchase_limit)
-                {
-                    Alert::error('Hata!', $cartItem['group']->name . ' adlı ürünün toplam satın alım limitine ulaşıldı.');
+                unset($cart[$key]);
+                session()->put('cart', $cart);
 
-                    unset($cart[$key]);
-                    session()->put('cart', $cart);
-
-                    return back();
-                }
+                return back();
             }
 
-            if ($cartItem['group']->limit_user_purchases)
+            if (!$this->checkUserPurchaseLimit($cartItem['group']))
             {
-                $userPurchases = Auth::user()->orders->load(['items' => function ($f) use ($cartItem)
-                    {
-                        return $f->where('item_mall_item_group_id', $cartItem['group']->id)->sum('quantity');
-                    }, ]);
+                Alert::error('Hata!', $cartItem['group']->name . ' adlı ürün için satın alım limitine ulaştınız.');
 
-                $userPurchaseCount = 0;
-                foreach ($userPurchases as $userPurchase)
-                {
-                    $userPurchaseCount += $userPurchase->items->sum('quantity');
-                }
+                unset($cart[$key]);
+                session()->put('cart', $cart);
 
-                if ($userPurchaseCount >= $cartItem['group']->user_purchase_limit)
-                {
-                    Alert::error('Hata!', $cartItem['group']->name . ' adlı ürün için satın alım limitine ulaştınız.');
-
-                    unset($cart[$key]);
-                    session()->put('cart', $cart);
-
-                    return back();
-                }
+                return back();
             }
         }
 
@@ -343,6 +349,7 @@ class CartController extends Controller
 
             $order->items()->create([
                 'item_mall_item_group_id' => $itemGroup->id,
+                'user_id' => Auth::user()->JID,
                 'quantity' => $cartItem['quantity'],
                 'payment_type' => $itemGroup->payment_type,
                 'item_price' => $itemGroup->price,
@@ -439,5 +446,25 @@ class CartController extends Controller
         }
 
         return $itemCount;
+    }
+
+    private function checkTotalPurchaseLimit(ItemMallItemGroup $itemGroup): bool
+    {
+        if (!$itemGroup->limit_total_purchases)
+        {
+            return true;
+        }
+
+        return $itemGroup->totalOrders < $itemGroup->total_purchase_limit;
+    }
+
+    private function checkUserPurchaseLimit(ItemMallItemGroup $itemGroup): bool
+    {
+        if (!$itemGroup->limit_user_purchases)
+        {
+            return true;
+        }
+
+        return $itemGroup->totalUserOrders < $itemGroup->user_purchase_limit;
     }
 }

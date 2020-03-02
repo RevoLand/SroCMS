@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,6 +34,21 @@ class ItemMallItemGroup extends Model
     public function orders()
     {
         return $this->hasMany(ItemMallOrderItem::class);
+    }
+
+    public function userOrders()
+    {
+        return $this->orders()->where('user_id', Auth::user()->JID);
+    }
+
+    public function getTotalOrdersAttribute()
+    {
+        return $this->orders->sum('quantity');
+    }
+
+    public function getTotalUserOrdersAttribute()
+    {
+        return $this->userOrders->sum('quantity');
     }
 
     public function scopeActive($query)

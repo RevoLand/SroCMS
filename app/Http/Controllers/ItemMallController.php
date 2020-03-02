@@ -24,10 +24,13 @@ class ItemMallController extends Controller
     {
         $itemMallCategories = ItemMallCategory::enabled()->with(['itemGroups' => function ($query)
             {
-                $query->enabled()->active()->orderBy('order')->with(['items' => function ($itemsQuery)
+                $query->enabled()->active()->orderBy('order')->with([
+                    'orders',
+                    'items' => function ($itemsQuery)
                     {
                         $itemsQuery->enabled()->with('objCommon.name');
-                    }, ]);
+                    },
+                ]);
             }, ])->orderBy('order')->get();
 
         return view('itemmall.index', compact('itemMallCategories'));

@@ -16,6 +16,7 @@ class CreateItemMallOrderItemsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('item_mall_item_group_id');
             $table->bigInteger('item_mall_order_id');
+            $table->integer('user_id');
             $table->integer('quantity')->default(1);
             $table->tinyInteger('payment_type')->default(1);
             $table->decimal('item_price', 13, 2);

@@ -220,7 +220,8 @@
                     this.IsUpdating = false;
                 })
                 .catch(error => {
-                    alert(error.message);
+                    console.log(error.response);
+                    alert(error.response.data.message);
                     this.IsUpdating = false;
                 });
 
@@ -254,8 +255,8 @@
                     this.itemCount = response.data.itemCount;
                 })
                 .catch(error => {
-                    alert(error);
-                    console.log(error);
+                    console.log(error.response);
+                    alert(error.response.data.message);
                 });
             }
 

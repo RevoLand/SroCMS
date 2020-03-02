@@ -68,9 +68,14 @@
                                                     <div class="col-md-7 text-right">
                                                         <div class="btn-group">
                                                             <a class="btn" data-toggle="collapse" href="#itemGroupContent_{{ $itemGroup->id }}" role="button" aria-expanded="false" aria-controls="itemGroupContent_{{ $itemGroup->id }}"><small class="text-muted">İçeriği Göster</small></a>
+
+                                                            @if ((!$itemGroup->limit_total_purchases || $itemGroup->totalOrders < $itemGroup->total_purchase_limit) && (!$itemGroup->limit_user_purchases || $itemGroup->totalUserOrders < $itemGroup->user_purchase_limit))
                                                             {{ Form::open(['route' => ['itemmall.cart.add', $itemGroup]]) }}
                                                                 <button class="btn btn-primary" type="submit" role="button">Ekle</button>
                                                             {{ Form::close() }}
+                                                            @else
+                                                                <button class="btn btn-warning btn-sm" type="button" role="button">limit</button>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
