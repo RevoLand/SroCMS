@@ -16,11 +16,11 @@ class ItemMallCategory extends Model
 
     public function itemGroups()
     {
-        return $this->hasMany(ItemMallItemGroup::class);
+        return $this->belongsToMany(ItemMallItemGroup::class);
     }
 
     public function itemGroupsEnabled()
     {
-        return $this->hasMany(ItemMallItemGroup::class)->enabled();
+        return $this->belongsToMany(ItemMallItemGroup::class)->enabled();
     }
 }

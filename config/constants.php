@@ -43,6 +43,10 @@ return [
         ],
     ],
     'balance' => [
+        'type' => [
+            'balance' => 'balance',
+            'point' => 'balance_point',
+        ],
         'source' => [
             'admin' => '0',
             'deposit' => '1',
@@ -51,6 +55,8 @@ return [
             'vote' => '4',
             'sent_to_user' => '5',
             'sent_by_user' => '6',
+            'referred_user_reward' => '7',
+            'itemmall_reward' => '8',
         ],
         'source_desc' => [
             '0' => 'Yönetici tarafından verildi',
@@ -60,10 +66,8 @@ return [
             '4' => 'Vote Sistemi',
             '5' => 'Kullanıcıya gönderildi',
             '6' => 'Kullanıcı gönderdi',
-        ],
-        'type' => [
-            'balance' => 'balance',
-            'point' => 'balance_point',
+            '7' => 'Referans olunan kullanıcının yaptığı alışverişten kazanıldı',
+            '8' => 'Item Mall\'da yapılan alışverişten kazanıldı',
         ],
         'type_by_id' => [
             '1' => 'Bakiye',
@@ -72,6 +76,25 @@ return [
         'log_type' => [
             'balance' => '1',
             'balance_point' => '2',
+        ],
+    ],
+    'itemmall' => [
+        'limitations' => [
+            'bitwise' => [
+                'all' => -1,
+                'balance' => 1,
+                'balance_point' => 2,
+                'silk' => 4,
+                'silk_gift' => 8,
+                'silk_point' => 16,
+            ],
+            'from_payment_type' => [
+                '1' => 1,
+                '2' => 2,
+                '3' => 4,
+                '4' => 8,
+                '5' => 16,
+            ],
         ],
     ],
     'inventory' => [

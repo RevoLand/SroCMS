@@ -19,25 +19,25 @@ class UserBalance extends Model
         return $this->hasMany(UserBalanceLog::class, 'user_id', 'user_id');
     }
 
-    public function increase($type, $balance, $source, $source_user_id = '', $comment = '')
+    public function increase($type, $balance, $source, $comment = '', $source_user_id = '')
     {
         $balanceBefore = $this->{$type};
         $this->increment($type, $balance);
         $balanceAfter = $this->{$type};
 
-        $this->logBalanceChange(config('constants.balance.log_type.' . $type), $balanceAfter, $balanceBefore, $source, $source_user_id, $comment);
+        $this->logBalanceChange(config('constants.balance.log_type.' . $type), $balanceAfter, $balanceBefore, $source, $comment, $source_user_id);
     }
 
-    public function decrease($type, $balance, $source, $source_user_id = '', $comment = '')
+    public function decrease($type, $balance, $source, $comment = '', $source_user_id = '')
     {
         $balanceBefore = $this->{$type};
         $this->decrement($type, $balance);
         $balanceAfter = $this->{$type};
 
-        $this->logBalanceChange(config('constants.balance.log_type.' . $type), $balanceAfter, $balanceBefore, $source, $source_user_id, $comment);
+        $this->logBalanceChange(config('constants.balance.log_type.' . $type), $balanceAfter, $balanceBefore, $source, $comment, $source_user_id);
     }
 
-    private function logBalanceChange($type, $balanceAfter, $balanceBefore, $source, $source_user_id = '', $comment = '')
+    private function logBalanceChange($type, $balanceAfter, $balanceBefore, $source, $comment = '', $source_user_id = '')
     {
         $this->logs()->create([
             'balance_before' => $balanceBefore,

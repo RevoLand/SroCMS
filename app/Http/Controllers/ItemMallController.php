@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\ItemMallCategory;
+use Redirect;
 
 class ItemMallController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-
         if (setting('users.email_must_be_verified', 0))
         {
             $this->middleware('verified');
+        }
+
+        if (!setting('itemmall.enabled', 1))
+        {
+            Redirect::route('home')->send();
         }
     }
 
@@ -20,7 +24,7 @@ class ItemMallController extends Controller
     {
         $itemMallCategories = ItemMallCategory::enabled()->with(['itemGroups' => function ($query)
             {
-                $query->enabled()->orderBy('order')->with(['items' => function ($itemsQuery)
+                $query->enabled()->active()->orderBy('order')->with(['items' => function ($itemsQuery)
                     {
                         $itemsQuery->enabled()->with('objCommon.name');
                     }, ]);

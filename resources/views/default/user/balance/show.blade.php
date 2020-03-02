@@ -18,6 +18,7 @@
                                 <th scope="col">Fark</th>
                                 <th scope="col">Bakiye Türü</th>
                                 <th scope="col">Kaynak</th>
+                                <th scope="col">Kaynak</th>
                                 <th scope="col">Tarih</th>
                             </tr>
                         </thead>
@@ -30,6 +31,7 @@
                                 <td>{{ number_format($balanceLog->balance_difference, 2) }}</td>
                                 <td>{{ config('constants.balance.type_by_id.' . $balanceLog->balance_type) }}</td>
                                 <td>{{ config('constants.balance.source_desc.' . $balanceLog->source) }}</td>
+                                <td>@if($balanceLog->sourceUser) <a href="{{ route('users.show_user', $balanceLog->sourceUser->JID) }}">{{ $balanceLog->sourceUser->getName() }}</a>@else - @endif</td>
                                 <td>{{ $balanceLog->created_at }}</td>
                             </tr>
                             @empty
@@ -40,7 +42,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="7" scope="row">
+                                <th colspan="8" scope="row">
                                     {{ $balanceLogs->links() }}
                                 </th>
                             </tr>

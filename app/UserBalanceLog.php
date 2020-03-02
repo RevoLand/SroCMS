@@ -14,8 +14,13 @@ class UserBalanceLog extends Model
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 
+    public function sourceUser()
+    {
+        return $this->belongsTo(User::class, 'source_user_id', 'JID');
+    }
+
     public function getBalanceDifferenceAttribute()
     {
-        return $this->balance_after - $this->balance_before;
+        return bcsub($this->balance_after, $this->balance_before, 2);
     }
 }

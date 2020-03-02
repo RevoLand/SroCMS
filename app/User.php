@@ -42,22 +42,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function silk()
     {
-        return $this->hasOne(Silk::class, 'JID')->withDefault(function ($silk)
+        return $this->hasOne(Silk::class, 'JID', 'JID')->withDefault(function ($default)
         {
-            $silk->silk_own = 0;
-            $silk->silk_gift = 0;
-            $silk->silk_point = 0;
-            $silk->save();
+            $default->silk_own = 0;
+            $default->silk_gift = 0;
+            $default->silk_point = 0;
+            $default->save();
         });
     }
 
     public function balance()
     {
-        return $this->hasOne(UserBalance::class, 'user_id', 'JID')->withDefault(function ($balance)
+        return $this->hasOne(UserBalance::class, 'user_id', 'JID')->withDefault(function ($default)
         {
-            $balance->balance = 0;
-            $balance->balance_point = 0;
-            $balance->save();
+            $default->balance = 0;
+            $default->balance_point = 0;
+            $default->save();
         });
     }
 

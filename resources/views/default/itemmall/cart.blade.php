@@ -134,7 +134,11 @@
                                         <td>@{{ total.price }}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" class="lead text-right"><button type="submit" class="btn btn-primary">Satın Al</button></td>
+                                        <td colspan="2" class="lead text-right">
+                                            {{ Form::open(['route' => 'itemmall.cart.checkout']) }}
+                                                <button type="submit" class="btn btn-primary">Satın Al</button>
+                                            {{ Form::close() }}
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -193,7 +197,7 @@
                 <div class="btn-group" role="group">
                     <input type="number" class="form-control w-50" v-model.number="quantity" />
                     <button type="button" class="btn btn-primary shadow-sm border border-dark" @click="onUpdateQty" :disabled="IsUpdating"><i class="las la-sync"></i></button>
-                    <button type="submit" @deleteitem="onDeleteCartItem" class="btn btn-danger shadow-sm border border-dark"><i class="las la-trash"></i></button>
+                    <button type="submit" class="btn btn-danger shadow-sm border border-dark"><i class="las la-trash"></i></button>
                 </div>
             </div>
         `,
@@ -221,10 +225,6 @@
                 });
 
             },
-
-            onDeleteCartItem($itemGroup) {
-                Event.$emit('deleteitem', $itemGroup, event.target.form.action);
-            }
         }
     });
     new Vue({
@@ -240,12 +240,12 @@
             this.itemCount = {{ $itemCount }}
         },
 
-        created() {
-            Event.$on('deleteitem', (itemGroup, actionUrl) => {
-                axios.delete(actionUrl)
+        methods: {
+            onDeleteCartItem: function ($itemGroup) {
+                axios.delete(event.target.action)
                 .then(response => {
                     // Remove item
-                    document.querySelector('#cartitem-' + itemGroup).remove();
+                    document.querySelector('#cartitem-' + $itemGroup).remove();
 
                     // Update totals
                     this.totals = response.data.totals;
@@ -257,8 +257,9 @@
                     alert(error);
                     console.log(error);
                 });
-            });
-        }
+            }
+
+        },
     });
 </script>
 @endsection
