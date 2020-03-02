@@ -32,12 +32,12 @@
                 </tr>
                 <tr>
                     <td>
-                    <a class="btn btn-danger btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
-                    <a class="btn btn-danger btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
+                        <a class="btn btn-primary btn-block" href="{{ route('users.current_user') }}" role="button">User CP</a>
+                        <a class="btn btn-primary btn-block" href="{{ route('itemmall.index') }}" role="button">Item Mall</a>
                     </td>
                     <td>
-                    <a class="btn btn-danger btn-block" href="{{ route('votes.show_votes') }}" role="button">Voting</a>
-                    <a class="btn btn-danger btn-block" href="{{ route('users.do_logout') }}" role="button">Logout</a>
+                        <a class="btn btn-primary btn-block" href="{{ route('votes.show_votes') }}" role="button">Voting</a>
+                        <a class="btn btn-primary btn-block" href="{{ route('users.do_logout') }}" role="button">Logout</a>
                     </td>
                 </tr>
             </table>

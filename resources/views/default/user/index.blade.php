@@ -95,10 +95,12 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
                 </div>
                 @endif
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="links mt-2 mb-4">
+            <div class="links">
+                <div class="row row-cols-md-2 row-cols-1 mt-2 mb-4">
+                    <div class="col">
                         <a href="{{ route('users.edit_form') }}" class="btn btn-block btn-lg btn-primary">Ayarlar</a>
+                    </div>
+                    <div class="col mt-2 mt-sm-0">
                         <a href="{{ route('users.balance') }}" class="btn btn-block btn-lg btn-primary">Bakiye Kullanım Geçmişim</a>
                     </div>
                 </div>

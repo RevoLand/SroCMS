@@ -24,7 +24,7 @@ class ItemMallController extends Controller
     {
         $itemMallCategories = ItemMallCategory::enabled()->with(['itemGroups' => function ($query)
             {
-                $query->enabled()->active()->orderBy('order')->with([
+                $query->enabled()->active()->orderByDesc('featured')->orderBy('order')->with([
                     'orders',
                     'items' => function ($itemsQuery)
                     {
