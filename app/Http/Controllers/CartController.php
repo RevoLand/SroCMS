@@ -145,7 +145,7 @@ class CartController extends Controller
             return back();
         }
 
-        foreach ($cart as $cartItem)
+        foreach ($cart as $key => $cartItem)
         {
             $cartItem['group']->refresh();
 
@@ -154,6 +154,45 @@ class CartController extends Controller
                 Alert::error('Hata!', 'Sepetinizdeki bir veya daha fazla ürün aktif değil.');
 
                 return back();
+            }
+
+            if ($cartItem['group']->limit_total_purchases)
+            {
+                $totalPurchases = $cartItem['group']->orders->sum('quantity');
+
+                if ($totalPurchases >= $cartItem['group']->total_purchase_limit)
+                {
+                    Alert::error('Hata!', $cartItem['group']->name . ' adlı ürünün toplam satın alım limitine ulaşıldı.');
+
+                    unset($cart[$key]);
+                    session()->put('cart', $cart);
+
+                    return back();
+                }
+            }
+
+            if ($cartItem['group']->limit_user_purchases)
+            {
+                $userPurchases = Auth::user()->orders->load(['items' => function ($f) use ($cartItem)
+                    {
+                        return $f->where('item_mall_item_group_id', $cartItem['group']->id)->sum('quantity');
+                    }, ]);
+
+                $userPurchaseCount = 0;
+                foreach ($userPurchases as $userPurchase)
+                {
+                    $userPurchaseCount += $userPurchase->items->sum('quantity');
+                }
+
+                if ($userPurchaseCount >= $cartItem['group']->user_purchase_limit)
+                {
+                    Alert::error('Hata!', $cartItem['group']->name . ' adlı ürün için satın alım limitine ulaştınız.');
+
+                    unset($cart[$key]);
+                    session()->put('cart', $cart);
+
+                    return back();
+                }
             }
         }
 
@@ -196,6 +235,7 @@ class CartController extends Controller
             }
         }
 
+        $order = Auth::user()->orders()->create();
         foreach ($cart as $cartItem)
         {
             $itemGroup = $cartItem['group'];
@@ -279,27 +319,36 @@ class CartController extends Controller
             if (setting('itemmall.pointrewards.enabled', 1) && (!$itemGroup->use_customized_point_options || ($itemGroup->use_customized_point_options && $itemGroup->reward_point_enabled))
                 && setting('itemmall.pointrewards.allowed_payment_types', 1) & config('constants.itemmall.limitations.from_payment_type.' . $itemGroup->payment_type))
             {
-                $pointRewards = bcdiv(bcmul($itemPrice, $itemGroup->use_customized_point_options && isset($itemGroup->reward_point_percentage) ? $itemGroup->reward_point_percentage : setting('itemmall.pointrewards.percentage', 2), 2), 100, 2);
+                $pointReward = bcdiv(bcmul($itemPrice, $itemGroup->use_customized_point_options && isset($itemGroup->reward_point_percentage) ? $itemGroup->reward_point_percentage : setting('itemmall.pointrewards.percentage', 2), 2), 100, 2);
 
                 switch (($itemGroup->use_customized_point_options) ? $itemGroup->reward_point_type : $itemGroup->payment_type)
                 {
                     case config('constants.payment_types.balance'):
-                        Auth::user()->balance->increase('balance', $pointRewards, config('constants.balance.source.itemmall_reward'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
+                        Auth::user()->balance->increase('balance', $pointReward, config('constants.balance.source.itemmall_reward'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
                     break;
                     case config('constants.payment_types.balance_point'):
-                        Auth::user()->balance->increase('balance_point', $pointRewards, config('constants.balance.source.itemmall_reward'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
+                        Auth::user()->balance->increase('balance_point', $pointReward, config('constants.balance.source.itemmall_reward'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
                     break;
                     case config('constants.payment_types.silk'):
-                        Auth::user()->silk->increase(config('constants.silk.type.id.silk_own'), intval($pointRewards), config('constants.silk.reason.inc.silk_own'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
+                        Auth::user()->silk->increase(config('constants.silk.type.id.silk_own'), intval($pointReward), config('constants.silk.reason.inc.silk_own'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
                     break;
                     case config('constants.payment_types.silk_gift'):
-                        Auth::user()->silk->increase(config('constants.silk.type.id.silk_gift'), intval($pointRewards), config('constants.silk.reason.inc.silk_gift'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
+                        Auth::user()->silk->increase(config('constants.silk.type.id.silk_gift'), intval($pointReward), config('constants.silk.reason.inc.silk_gift'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
                     break;
                     case config('constants.payment_types.silk_point'):
-                        Auth::user()->silk->increase(config('constants.silk.type.id.silk_point'), intval($pointRewards), config('constants.silk.reason.inc.silk_point'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
+                        Auth::user()->silk->increase(config('constants.silk.type.id.silk_point'), intval($pointReward), config('constants.silk.reason.inc.silk_point'), 'Item Mall\'da yapılan alışverişten kazanıldı.');
                     break;
                 }
             }
+
+            $order->items()->create([
+                'item_mall_item_group_id' => $itemGroup->id,
+                'quantity' => $cartItem['quantity'],
+                'payment_type' => $itemGroup->payment_type,
+                'item_price' => $itemGroup->price,
+                'total_paid' => $itemPrice,
+                'points_earned' => $pointReward,
+            ]);
 
             foreach ($itemGroup->items()->enabled()->get() as $item)
             {
@@ -348,7 +397,8 @@ class CartController extends Controller
             }
         }
 
-        // Siparişi oluştur ve logla
+        // Sepeti boşalt
+        session()->forget('cart');
 
         Alert::success('Satın alma işlemi başarıyla gerçekleşti.');
 

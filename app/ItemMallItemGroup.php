@@ -30,6 +30,11 @@ class ItemMallItemGroup extends Model
         return $this->belongsToMany(ItemMallItemGroup::class)->enabled();
     }
 
+    public function orders()
+    {
+        return $this->hasMany(ItemMallOrderItem::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where(function ($query)

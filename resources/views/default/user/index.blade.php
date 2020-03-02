@@ -98,7 +98,8 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
             <div class="row">
                 <div class="col-12">
                     <div class="links mt-2 mb-4">
-                        <a href="{{ route('users.edit_form') }}" class="btn btn-block btn-lg btn-danger">Ayarlar</a>
+                        <a href="{{ route('users.edit_form') }}" class="btn btn-block btn-lg btn-primary">Ayarlar</a>
+                        <a href="{{ route('users.balance') }}" class="btn btn-block btn-lg btn-primary">Bakiye Kullanım Geçmişim</a>
                     </div>
                 </div>
             </div>

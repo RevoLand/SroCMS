@@ -61,6 +61,11 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
+    public function orders()
+    {
+        return $this->hasMany(ItemMallOrder::class, 'user_id', 'JID');
+    }
+
     public function referrer()
     {
         return $this->hasOne(Referral::class, 'user_id', 'JID');
