@@ -19,7 +19,7 @@ class CreateVoteProviderRewardsTable extends Migration
             $table->string('codename')->nullable();
             $table->integer('amount')->default(0);
             $table->decimal('balance', 13, 2)->default(0)->nullable();
-            $table->integer('plus')->default(0);
+            $table->tinyInteger('plus')->default(0);
             $table->boolean('enabled')->default(true);
             $table->timestamps();
 

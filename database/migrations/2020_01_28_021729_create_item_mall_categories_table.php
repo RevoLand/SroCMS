@@ -16,7 +16,7 @@ class CreateItemMallCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->boolean('enabled')->default(true);
-            $table->integer('order')->default(1)->nullable();
+            $table->integer('order')->default(1);
             $table->timestamps();
         });
     }

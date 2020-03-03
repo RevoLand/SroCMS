@@ -14,13 +14,13 @@ class CreateEpinsTable extends Migration
         Schema::connection('srocms')->create('epins', function (Blueprint $table)
         {
             $table->bigIncrements('id');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->tinyInteger('type')->default(1);
-            $table->decimal('balance')->default(0)->nullable();
-            $table->integer('user_id')->nullable();
+            $table->decimal('balance')->default(0);
+            $table->bigInteger('user_id')->nullable();
             $table->integer('creater_user_id')->nullable();
-            $table->boolean('used')->default(false);
             $table->boolean('enabled')->default(true);
+            $table->timestamp('used_at')->nullable();
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class CreateUserBalancesTable extends Migration
         Schema::connection('srocms')->create('user_balances', function (Blueprint $table)
         {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->bigInteger('user_id');
             $table->decimal('balance', 13, 2)->default(0);
             $table->decimal('balance_point', 13, 2)->default(0);
             $table->timestamps();

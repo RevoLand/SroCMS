@@ -19,6 +19,9 @@
                             <div class="level-info text-muted">
                                 {{ $character->CurLevel  }} Level
                             </div>
+                            <div>
+                                Durum: @if($character->Online)<div class="text-success">Online</div>@else<div class="text-danger">Offline</div>@endif
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <div class="user-stats">
@@ -42,7 +45,7 @@
             {{-- Character skill mastery info  --}}
             <div class="row mt-2 border-top border-secondary mt-3 pt-3">
                 <div class="col">
-                    Selam.
+
                 </div>
                 <div class="col">
                     <div class="card rounded-sm border-secondary shadow-sm">

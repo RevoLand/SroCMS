@@ -13,4 +13,14 @@ class EpinItem extends Model
     {
         return $this->belongsTo(Epin::class);
     }
+
+    public function objCommon()
+    {
+        return $this->belongsTo(ObjCommon::class, 'codename', 'CodeName128');
+    }
+
+    public function getName()
+    {
+        return $this->name ?? ($this->objCommon->name ? $this->objCommon->name->name : $this->codename);
+    }
 }

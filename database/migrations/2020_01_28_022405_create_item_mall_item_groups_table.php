@@ -32,12 +32,12 @@ class CreateItemMallItemGroupsTable extends Migration
             $table->boolean('use_customized_referral_options')->default(false);
             $table->boolean('referral_commission_enabled')->default(true);
             $table->tinyInteger('referral_commission_reward_type')->default(2);
-            $table->tinyInteger('referral_commission_percentage')->default(1)->nullable();
+            $table->tinyInteger('referral_commission_percentage')->default(1);
 
             $table->boolean('use_customized_point_options')->default(false);
             $table->boolean('reward_point_enabled')->default(true);
             $table->tinyInteger('reward_point_type')->default(2);
-            $table->tinyInteger('reward_point_percentage')->default(1)->nullable();
+            $table->tinyInteger('reward_point_percentage')->default(1);
 
             $table->boolean('featured')->default(false);
             $table->integer('order')->default(1)->nullable();

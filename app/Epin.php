@@ -8,6 +8,11 @@ class Epin extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'used_at',
+    ];
 
     public function user()
     {

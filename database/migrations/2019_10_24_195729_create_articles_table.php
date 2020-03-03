@@ -17,7 +17,7 @@ class CreateArticlesTable extends Migration
             $table->string('slug');
             $table->string('title');
             $table->text('content');
-            $table->integer('author_id');
+            $table->bigInteger('author_id');
             $table->boolean('is_visible')->default(true);
             $table->boolean('can_comment_on')->default(true);
             $table->timestamp('published_at')->nullable();

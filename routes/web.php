@@ -19,6 +19,8 @@ use Harimayco\Menu\Facades\Menu;
 $menuList = Menu::getByName('Admin');
 */
 
+use App\Item;
+
 Route::get('/', 'ArticleController@index')->name('home');
 
 Route::group(['prefix' => 'articles'], function ()
@@ -32,7 +34,13 @@ Route::group(['prefix' => 'articles'], function ()
     Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
 });
 
-//Theme::set('crusader');
+// Dinamik sayfa işlemleri
+// Middleware: dinamik olarak atanmaktadır.
+Route::group(['prefix' => 'pages', 'as' => 'pages.'], function ()
+{
+    Route::get('/', 'PageController@index')->name('show_pages');
+    Route::get('{slug}', 'PageController@show')->name('show_page');
+});
 
 // Misafir işlemleri
 // Not: İlgili işlemlerin middleware'ları kontrolcülerin içerisinde constructor olarak yer almaktadır.
@@ -86,23 +94,16 @@ Route::group(['prefix' => 'guilds'], function ()
     Route::get('{guild}', 'GuildController@show')->name('users.guilds.show');
 });
 
-// Dinamik sayfa işlemleri
-// Middleware: dinamik olarak atanmaktadır.
-Route::group(['prefix' => 'pages'], function ()
-{
-    Route::get('/', 'PageController@index')->name('pages.show_pages');
-    Route::get('{slug}', 'PageController@show')->name('pages.show_page');
-});
+// Route::group(['prefix' => 'items', 'as' => 'items.'], function ()
+// {
+//     Route::get('{item}', 'ItemController@show')->name('show_item');
+// });
 
-Route::group(['prefix' => 'items'], function ()
+// $this->middleware('auth')->except('callback');
+Route::group(['prefix' => 'votes', 'as' => 'votes.'], function ()
 {
-    Route::get('{item}', 'ItemController@show')->name('items.show_item');
-});
-
-Route::group(['prefix' => 'votes'], function ()
-{
-    Route::get('/', 'VoteController@index')->name('votes.show_votes');
-    Route::post('{voteProvider}/vote', 'VoteController@vote')->name('votes.do_vote');
+    Route::get('/', 'VoteController@index')->name('show_votes');
+    Route::post('{voteProvider}/vote', 'VoteController@vote')->name('do_vote');
 });
 
 Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.', 'middleware' => 'auth'], function ()
@@ -117,4 +118,10 @@ Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.', 'middleware' => 'auth
         Route::patch('update', 'CartController@update')->name('update');
         Route::delete('delete/{itemgroup}', 'CartController@delete')->name('delete');
     });
+});
+
+Route::group(['prefix' => 'epin', 'as' => 'epin.', 'middleware' => 'auth'], function ()
+{
+    Route::get('', 'EpinController@index')->name('index');
+    Route::post('use', 'EpinController@use')->name('use');
 });

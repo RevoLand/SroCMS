@@ -15,8 +15,8 @@ class CreateArticleCommentsTable extends Migration
         {
             $table->bigIncrements('id');
             $table->bigInteger('article_id');
-            $table->integer('user_id');
-            $table->integer('parent_id')->nullable();
+            $table->bigInteger('user_id');
+            $table->bigInteger('parent_id')->nullable();
             $table->string('content', 500);
             $table->boolean('is_visible')->default(true);
             $table->boolean('is_approved')->default(true);
