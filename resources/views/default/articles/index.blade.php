@@ -51,10 +51,10 @@
                     @endif
 
                     <p>
-                        {{ Str::limit($article->content, 450) }}
+                        {{ Str::limit($article->content, setting('article.index.content_limit', 450)) }}
                     </p>
                     <div class="article-links">
-                        @if (mb_strlen($article->content, 'utf8') > 450)
+                        @if (mb_strlen($article->content, 'utf8') > setting('article.index.content_limit', 450))
                         <div class="float-right">
                             <a class="btn btn-block btn-primary" href="{{ route('articles.show_article', [$article->id, $article->slug]) }}">
                                 Devamını Oku...

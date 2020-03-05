@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.2",
         "akaunting/setting": "^1.1",
-        "cviebrock/eloquent-sluggable": "^6.0",
         "fideloper/proxy": "^4.0",
         "igaster/laravel-theme": "^2.0",
         "laravel/framework": "^6.2",
@@ -18,7 +17,8 @@
         "laravelcollective/html": "^6.0",
         "orchestra/asset": "^4.0",
         "realrashid/sweet-alert": "^2.0",
-        "spatie/laravel-permission": "^3.2"
+        "spatie/laravel-permission": "^3.2",
+        "spatie/laravel-sluggable": "^2.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

@@ -16,7 +16,7 @@ class ArticleController extends Controller
                     $query->visible()->approved();
                 }, ])
             ->orderByDesc('updated_at')
-            ->paginate(5);
+            ->paginate(setting('articles.index.post_per_page', 5));
 
         return view('articles.index', compact('articles'));
     }
@@ -33,7 +33,7 @@ class ArticleController extends Controller
                 }, ])
             ->firstOrFail();
 
-        $articleComments = $article->articleComments()->visible()->approved()->latest()->with('user')->paginate(10);
+        $articleComments = $article->articleComments()->visible()->approved()->latest()->with('user')->paginate(setting('article.comments.per_page', 20));
 
         return view('articles.single', compact('article', 'articleComments'));
     }

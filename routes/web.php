@@ -38,8 +38,7 @@ Route::group(['prefix' => 'articles'], function ()
 // Middleware: dinamik olarak atanmaktadır.
 Route::group(['prefix' => 'pages', 'as' => 'pages.'], function ()
 {
-    Route::get('/', 'PageController@index')->name('show_pages');
-    Route::get('{slug}', 'PageController@show')->name('show_page');
+    Route::get('{page}', 'PageController@show')->name('show_page');
 });
 
 // Misafir işlemleri

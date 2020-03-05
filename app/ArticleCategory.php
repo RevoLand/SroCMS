@@ -2,23 +2,21 @@
 
 namespace App;
 
-use Cviebrock\EloquentSluggable\Sluggable;
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class ArticleCategory extends Model
 {
-    use Sluggable, SluggableScopeHelpers;
+    use HasSlug;
     protected $connection = 'srocms';
     protected $guarded = [];
 
-    public function sluggable()
+    public function getSlugOptions(): SlugOptions
     {
-        return [
-            'slug' => [
-                'source' => 'name',
-            ],
-        ];
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
     }
 
     public function articles()

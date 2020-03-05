@@ -37,7 +37,7 @@
                     </td>
                     <td>
                         <a class="btn btn-primary btn-block" href="{{ route('votes.show_votes') }}" role="button">Voting</a>
-                        <a class="btn btn-primary btn-block" href="{{ route('users.do_logout') }}" role="button">Logout</a>
+                        <a class="btn btn-primary btn-block" href="{{ route('epin.index') }}" role="button">Use E-Pin</a>
                     </td>
                 </tr>
             </table>

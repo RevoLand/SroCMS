@@ -9,12 +9,7 @@ class PageController extends Controller
 {
     public function __construct(Request $request)
     {
-        if (!$request->has('slug'))
-        {
-            return;
-        }
-
-        $page = Page::findBySlugOrFail($request->slug);
+        $page = Page::whereSlug($request->page)->firstOrFail();
 
         if (isset($page->middleware))
         {
@@ -27,10 +22,8 @@ class PageController extends Controller
     {
     }
 
-    public function show($slug)
+    public function show(Page $page)
     {
-        $page = Page::findBySlugOrFail($slug);
-
         if (!$page->enabled)
         {
             return redirect()->route('home');
