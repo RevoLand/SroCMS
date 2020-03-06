@@ -11,7 +11,7 @@
 	<div class="col-md-12">
         <div class="article bg-dark shadow-sm rounded-sm px-4 py-4 mb-2" role="article">
             <h2 class="article-title py-2">
-                <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}">{{ $article->title }}</a>
+                <a href="{{ route('articles.show_article', [$article->slug]) }}">{{ $article->title }}</a>
             </h2>
             <div class="article-meta">
                 <p class="text-muted font-italic">
@@ -56,8 +56,8 @@
                             @endforeach
                         </ul>
                     @endif
-                    @can ('post comments')
-                    {{ Form::open(['route' => ['articles.store_comment', $article->id, $article->slug], 'method' => 'POST']) }}
+                    @can ('post comment')
+                    {{ Form::open(['route' => ['articles.store_comment', $article->slug], 'method' => 'POST']) }}
                         <label for="articleComment">Yorum yap:</label>
                         <textarea class="form-control" name="comment" id="articleComment" rows="3" minlength="1" maxlength="255"></textarea>
                         <button class="btn btn-primary btn-block my-1" type="submit">Gönder</button>

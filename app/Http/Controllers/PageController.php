@@ -9,7 +9,7 @@ class PageController extends Controller
 {
     public function __construct(Request $request)
     {
-        $page = Page::whereSlug($request->page)->firstOrFail();
+        $page = Page::whereSlug($request->page)->first();
 
         if (isset($page->middleware))
         {

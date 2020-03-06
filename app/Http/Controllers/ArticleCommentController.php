@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\ArticleComment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -14,16 +13,15 @@ class ArticleCommentController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('throttle:5,1')->only('store');
-        $this->middleware('permission:post comments');
+        $this->middleware('can:post comment');
     }
 
-    public function store($id, $slug)
+    public function store(Article $article)
     {
         request()->validate([
             'comment' => ['required', 'string', 'min:6', 'max:255'],
         ]);
 
-        $article = Article::whereId($id)->whereSlug($slug)->firstOrFail();
         if (!$article->is_visible || !$article->can_comment_on)
         {
             Alert::error('Hata!', 'Bu yazıya yorum yapamazsınız!');

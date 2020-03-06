@@ -86,6 +86,7 @@ class RegisterController extends Controller
             'Name' => $data['name'],
             'password' => Hash::make($data['password']),
             'Email' => $data['email'],
+            'reg_ip' => request()->getClientIp(),
         ]);
     }
 

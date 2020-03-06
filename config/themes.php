@@ -65,6 +65,11 @@ return [
             'views-path' => 'default',
             'extends' => '',
         ],
+        'admin' => [
+            'asset-path' => 'assets/admin',
+            'views-path' => 'admin',
+            'extends' => '',
+        ],
 
         // Add your themes here. These settings will override theme.json settings defined for each theme
 

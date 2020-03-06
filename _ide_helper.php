@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.18.0 on 2020-03-05 04:17:03.
+ * Generated for Laravel 6.18.0 on 2020-03-06 04:53:34.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -17102,6 +17102,244 @@ namespace Igaster\LaravelTheme\Facades {
  
 }
 
+namespace Maatwebsite\Excel\Facades { 
+
+    /**
+     * 
+     *
+     */ 
+    class Excel {
+        
+        /**
+         * 
+         *
+         * @param object $export
+         * @param string|null $fileName
+         * @param string $writerType
+         * @param array $headers
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+         * @return \Maatwebsite\Excel\BinaryFileResponse 
+         * @static 
+         */ 
+        public static function download($export, $fileName, $writerType = null, $headers = [])
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->download($export, $fileName, $writerType, $headers);
+        }
+        
+        /**
+         * 
+         *
+         * @param object $export
+         * @param string $filePath
+         * @param string|null $disk
+         * @param string $writerType
+         * @param mixed $diskOptions
+         * @throws \PhpOffice\PhpSpreadsheet\Exception
+         * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+         * @return bool 
+         * @static 
+         */ 
+        public static function store($export, $filePath, $diskName = null, $writerType = null, $diskOptions = [])
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->store($export, $filePath, $diskName, $writerType, $diskOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @param object $export
+         * @param string $filePath
+         * @param string|null $disk
+         * @param string $writerType
+         * @param mixed $diskOptions
+         * @return \Maatwebsite\Excel\PendingDispatch 
+         * @static 
+         */ 
+        public static function queue($export, $filePath, $disk = null, $writerType = null, $diskOptions = [])
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->queue($export, $filePath, $disk, $writerType, $diskOptions);
+        }
+        
+        /**
+         * 
+         *
+         * @param object $export
+         * @param string $writerType
+         * @return string 
+         * @static 
+         */ 
+        public static function raw($export, $writerType)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->raw($export, $writerType);
+        }
+        
+        /**
+         * 
+         *
+         * @param object $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return \Maatwebsite\Excel\Reader|\Maatwebsite\Excel\PendingDispatch 
+         * @static 
+         */ 
+        public static function import($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->import($import, $filePath, $disk, $readerType);
+        }
+        
+        /**
+         * 
+         *
+         * @param object $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return array 
+         * @static 
+         */ 
+        public static function toArray($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->toArray($import, $filePath, $disk, $readerType);
+        }
+        
+        /**
+         * 
+         *
+         * @param object $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string|null $readerType
+         * @return \Maatwebsite\Excel\Collection 
+         * @static 
+         */ 
+        public static function toCollection($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->toCollection($import, $filePath, $disk, $readerType);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Maatwebsite\Excel\ShouldQueue $import
+         * @param string|\Maatwebsite\Excel\UploadedFile $filePath
+         * @param string|null $disk
+         * @param string $readerType
+         * @return \Maatwebsite\Excel\PendingDispatch 
+         * @static 
+         */ 
+        public static function queueImport($import, $filePath, $disk = null, $readerType = null)
+        {
+                        /** @var \Maatwebsite\Excel\Excel $instance */
+                        return $instance->queueImport($import, $filePath, $disk, $readerType);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $concern
+         * @param callable $handler
+         * @param string $event
+         * @static 
+         */ 
+        public static function extend($concern, $handler, $event = 'Maatwebsite\Excel\Events\BeforeWriting')
+        {
+                        return \Maatwebsite\Excel\Excel::extend($concern, $handler, $event);
+        }
+        
+        /**
+         * When asserting downloaded, stored, queued or imported, use regular expression
+         * to look for a matching file path.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function matchByRegex()
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        $instance->matchByRegex();
+        }
+        
+        /**
+         * When asserting downloaded, stored, queued or imported, use regular string
+         * comparison for matching file path.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function doNotMatchByRegex()
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        $instance->doNotMatchByRegex();
+        }
+        
+        /**
+         * 
+         *
+         * @param string $fileName
+         * @param callable|null $callback
+         * @static 
+         */ 
+        public static function assertDownloaded($fileName, $callback = null)
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertDownloaded($fileName, $callback);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
+         * @static 
+         */ 
+        public static function assertStored($filePath, $disk = null, $callback = null)
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertStored($filePath, $disk, $callback);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
+         * @static 
+         */ 
+        public static function assertQueued($filePath, $disk = null, $callback = null)
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertQueued($filePath, $disk, $callback);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $filePath
+         * @param string|callable|null $disk
+         * @param callable|null $callback
+         * @static 
+         */ 
+        public static function assertImported($filePath, $disk = null, $callback = null)
+        {
+                        /** @var \Maatwebsite\Excel\Fakes\ExcelFake $instance */
+                        return $instance->assertImported($filePath, $disk, $callback);
+        }
+         
+    }
+ 
+}
+
 namespace RealRashid\SweetAlert\Facades { 
 
     /**
@@ -17111,9 +17349,10 @@ namespace RealRashid\SweetAlert\Facades {
     class Alert {
         
         /**
-         * Sets all default config options for middleware alert.
+         * The default configuration for middleware alert.
          *
          * @return \RealRashid\SweetAlert\$config 
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function middleware()
@@ -17123,23 +17362,27 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * Flash a message.
+         * Flash an alert message.
          *
          * @param string $title
          * @param string $text
-         * @param array $type
+         * @param array $icon
          * @return void 
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
-        public static function alert($title = '', $text = '', $type = null)
+        public static function alert($title = '', $text = '', $icon = null)
         {
                         /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        $instance->alert($title, $text, $type);
+                        $instance->alert($title, $text, $icon);
         }
         
         /**
-         * 
+         * Display a success typed alert message with a text and a title.
          *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function success($title = '', $text = '')
@@ -17149,8 +17392,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display a info typed alert message with a text and a title.
          *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function info($title = '', $text = '')
@@ -17160,8 +17406,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display a warning typed alert message with a text and a title.
          *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function warning($title = '', $text = '')
@@ -17171,8 +17420,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display a question typed alert message with a text and a title.
          *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function question($title = '', $text = '')
@@ -17182,8 +17434,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display a error typed alert message with a text and a title.
          *
+         * @param string $title
+         * @param string $text
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function error($title = '', $text = '')
@@ -17193,8 +17448,15 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display a message with a custom image and CSS animation disabled.
          *
+         * @param string $title
+         * @param string $text
+         * @param string $imageUrl
+         * @param integer $imageWidth
+         * @param integer $imageHeight
+         * @param string $imageAlt
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function image($title, $text, $imageUrl, $imageWidth = 400, $imageHeight = 200, $imageAlt = '')
@@ -17204,30 +17466,39 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display a html typed alert message with html code.
          *
+         * @param string $title
+         * @param string $code
+         * @param string $icon
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
-        public static function html($title = '', $code = '', $type = '')
+        public static function html($title = '', $code = '', $icon = '')
         {
                         /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->html($title, $code, $type);
+                        return $instance->html($title, $code, $icon);
         }
         
         /**
-         * 
+         * Display a toast message
          *
+         * @param string $title
+         * @param string $icon
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
-        public static function toast($title = '', $type = '')
+        public static function toast($title = '', $icon = '')
         {
                         /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->toast($title, $type);
+                        return $instance->toast($title, $icon);
         }
         
         /**
-         * 
+         * Convert any alert modal to Toast
          *
+         * @param string $position
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function toToast($position = '')
@@ -17237,8 +17508,9 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Convert any alert modal to html
          *
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function toHtml()
@@ -17248,8 +17520,10 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Add a custom image to alert
          *
+         * @param string $imageUrl
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function addImage($imageUrl)
@@ -17259,8 +17533,10 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Add footer section to alert()
          *
+         * @param string $code
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function footer($code)
@@ -17270,8 +17546,10 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * positioned alert dialog
          *
+         * @param string $position
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function position($position = 'top-end')
@@ -17281,8 +17559,14 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
+         * Modal window width
+         * including paddings
+         * (box-sizing: border-box).
          * 
+         * Can be in px or %. The default width is 32rem
          *
+         * @param string $width
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function width($width = '32rem')
@@ -17292,8 +17576,12 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
+         * Modal window padding.
          * 
+         * The default padding is 1.25rem.
          *
+         * @param string $padding
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function padding($padding = '1.25rem')
@@ -17303,8 +17591,13 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
+         * Modal window background
+         * (CSS background property).
          * 
+         * The default background is '#fff'.
          *
+         * @param string $background
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function background($background = '#fff')
@@ -17314,8 +17607,12 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Set to false if you want to
+         * focus the first element in tab
+         * order instead of "Confirm"-button by default.
          *
+         * @param boolean $focus
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function focusConfirm($focus = true)
@@ -17325,8 +17622,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Set to true if you want to focus the
+         * "Cancel"-button by default.
          *
+         * @param boolean $focus
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function focusCancel($focus = false)
@@ -17336,19 +17636,27 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Custom animation with [Animate.css](https://daneden.github.io/animate.css/)
+         * CSS classes for animations when showing a popup (fade in):
+         * CSS classes for animations when hiding a popup (fade out):
          *
+         * @param string $showAnimation
+         * @param string $hideAnimation
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
-        public static function animation($animation = true)
+        public static function animation($showAnimation, $hideAnimation)
         {
                         /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        return $instance->animation($animation);
+                        return $instance->animation($showAnimation, $hideAnimation);
         }
         
         /**
-         * 
+         * Persistent the alert modal
          *
+         * @param boolean $showConfirmBtn
+         * @param boolean $showCloseBtn
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function persistent($showConfirmBtn = true, $showCloseBtn = false)
@@ -17358,8 +17666,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * auto close alert modal after
+         * specifid time
          *
+         * @param integer $milliseconds
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function autoClose($milliseconds = 5000)
@@ -17369,8 +17680,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display confirm button
          *
+         * @param string $btnText
+         * @param string $btnColor
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function showConfirmButton($btnText = 'Ok', $btnColor = '#3085d6')
@@ -17380,8 +17694,11 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display cancel button
          *
+         * @param string $btnText
+         * @param string $btnColor
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function showCancelButton($btnText = 'Cancel', $btnColor = '#aaa')
@@ -17391,8 +17708,10 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Display close button
          *
+         * @param string $closeButtonAriaLabel
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function showCloseButton($closeButtonAriaLabel = 'aria-label')
@@ -17402,8 +17721,9 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
-         * 
+         * Hide close button from alert or toast
          *
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function hideCloseButton()
@@ -17413,9 +17733,52 @@ namespace RealRashid\SweetAlert\Facades {
         }
         
         /**
+         * Apply default styling to buttons.
+         * 
+         * If you want to use your own classes (e.g. Bootstrap classes)
+         * set this parameter to false.
+         *
+         * @param boolean $buttonsStyling
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function buttonsStyling($buttonsStyling)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->buttonsStyling($buttonsStyling);
+        }
+        
+        /**
+         * Use any HTML inside icons (e.g. Font Awesome)
+         *
+         * @param string $iconHtml
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function iconHtml($iconHtml)
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->iconHtml($iconHtml);
+        }
+        
+        /**
+         * If set to true, the timer will have a progress bar at the bottom of a popup.
+         * 
+         * Mostly, this feature is useful with toasts.
+         *
+         * @author Rashid Ali <realrashid05@gmail.com>
+         * @static 
+         */ 
+        public static function timerProgressBar()
+        {
+                        /** @var \RealRashid\SweetAlert\Toaster $instance */
+                        return $instance->timerProgressBar();
+        }
+        
+        /**
          * Reverse buttons position
          *
-         * @return \RealRashid\SweetAlert\RealRashid\SweetAlert\Toaster::alert(); by: https://github.com/Faber44/
+         * @author Faber44 <https://github.com/Faber44>
          * @static 
          */ 
         public static function reverseButtons()
@@ -17427,25 +17790,209 @@ namespace RealRashid\SweetAlert\Facades {
         /**
          * Flash the config options for alert.
          *
-         * @return void 
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function flash()
         {
                         /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        $instance->flash();
+                        return $instance->flash();
         }
         
         /**
          * Build Flash config options for flashing.
          *
-         * @return void 
+         * @author Rashid Ali <realrashid05@gmail.com>
          * @static 
          */ 
         public static function buildConfig()
         {
                         /** @var \RealRashid\SweetAlert\Toaster $instance */
-                        $instance->buildConfig();
+                        return $instance->buildConfig();
+        }
+         
+    }
+ 
+}
+
+namespace Yajra\DataTables\Facades { 
+
+    /**
+     * 
+     *
+     * @mixin \Yajra\DataTables\DataTables
+     * @see \Yajra\DataTables\DataTables
+     */ 
+    class DataTables {
+        
+        /**
+         * Make a DataTable instance from source.
+         * 
+         * Alias of make for backward compatibility.
+         *
+         * @param mixed $source
+         * @return mixed 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function of($source)
+        {
+                        return \Yajra\DataTables\DataTables::of($source);
+        }
+        
+        /**
+         * Make a DataTable instance from source.
+         *
+         * @param mixed $source
+         * @return mixed 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function make($source)
+        {
+                        return \Yajra\DataTables\DataTables::make($source);
+        }
+        
+        /**
+         * Get request object.
+         *
+         * @return \Yajra\DataTables\Utilities\Request 
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->getRequest();
+        }
+        
+        /**
+         * Get config instance.
+         *
+         * @return \Yajra\DataTables\Utilities\Config 
+         * @static 
+         */ 
+        public static function getConfig()
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->getConfig();
+        }
+        
+        /**
+         * 
+         *
+         * @deprecated Please use query() instead, this method will be removed in a next version.
+         * @param $builder
+         * @return \Yajra\DataTables\QueryDataTable 
+         * @static 
+         */ 
+        public static function queryBuilder($builder)
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->queryBuilder($builder);
+        }
+        
+        /**
+         * DataTables using Query.
+         *
+         * @param \Illuminate\Database\Query\Builder|mixed $builder
+         * @return \Yajra\DataTables\DataTableAbstract|\Yajra\DataTables\QueryDataTable 
+         * @static 
+         */ 
+        public static function query($builder)
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->query($builder);
+        }
+        
+        /**
+         * DataTables using Eloquent Builder.
+         *
+         * @param \Illuminate\Database\Eloquent\Builder|mixed $builder
+         * @return \Yajra\DataTables\DataTableAbstract|\Yajra\DataTables\EloquentDataTable 
+         * @static 
+         */ 
+        public static function eloquent($builder)
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->eloquent($builder);
+        }
+        
+        /**
+         * DataTables using Collection.
+         *
+         * @param \Illuminate\Support\Collection|array $collection
+         * @return \Yajra\DataTables\DataTableAbstract|\Yajra\DataTables\CollectionDataTable 
+         * @static 
+         */ 
+        public static function collection($collection)
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->collection($collection);
+        }
+        
+        /**
+         * DataTables using Collection.
+         *
+         * @param \Illuminate\Http\Resources\Json\AnonymousResourceCollection|array $collection
+         * @return \Yajra\DataTables\DataTableAbstract|\Yajra\DataTables\ApiResourceDataTable 
+         * @static 
+         */ 
+        public static function resource($resource)
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->resource($resource);
+        }
+        
+        /**
+         * Get html builder instance.
+         *
+         * @return \Yajra\DataTables\Html\Builder 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function getHtmlBuilder()
+        {
+                        /** @var \Yajra\DataTables\DataTables $instance */
+                        return $instance->getHtmlBuilder();
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Yajra\DataTables\DataTables::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Yajra\DataTables\DataTables::mixin($mixin, $replace);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Yajra\DataTables\DataTables::hasMacro($name);
         }
          
     }
@@ -20356,7 +20903,11 @@ namespace  {
 
     class Theme extends \Igaster\LaravelTheme\Facades\Theme {}
 
+    class Excel extends \Maatwebsite\Excel\Facades\Excel {}
+
     class Alert extends \RealRashid\SweetAlert\Facades\Alert {}
+
+    class DataTables extends \Yajra\DataTables\Facades\DataTables {}
  
 }
 

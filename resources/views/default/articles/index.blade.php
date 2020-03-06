@@ -25,7 +25,7 @@
         <div class="col-12">
             <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2" role="article">
                 <h2 class="article-title py-2">
-                    <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}">{{ $article->title }}</a>
+                    <a href="{{ route('articles.show_article', [$article->slug]) }}">{{ $article->title }}</a>
                 </h2>
                 <div class="article-meta my-2 py-2 border-bottom border-dark">
                     <div class="text-muted d-flex align-items-center justify-content-between">
@@ -38,7 +38,7 @@
                         </a>
                     </div>
 
-                        <a href="{{ route('articles.show_article', [$article->id, $article->slug]) }}#comments" class="btn btn-sm btn-secondary shadow-sm">
+                        <a href="{{ route('articles.show_article', [$article->slug]) }}#comments" class="btn btn-sm btn-secondary shadow-sm">
                             Comments ({{ $article->article_comments_count ?? $article->articleComments->count() }})
                         </a>
                     </div>
@@ -56,7 +56,7 @@
                     <div class="article-links">
                         @if (mb_strlen($article->content, 'utf8') > setting('article.index.content_limit', 450))
                         <div class="float-right">
-                            <a class="btn btn-block btn-primary" href="{{ route('articles.show_article', [$article->id, $article->slug]) }}">
+                            <a class="btn btn-block btn-primary" href="{{ route('articles.show_article', [$article->slug]) }}">
                                 Devamını Oku...
                             </a>
                         </div>

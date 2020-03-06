@@ -20,6 +20,7 @@ $menuList = Menu::getByName('Admin');
 */
 
 use App\Item;
+use App\MagicOpt;
 
 Route::get('/', 'ArticleController@index')->name('home');
 
@@ -27,8 +28,8 @@ Route::group(['prefix' => 'articles'], function ()
 {
     Route::get('/', 'ArticleController@index')->name('articles.show_articles');
 
-    Route::get('{id}-{slug}', 'ArticleController@show')->name('articles.show_article');
-    Route::post('{id}-{slug}', 'ArticleCommentController@store')->name('articles.store_comment');
+    Route::get('{article}', 'ArticleController@show')->name('articles.show_article');
+    Route::post('{article}', 'ArticleCommentController@store')->name('articles.store_comment');
 
     Route::get('categories/{slug}', 'ArticleCategoryController@show')->name('articles.get_category');
     Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
@@ -98,9 +99,9 @@ Route::group(['prefix' => 'guilds'], function ()
 //     Route::get('{item}', 'ItemController@show')->name('show_item');
 // });
 
-// $this->middleware('auth')->except('callback');
 Route::group(['prefix' => 'votes', 'as' => 'votes.'], function ()
 {
+    // $this->middleware('auth')->except('callback');
     Route::get('/', 'VoteController@index')->name('show_votes');
     Route::post('{voteProvider}/vote', 'VoteController@vote')->name('do_vote');
 });
@@ -123,4 +124,19 @@ Route::group(['prefix' => 'epin', 'as' => 'epin.', 'middleware' => 'auth'], func
 {
     Route::get('', 'EpinController@index')->name('index');
     Route::post('use', 'EpinController@use')->name('use');
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', 'can:view admin']], function ()
+{
+    Route::get('', 'Admin\DashboardController@index')->name('dashboard.index');
+
+    Route::resource('articles', 'Admin\ArticleController');
+    Route::group(['prefix' => 'articles'], function ()
+    {
+        Route::resource('comments', 'Admin\ArticleCommentController', ['as' => 'articles']);
+        Route::resource('categories', 'Admin\ArticleCategoryController', ['as' => 'articles']);
+    });
+
+    Route::resource('pages', 'Admin\PageController');
+    Route::resource('users', 'Admin\UserController');
 });

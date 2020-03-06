@@ -21,10 +21,9 @@ class ArticleController extends Controller
         return view('articles.index', compact('articles'));
     }
 
-    public function show($id, $slug)
+    public function show($article)
     {
-        $article = Article::whereId($id)
-            ->whereSlug($slug)
+        $article = Article::whereSlug($article)
             ->published()
             ->with('user')
             ->withCount(['articleComments' => function ($query)

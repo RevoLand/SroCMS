@@ -55,7 +55,7 @@
                     </ul>
                 </div>
             @endif
-        @can ('post comments')
+        @can ('post comment')
             {{ Form::open(['route' => ['articles.store_comment', $article->id, $article->slug], 'method' => 'POST']) }}
                 <textarea name="comment" spellcheck="false" placeholder="Type a comment..." maxlength="255"></textarea>
                 <input type="submit" value="Submit comment" />

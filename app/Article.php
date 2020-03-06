@@ -48,4 +48,9 @@ class Article extends Model
                 ->orWhere('published_at', '<=', Carbon::now());
         });
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
