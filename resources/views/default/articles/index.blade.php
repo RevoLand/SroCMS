@@ -23,7 +23,7 @@
     @forelse ($articles as $article)
     <div class="row">
         <div class="col-12">
-            <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2" role="article">
+            <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2 mb-5" role="article">
                 <h2 class="article-title py-2">
                     <a href="{{ route('articles.show_article', [$article->slug]) }}">{{ $article->title }}</a>
                 </h2>
@@ -44,17 +44,9 @@
                     </div>
                 </div>
                 <div class="article-body">
-                    @isset($article->user->gravatar)
-                    <div class="article-avatar float-left px-2 pt-1 mr-2">
-                        <img src="{{ $article->user->gravatar }}?s=120" class="article-user-avatar img-fluid rounded shadow" height="120" width="120">
-                    </div>
-                    @endif
-
-                    <p>
-                        {{ Str::limit($article->content, setting('article.index.content_limit', 450)) }}
-                    </p>
+                    {!! Str::limit($article->content,setting('article.index.content_limit', 900)) !!}
                     <div class="article-links">
-                        @if (mb_strlen($article->content, 'utf8') > setting('article.index.content_limit', 450))
+                        @if (mb_strlen($article->content, 'utf8') > setting('article.index.content_limit', 900))
                         <div class="float-right">
                             <a class="btn btn-block btn-primary" href="{{ route('articles.show_article', [$article->slug]) }}">
                                 Devamını Oku...

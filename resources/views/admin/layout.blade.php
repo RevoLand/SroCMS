@@ -112,8 +112,10 @@
 		<!-- end::Global Config -->
 
 		<!--begin::Global Theme Bundle(used by all pages) -->
+        <script src="{{ asset('vendor/jquery-3.4.1.min.js') }}"></script>
         {!! Theme::js('plugins/global/plugins.bundle.js') !!}
         {!! Theme::js('js/scripts.bundle.js') !!}
+        {!! Theme::js('js/pages/components/extended/sweetalert2.js') !!}
 		<!--end::Global Theme Bundle -->
         @yield('js')
 	</body>

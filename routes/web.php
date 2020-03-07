@@ -131,6 +131,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     Route::get('', 'Admin\DashboardController@index')->name('dashboard.index');
 
     Route::resource('articles', 'Admin\ArticleController');
+    Route::patch('articles/{article}/toggleVisibility', 'Admin\ArticleController@toggleVisibility')->name('articles.toggle_visibility');
+    Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
+
     Route::group(['prefix' => 'articles'], function ()
     {
         Route::resource('comments', 'Admin\ArticleCommentController', ['as' => 'articles']);
@@ -138,7 +141,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     });
 
     Route::resource('pages', 'Admin\PageController');
-    Route::patch('pages/{page}', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
+    Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
     Route::resource('users', 'Admin\UserController');
 });
 

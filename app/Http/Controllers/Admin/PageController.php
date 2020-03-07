@@ -38,17 +38,13 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        $values = $request->validate($this->rules());
+        $page = Page::create($this->validatePage());
 
-        $page = new Page();
-
-        $page->fill($values);
         if ($request->has('generate-slug') || is_null($page->slug))
         {
             $page->generateSlug();
+            $page->save();
         }
-
-        $page->save();
 
         return redirect()->route('admin.pages.edit', $page)->with('message', 'Page created.');
     }
@@ -86,9 +82,8 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        $values = $request->validate($this->rules());
+        $page->fill($this->validatePage());
 
-        $page->fill($values);
         if ($request->has('generate-slug') || is_null($page->slug))
         {
             $page->generateSlug();
@@ -105,7 +100,7 @@ class PageController extends Controller
             'enabled' => !$page->enabled,
         ]);
 
-        return response()->json(['message' => 'Enabled state has been changed.']);
+        return response()->json(['message' => 'Enabled state has been successfully updated.']);
     }
 
     /**
@@ -122,9 +117,9 @@ class PageController extends Controller
         return response()->json(['message' => 'Page successfully deleted.']);
     }
 
-    private function rules()
+    private function validatePage()
     {
-        return [
+        return request()->validate([
             'title' => ['required', 'string'],
             'slug' => ['sometimes', 'nullable', 'string'],
             'content' => ['nullable'],
@@ -132,6 +127,6 @@ class PageController extends Controller
             'middleware' => ['nullable', 'alpha_dash'],
             'showsidebar' => ['required', 'boolean'],
             'enabled' => ['required', 'boolean'],
-        ];
+        ]);
     }
 }

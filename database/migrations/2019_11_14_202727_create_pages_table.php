@@ -16,7 +16,7 @@ class CreatePagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('slug');
-            $table->longText('content')->nullable();
+            $table->text('content')->nullable();
             $table->string('view')->nullable();
             $table->string('middleware')->nullable();
             $table->boolean('showsidebar')->default(true);

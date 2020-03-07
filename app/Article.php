@@ -12,6 +12,11 @@ class Article extends Model
     use HasSlug;
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'published_at',
+    ];
 
     public function getSlugOptions(): SlugOptions
     {

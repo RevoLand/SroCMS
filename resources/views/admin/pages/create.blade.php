@@ -61,7 +61,7 @@
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
                         <a href="{{ route('admin.pages.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-edit"></i> List Pages
+                            <i class="la la-copy"></i> List Pages
                         </a>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Pages')
+@section('pagetitle', 'Articles')
 
 @section('content')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -8,12 +8,12 @@
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Pages</h3>
+                <h3 class="kt-subheader__title">Articles</h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Pages</a>
+                    <a href="{{ route('admin.articles.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Articles</a>
                 </div>
             </div>
         </div>
@@ -39,13 +39,13 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        Pages
+                        Articles
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.pages.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-edit"></i> Create New Page
+                        <a href="{{ route('admin.articles.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-edit"></i> Create New Article
                         </a>
                     </div>
                 </div>
@@ -99,10 +99,11 @@
                     }
                 })
             break;
-            case 'toggle-enabled':
+            case 'toggle-visibility':
+            case 'toggle-comments':
                 axios.patch(event.target.action)
                     .then(response => {
-                        $('#pages-table').DataTable().draw(false);
+                        $('#articles-table').DataTable().draw(false);
                         swal.fire( 'Updated!', response.data.message, 'success');
                     })
                     .catch(error => {

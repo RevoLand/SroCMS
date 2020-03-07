@@ -9,12 +9,12 @@
         <i class="la la-ellipsis-h"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right">
-        {!! Form::open(['route'=>['admin.pages.toggle_enabled', $slug], 'method' => 'patch', 'data-action' => 'toggle-enabled']) !!}
+        {!! Form::open([ 'route' => ['admin.pages.toggle_enabled', $slug], 'method' => 'patch', 'data-action' => 'toggle-enabled', 'data-id' => $id ]) !!}
         <button class="dropdown-item btn" role="button" type="submit">
             <i class="la la-eye-slash"></i> Toggle Enabled
         </button>
         {!! Form::close() !!}
-        {!! Form::open(['route'=>['admin.pages.destroy', $slug], 'method' => 'delete', 'data-action' => 'delete']) !!}
+        {!! Form::open([ 'route' => ['admin.pages.destroy', $slug], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!}
         <button class="dropdown-item btn" role="button" type="submit">
             <i class="la la-remove"></i> Delete
         </button>

@@ -131,12 +131,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function voteLogs()
     {
-        return $this->hasMany(VoteLog::class, 'user_id');
+        return $this->hasMany(VoteLog::class, 'user_id', 'JID');
     }
 
     public function voteLogsByProviderId(int $voteProviderId)
     {
         return $this->voteLogs()->voteProvider($voteProviderId);
+    }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'author_id', 'JID');
     }
 
     public function addChestItem(string $itemCodeName, int $data, int $optLevel): bool
