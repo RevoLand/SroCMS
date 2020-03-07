@@ -46,11 +46,12 @@ class UsersDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('users-table')
-            ->addTableClass('table table-striped- table-bordered table-hover table-checkable dataTable no-footer dtr-inline')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>\t\t\t<'row'<'col-sm-12'tr>>\t\t\t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
             ->orderBy(0, 'asc')
+            ->pagingType('first_last_numbers')
+            ->lengthMenu([10, 25, 50, 100, 250, 1000])
             ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -68,7 +69,7 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('JID'),
+            Column::make('JID', 'JID'),
             Column::make('StrUserID'),
             Column::make('Name'),
             Column::make('Email'),
@@ -77,7 +78,7 @@ class UsersDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(120)
                 ->addClass('text-center'),
         ];
     }

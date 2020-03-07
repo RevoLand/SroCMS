@@ -13,7 +13,7 @@
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link">Pages</a>
+                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Pages</a>
                 </div>
             </div>
         </div>
@@ -21,7 +21,20 @@
 
     <!-- end:: Subheader -->
     <!-- begin:: Content -->
-    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+        @if (session('message'))
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-light alert-elevate fade show" role="alert">
+                    <div class="alert-icon"><i class="la la-check-square kt-font-brand"></i></div>
+                    <div class="alert-text">
+                        {{ session('message') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
@@ -32,7 +45,7 @@
             </div>
             <div class="kt-portlet__body">
                 <!--begin: Datatable -->
-                {!! $dataTable->table() !!}
+                {!! $dataTable->table(['class' => 'table table-striped- table-bordered table-hover table-checkable dataTable no-footer responsive dtr-inline'], true) !!}
                 <!--end: Datatable -->
             </div>
         </div>
@@ -47,9 +60,7 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/jquery-1.10.2.min.js') }}"></script>
-{!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
-<script src="{{ asset('vendor/datatables/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-{!! $dataTable->scripts() !!}
+    {!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    {!! $dataTable->scripts() !!}
 @endsection

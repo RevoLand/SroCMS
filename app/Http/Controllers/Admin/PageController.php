@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\PagesDataTable;
 use App\Http\Controllers\Controller;
+use App\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -25,6 +26,7 @@ class PageController extends Controller
      */
     public function create()
     {
+        return view('pages.create');
     }
 
     /**
@@ -36,6 +38,19 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
+        $values = $request->validate($this->rules());
+
+        $page = new Page();
+
+        $page->fill($values);
+        if ($request->has('generate-slug') || is_null($values['slug']))
+        {
+            $page->generateSlug();
+        }
+
+        $page->save();
+
+        return redirect()->route('admin.pages.edit', $page)->with('message', 'Page created.');
     }
 
     /**
@@ -45,7 +60,7 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Page $page)
     {
     }
 
@@ -56,8 +71,9 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Page $page)
     {
+        return view('pages.edit', compact('page'));
     }
 
     /**
@@ -68,8 +84,19 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Page $page)
     {
+        $values = $request->validate($this->rules());
+
+        $page->fill($values);
+        if ($request->has('generate-slug') || is_null($values['slug']))
+        {
+            $page->generateSlug();
+        }
+
+        $page->save();
+
+        return redirect()->route('admin.pages.edit', $page)->with('message', 'Page updated.');
     }
 
     /**
@@ -79,7 +106,23 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Page $page)
     {
+        $page->delete();
+
+        return back()->with(['message' => 'Page successfully deleted.']);
+    }
+
+    private function rules()
+    {
+        return [
+            'title' => ['required', 'string'],
+            'slug' => ['sometimes', 'nullable', 'string'],
+            'content' => ['nullable'],
+            'view' => ['nullable'],
+            'middleware' => ['nullable', 'alpha_dash'],
+            'showsidebar' => ['required', 'boolean'],
+            'enabled' => ['required', 'boolean'],
+        ];
     }
 }

@@ -13,7 +13,7 @@
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link">Users</a>
+                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Users</a>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="kt-portlet__body">
                 <!--begin: Datatable -->
-                {!! $dataTable->table() !!}
+                {!! $dataTable->table(['class' => 'table table-striped- table-bordered table-hover table-checkable dataTable no-footer responsive dtr-inline'], true) !!}
                 <!--end: Datatable -->
             </div>
         </div>
@@ -47,9 +47,7 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/jquery-1.10.2.min.js') }}"></script>
-{!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
-<script src="{{ asset('vendor/datatables/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-{!! $dataTable->scripts() !!}
+    {!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
+    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+    {!! $dataTable->scripts() !!}
 @endsection

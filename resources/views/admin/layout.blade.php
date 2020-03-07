@@ -115,7 +115,6 @@
         {!! Theme::js('plugins/global/plugins.bundle.js') !!}
         {!! Theme::js('js/scripts.bundle.js') !!}
 		<!--end::Global Theme Bundle -->
-
         @yield('js')
 	</body>
 
