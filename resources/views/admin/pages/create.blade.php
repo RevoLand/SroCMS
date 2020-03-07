@@ -18,15 +18,6 @@
                     <a href="{{ route('admin.pages.create') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Create Page</a>
                 </div>
             </div>
-
-            <div class="kt-subheader__toolbar">
-                <div class="kt-subheader__wrapper">
-                    <a href="{{ route('admin.pages.index') }}" class="btn btn-icon- btn btn-label btn-label-brand btn-upper btn-font-sm btn-bold">
-                        <i class="la la-eye"></i> Page List
-                    </a>
-                </div>
-            </div>
-
         </div>
     </div>
     <!-- end:: Subheader -->
@@ -66,6 +57,13 @@
                     <h3 class="kt-portlet__head-title">
                         Create Page
                     </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+                        <a href="{{ route('admin.pages.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-edit"></i> List Pages
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="kt-portlet__body">

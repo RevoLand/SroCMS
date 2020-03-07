@@ -18,14 +18,6 @@
                     <a href="{{ route('admin.pages.edit', $page) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit Page</a>
                 </div>
             </div>
-
-            <div class="kt-subheader__toolbar">
-                <div class="kt-subheader__wrapper">
-                    <a href="{{ route('pages.show_page', $page) }}" class="btn btn-icon btn btn-label btn-label-brand btn-bold" data-toggle="kt-tooltip" title="View Page" data-placement="top"><i class="la la-eye"></i></a>
-                    <a href="{{ route('admin.pages.create') }}" class="btn btn-icon btn btn-label btn-label-brand btn-bold" data-toggle="kt-tooltip" title="Create Page" data-placement="top"><i class="la la-edit"></i></a>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -51,6 +43,14 @@
                     <h3 class="kt-portlet__head-title">
                         {{ $page->title }}
                     </h3>
+                </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+                        <a href="{{ route('pages.show_page', $page) }}" class="btn btn-accent btn-upper btn-sm btn-bold"><i class="la la-eye"></i> View Page</a>
+                        <a href="{{ route('admin.pages.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-edit"></i> Create New Page
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="kt-portlet__body">
@@ -110,7 +110,7 @@
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                            <button type="reset" class="btn btn-warning">Cancel</button>
                         </div>
                     </div>
                 {{ Form::close() }}

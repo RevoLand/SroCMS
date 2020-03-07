@@ -138,5 +138,46 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     });
 
     Route::resource('pages', 'Admin\PageController');
+    Route::patch('pages/{page}', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
     Route::resource('users', 'Admin\UserController');
+});
+
+Route::match(['get', 'post'], 'item-test', function ()
+{
+    if ($_POST)
+    {
+        $optId = $_POST['optid'];
+        $value = $_POST['value'] ?: MagicOpt::find($optId)->stats->maxValue;
+
+        $magicParam = ($value << 32) | $optId;
+
+        echo "<h4>{$magicParam}</h4><h5>[{$optId}] {$value}</h5>";
+
+        // Item::find(179384)->update([
+        //     'MagParam1' => $magicParam,
+        // ]);
+    } ?>
+
+    <form method="post" action="">
+        <input class="form-control" type="text" name="optid" placeholder="Magic Option ID">
+        <input class="form-control" type="text" name="value" placeholder="Value">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<?php
+});
+
+Route::get('test', function ()
+{
+    // increase($type, $balance, $source, $comment = '', $source_user_id = '')
+    Auth::user()->balance->increase(config('constants.balance.type.balance'), 100, config('constants.balance.source.admin'));
+
+    // $user->silk->decrease(config('constants.silk.type.id.silk_own'), 50, config('constants.silk.reason.dec.silk_own'), 'SroCMS Deneme');
+    // $user->silk->decrease(config('constants.silk.type.id.silk_gift'), 50, config('constants.silk.reason.dec.silk_gift'), 'SroCMS Deneme');
+    // $user->silk->decrease(config('constants.silk.type.id.silk_point'), 50, config('constants.silk.reason.dec.silk_point'), 'SroCMS Deneme');
+
+    // $user->silk->increase(config('constants.silk.type.id.silk_own'), 100, config('constants.silk.reason.inc.silk_own'), 'SroCMS Deneme');
+    // $user->silk->increase(config('constants.silk.type.id.silk_gift'), 100, config('constants.silk.reason.inc.silk_gift'), 'SroCMS Deneme');
+    // $user->silk->increase(config('constants.silk.type.id.silk_point'), 100, config('constants.silk.reason.inc.silk_point'), 'SroCMS Deneme');
+
+    echo 'ok';
 });

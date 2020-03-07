@@ -43,7 +43,7 @@ class PageController extends Controller
         $page = new Page();
 
         $page->fill($values);
-        if ($request->has('generate-slug') || is_null($values['slug']))
+        if ($request->has('generate-slug') || is_null($page->slug))
         {
             $page->generateSlug();
         }
@@ -89,7 +89,7 @@ class PageController extends Controller
         $values = $request->validate($this->rules());
 
         $page->fill($values);
-        if ($request->has('generate-slug') || is_null($values['slug']))
+        if ($request->has('generate-slug') || is_null($page->slug))
         {
             $page->generateSlug();
         }
@@ -97,6 +97,15 @@ class PageController extends Controller
         $page->save();
 
         return redirect()->route('admin.pages.edit', $page)->with('message', 'Page updated.');
+    }
+
+    public function toggleEnabled(Request $request, Page $page)
+    {
+        $page->update([
+            'enabled' => !$page->enabled,
+        ]);
+
+        return response()->json(['message' => 'Enabled state has been changed.']);
     }
 
     /**
@@ -110,7 +119,7 @@ class PageController extends Controller
     {
         $page->delete();
 
-        return back()->with(['message' => 'Page successfully deleted.']);
+        return response()->json(['message' => 'Page successfully deleted.']);
     }
 
     private function rules()

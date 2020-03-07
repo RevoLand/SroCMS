@@ -27,49 +27,45 @@
                             </span>
                         </li>
                         <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.articles.create') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-icon flaticon2-pen"></i>
-                                <span class="kt-menu__link-text">Create Article</span>
-                            </a>
-                        </li>
-                        <li class="kt-menu__item " aria-haspopup="true">
                             <a href="{{ route('admin.articles.index') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                    <span></span>
-                                </i>
+                                <i class="kt-menu__link-icon la la-copy"></i>
                                 <span class="kt-menu__link-text">List Articles</span>
                             </a>
                         </li>
-                    </ul>
-                </div>
-            </li>
-            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
-                <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
-                    <i class="kt-menu__link-icon flaticon2-files-and-folders"></i>
-                    <span class="kt-menu__link-text">Article Categories</span>
-                    <i class="kt-menu__ver-arrow la la-angle-right"></i>
-                </a>
-                <div class="kt-menu__submenu ">
-                    <span class="kt-menu__arrow"></span>
-                    <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                            <span class="kt-menu__link">
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.articles.create') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-icon la la-edit"></i>
+                                <span class="kt-menu__link-text">Create Article</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-icon flaticon2-files-and-folders"></i>
                                 <span class="kt-menu__link-text">Article Categories</span>
-                            </span>
-                        </li>
-                        <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.articles.categories.create') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-icon flaticon2-pen"></i>
-                                <span class="kt-menu__link-text">Create Category</span>
+                                <i class="kt-menu__ver-arrow la la-angle-right"></i>
                             </a>
-                        </li>
-                        <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.articles.categories.index') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                    <span></span>
-                                </i>
-                                <span class="kt-menu__link-text">List Categories</span>
-                            </a>
+                            <div class="kt-menu__submenu ">
+                                <span class="kt-menu__arrow"></span>
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                        <span class="kt-menu__link">
+                                            <span class="kt-menu__link-text">Article Categories</span>
+                                        </span>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="{{ route('admin.articles.categories.create') }}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon la la-edit"></i>
+                                            <span class="kt-menu__link-text">Create Category</span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="{{ route('admin.articles.categories.index') }}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon la la-copy"></i>
+                                            <span class="kt-menu__link-text">List Categories</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>

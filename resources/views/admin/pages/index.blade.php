@@ -42,6 +42,13 @@
                         Pages
                     </h3>
                 </div>
+                <div class="kt-portlet__head-toolbar">
+                    <div class="kt-portlet__head-actions">
+                        <a href="{{ route('admin.pages.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-edit"></i> Create New Page
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="kt-portlet__body">
                 <!--begin: Datatable -->
@@ -60,7 +67,37 @@
 @endsection
 
 @section('js')
-    {!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
-    <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-    {!! $dataTable->scripts() !!}
+<script src="{{ asset('vendor/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+{!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
+<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+{!! $dataTable->scripts() !!}
+
+<script>
+    $(".kt-portlet__body").on('submit','form', function(event) {
+        event.preventDefault();
+        switch (event.target.dataset.action) {
+            case 'delete':
+                axios.delete(event.target.action)
+                .then(response => {
+                    $('#pages-table').DataTable().draw(false);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert(error.response.data.message);
+                });
+            break;
+            case 'toggle-enabled':
+                axios.patch(event.target.action)
+                    .then(response => {
+                        $('#pages-table').DataTable().draw(false);
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                        alert(error.response.data.message);
+                    });
+            break;
+        }
+    });
+    </script>
 @endsection

@@ -70,11 +70,10 @@ class PagesDataTable extends DataTable
             ->orderBy(8)
             ->pagingType('first_last_numbers')
             ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                Button::make('export'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
             );
     }
 
@@ -99,7 +98,7 @@ class PagesDataTable extends DataTable
                 ->title('Actions')
                 ->exportable(false)
                 ->printable(false)
-                ->width(110)
+                ->width(120)
                 ->addClass('text-center'),
         ];
     }

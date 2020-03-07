@@ -175,7 +175,7 @@
 
 @section ('js')
 {!! Theme::js('vendor/vue/vue.js') !!}
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script>
     window.Event = new Vue();
 
