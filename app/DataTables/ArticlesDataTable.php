@@ -62,21 +62,21 @@ class ArticlesDataTable extends DataTable
             'author_id' => ['sometimes', 'integer'],
         ]);
 
-        return $model->newQuery()->where(function ($query)
+        return $model->where(function ($query)
         {
-            if (request()->has('author_id'))
+            if (request()->filled('author_id'))
             {
                 $query->where('author_id', request('author_id'));
             }
 
-            if (request()->has('category_id'))
+            if (request()->filled('category_id'))
             {
                 $query->whereHas('articleCategories', function ($q)
                 {
                     $q->where('article_category_id', request('category_id'));
                 });
             }
-        })->with('user')->withCount('articleComments');
+        })->with('user')->withCount('articleComments')->newQuery();
     }
 
     /**

@@ -130,16 +130,24 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 {
     Route::get('', 'Admin\DashboardController@index')->name('dashboard.index');
 
-    Route::group(['prefix' => 'articles'], function ()
+    Route::group(['middleware' => 'can:manage articles'], function ()
     {
-        Route::resource('comments', 'Admin\ArticleCommentController', ['as' => 'articles']);
-        Route::resource('categories', 'Admin\ArticleCategoryController', ['as' => 'articles']);
-        Route::patch('categories/{category}/toggleEnabled', 'Admin\ArticleCategoryController@toggleEnabled')->name('articles.categories.toggle_enabled');
-    });
+        Route::group(['prefix' => 'articles'], function ()
+        {
+            Route::resource('categories', 'Admin\ArticleCategoryController', ['as' => 'articles']);
+            Route::patch('categories/{category}/toggleEnabled', 'Admin\ArticleCategoryController@toggleEnabled')->name('articles.categories.toggle_enabled');
 
-    Route::resource('articles', 'Admin\ArticleController');
-    Route::patch('articles/{article}/toggleVisibility', 'Admin\ArticleController@toggleVisibility')->name('articles.toggle_visibility');
-    Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
+            // comments/{comment}
+            Route::resource('comments', 'Admin\ArticleCommentController', ['as' => 'articles']);
+            Route::delete('comments/{comment}/destroyAjax', 'Admin\ArticleCommentController@destroyAjax')->name('articles.comments.destroy_ajax');
+            Route::patch('comments/{comment}/toggleVisibility', 'Admin\ArticleCommentController@toggleVisibility')->name('articles.comments.toggle_visibility');
+            Route::patch('comments/{comment}/toggleApproved', 'Admin\ArticleCommentController@toggleApproved')->name('articles.comments.toggle_approved');
+        });
+
+        Route::resource('articles', 'Admin\ArticleController')->middleware('can:manage articles');
+        Route::patch('articles/{article}/toggleVisibility', 'Admin\ArticleController@toggleVisibility')->name('articles.toggle_visibility');
+        Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
+    });
 
     Route::resource('pages', 'Admin\PageController');
     Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');

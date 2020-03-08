@@ -26,7 +26,7 @@ class ArticleCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.articles.categories.create');
+        return view('articles.categories.create');
     }
 
     /**
@@ -75,7 +75,7 @@ class ArticleCategoryController extends Controller
      */
     public function edit(ArticleCategory $category)
     {
-        return view('admin.articles.categories.edit', compact('category'));
+        return view('articles.categories.edit', compact('category'));
     }
 
     /**

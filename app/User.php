@@ -144,6 +144,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Article::class, 'author_id', 'JID');
     }
 
+    public function articleComments()
+    {
+        return $this->hasMany(ArticleComment::class, 'user_id', 'JID');
+    }
+
     public function addChestItem(string $itemCodeName, int $data, int $optLevel): bool
     {
         return DB::connection('shard')->statement(
