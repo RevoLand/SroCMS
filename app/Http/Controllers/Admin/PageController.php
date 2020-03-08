@@ -93,7 +93,8 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         $this->validatePage();
-        $page->fill([
+
+        $page->update([
             'title' => request('title'),
             'slug' => request('slug'),
             'content' => request('contente'),
@@ -106,9 +107,8 @@ class PageController extends Controller
         if ($request->has('generate-slug') || is_null($page->slug))
         {
             $page->generateSlug();
+            $page->save();
         }
-
-        $page->save();
 
         return redirect()->route('admin.pages.edit', $page)->with('message', 'Page updated.');
     }

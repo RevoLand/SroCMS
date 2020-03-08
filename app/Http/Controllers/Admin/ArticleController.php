@@ -104,7 +104,7 @@ class ArticleController extends Controller
     {
         $this->validateArticle();
 
-        $article = $article->update([
+        $article->update([
             'title' => request('title'),
             'slug' => request('slug'),
             'excerpt' => request('excerpt'),
