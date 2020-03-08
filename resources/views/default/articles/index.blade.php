@@ -44,15 +44,21 @@
                     </div>
                 </div>
                 <div class="article-body">
-                    {!! Str::limit($article->content,setting('article.index.content_limit', 900)) !!}
+                    <p>
+                        @isset($article->excerpt)
+                            {!! $article->excerpt !!}
+                        @else
+                            {!! $article->content !!}
+                        @endisset
+                    </p>
                     <div class="article-links">
-                        @if (mb_strlen($article->content, 'utf8') > setting('article.index.content_limit', 900))
+                        @isset($article->excerpt)
                         <div class="float-right">
                             <a class="btn btn-block btn-primary" href="{{ route('articles.show_article', [$article->slug]) }}">
                                 Devamını Oku...
                             </a>
                         </div>
-                        @endif
+                        @endisset
                     </div>
                 </div>
             </div>

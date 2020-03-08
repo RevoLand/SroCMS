@@ -91,18 +91,22 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label>Excerpt (HTML)</label>
+                        <textarea name="excerpt" class="tox-tinymce">{!! $article->excerpt !!}</textarea>
+                    </div>
+                    <div class="form-group">
                         <label>Content (HTML)</label>
-                        <textarea id="content" name="content" class="tox-target">{!! $article->content !!}</textarea>
+                        <textarea name="content" class="tox-tinymce">{!! $article->content !!}</textarea>
                     </div>
                     <div class="form-group">
                         <label>Visibility</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                <input type="radio" name="is_visible" value="1" @if($article->is_visible) checked @endif> Visible
+                                {!! Form::radio('is_visible', 1, $article->is_visible) !!} Visible
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                <input type="radio" name="is_visible" value="0" @if(!$article->is_visible) checked @endif> Hidden
+                                {!! Form::radio('is_visible', 0, !$article->is_visible) !!} Hidden
                                 <span></span>
                             </label>
                         </div>
@@ -111,11 +115,11 @@
                         <label>Comments</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                <input type="radio" name="can_comment_on" value="1" @if($article->can_comment_on) checked @endif> Enabled
+                                {!! Form::radio('can_comment_on', 1, $article->can_comment_on) !!} Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                <input type="radio" name="can_comment_on" value="0" @if(!$article->can_comment_on) checked @endif> Disabled
+                                {!! Form::radio('can_comment_on', 0, !$article->can_comment_on) !!} Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -141,7 +145,8 @@
 @endsection
 
 @section('js')
-{!! Theme::js('plugins/custom/tinymce/tinymce.bundle.js') !!}
+{!! Theme::js('plugins/tinymce/tinymce.min.js') !!}
+{!! Theme::js('js/pages/tinymce-editor.js') !!}
 <script type="text/javascript">
 $(document).ready(function() {
     $( ".category-selector" ).select2({
@@ -154,25 +159,6 @@ $(document).ready(function() {
         todayBtn: true,
         clearBtn: true,
         pickerPosition: 'top-right'
-    });
-
-    tinymce.init({
-    selector: 'textarea#content',
-    plugins: 'print preview paste searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-    imagetools_cors_hosts: ['picsum.photos'],
-    menubar: 'file edit view insert format tools table help',
-    toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image media template link anchor codesample | ltr rtl',
-    toolbar_sticky: true,
-    image_advtab: true,
-    importcss_append: true,
-    template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-    template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
-    height: 600,
-    image_caption: true,
-    quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
-    noneditable_noneditable_class: "mceNonEditable",
-    toolbar_drawer: 'sliding',
-    contextmenu: "link image imagetools table",
     });
 });
 </script>

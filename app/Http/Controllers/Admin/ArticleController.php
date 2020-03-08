@@ -48,6 +48,7 @@ class ArticleController extends Controller
             'title' => request('title'),
             'slug' => request('slug'),
             'content' => request('content'),
+            'excerpt' => request('excerpt'),
             'is_visible' => request('is_visible'),
             'can_comment_on' => request('can_comment_on'),
             'published_at' => Carbon::parse(request('published_at')),
@@ -106,6 +107,7 @@ class ArticleController extends Controller
         $article = $article->fill([
             'title' => request('title'),
             'slug' => request('slug'),
+            'excerpt' => request('excerpt'),
             'content' => request('content'),
             'is_visible' => request('is_visible'),
             'can_comment_on' => request('can_comment_on'),
@@ -162,12 +164,13 @@ class ArticleController extends Controller
         return request()->validate([
             'title' => ['required', 'string'],
             'slug' => ['sometimes', 'nullable', 'string'],
+            'excerpt' => ['sometimes', 'nullable', 'string'],
             'content' => ['required', 'string'],
             'author_id' => ['sometimes', 'integer', 'exists:App\User,JID'],
             'categories' => ['required', 'array', 'exists:App\ArticleCategory,id'],
             'is_visible' => ['required', 'boolean'],
             'can_comment_on' => ['required', 'boolean'],
-            'published_at' => ['required', 'date_format:Y-m-d H:i'],
+            'published_at' => ['required', 'date'],
         ]);
     }
 }

@@ -16,6 +16,7 @@ class CreateArticlesTable extends Migration
             $table->bigIncrements('id');
             $table->string('slug');
             $table->string('title');
+            $table->string('excerpt')->nullable();
             $table->text('content');
             $table->bigInteger('author_id');
             $table->boolean('is_visible')->default(true);

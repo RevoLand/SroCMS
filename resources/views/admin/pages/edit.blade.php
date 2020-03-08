@@ -84,7 +84,7 @@
                     </div>
                     <div class="form-group">
                         <label>Content (HTML)</label>
-                        <textarea id="content" name="content" class="tox-target">{!! $page->content !!}</textarea>
+                        <textarea name="content" class="tox-tinymce">{!! $page->content !!}</textarea>
                     </div>
                     <div class="form-group">
                         <label>View</label>
@@ -100,11 +100,11 @@
                         <label>Sidebar</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                <input type="radio" name="showsidebar" value="1" @if ($page->showsidebar) checked @endif> Show
+                                {!! Form::radio('showsidebar', 1, $page->showsidebar) !!} Show
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                <input type="radio" name="showsidebar" value="0" @if (!$page->showsidebar) checked @endif> Hide
+                                {!! Form::radio('showsidebar', 0, !$page->showsidebar) !!} Hide
                                 <span></span>
                             </label>
                         </div>
@@ -113,11 +113,11 @@
                         <label>State</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                <input type="radio" name="enabled" value="1" @if ($page->enabled) checked @endif> Enabled
+                                {!! Form::radio('enabled', 1, $page->enabled) !!} Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                <input type="radio" name="enabled" value="0" @if (!$page->enabled) checked @endif> Disabled
+                                {!! Form::radio('enabled', 0, !$page->enabled) !!} Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -138,25 +138,6 @@
 @endsection
 
 @section('js')
-{!! Theme::js('plugins/custom/tinymce/tinymce.bundle.js') !!}
-<script>
-tinymce.init({
-  selector: 'textarea#content',
-  plugins: 'print preview paste searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-  imagetools_cors_hosts: ['picsum.photos'],
-  menubar: 'file edit view insert format tools table help',
-  toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image media template link anchor codesample | ltr rtl',
-  toolbar_sticky: true,
-  image_advtab: true,
-  importcss_append: true,
-  template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
-  template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
-  height: 600,
-  image_caption: true,
-  quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
-  noneditable_noneditable_class: "mceNonEditable",
-  toolbar_drawer: 'sliding',
-  contextmenu: "link image imagetools table",
- });
-</script>
+{!! Theme::js('plugins/tinymce/tinymce.min.js') !!}
+{!! Theme::js('js/pages/tinymce-editor.js') !!}
 @endsection
