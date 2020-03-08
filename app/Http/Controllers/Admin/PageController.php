@@ -43,7 +43,7 @@ class PageController extends Controller
         $page = Page::create([
             'title' => request('title'),
             'slug' => request('slug'),
-            'content' => request('contente'),
+            'content' => request('content'),
             'view' => request('view'),
             'middleware' => request('middleware'),
             'showsidebar' => request('showsidebar'),
@@ -97,7 +97,7 @@ class PageController extends Controller
         $page->update([
             'title' => request('title'),
             'slug' => request('slug'),
-            'content' => request('contente'),
+            'content' => request('content'),
             'view' => request('view'),
             'middleware' => request('middleware'),
             'showsidebar' => request('showsidebar'),
