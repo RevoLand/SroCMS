@@ -38,9 +38,19 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        $page = Page::create($this->validatePage());
+        $this->validatePage();
 
-        if ($request->has('generate-slug') || is_null($page->slug))
+        $page = Page::create([
+            'title' => request('title'),
+            'slug' => request('slug'),
+            'content' => request('contente'),
+            'view' => request('view'),
+            'middleware' => request('middleware'),
+            'showsidebar' => request('showsidebar'),
+            'enabled' => request('enabled'),
+        ]);
+
+        if ($request->has('generate-slug'))
         {
             $page->generateSlug();
             $page->save();
@@ -82,7 +92,16 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        $page->fill($this->validatePage());
+        $this->validatePage();
+        $page->fill([
+            'title' => request('title'),
+            'slug' => request('slug'),
+            'content' => request('contente'),
+            'view' => request('view'),
+            'middleware' => request('middleware'),
+            'showsidebar' => request('showsidebar'),
+            'enabled' => request('enabled'),
+        ]);
 
         if ($request->has('generate-slug') || is_null($page->slug))
         {
@@ -122,6 +141,7 @@ class PageController extends Controller
         return request()->validate([
             'title' => ['required', 'string'],
             'slug' => ['sometimes', 'nullable', 'string'],
+            'generate-slug' => ['sometimes', 'boolean'],
             'content' => ['nullable'],
             'view' => ['nullable'],
             'middleware' => ['nullable', 'alpha_dash'],

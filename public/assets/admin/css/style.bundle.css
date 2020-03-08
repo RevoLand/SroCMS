@@ -10191,6 +10191,10 @@ code {
   to {
     margin-top: 0; } }
 
+.form-group.slug-field {
+    display: none;
+}
+
 .form-group {
   margin-bottom: 2rem; }
   .form-group.form-group-marginless, .form-group.form-group-last {
@@ -14539,7 +14543,7 @@ canvas {
   -ms-user-select: none; }
 
 /* Customize website's scrollbar like Mac OS */
-/* 
+/*
 ::-webkit-scrollbar {
     background-color:#f6f6f6;
     width:14px;

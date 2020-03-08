@@ -6,11 +6,14 @@ use App\ArticleCategory;
 
 class ArticleCategoryController extends Controller
 {
-    public function show($slug)
+    public function show(ArticleCategory $category)
     {
-        $articleCategory = ArticleCategory::whereSlug($slug)->enabled()->firstOrFail();
+        if (!$category->enabled)
+        {
+            return redirect()->route('articles.show_articles');
+        }
 
-        $articles = $articleCategory->articles()
+        $articles = $category->articles()
             ->visible()
             ->published()
             ->with('user')
@@ -22,6 +25,6 @@ class ArticleCategoryController extends Controller
                 $query->visible()->approved();
             }, ]);
 
-        return view('articles.index', compact('articles', 'articleCategory'));
+        return view('articles.index', compact('articles', 'category'));
     }
 }

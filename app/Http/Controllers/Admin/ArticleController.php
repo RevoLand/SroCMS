@@ -57,7 +57,7 @@ class ArticleController extends Controller
 
         $article->articleCategories()->attach(request('categories'));
 
-        if (request()->has('generate-slug') || is_null($article->slug))
+        if (request()->has('generate-slug'))
         {
             $article->generateSlug();
             $article->save();
@@ -102,9 +102,9 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        $validated = $this->validateArticle();
+        $this->validateArticle();
 
-        $article = $article->fill([
+        $article = $article->update([
             'title' => request('title'),
             'slug' => request('slug'),
             'excerpt' => request('excerpt'),
@@ -153,7 +153,6 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        // $article->articleComments()->delete();
         $article->delete();
 
         return response()->json(['message' => 'Page successfully deleted.']);
@@ -164,6 +163,7 @@ class ArticleController extends Controller
         return request()->validate([
             'title' => ['required', 'string'],
             'slug' => ['sometimes', 'nullable', 'string'],
+            'generate-slug' => ['sometimes', 'boolean'],
             'excerpt' => ['sometimes', 'nullable', 'string'],
             'content' => ['required', 'string'],
             'author_id' => ['sometimes', 'integer', 'exists:App\User,JID'],

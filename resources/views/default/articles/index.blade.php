@@ -3,16 +3,16 @@
 @section('withsidebar', true)
 
 @section('pagetitle')
-    @isset ($articleCategory)
-    Kategori: {{ $articleCategory->name }}
+    @isset ($category)
+    Kategori: {{ $category->name }}
     @else
     Haberler
     @endisset
 @endsection
 
 @section('contenttitle')
-    @isset ($articleCategory)
-    Kategori: {{ $articleCategory->name }}
+    @isset ($category)
+    Kategori: {{ $category->name }}
     @else
     Haberler
     @endisset

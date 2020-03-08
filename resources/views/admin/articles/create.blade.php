@@ -70,13 +70,13 @@
                 {{ Form::open(['route' => ['admin.articles.store'], 'class' => 'kt-form', 'method' => 'post']) }}
                     <div class="form-group">
                         <label>Title</label>
-                        {{ Form::text('title', old('title'), ['class' => 'form-control', 'srequired']) }}
+                        {{ Form::text('title', old('title'), ['class' => 'form-control', 'required']) }}
                         <label class="kt-checkbox mt-2">
-                            <input type="checkbox" name="generate-slug" value="true" checked> Auto Generate Slug from Title
+                            {!! Form::checkbox('generate-slug', 1, true) !!} Auto Generate Slug from Title
                             <span></span>
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group slug-field">
                         <label>Slug</label>
                         {{ Form::text('slug', old('slug'), ['class' => 'form-control']) }}
                     </div>
@@ -156,6 +156,20 @@ $(document).ready(function() {
         autoclose: true,
         todayBtn: true,
         pickerPosition: 'top-right'
+    });
+
+    var slugCheckboxSelector = $( "input[name='generate-slug']");
+
+    if (!slugCheckboxSelector[0].checked) {
+        $('.slug-field').show({});
+    }
+
+    slugCheckboxSelector.click(function() {
+        if (this.checked){
+            $('.slug-field').hide({});
+        } else {
+            $('.slug-field').show({});
+        }
     });
 });
 </script>

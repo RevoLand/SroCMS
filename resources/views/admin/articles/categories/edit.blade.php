@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Create Page')
+@section('pagetitle', 'Edit Category')
 
 @section('content')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -8,14 +8,16 @@
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Create Page</h3>
+                <h3 class="kt-subheader__title">Edit Category</h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link">Pages</a>
+                    <a href="{{ route('admin.articles.index') }}" class="kt-subheader__breadcrumbs-link">Articles</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.create') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Create Page</a>
+                    <a href="{{ route('admin.articles.categories.index') }}" class="kt-subheader__breadcrumbs-link">Categories</a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="{{ route('admin.articles.categories.edit', $category) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit Category</a>
                 </div>
             </div>
         </div>
@@ -55,67 +57,46 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        Create Page
+                        Edit Category
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.pages.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-copy"></i> List Pages
+                        <a href="{{ route('articles.get_category', $category) }}" class="btn btn-accent btn-upper btn-sm btn-bold">
+                            <i class="la la-eye"></i> View Category
+                        </a>
+                        <a href="{{ route('admin.articles.categories.index') }}" class="btn btn-info btn-upper btn-sm btn-bold">
+                            <i class="la la-copy"></i> List Categories
+                        </a>
+                        <a href="{{ route('admin.articles.categories.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-edit"></i> Create Category
                         </a>
                     </div>
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.pages.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.articles.categories.store'], 'class' => 'kt-form', 'method' => 'post']) }}
                     <div class="form-group">
-                        <label>Title</label>
-                        {{ Form::text('title', old('title'), ['class' => 'form-control', 'required']) }}
+                        <label>Name</label>
+                        {{ Form::text('name', $category->name, ['class' => 'form-control', 'required']) }}
                         <label class="kt-checkbox mt-2">
-                            {!! Form::checkbox('generate-slug', 1, true) !!} Auto Generate Slug from Title
+                            {!! Form::checkbox('generate-slug', 1, false) !!} Auto Generate Slug from Title
                             <span></span>
                         </label>
                     </div>
                     <div class="form-group slug-field">
                         <label>Slug</label>
-                        {{ Form::text('slug', old('slug'), ['class' => 'form-control']) }}
-                    </div>
-                    <div class="form-group">
-                        <label>Content (HTML)</label>
-                        <textarea name="content" class="tox-tinymce">{!! old('content') !!}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>View</label>
-                        {{ Form::text('view', old('view'), ['class' => 'form-control']) }}
-                        <span class="form-text text-muted">View will be showed rather than the content set.</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Middleware</label>
-                        {{ Form::text('middleware', old('middleware'), ['class' => 'form-control']) }}
-                        <span class="form-text text-muted">Middleware required to access page.</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Sidebar</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                {!! Form::radio('showsidebar', 1, old('showsidebar', true)) !!} Show
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                {!! Form::radio('showsidebar', 0, !old('showsidebar', true)) !!} Hide
-                                <span></span>
-                            </label>
-                        </div>
+                        {{ Form::text('slug', $category->slug, ['class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
                         <label>State</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, old('enabled', true)) !!} Enabled
+                                {!! Form::radio('enabled', 1, $category->enabled) !!} Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !old('enabled', true)) !!} Disabled
+                                {!! Form::radio('enabled', 0, !$category->enabled) !!} Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -136,23 +117,21 @@
 @endsection
 
 @section('js')
-{!! Theme::js('plugins/tinymce/tinymce.min.js') !!}
-{!! Theme::js('js/pages/tinymce-editor.js') !!}
 <script>
-$(function() {
-    var slugCheckboxSelector = $( "input[name='generate-slug']");
+    $(function() {
+        var slugCheckboxSelector = $( "input[name='generate-slug']");
 
-    if (!slugCheckboxSelector[0].checked) {
-        $('.slug-field').show({});
-    }
-
-    slugCheckboxSelector.click(function() {
-        if (this.checked){
-            $('.slug-field').hide({});
-        } else {
+        if (!slugCheckboxSelector[0].checked) {
             $('.slug-field').show({});
         }
+
+        slugCheckboxSelector.click(function() {
+            if (this.checked){
+                $('.slug-field').hide({});
+            } else {
+                $('.slug-field').show({});
+            }
+        });
     });
-});
 </script>
 @endsection

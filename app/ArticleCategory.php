@@ -15,8 +15,9 @@ class ArticleCategory extends Model
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('title')
-            ->saveSlugsTo('slug');
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug')
+            ->doNotGenerateSlugsOnUpdate();
     }
 
     public function articles()
@@ -27,5 +28,10 @@ class ArticleCategory extends Model
     public function scopeEnabled($query)
     {
         return $query->where('Enabled', true);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

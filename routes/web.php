@@ -28,11 +28,11 @@ Route::group(['prefix' => 'articles'], function ()
 {
     Route::get('/', 'ArticleController@index')->name('articles.show_articles');
 
+    Route::get('categories/{category}', 'ArticleCategoryController@show')->name('articles.get_category');
+    Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
+
     Route::get('{article}', 'ArticleController@show')->name('articles.show_article');
     Route::post('{article}', 'ArticleCommentController@store')->name('articles.store_comment');
-
-    Route::get('categories/{slug}', 'ArticleCategoryController@show')->name('articles.get_category');
-    Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
 });
 
 // Dinamik sayfa işlemleri
@@ -130,15 +130,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 {
     Route::get('', 'Admin\DashboardController@index')->name('dashboard.index');
 
-    Route::resource('articles', 'Admin\ArticleController');
-    Route::patch('articles/{article}/toggleVisibility', 'Admin\ArticleController@toggleVisibility')->name('articles.toggle_visibility');
-    Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
-
     Route::group(['prefix' => 'articles'], function ()
     {
         Route::resource('comments', 'Admin\ArticleCommentController', ['as' => 'articles']);
         Route::resource('categories', 'Admin\ArticleCategoryController', ['as' => 'articles']);
+        Route::patch('categories/{category}/toggleEnabled', 'Admin\ArticleCategoryController@toggleEnabled')->name('articles.categories.toggle_enabled');
     });
+
+    Route::resource('articles', 'Admin\ArticleController');
+    Route::patch('articles/{article}/toggleVisibility', 'Admin\ArticleController@toggleVisibility')->name('articles.toggle_visibility');
+    Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
 
     Route::resource('pages', 'Admin\PageController');
     Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');

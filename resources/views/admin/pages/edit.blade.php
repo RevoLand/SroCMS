@@ -74,11 +74,11 @@
                         <label>Title</label>
                         {{ Form::text('title', $page->title, ['class' => 'form-control', 'required']) }}
                         <label class="kt-checkbox mt-2">
-                            <input type="checkbox" name="generate-slug" value="true" checked> Auto Generate Slug from Title
+                            {!! Form::checkbox('generate-slug', 1, false) !!} Auto Generate Slug from Title
                             <span></span>
                         </label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group slug-field">
                         <label>Slug</label>
                         {{ Form::text('slug', $page->slug, ['class' => 'form-control']) }}
                     </div>
@@ -140,4 +140,21 @@
 @section('js')
 {!! Theme::js('plugins/tinymce/tinymce.min.js') !!}
 {!! Theme::js('js/pages/tinymce-editor.js') !!}
+<script>
+    $(function() {
+        var slugCheckboxSelector = $( "input[name='generate-slug']");
+
+        if (!slugCheckboxSelector[0].checked) {
+            $('.slug-field').show({});
+        }
+
+        slugCheckboxSelector.click(function() {
+            if (this.checked){
+                $('.slug-field').hide({});
+            } else {
+                $('.slug-field').show({});
+            }
+        });
+    });
+</script>
 @endsection
