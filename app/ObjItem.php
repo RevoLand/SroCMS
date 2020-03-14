@@ -17,6 +17,11 @@ class ObjItem extends Model
         return $this->belongsTo(SetItemGroup::class, 'SetID', 'ID');
     }
 
+    public function scopeNoLock($query)
+    {
+        return $query->lock('WITH(NOLOCK)');
+    }
+
     public function getDegreeAttribute()
     {
         return ceil($this->ItemClass / 3);

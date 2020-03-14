@@ -11,4 +11,9 @@ class ObjChar extends Model
     protected $table = '_RefObjChar';
     protected $primaryKey = 'ID';
     protected $guarded = [];
+
+    public function scopeNoLock($query)
+    {
+        return $query->lock('WITH(NOLOCK)');
+    }
 }

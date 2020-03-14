@@ -15,17 +15,27 @@ class ObjCommon extends Model
 
     public function objItem()
     {
-        return $this->hasOne(ObjItem::class, 'ID', 'Link');
+        return $this->hasOne(ObjItem::class, 'ID', 'Link')->nolock();
     }
 
     public function objChar()
     {
-        return $this->hasOne(ObjChar::class, 'ID', 'Link');
+        return $this->hasOne(ObjChar::class, 'ID', 'Link')->nolock();
     }
 
     public function name()
     {
         return $this->hasOne(Name::class, 'key', 'NameStrID128');
+    }
+
+    public function scopeNoLock($query)
+    {
+        return $query->lock('WITH(NOLOCK)');
+    }
+
+    public function getName()
+    {
+        return ($this->name) ? $this->name->name : $this->CodeName128;
     }
 
     public function getImageAttribute()

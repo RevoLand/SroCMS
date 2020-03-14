@@ -178,6 +178,8 @@ Route::match(['get', 'post'], 'item-test', function ()
 <?php
 });
 
+Route::get('statistics', 'StatisticsController@index');
+
 Route::get('test', function ()
 {
     // increase($type, $balance, $source, $comment = '', $source_user_id = '')
