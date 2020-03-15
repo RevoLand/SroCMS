@@ -12,10 +12,10 @@
         "akaunting/setting": "^1.1",
         "fideloper/proxy": "^4.3",
         "igaster/laravel-theme": "^2.0",
-        "laravel/framework": "^6.2",
+        "laravel/framework": "^7.0",
         "laravel/tinker": "^2.2",
         "laravelcollective/html": "^6.1",
-        "orchestra/asset": "^4.0",
+        "orchestra/asset": "^5.0",
         "realrashid/sweet-alert": "^3.1",
         "spatie/laravel-permission": "^3.11",
         "spatie/laravel-sluggable": "^2.2",
@@ -24,11 +24,11 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "barryvdh/laravel-ide-helper": "^2.6",
-        "facade/ignition": "^1.4",
-        "fzaninotto/faker": "^1.4",
+        "facade/ignition": "^2.0",
+        "fzaninotto/faker": "^1.9",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0"
+        "nunomaduro/collision": "^4.1",
+        "phpunit/phpunit": "^8.5"
     },
     "config": {
         "optimize-autoloader": true,
