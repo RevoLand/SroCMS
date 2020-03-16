@@ -81,6 +81,9 @@ Route::group(['prefix' => 'users'], function ()
     Route::post('referrer/update', 'UserController@setReferrer')->name('users.set_referrer');
 
     Route::get('balance', 'UserController@balance')->name('users.balance');
+
+    Route::get('orders', 'UserController@orders')->name('users.orders.index');
+    Route::get('orders/{order}', 'UserController@showorder')->name('user.orders.show');
 });
 
 Route::group(['prefix' => 'characters'], function ()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\ItemMallUserOrdersDataTable;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,8 @@ class UserController extends Controller
         {
             $this->middleware('auth')->only('show');
         }
+
+        $this->middleware('throttle:60,1')->only('orders');
     }
 
     public function index()
@@ -29,10 +32,10 @@ class UserController extends Controller
         // Eager load latest referred users, if referral system is enabled
         if (setting('referrals.enabled', 1))
         {
-            Auth::user()->load(['referrals' => function ($query)
-                {
-                    $query->limit(5)->with('user')->latest();
-                }, 'referrer.user', ]);
+            auth()->user()->load(['referrals' => function ($query)
+            {
+                $query->limit(5)->with('user')->latest();
+            }, 'referrer.user', ]);
         }
 
         return view('user.index');
@@ -45,12 +48,12 @@ class UserController extends Controller
 
     public function edit()
     {
-        return view('user.edit', ['user' => Auth::user()]);
+        return view('user.edit', ['user' => auth()->user()]);
     }
 
     public function update()
     {
-        Auth::user()->update(request()->validate([
+        auth()->user()->update(request()->validate([
             'name' => ['bail', 'required', 'string', 'min:3', 'max:100'],
         ]));
 
@@ -78,7 +81,7 @@ class UserController extends Controller
             return redirect()->back();
         }
 
-        Auth::user()->updateEmail($request->new_email);
+        auth()->user()->updateEmail($request->new_email);
 
         Alert::success('E-posta adresiniz başarıyla değiştirildi.');
 
@@ -92,10 +95,10 @@ class UserController extends Controller
             'new_password' => ['bail', 'required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        Auth::user()->updatePassword($request->new_password);
+        auth()->user()->updatePassword($request->new_password);
         Alert::success('Şifreniz başarıyla değiştirildi, otomatik olarak çıkış yaptınız.');
 
-        Auth::logout();
+        auth()->logout();
 
         return redirect()->route('users.login_form');
     }
@@ -114,21 +117,21 @@ class UserController extends Controller
             return redirect()->back();
         }
 
-        if (strcasecmp(Auth::user()->StrUserID, request('referrer_name')) == 0)
+        if (strcasecmp(auth()->user()->StrUserID, request('referrer_name')) == 0)
         {
             Alert::error('Başarısız!', 'Kendi kendinizi tavsiye edemezsiniz!');
 
             return redirect()->back();
         }
 
-        if (Auth::user()->referrer)
+        if (auth()->user()->referrer)
         {
             Alert::error('Başarısız!', 'Zaten sizi tavsiye eden kullanıcıyı belirtmişsiniz!');
 
             return redirect()->back();
         }
 
-        Auth::user()->setReferrer(User::firstWhere('StrUserID', request('referrer_name'))->JID);
+        auth()->user()->setReferrer(User::firstWhere('StrUserID', request('referrer_name'))->JID);
 
         Alert::success('Tavsiye eden kullanıcınız başarıyla sisteme kaydedildi.');
 
@@ -137,8 +140,13 @@ class UserController extends Controller
 
     public function balance()
     {
-        $balanceLogs = Auth::user()->balance->logs()->latest()->paginate(20);
+        $balanceLogs = auth()->user()->balance->logs()->latest()->with('sourceUser')->paginate(20);
 
         return view('user.balance.show', compact('balanceLogs'));
+    }
+
+    public function orders(ItemMallUserOrdersDataTable $dataTable)
+    {
+        return $dataTable->render('user.orders.index');
     }
 }

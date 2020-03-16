@@ -11,7 +11,7 @@ class ItemMallOrderItem extends Model
 
     public function itemgroup()
     {
-        return $this->belongsTo(ItemMallItemGroup::class);
+        return $this->belongsTo(ItemMallItemGroup::class, 'item_mall_item_group_id');
     }
 
     public function order()

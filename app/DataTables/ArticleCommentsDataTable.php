@@ -55,16 +55,14 @@ class ArticleCommentsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\ArticleComment $model
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ArticleComment $model)
     {
         return $model->with(['article', 'user.articleComments' => function ($query)
-            {
-                $query->visible()->approved();
-            }, ])
+        {
+            $query->visible()->approved();
+        }, ])
             ->where(function ($query)
             {
                 if (request()->filled('user_id'))
@@ -133,7 +131,7 @@ class ArticleCommentsDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(150)
+                ->width(120)
                 ->addClass('text-center'),
         ];
     }

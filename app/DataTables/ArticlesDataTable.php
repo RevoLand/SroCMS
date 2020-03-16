@@ -52,8 +52,6 @@ class ArticlesDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Article $model
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Article $model)
