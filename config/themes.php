@@ -57,9 +57,6 @@ return [
     */
 
     'themes' => [
-        'crusader' => [
-            'asset-path' => 'assets/crusader',
-        ],
         'default' => [
             'asset-path' => 'assets/default',
             'views-path' => 'default',

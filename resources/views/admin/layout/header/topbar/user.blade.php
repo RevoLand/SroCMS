@@ -54,7 +54,9 @@
             </li>
             <li class="kt-nav__separator kt-nav__separator--fit"></li>
             <li class="kt-nav__custom kt-space-between">
-                <a href="{{ route('users.do_logout') }}" target="_blank" class="btn btn-label-brand btn-upper btn-sm btn-bold">Sign Out</a>
+                {!! Form::open(['route'=>'users.do_logout']) !!}
+                    <button type="submit" class="btn btn-label-brand btn-upper btn-sm btn-bold">Sign Out</button>
+                {!! Form::close() !!}
             </li>
         </ul>
 	</div>

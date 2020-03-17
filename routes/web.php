@@ -50,7 +50,7 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('users.login_form');
     Route::post('login', 'Auth\LoginController@login')->name('users.do_login');
 
-    Route::get('logout', 'Auth\LoginController@logout')->name('users.do_logout');
+    Route::post('logout', 'Auth\LoginController@logout')->name('users.do_logout');
 
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('users.register_form');
     Route::post('register', 'Auth\RegisterController@register')->name('users.do_register');

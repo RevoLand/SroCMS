@@ -40,10 +40,12 @@
                     Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item align-items-center" href="{{ route('users.do_logout') }}">
+                {!! Form::open(['route'=>'users.do_logout']) !!}
+                <button type="submit" class="dropdown-item align-items-center">
                     <i class="fas fa-sign-out-alt fa-fw text-light mr-2"></i>
                     Logout
-                </a>
+                </button>
+                {!! Form::close() !!}
             </div>
         </div>
         @endauth
