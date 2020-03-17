@@ -86,6 +86,11 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('orders/{order}', 'UserController@showorder')->name('user.orders.show');
 });
 
+Route::group(['prefix' => 'uniques', 'as' => 'uniques.'], function ()
+{
+    Route::get('', 'UniqueController@index')->name('index');
+});
+
 Route::group(['prefix' => 'characters'], function ()
 {
     Route::get('/', 'CharacterController@index')->name('users.characters.index');

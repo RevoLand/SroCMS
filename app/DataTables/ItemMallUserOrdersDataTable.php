@@ -51,7 +51,6 @@ class ItemMallUserOrdersDataTable extends DataTable
             ->responsive(true)
             ->pagingType('first_last_numbers')
             ->buttons(
-                        Button::make('create'),
                         Button::make('export'),
                         Button::make('print'),
                         Button::make('reset'),

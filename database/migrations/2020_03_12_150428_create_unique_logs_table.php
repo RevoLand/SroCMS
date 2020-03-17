@@ -14,7 +14,7 @@ class CreateUniqueLogsTable extends Migration
         Schema::connection('account')->create('unique_logs', function (Blueprint $table)
         {
             $table->bigIncrements('id');
-            $table->string('UniqueCodeName');
+            $table->string('uniquecodename');
             $table->integer('CharacterID');
             $table->string('CharacterName');
             $table->integer('UserJID');
