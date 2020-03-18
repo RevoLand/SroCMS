@@ -130,9 +130,19 @@
                         <span class="form-text text-muted">When article will be published at? If set, article won't be accessable by users until the given time.</span>
                     </div>
                     <div class="kt-portlet__foot">
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                        <div class="kt-form__actions kt-form__actions--right">
+                            <div class="row">
+                                <div class="col kt-align-left">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    {!! Form::close() !!}
+                                </div>
+                                <div class="col kt-align-right">
+                                    {!! Form::open([ 'route' => ['admin.articles.destroy', $article], 'method' => 'delete']) !!}
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {{ Form::close() }}

@@ -32,8 +32,6 @@ class PageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -85,8 +83,7 @@ class PageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -133,7 +130,14 @@ class PageController extends Controller
     {
         $page->delete();
 
-        return response()->json(['message' => 'Page successfully deleted.']);
+        return redirect()->route('admin.pages.index')->with('message', 'Selected Page has been successfully deleted.');
+    }
+
+    public function destroyAjax(Page $page)
+    {
+        $page->delete();
+
+        return response()->json(['message' => 'Selected Page has been successfully deleted.']);
     }
 
     private function validatePage()

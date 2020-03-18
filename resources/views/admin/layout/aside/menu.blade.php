@@ -118,50 +118,49 @@
                     </ul>
                 </div>
             </li>
-            <li class="kt-menu__section ">
-                <h4 class="kt-menu__section-text">Vote System</h4>
-                <i class="kt-menu__section-icon flaticon-more-v2"></i>
-            </li>
             <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                 <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                     <i class="kt-menu__link-icon flaticon2-open-box"></i>
-                    <span class="kt-menu__link-text">Voting</span>
+                    <span class="kt-menu__link-text">Vote System</span>
                     <i class="kt-menu__ver-arrow la la-angle-right"></i>
                 </a>
                 <div class="kt-menu__submenu ">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
-                            <span class="kt-menu__link">
-                                <span class="kt-menu__link-text">Features</span>
-                            </span>
-                        </li>
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                             data-ktmenu-submenu-toggle="hover">
                             <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
-                                <span class="kt-menu__link-text">Header</span>
+                                <span class="kt-menu__link-text">Vote Providers</span>
                                 <i class="kt-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="kt-menu__submenu ">
                                 <span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/header/non-fixed.html" class="kt-menu__link ">
+                                        <a href="{{ route('admin.votes.providers.index') }}" class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
                                             </i>
-                                            <span class="kt-menu__link-text">Non-fixed</span>
+                                            <span class="kt-menu__link-text">List</span>
                                         </a>
                                     </li>
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/header/menu-removed.html" class="kt-menu__link ">
+                                        <a href="{{ route('admin.votes.providers.create') }}" class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
                                             </i>
-                                            <span class="kt-menu__link-text">Menu Removed</span>
+                                            <span class="kt-menu__link-text">Create</span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="#" class="kt-menu__link ">
+                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                                <span></span>
+                                            </i>
+                                            <span class="kt-menu__link-text">Callback Allowed IPs</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -320,6 +319,10 @@
                         </li>
                     </ul>
                 </div>
+            </li>
+            <li class="kt-menu__section ">
+                <h4 class="kt-menu__section-text">Vote System</h4>
+                <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
             <li class="kt-menu__item " aria-haspopup="true">
                 <a target="_blank" href="voting.settings" class="kt-menu__link ">

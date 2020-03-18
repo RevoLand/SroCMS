@@ -44,6 +44,11 @@ class VoteProvider extends Model
         return $this->hasOne(VoteLog::class)->user($userId)->active()->latest('updated_at')->first();
     }
 
+    public function voteLogs()
+    {
+        return $this->hasMany(VoteLog::class);
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', true);

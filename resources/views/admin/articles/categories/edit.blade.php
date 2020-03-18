@@ -102,9 +102,19 @@
                         </div>
                     </div>
                     <div class="kt-portlet__foot">
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                        <div class="kt-form__actions kt-form__actions--right">
+                            <div class="row">
+                                <div class="col kt-align-left">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    {!! Form::close() !!}
+                                </div>
+                                <div class="col kt-align-right">
+                                    {!! Form::open([ 'route' => ['admin.articles.categories.destroy', $category], 'method' => 'delete']) !!}
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {{ Form::close() }}

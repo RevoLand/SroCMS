@@ -32,8 +32,6 @@ class ArticleCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -81,8 +79,7 @@ class ArticleCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -125,7 +122,14 @@ class ArticleCategoryController extends Controller
     {
         $category->delete();
 
-        return response()->json(['message' => 'Category is successfully deleted.']);
+        return redirect()->route('admin.articles.categories.index')->with('message', 'Selected article category is successfully deleted.');
+    }
+
+    public function destroyAjax(ArticleCategory $category)
+    {
+        $category->delete();
+
+        return response()->json(['message' => 'Selected article category is successfully deleted.']);
     }
 
     private function validateCategory()

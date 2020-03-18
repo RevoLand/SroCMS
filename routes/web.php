@@ -143,6 +143,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::group(['prefix' => 'articles'], function ()
         {
             Route::resource('categories', 'Admin\ArticleCategoryController', ['as' => 'articles']);
+            Route::delete('categories/{category}/destroyAjax', 'Admin\ArticleCategoryController@destroyAjax')->name('articles.categories.destroy_ajax');
             Route::patch('categories/{category}/toggleEnabled', 'Admin\ArticleCategoryController@toggleEnabled')->name('articles.categories.toggle_enabled');
 
             // comments/{comment}
@@ -153,12 +154,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         });
 
         Route::resource('articles', 'Admin\ArticleController')->middleware('can:manage articles');
+        Route::delete('articles/{article}/destroyAjax', 'Admin\ArticleController@destroyAjax')->name('articles.destroy_ajax');
         Route::patch('articles/{article}/toggleVisibility', 'Admin\ArticleController@toggleVisibility')->name('articles.toggle_visibility');
         Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
     });
 
     Route::resource('pages', 'Admin\PageController');
+    Route::delete('pages/{page}/destroyAjax', 'Admin\PageController@destroyAjax')->name('pages.destroy_ajax');
     Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
+
+    Route::group(['prefix' => 'votes'], function ()
+    {
+        Route::resource('providers', 'Admin\VoteProviderController', ['as' => 'votes']);
+        Route::delete('providers/{provider}/destroyAjax', 'Admin\VoteProviderController@destroyAjax')->name('votes.providers.destroy_ajax');
+        Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('votes.providers.toggle_enabled');
+    });
+    Route::resource('votes', 'Admin\VoteController');
+
     Route::resource('users', 'Admin\UserController');
 });
 
@@ -187,6 +199,11 @@ Route::match(['get', 'post'], 'item-test', function ()
 });
 
 Route::get('statistics', 'StatisticsController@index');
+
+Route::get('random', function ()
+{
+    echo $randomString = Str::random(40);
+});
 
 Route::get('test', function ()
 {

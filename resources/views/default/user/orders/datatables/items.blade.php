@@ -9,18 +9,3 @@
 </li>
 @endforeach
 </ul>
-
-{{--
-    "id" => 6
-    "item_mall_item_group_id" => "5"
-    "item_mall_order_id" => "2"
-    "user_id" => "1"
-    "quantity" => "1"
-    "payment_type" => "1"
-    "item_price" => "4.99"
-    "total_paid" => "4.99"
-    "points_earned" => ".09"
-    "created_at" => "2020-03-15T10:59:40.203000Z"
-    "updated_at" => "2020-03-15T10:59:40.203000Z"
-    "itemgroup" => null
---}}

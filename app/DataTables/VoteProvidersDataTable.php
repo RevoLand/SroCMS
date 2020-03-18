@@ -2,12 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Page;
+use App\VoteProvider;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class PagesDataTable extends DataTable
+class VoteProvidersDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,15 +20,10 @@ class PagesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'pages.datatables.actions')
-            ->editColumn('showsidebar', function ($page)
+            ->addColumn('action', 'votes.providers.datatables.actions')
+            ->addColumn('completed_vote_count', function ($provider)
             {
-                if ($page->showsidebar)
-                {
-                    return '<label class="badge badge-primary">Yes</label>';
-                }
-
-                return '<label class="badge badge-danger">No</label>';
+                return $provider->votelogs->where('voted', true)->count();
             })
             ->editColumn('enabled', function ($page)
             {
@@ -39,7 +34,7 @@ class PagesDataTable extends DataTable
 
                 return '<label class="badge badge-danger">Disabled</label>';
             })
-            ->rawColumns(['action', 'enabled', 'showsidebar'])
+            ->rawColumns(['action', 'enabled'])
             ->setRowId('id');
     }
 
@@ -48,9 +43,9 @@ class PagesDataTable extends DataTable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Page $model)
+    public function query(VoteProvider $model)
     {
-        return $model->newQuery();
+        return $model->with('votelogs')->newQuery();
     }
 
     /**
@@ -61,18 +56,18 @@ class PagesDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('pages-table')
+            ->setTableId('voteproviders-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
-            ->orderBy(8)
-            ->pagingType('first_last_numbers')
+            ->orderBy(6)
             ->buttons(
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+                        Button::make('create'),
+                        Button::make('export'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    );
     }
 
     /**
@@ -84,11 +79,10 @@ class PagesDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('title'),
-            Column::make('slug'),
-            Column::make('view'),
-            Column::make('middleware'),
-            Column::make('showsidebar')->title('Show Sidebar'),
+            Column::make('name'),
+            Column::make('url'),
+            Column::make('minutes_between_votes'),
+            Column::make('completed_vote_count')->title('Succeed Votes')->searchable(false),
             Column::make('enabled'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -108,6 +102,6 @@ class PagesDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Pages_' . date('YmdHis');
+        return 'VoteProviders_' . date('YmdHis');
     }
 }

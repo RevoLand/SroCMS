@@ -74,7 +74,7 @@ class ArticlesDataTable extends DataTable
                     $q->where('article_category_id', request('category_id'));
                 });
             }
-        })->with('user')->withCount('articleComments')->newQuery();
+        })->with(['user', 'articleCategories'])->withCount('articleComments');
     }
 
     /**
@@ -113,7 +113,7 @@ class ArticlesDataTable extends DataTable
             Column::make('title'),
             Column::computed('user.StrUserID')->title('Author'),
             Column::computed('article_comments_count', 'Comments')->sortable(true),
-            Column::computed('articleCategories', 'Categories'),
+            Column::make('articleCategories', 'articleCategories.name')->title('Categories'),
             Column::make('is_visible'),
             Column::make('can_comment_on'),
             Column::make('published_at'),

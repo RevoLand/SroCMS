@@ -52,7 +52,7 @@
             </div>
             <div class="kt-portlet__body">
                 <!--begin: Datatable -->
-                {!! $dataTable->table(['class' => 'table table-striped- table-bordered table-hover table-checkable dataTable no-footer responsive dtr-inline'], true) !!}
+                {!! $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-checkable dataTable responsive dtr-inline'], true) !!}
                 <!--end: Datatable -->
             </div>
         </div>
