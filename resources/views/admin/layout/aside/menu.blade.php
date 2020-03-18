@@ -172,34 +172,26 @@
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
-                                <span class="kt-menu__link-text">Subheader</span>
+                                <span class="kt-menu__link-text">Reward Groups</span>
                                 <i class="kt-menu__ver-arrow la la-angle-right"></i>
                             </a>
                             <div class="kt-menu__submenu ">
                                 <span class="kt-menu__arrow"></span>
                                 <ul class="kt-menu__subnav">
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/subheader/fixed.html" class="kt-menu__link ">
+                                        <a href="{{ route('admin.votes.providers.rewardgroups.index') }}" class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
                                             </i>
-                                            <span class="kt-menu__link-text">Fixed</span>
+                                            <span class="kt-menu__link-text">List Reward Groups</span>
                                         </a>
                                     </li>
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/subheader/subheader-v2.html" class="kt-menu__link ">
+                                        <a href="{{ route('admin.votes.providers.rewardgroups.create') }}" class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
                                             </i>
-                                            <span class="kt-menu__link-text">Subheader v2</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/subheader/removed.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Removed</span>
+                                            <span class="kt-menu__link-text">Add New</span>
                                         </a>
                                     </li>
                                 </ul>

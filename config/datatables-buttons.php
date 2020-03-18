@@ -57,7 +57,7 @@ return [
      * Default html builder parameters.
      */
     'parameters' => [
-        'dom' => '<\'row\'<\'col-sm-6 text-left\'f><\'col-sm-6 text-right\'B>>\t\t\t<\'row\'<\'col-sm-12\'tr>>\t\t\t<\'row\'<\'col-sm-12 col-md-5\'i><\'col-sm-12 col-md-7 dataTables_pager\'lp>>',
+        'dom' => '<\'row\'<\'col-sm-6 text-left\'f><\'col-sm-6 text-right\'B>><\'row\'<\'col-sm-12\'tr>><\'row\'<\'col-sm-12 col-md-5\'i><\'col-sm-12 col-md-7 dataTables_pager\'lp>>',
         'order' => [[0, 'desc']],
         'buttons' => [
             'create',
@@ -85,6 +85,6 @@ return [
         /*
          * Default DOM to generate when not set.
          */
-        'dom' => '<\'row\'<\'col-sm-6 text-left\'f><\'col-sm-6 text-right\'B>>\t\t\t<\'row\'<\'col-sm-12\'tr>>\t\t\t<\'row\'<\'col-sm-12 col-md-5\'i><\'col-sm-12 col-md-7 dataTables_pager\'lp>>',
+        'dom' => '<\'row\'<\'col-sm-6 text-left\'f><\'col-sm-6 text-right\'B>><\'row\'<\'col-sm-12\'tr>><\'row\'<\'col-sm-12 col-md-5\'i><\'col-sm-12 col-md-7 dataTables_pager\'lp>>',
     ],
 ];

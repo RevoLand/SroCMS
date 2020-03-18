@@ -25,6 +25,7 @@ class VoteProviderIpsDataTable extends DataTable
             {
                 return $voteProviderIp->logs->where('callback_ip', $voteProviderIp->ip)->count();
             })
+            ->setRowId('id')
             ->rawColumns(['action']);
     }
 

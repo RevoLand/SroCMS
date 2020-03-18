@@ -168,6 +168,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::resource('providers/ips', 'Admin\VoteProviderIpController', ['as' => 'votes.providers']);
         Route::delete('providers/ips/{ip}/destroyAjax', 'Admin\VoteProviderIpController@destroyAjax')->name('votes.providers.ips.destroy_ajax');
 
+        Route::group(['prefix' => 'providers', 'as' => 'votes.providers.'], function ()
+        {
+            Route::resource('rewardgroups', 'Admin\VoteProviderRewardGroupController');
+            Route::delete('rewardgroups/{rewardgroup}/destroyAjax', 'Admin\VoteProviderRewardGroupController@destroyAjax')->name('rewardgroups.destroy_ajax');
+            Route::patch('rewardgroups/{rewardgroup}/toggleEnabled', 'Admin\VoteProviderRewardGroupController@toggleEnabled')->name('rewardgroups.toggle_enabled');
+
+            Route::resource('rewards', 'Admin\VoteProviderRewardController');
+        });
+
         Route::resource('providers', 'Admin\VoteProviderController', ['as' => 'votes']);
         Route::delete('providers/{provider}/destroyAjax', 'Admin\VoteProviderController@destroyAjax')->name('votes.providers.destroy_ajax');
         Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('votes.providers.toggle_enabled');
