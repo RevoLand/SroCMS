@@ -156,7 +156,7 @@
                                         </a>
                                     </li>
                                     <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="#" class="kt-menu__link ">
+                                        <a href="{{ route('admin.votes.providers.ips.index') }}" class="kt-menu__link ">
                                             <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                                 <span></span>
                                             </i>

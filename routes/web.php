@@ -165,6 +165,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
     Route::group(['prefix' => 'votes'], function ()
     {
+        Route::resource('providers/ips', 'Admin\VoteProviderIpController', ['as' => 'votes.providers']);
+        Route::delete('providers/ips/{ip}/destroyAjax', 'Admin\VoteProviderIpController@destroyAjax')->name('votes.providers.ips.destroy_ajax');
+
         Route::resource('providers', 'Admin\VoteProviderController', ['as' => 'votes']);
         Route::delete('providers/{provider}/destroyAjax', 'Admin\VoteProviderController@destroyAjax')->name('votes.providers.destroy_ajax');
         Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('votes.providers.toggle_enabled');
