@@ -109,9 +109,9 @@ class VoteController extends Controller
     public function index()
     {
         return view('user.votes.index', ['voteProviders' => VoteProvider::enabled()->with(['rewardGroups' => function ($query)
-            {
-                $query->enabled();
-            }, ])->get()]);
+        {
+            $query->enabled();
+        }, ])->get()]);
     }
 
     public function vote(VoteProvider $voteProvider)
@@ -121,7 +121,7 @@ class VoteController extends Controller
         ]);
 
         // Yukarıda gönderilen ödülün varlığını kontrol ederken, burada o ödülün seçilen vote'a bağlı olup olmadığını kontrol ediyoruz.
-        if ($voteProvider->rewardGroups()->enabled()->where('id', request('reward'))->count() == 0)
+        if ($voteProvider->rewardGroups()->enabled()->where('vote_provider_reward_group_id', request('reward'))->count() == 0)
         {
             alert('Hata!', 'Geçersiz bir ödül seçimi yaptınız.', 'error');
 

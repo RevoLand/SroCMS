@@ -29,10 +29,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
             {
                 return $group->rewards->count();
             })
-            ->editColumn('voteprovider.name', function ($group)
-            {
-                return '<a href="' . route('admin.votes.providers.rewardgroups.index', ['vote_provider_id' => $group->vote_provider_id]) . '">' . $group->voteprovider->name . '</a>';
-            })
+            ->editColumn('voteproviders', 'votes.providers.rewardgroups.datatables.providers')
             ->editColumn('enabled', function ($page)
             {
                 if ($page->enabled)
@@ -43,7 +40,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
                 return '<label class="badge badge-danger">Disabled</label>';
             })
             ->setRowId('id')
-            ->rawColumns(['action', 'voteprovider.name', 'enabled']);
+            ->rawColumns(['action', 'voteproviders.name', 'enabled']);
     }
 
     /**
@@ -53,14 +50,14 @@ class VoteProviderRewardGroupsDataTable extends DataTable
      */
     public function query(VoteProviderRewardGroup $model)
     {
-        return $model->with(['voteprovider', 'rewards'])->where(function ($query)
+        return $model->with(['voteproviders', 'rewards'])->where(function ($query)
         {
             if (request()->filled('vote_provider_id'))
             {
                 $query->where('vote_provider_id', request()->vote_provider_id);
             }
 
-            $query->whereHas('voteprovider', function ($q)
+            $query->whereHas('voteproviders', function ($q)
             {
                 $q->enabled();
             });
@@ -81,7 +78,6 @@ class VoteProviderRewardGroupsDataTable extends DataTable
             ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
             ->orderBy(3)
             ->pageLength(20)
-            ->rowGroupDataSrc(['voteprovider.name'])
             ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -101,8 +97,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('voteprovider.name', 'voteprovider.name')->title('Vote Provider')->orderable(false),
-            Column::make('vote_provider_id')->hidden(),
+            Column::make('voteproviders', 'voteproviders.*.name')->title('Vote Provider'),
             Column::make('enabled_rewards_count'),
             Column::make('total_rewards_count'),
             Column::make('enabled'),

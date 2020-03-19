@@ -9,9 +9,9 @@ class VoteProviderRewardGroup extends Model
     protected $connection = 'srocms';
     protected $guarded = [];
 
-    public function voteprovider()
+    public function voteproviders()
     {
-        return $this->belongsTo(VoteProvider::class, 'vote_provider_id');
+        return $this->belongsToMany(VoteProvider::class);
     }
 
     public function rewards()

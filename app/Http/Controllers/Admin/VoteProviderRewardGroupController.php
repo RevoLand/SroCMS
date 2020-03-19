@@ -42,12 +42,13 @@ class VoteProviderRewardGroupController extends Controller
         $this->validateRewardGroup();
 
         $rewardgroup = VoteProviderRewardGroup::create([
-            'vote_provider_id' => request('vote_provider_id'),
             'name' => request('name'),
             'enabled' => request('enabled'),
         ]);
 
-        return redirect()->route('admin.votes.providers.rewardgroups.edit', compact('rewardgroup'))->with('message', 'Vote Provider Reward Group is successfully created.');
+        $selectedVoteProviders = $rewardgroup->voteproviders()->attach(request('vote_providers'));
+
+        return redirect()->route('admin.votes.providers.rewardgroups.edit', $rewardgroup)->with('message', 'Vote Provider Reward Group is successfully created.');
     }
 
     /**
@@ -71,8 +72,9 @@ class VoteProviderRewardGroupController extends Controller
     public function edit(VoteProviderRewardGroup $rewardgroup)
     {
         $voteProviders = VoteProvider::enabled()->get();
+        $selectedVoteProviders = $rewardgroup->voteproviders->pluck('id')->toArray();
 
-        return view('votes.providers.rewardgroups.edit', compact('rewardgroup', 'voteProviders'));
+        return view('votes.providers.rewardgroups.edit', compact('rewardgroup', 'voteProviders', 'selectedVoteProviders'));
     }
 
     /**
@@ -87,10 +89,11 @@ class VoteProviderRewardGroupController extends Controller
         $this->validateRewardGroup();
 
         $rewardgroup->update([
-            'vote_provider_id' => request('vote_provider_id'),
             'name' => request('name'),
             'enabled' => request('enabled'),
         ]);
+
+        $rewardgroup->voteproviders()->sync(request('vote_providers'));
 
         return redirect()->route('admin.votes.providers.rewardgroups.edit', compact('rewardgroup'))->with('message', 'Vote Provider Reward Group is successfully updated.');
     }
@@ -128,8 +131,8 @@ class VoteProviderRewardGroupController extends Controller
     private function validateRewardGroup()
     {
         return request()->validate([
-            'vote_provider_id' => ['required', 'integer', 'exists:App\VoteProvider,id'],
             'name' => ['required', 'string'],
+            'vote_providers' => ['required', 'array', 'exists:App\VoteProvider,id'],
             'enabled' => ['required', 'boolean'],
         ]);
     }

@@ -73,13 +73,11 @@
             <div class="kt-portlet__body">
                 {{ Form::open(['route' => ['admin.votes.providers.rewardgroups.store'], 'class' => 'kt-form', 'method' => 'post']) }}
                     <div class="form-group">
-                        <label>Vote Provider</label>
-                        <select name="vote_provider_id" class="form-control" required>
-                            @forelse ($voteProviders as $voteProvider)
-                            <option value="{{ $voteProvider->id }}" @if(old('vote_provider_id') == $voteProvider->id) selected @endif>{{ $voteProvider->name }}</option>
-                            @empty
-                            <option>No Vote Provider set.</option>
-                            @endforelse
+                        <label>Vote Providers</label>
+                        <select class="form-control voteprovider-selector" name="vote_providers[]" multiple="multiple">
+                            @foreach($voteProviders as $voteProvider)
+                                <option value="{{ $voteProvider->id }}" @if(in_array($voteProvider->id, old('categories', []))) selected @endif>{{ $voteProvider->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
@@ -112,4 +110,15 @@
 
     <!-- end:: Content -->
 </div>
+@endsection
+
+
+@section('js')
+<script type="text/javascript">
+$(document).ready(function() {
+    $( ".voteprovider-selector" ).select2({
+        placeholder: "Select a vote provider"
+    });
+});
+</script>
 @endsection
