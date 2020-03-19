@@ -155,14 +155,6 @@
                                             <span class="kt-menu__link-text">Create</span>
                                         </a>
                                     </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="{{ route('admin.votes.providers.ips.index') }}" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Callback Allowed IPs</span>
-                                        </a>
-                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -196,6 +188,14 @@
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.votes.providers.ips.index') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
+                                    <span></span>
+                                </i>
+                                <span class="kt-menu__link-text">Allowed Callback IPs</span>
+                            </a>
                         </li>
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
                             data-ktmenu-submenu-toggle="hover">

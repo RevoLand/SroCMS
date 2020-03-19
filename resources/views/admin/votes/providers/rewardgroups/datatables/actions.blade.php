@@ -1,4 +1,4 @@
-<a href="{{ route('admin.votes.providers.rewards.index', ['vote_provider_id' => $id]) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
+<a href="{{ route('admin.votes.providers.rewardgroups.show', $id) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
     <i class="la la-eye"></i>
 </a>
 <a href="{{ route('admin.votes.providers.rewardgroups.edit', $id) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">

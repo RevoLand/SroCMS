@@ -71,7 +71,7 @@ class VoteProviderIpsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('ip'),
-            Column::make('callbacks_from_ip')->title('Callbacks from IP'),
+            Column::make('callbacks_from_ip')->title('Callbacks Completed from IP'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')

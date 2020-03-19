@@ -21,9 +21,9 @@ class VoteProvidersDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'votes.providers.datatables.actions')
-            ->addColumn('completed_vote_count', function ($provider)
+            ->addColumn('vote_completion_rate', function ($provider)
             {
-                return $provider->votelogs->where('voted', true)->count();
+                return ($provider->total_vote_count) ? $provider->completed_vote_count * 100 / $provider->total_vote_count : 0;
             })
             ->editColumn('enabled', function ($page)
             {
@@ -45,7 +45,10 @@ class VoteProvidersDataTable extends DataTable
      */
     public function query(VoteProvider $model)
     {
-        return $model->with('votelogs')->newQuery();
+        return $model->withCount(['votelogs as total_vote_count', 'votelogs as completed_vote_count' => function ($query)
+        {
+            $query->where('voted', true);
+        }, ])->newQuery();
     }
 
     /**
@@ -82,7 +85,9 @@ class VoteProvidersDataTable extends DataTable
             Column::make('name'),
             Column::make('url'),
             Column::make('minutes_between_votes'),
+            Column::make('total_vote_count')->title('Total Votes Started')->searchable(false),
             Column::make('completed_vote_count')->title('Succeed Votes')->searchable(false),
+            Column::computed('vote_completion_rate')->title('Completion Rate %'),
             Column::make('enabled'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -90,7 +95,7 @@ class VoteProvidersDataTable extends DataTable
                 ->title('Actions')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
+                ->width(130)
                 ->addClass('text-center'),
         ];
     }
