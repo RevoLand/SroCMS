@@ -2,7 +2,7 @@ tinymce.init({
     selector: 'textarea.tox-tinymce',
     skin: 'oxide',
     content_css: 'default',
-    plugins: 'advlist anchor autolink autosave charmap charmap code codesample directionality emoticons fullpage fullscreen help hr image imagetools importcss insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print quickbars searchreplace tabfocus table textpattern toc visualblocks visualchars wordcount',
+    plugins: 'advlist anchor autolink autosave charmap charmap code codesample directionality emoticons fullscreen help hr image imagetools importcss insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print quickbars searchreplace tabfocus table textpattern toc visualblocks visualchars wordcount',
     menubar: 'file edit view insert format tools table help',
     toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image media template link anchor codesample | ltr rtl',
     toolbar_sticky: true,

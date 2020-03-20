@@ -159,20 +159,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     Route::resource('pages', 'Admin\PageController');
     Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
 
-    Route::group(['prefix' => 'votes'], function ()
+    Route::group(['prefix' => 'votes', 'as' => 'votes.'], function ()
     {
-        Route::resource('providers/ips', 'Admin\VoteProviderIpController', ['as' => 'votes.providers']);
+        Route::resource('providers/ips', 'Admin\VoteProviderIpController', ['as' => 'providers']);
 
-        Route::group(['prefix' => 'providers', 'as' => 'votes.providers.'], function ()
-        {
-            Route::resource('rewardgroups', 'Admin\VoteProviderRewardGroupController');
-            Route::patch('rewardgroups/{rewardgroup}/toggleEnabled', 'Admin\VoteProviderRewardGroupController@toggleEnabled')->name('rewardgroups.toggle_enabled');
+        Route::resource('rewardgroups', 'Admin\VoteProviderRewardGroupController');
+        Route::patch('rewardgroups/{rewardgroup}/toggleEnabled', 'Admin\VoteProviderRewardGroupController@toggleEnabled')->name('rewardgroups.toggle_enabled');
 
-            Route::resource('rewards', 'Admin\VoteProviderRewardController');
-        });
+        Route::get('rewards/group/{rewardgroup}', 'Admin\VoteProviderRewardController@index')->name('rewards.index');
+        Route::get('rewards/group/{rewardgroup}/create', 'Admin\VoteProviderRewardController@create')->name('rewards.create');
+        Route::resource('rewards', 'Admin\VoteProviderRewardController')->except(['index', 'create']);
+        Route::patch('rewards/{reward}/toggleEnabled', 'Admin\VoteProviderRewardController@toggleEnabled')->name('rewards.toggle_enabled');
 
-        Route::resource('providers', 'Admin\VoteProviderController', ['as' => 'votes']);
-        Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('votes.providers.toggle_enabled');
+        Route::resource('providers', 'Admin\VoteProviderController');
+        Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
     });
     Route::resource('votes', 'Admin\VoteController');
 

@@ -17,9 +17,9 @@
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="{{ route('admin.votes.providers.index') }}" class="kt-subheader__breadcrumbs-link">Vote Providers</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link">Reward Groups</a>
+                    <a href="{{ route('admin.votes.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link">Reward Groups</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.rewardgroups.edit', $rewardgroup) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit</a>
+                    <a href="{{ route('admin.votes.rewardgroups.edit', $rewardgroup) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit</a>
                 </div>
             </div>
         </div>
@@ -64,17 +64,17 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.votes.providers.rewardgroups.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                        <a href="{{ route('admin.votes.rewardgroups.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
                             <i class="la la-copy"></i> Create Reward Group
                         </a>
-                        <a href="{{ route('admin.votes.providers.rewardgroups.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                        <a href="{{ route('admin.votes.rewardgroups.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
                             <i class="la la-copy"></i> List Reward Groups
                         </a>
                     </div>
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.votes.providers.rewardgroups.update', $rewardgroup], 'class' => 'kt-form', 'method' => 'patch']) }}
+                {{ Form::open(['route' => ['admin.votes.rewardgroups.update', $rewardgroup], 'class' => 'kt-form', 'method' => 'patch']) }}
                     <div class="form-group">
                         <label>Vote Providers</label>
                         <select class="form-control voteprovider-selector" name="vote_providers[]" multiple="multiple">
@@ -109,7 +109,7 @@
                                     {!! Form::close() !!}
                                 </div>
                                 <div class="col kt-align-right">
-                                    {!! Form::open([ 'route' => ['admin.votes.providers.rewardgroups.destroy', $rewardgroup], 'method' => 'delete']) !!}
+                                    {!! Form::open([ 'route' => ['admin.votes.rewardgroups.destroy', $rewardgroup], 'method' => 'delete']) !!}
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     {!! Form::close() !!}
                                 </div>

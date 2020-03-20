@@ -15,9 +15,7 @@
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="{{ route('admin.votes.index') }}" class="kt-subheader__breadcrumbs-link">Vote System</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.index') }}" class="kt-subheader__breadcrumbs-link">Vote Providers</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Vote Reward Groups</a>
+                    <a href="{{ route('admin.votes.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Vote Reward Groups</a>
                 </div>
             </div>
         </div>
@@ -48,7 +46,7 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.votes.providers.rewardgroups.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                        <a href="{{ route('admin.votes.rewardgroups.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
                             <i class="la la-edit"></i> Add Reward Group
                         </a>
                     </div>

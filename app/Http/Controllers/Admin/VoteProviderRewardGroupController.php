@@ -17,7 +17,7 @@ class VoteProviderRewardGroupController extends Controller
      */
     public function index(VoteProviderRewardGroupsDataTable $dataTable)
     {
-        return $dataTable->render('votes.providers.rewardgroups.index');
+        return $dataTable->render('votes.rewardgroups.index');
     }
 
     /**
@@ -29,7 +29,7 @@ class VoteProviderRewardGroupController extends Controller
     {
         $voteProviders = VoteProvider::enabled()->get();
 
-        return view('votes.providers.rewardgroups.create', compact('voteProviders'));
+        return view('votes.rewardgroups.create', compact('voteProviders'));
     }
 
     /**
@@ -48,7 +48,7 @@ class VoteProviderRewardGroupController extends Controller
 
         $selectedVoteProviders = $rewardgroup->voteproviders()->attach(request('vote_providers'));
 
-        return redirect()->route('admin.votes.providers.rewardgroups.edit', $rewardgroup)->with('message', 'Vote Provider Reward Group is successfully created.');
+        return redirect()->route('admin.votes.rewardgroups.edit', $rewardgroup)->with('message', 'Vote Provider Reward Group is successfully created.');
     }
 
     /**
@@ -74,7 +74,7 @@ class VoteProviderRewardGroupController extends Controller
         $voteProviders = VoteProvider::enabled()->get();
         $selectedVoteProviders = $rewardgroup->voteproviders->pluck('id')->toArray();
 
-        return view('votes.providers.rewardgroups.edit', compact('rewardgroup', 'voteProviders', 'selectedVoteProviders'));
+        return view('votes.rewardgroups.edit', compact('rewardgroup', 'voteProviders', 'selectedVoteProviders'));
     }
 
     /**
@@ -95,7 +95,7 @@ class VoteProviderRewardGroupController extends Controller
 
         $rewardgroup->voteproviders()->sync(request('vote_providers'));
 
-        return redirect()->route('admin.votes.providers.rewardgroups.edit', compact('rewardgroup'))->with('message', 'Vote Provider Reward Group is successfully updated.');
+        return redirect()->route('admin.votes.rewardgroups.edit', compact('rewardgroup'))->with('message', 'Vote Provider Reward Group is successfully updated.');
     }
 
     /**
@@ -114,7 +114,7 @@ class VoteProviderRewardGroupController extends Controller
             return response()->json(['message' => 'Selected reward group has been successfully deleted.']);
         }
 
-        return redirect()->route('admin.votes.providers.rewardgroups.index')->with('message', 'Selected reward group has been successfully deleted.');
+        return redirect()->route('admin.votes.rewardgroups.index')->with('message', 'Selected reward group has been successfully deleted.');
     }
 
     public function toggleEnabled(VoteProviderRewardGroup $rewardgroup)

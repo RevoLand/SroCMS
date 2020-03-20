@@ -12,7 +12,7 @@ class MenuItem extends Model
 
     public function getUrlAttribute()
     {
-        switch($this->type)
+        switch ($this->type)
         {
             case 1:
                 return $this->href;
@@ -21,7 +21,6 @@ class MenuItem extends Model
             case 3:
                 return route($this->route);
         }
-
     }
 
     public function getTitle()
@@ -41,7 +40,7 @@ class MenuItem extends Model
 
     public function children()
     {
-        return $this->hasMany(MenuItem::class, 'parent_id', 'id')->orderBy('order');
+        return $this->hasMany(MenuItem::class, 'parent_id')->orderBy('order')->enabled();
     }
 
     public function childrens()

@@ -15,6 +15,7 @@ return [
         '3' => 'Silk',
         '4' => 'Silk (Gift)',
         '5' => 'Silk (Point)',
+        '6' => 'Item',
     ],
     'silk' => [
         'type' => [

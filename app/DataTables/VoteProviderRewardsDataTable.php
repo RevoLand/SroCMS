@@ -2,12 +2,12 @@
 
 namespace App\DataTables;
 
-use App\VoteProviderRewardGroup;
+use App\VoteProviderReward;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class VoteProviderRewardGroupsDataTable extends DataTable
+class VoteProviderRewardsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,19 +20,22 @@ class VoteProviderRewardGroupsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'votes.rewardgroups.datatables.actions')
-            ->editColumn('voteproviders', 'votes.rewardgroups.datatables.providers')
-            ->editColumn('enabled', function ($page)
+            ->addColumn('action', 'votes.rewards.datatables.actions')
+            ->editColumn('type', function ($reward)
             {
-                if ($page->enabled)
+                return config('constants.payment_types.' . $reward->type);
+            })
+            ->editColumn('enabled', function ($reward)
+            {
+                if ($reward->enabled)
                 {
                     return '<label class="badge badge-primary">Enabled</label>';
                 }
 
                 return '<label class="badge badge-danger">Disabled</label>';
             })
-            ->setRowId('id')
-            ->rawColumns(['action', 'voteproviders', 'enabled']);
+            ->rawColumns(['action', 'enabled'])
+            ->setRowId('id');
     }
 
     /**
@@ -40,21 +43,9 @@ class VoteProviderRewardGroupsDataTable extends DataTable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(VoteProviderRewardGroup $model)
+    public function query(VoteProviderReward $model)
     {
-        return $model->with(['voteproviders', 'rewards'])->withCount(['logs as completed_vote_calls' => function ($query)
-        {
-            $query->voted();
-        }, 'rewards as total_rewards_count', 'rewards as enabled_rewards_count' => function ($query)
-        {
-            $query->where('enabled', true);
-        }, ])->where(function ($query)
-        {
-            if (request()->filled('vote_provider_id'))
-            {
-                $query->where('vote_provider_id', request()->vote_provider_id);
-            }
-        })->newQuery();
+        return $model->rewardgroupid($this->rewardgroupid)->newQuery();
     }
 
     /**
@@ -65,12 +56,11 @@ class VoteProviderRewardGroupsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('voteproviderrewardgroups-table')
+            ->setTableId('voteproviderrewards-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
-            ->orderBy(7)
-            ->pageLength(20)
+            ->orderBy(1)
             ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -89,11 +79,11 @@ class VoteProviderRewardGroupsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name'),
-            Column::make('voteproviders', 'voteproviders.name')->title('Vote Providers')->orderable(false),
-            Column::make('enabled_rewards_count')->searchable(false),
-            Column::make('total_rewards_count')->searchable(false),
-            Column::make('completed_vote_calls')->searchable(false),
+            Column::make('type'),
+            Column::make('codename'),
+            Column::make('amount'),
+            Column::make('balance'),
+            Column::make('plus'),
             Column::make('enabled'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -112,6 +102,6 @@ class VoteProviderRewardGroupsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'VoteProviderRewardGroups_' . date('YmdHis');
+        return 'VoteProviderRewards_' . date('YmdHis');
     }
 }

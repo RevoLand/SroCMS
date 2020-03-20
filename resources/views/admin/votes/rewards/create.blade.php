@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Create Vote Provider Reward Group')
+@section('pagetitle', 'Create Vote Reward')
 
 @section('content')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -8,7 +8,7 @@
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Create Vote Provider Reward Group</h3>
+                <h3 class="kt-subheader__title">Create Vote Reward</h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
@@ -17,9 +17,9 @@
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="{{ route('admin.votes.providers.index') }}" class="kt-subheader__breadcrumbs-link">Vote Providers</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link">Reward Groups</a>
+                    <a href="{{ route('admin.votes.rewards.index', $rewardgroup) }}" class="kt-subheader__breadcrumbs-link">Rewards</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.rewardgroups.create') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Create</a>
+                    <a href="{{ route('admin.votes.rewards.create', $rewardgroup) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Create</a>
                 </div>
             </div>
         </div>
@@ -59,30 +59,57 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        Create Vote Provider Reward Group
+                        Create Vote Reward
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.votes.providers.rewardgroups.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-copy"></i> List Reward Groups
+                        <a href="{{ route('admin.votes.rewards.index', $rewardgroup) }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-copy"></i> List Rewards
                         </a>
                     </div>
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.votes.providers.rewardgroups.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.votes.rewards.store'], 'class' => 'kt-form', 'method' => 'post']) }}
                     <div class="form-group">
-                        <label>Vote Providers</label>
-                        <select class="form-control voteprovider-selector" name="vote_providers[]" multiple="multiple">
-                            @foreach($voteProviders as $voteProvider)
-                                <option value="{{ $voteProvider->id }}" @if(in_array($voteProvider->id, old('categories', []))) selected @endif>{{ $voteProvider->name }}</option>
+                        <label>Reward Group</label>
+                        <select class="form-control select2" name="reward_group_id" required>
+                            <option></option>
+                            @foreach($rewardgroups->sortByDesc('enabled') as $reward_group)
+                                <option value="{{ $reward_group->id }}" @if($reward_group->id == $rewardgroup->id) selected @endif>
+                                    [{{ $reward_group->id }}] {{ $reward_group->name }} (@if($reward_group->enabled) Enabled @else Disabled @endif)
+                                </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Name</label>
-                        {{ Form::text('name', old('name'), ['class' => 'form-control', 'required']) }}
+                        <label>Reward Type</label>
+                        <select class="form-control select2" id="type" name="type" required>
+                            <option></option>
+                            <option value="1" @if(old('type') == 1) selected @endif>Balance</option>
+                            <option value="2" @if(old('type') == 2) selected @endif>Balance (Point)</option>
+                            <option value="3" @if(old('type') == 3) selected @endif>Silk</option>
+                            <option value="4" @if(old('type') == 4) selected @endif>Silk (Gift)</option>
+                            <option value="5" @if(old('type') == 5) selected @endif>Silk (Point)</option>
+                            <option value="6" @if(old('type') == 6) selected @endif>Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group codename-selector">
+                        <label>CodeName</label>
+                        {{ Form::text('codename', old('codename'), ['class' => 'form-control']) }}
+                    </div>
+                    <div class="form-group amount-selector">
+                        <label>Amount</label>
+                        {{ Form::text('amount', old('amount') ?? 1, ['class' => 'form-control']) }}
+                    </div>
+                    <div class="form-group balance-selector">
+                        <label>Balance</label>
+                        {{ Form::text('balance', old('balance'), ['class' => 'form-control']) }}
+                    </div>
+                    <div class="form-group plus-selector">
+                        <label>Plus</label>
+                        {{ Form::text('plus', old('plus') ?? 0, ['class' => 'form-control']) }}
                     </div>
                     <div class="form-group">
                         <label>State</label>
@@ -116,9 +143,42 @@
 @section('js')
 <script type="text/javascript">
 $(document).ready(function() {
-    $( ".voteprovider-selector" ).select2({
-        placeholder: "Select a vote provider"
+    $( ".select2" ).select2({
+        placeholder: "Please make a selection..."
     });
+
+    function toggleFields(typeId) {
+        switch(typeId) {
+            default:
+            case '1':
+            case '2':
+                $( ".codename-selector" ).hide({});
+                $( ".amount-selector" ).hide({});
+                $( ".plus-selector" ).hide({});
+                $( ".balance-selector" ).show({});
+            break;
+            case '3':
+            case '4':
+            case '5':
+                $( ".codename-selector" ).hide({});
+                $( ".plus-selector" ).hide({});
+                $( ".balance-selector" ).hide({});
+                $( ".amount-selector" ).show({});
+            break;
+            case '6':
+                $( ".balance-selector" ).hide({});
+                $( ".codename-selector" ).show({});
+                $( ".plus-selector" ).show({});
+                $( ".amount-selector" ).show({});
+            break;
+        };
+    };
+
+    $( "#type" ).change(function() {
+        toggleFields(this.value);
+    });
+
+    toggleFields('{{ old('type') }}');
 });
 </script>
 @endsection

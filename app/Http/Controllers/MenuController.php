@@ -10,7 +10,7 @@ class MenuController extends Controller
     {
         return Menu::name($name)->with(['items' => function ($query)
         {
-            $query->main()->enabled()->viewPermissions()->orderBy('menu_items.order');
+            $query->main()->enabled()->viewPermissions()->orderBy('order');
         }, 'items.childrens' => function ($query)
         {
             $query->enabled()->viewPermissions();

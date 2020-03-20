@@ -19,6 +19,11 @@ class VoteProviderRewardGroup extends Model
         return $this->hasMany(VoteProviderReward::class);
     }
 
+    public function logs()
+    {
+        return $this->hasMany(VoteLog::class, 'selected_reward_group_id');
+    }
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', true);

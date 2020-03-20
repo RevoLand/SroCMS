@@ -17,9 +17,9 @@ class CreateVoteProviderRewardsTable extends Migration
             $table->foreignId('vote_provider_reward_group_id');
             $table->tinyInteger('type')->default(3);
             $table->string('codename')->nullable();
-            $table->integer('amount')->default(0);
-            $table->decimal('balance', 13, 2)->default(0)->nullable();
-            $table->tinyInteger('plus')->default(0);
+            $table->integer('amount')->nullable();
+            $table->decimal('balance', 13, 2)->nullable();
+            $table->tinyInteger('plus')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamps();
 
