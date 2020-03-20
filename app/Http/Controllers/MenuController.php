@@ -6,17 +6,14 @@ use App\Menu;
 
 class MenuController extends Controller
 {
-    public static function getMenus($location = null, $limit = null)
+    public static function getByName($name)
     {
-        return Menu::enabled()->main()->viewPermissions()->where(function ($query) use ($location)
+        return Menu::name($name)->with(['items' => function ($query)
         {
-            if (isset($location))
-            {
-                $query->location($location);
-            }
-        })->with(['page' => function ($query)
-            {
-                $query->enabled();
-            }, ])->withCount('childMenus')->orderBy('order')->limit($limit)->get();
+            $query->main()->enabled()->viewPermissions()->orderBy('menu_items.order');
+        }, 'items.childrens' => function ($query)
+        {
+            $query->enabled()->viewPermissions();
+        }, ])->first();
     }
 }

@@ -122,14 +122,12 @@ class ArticleCategoryController extends Controller
     {
         $category->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Selected article category is successfully deleted.']);
+        }
+
         return redirect()->route('admin.articles.categories.index')->with('message', 'Selected article category is successfully deleted.');
-    }
-
-    public function destroyAjax(ArticleCategory $category)
-    {
-        $category->delete();
-
-        return response()->json(['message' => 'Selected article category is successfully deleted.']);
     }
 
     private function validateCategory()

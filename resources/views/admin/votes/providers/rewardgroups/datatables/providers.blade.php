@@ -5,5 +5,5 @@
     </span>
 </a>
 @empty
-
+Reward Group is not assigned to any vote provider.
 @endforelse

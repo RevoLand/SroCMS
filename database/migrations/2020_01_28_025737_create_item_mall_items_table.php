@@ -13,8 +13,8 @@ class CreateItemMallItemsTable extends Migration
     {
         Schema::connection('srocms')->create('item_mall_items', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('item_mall_item_group_id');
+            $table->id();
+            $table->foreignId('item_mall_item_group_id');
             $table->string('name')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();

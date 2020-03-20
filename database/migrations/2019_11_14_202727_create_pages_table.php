@@ -13,7 +13,7 @@ class CreatePagesTable extends Migration
     {
         Schema::connection('srocms')->create('pages', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('title');
             $table->string('slug');
             $table->text('content')->nullable();

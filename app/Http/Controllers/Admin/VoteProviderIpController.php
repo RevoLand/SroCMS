@@ -95,14 +95,12 @@ class VoteProviderIpController extends Controller
     {
         $ip->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Selected IP has been deleted as requested.']);
+        }
+
         return redirect()->route('admin.votes.providers.ips.index')->with('message', 'Selected IP has been deleted.');
-    }
-
-    public function destroyAjax(VoteProviderIp $ip)
-    {
-        $ip->delete();
-
-        return response()->json(['message' => 'Selected IP has been deleted as requested.']);
     }
 
     private function validateIp()

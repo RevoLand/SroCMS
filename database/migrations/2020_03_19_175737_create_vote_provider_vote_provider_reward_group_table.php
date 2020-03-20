@@ -14,8 +14,8 @@ class CreateVoteProviderVoteProviderRewardGroupTable extends Migration
         Schema::connection('srocms')->create('vote_provider_vote_provider_reward_group', function (Blueprint $table)
         {
             $table->id();
-            $table->bigInteger('vote_provider_id');
-            $table->bigInteger('vote_provider_reward_group_id');
+            $table->foreignId('vote_provider_id');
+            $table->foreignId('vote_provider_reward_group_id');
             $table->timestamps();
 
             $table->foreign('vote_provider_id')->references('id')->on('vote_providers')->onDelete('no action');

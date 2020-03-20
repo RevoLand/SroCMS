@@ -13,8 +13,8 @@ class CreateItemMallItemGroupPriceChangesTable extends Migration
     {
         Schema::connection('srocms')->create('item_mall_item_group_price_changes', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('item_mall_item_group_id');
+            $table->id();
+            $table->foreignId('item_mall_item_group_id');
             $table->decimal('price_before', 13, 2)->default(0);
             $table->decimal('price_after', 13, 2)->default(0);
             $table->timestamps();

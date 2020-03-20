@@ -20,6 +20,5 @@ class DatabaseSeeder extends Seeder
         factory(ArticleComment::class, 200)->create();
         factory(Sidebar::class, 3)->create();
         factory(Page::class, 10)->create();
-        factory(Menu::class, 10)->create();
     }
 }

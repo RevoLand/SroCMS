@@ -13,8 +13,8 @@ class CreateEpinItemsTable extends Migration
     {
         Schema::connection('srocms')->create('epin_items', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('epin_id');
+            $table->id();
+            $table->foreignId('epin_id');
             $table->string('codename');
             $table->integer('amount')->default(1);
             $table->integer('plus')->default(0);

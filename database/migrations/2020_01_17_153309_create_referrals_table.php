@@ -13,9 +13,9 @@ class CreateReferralsTable extends Migration
     {
         Schema::connection('srocms')->create('referrals', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('referrer_user_id');
+            $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('referrer_user_id');
             $table->timestamps();
         });
     }

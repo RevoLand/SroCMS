@@ -93,14 +93,12 @@ class ArticleCommentController extends Controller
     {
         $comment->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Comment is deleted.']);
+        }
+
         return redirect()->route('admin.articles.comments.index')->with('message', 'Comment is successfully deleted.');
-    }
-
-    public function destroyAjax(ArticleComment $comment)
-    {
-        $comment->delete();
-
-        return response()->json(['message' => 'Comment is deleted.']);
     }
 
     public function toggleApproved(ArticleComment $comment)

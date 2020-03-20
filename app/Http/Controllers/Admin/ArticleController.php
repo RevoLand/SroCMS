@@ -152,14 +152,12 @@ class ArticleController extends Controller
     {
         $article->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Selected article is successfully deleted.']);
+        }
+
         return redirect()->route('admin.articles.index')->with('message', 'Selected article is successfully deleted.');
-    }
-
-    public function destroyAjax(Article $article)
-    {
-        $article->delete();
-
-        return response()->json(['message' => 'Selected article is successfully deleted.']);
     }
 
     private function validateArticle()

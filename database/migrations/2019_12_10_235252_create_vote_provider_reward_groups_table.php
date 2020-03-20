@@ -13,7 +13,7 @@ class CreateVoteProviderRewardGroupsTable extends Migration
     {
         Schema::connection('srocms')->create('vote_provider_reward_groups', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamps();

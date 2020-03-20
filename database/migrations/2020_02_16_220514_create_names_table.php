@@ -13,7 +13,7 @@ class CreateNamesTable extends Migration
     {
         Schema::connection('srocms')->create('names', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('key')->unique();
             $table->string('name');
             $table->timestamps();

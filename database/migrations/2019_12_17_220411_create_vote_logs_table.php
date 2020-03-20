@@ -13,11 +13,11 @@ class CreateVoteLogsTable extends Migration
     {
         Schema::connection('srocms')->create('vote_logs', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('secret');
-            $table->bigInteger('user_id');
-            $table->bigInteger('vote_provider_id');
-            $table->bigInteger('selected_reward_group_id');
+            $table->foreignId('user_id');
+            $table->foreignId('vote_provider_id');
+            $table->foreignId('selected_reward_group_id');
             $table->boolean('voted')->default(false);
             $table->boolean('active')->default(true);
             $table->string('user_ip')->nullable();

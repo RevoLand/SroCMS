@@ -13,9 +13,9 @@ class CreateArticleCategoryTable extends Migration
     {
         Schema::connection('srocms')->create('article_category', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('article_id');
-            $table->bigInteger('article_category_id');
+            $table->id();
+            $table->foreignId('article_id');
+            $table->foreignId('article_category_id');
             $table->timestamps();
 
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');

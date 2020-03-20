@@ -11,6 +11,13 @@ class ItemMallItemGroup extends Model
     protected $connection = 'srocms';
     protected $guarded = [];
 
+    protected $dates = [
+        'available_after',
+        'available_before',
+        'created_at',
+        'updated_ad',
+    ];
+
     public function scopeEnabled($query)
     {
         return $query->where('enabled', true);

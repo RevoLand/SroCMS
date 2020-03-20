@@ -22,7 +22,7 @@
             <i class="la la-comment-slash"></i> Toggle Approve State
         </button>
         {!! Form::close() !!}
-        {!! Form::open([ 'route' => ['admin.articles.comments.destroy_ajax', $id], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!}
+        {!! Form::open([ 'route' => ['admin.articles.comments.destroy', $id], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!}
         <button class="dropdown-item btn" role="button" type="submit">
             <i class="la la-remove"></i> Delete
         </button>

@@ -14,7 +14,7 @@
             <i class="la la-eye-slash"></i> Toggle Enabled
         </button>
         {!! Form::close() !!}
-        {!! Form::open([ 'route' => ['admin.votes.providers.destroy_ajax', $id], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!}
+        {!! Form::open([ 'route' => ['admin.votes.providers.destroy', $id], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!}
         <button class="dropdown-item btn" role="button" type="submit">
             <i class="la la-remove"></i> Delete
         </button>

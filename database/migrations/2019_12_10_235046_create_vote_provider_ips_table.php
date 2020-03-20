@@ -13,7 +13,7 @@ class CreateVoteProviderIpsTable extends Migration
     {
         Schema::connection('srocms')->create('vote_provider_ips', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->ipAddress('ip');
             $table->timestamps();
         });

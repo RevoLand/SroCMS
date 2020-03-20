@@ -14,7 +14,7 @@ class CreateLoginAttemptsTable extends Migration
     public function up()
     {
         Schema::connection('srocms')->create('login_attempts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('username');
             $table->string('ip');
             $table->boolean('success')->default(false);

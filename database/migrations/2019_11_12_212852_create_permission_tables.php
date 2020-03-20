@@ -16,7 +16,7 @@ class CreatePermissionTables extends Migration
 
         Schema::connection('srocms')->create($tableNames['permissions'], function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();
@@ -24,7 +24,7 @@ class CreatePermissionTables extends Migration
 
         Schema::connection('srocms')->create($tableNames['roles'], function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('guard_name');
             $table->timestamps();

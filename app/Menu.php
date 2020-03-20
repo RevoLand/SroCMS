@@ -10,73 +10,18 @@ class Menu extends Model
     protected $connection = 'srocms';
     protected $guarded = [];
 
-    public function getHref()
-    {
-        if (isset($this->route))
-        {
-            return route($this->route);
-        }
-
-        if (isset($this->page))
-        {
-            return route('pages.show_page', $this->page->slug);
-        }
-
-        return $this->href;
-    }
-
-    public function getTitle()
-    {
-        if (isset($this->page))
-        {
-            return $this->page->title;
-        }
-
-        return $this->title;
-    }
-
-    public function page()
-    {
-        return $this->belongsTo(Page::class);
-    }
-
     public function scopeEnabled($query)
     {
         return $query->where('enabled', true);
     }
 
-    public function scopeLocation($query, $location)
+    public function scopeName($query, $name)
     {
-        return $query->where('location', $location);
+        return $query->where('name', $name);
     }
 
-    public function scopeMain($query)
+    public function items()
     {
-        return $query->whereNull('menu_id');
-    }
-
-    public function scopeViewPermissions($query)
-    {
-        return $query->where(function ($query)
-        {
-            if (Auth::check())
-            {
-                $query->where('users_can_view', true);
-            }
-            else
-            {
-                $query->where('guests_can_view', true);
-            }
-        });
-    }
-
-    public function menus()
-    {
-        return $this->hasMany(Menu::class)->enabled()->viewPermissions()->orderBy('order');
-    }
-
-    public function childMenus()
-    {
-        return $this->hasMany(Menu::class)->enabled()->viewPermissions()->with('menus')->withCount('menus')->orderBy('order');
+        return $this->hasMany(MenuItem::class);
     }
 }

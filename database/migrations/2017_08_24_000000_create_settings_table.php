@@ -23,7 +23,7 @@ class CreateSettingsTable extends Migration
     {
         Schema::connection('srocms')->create($this->table, function (Blueprint $table)
         {
-            $table->increments('id');
+            $table->id();
             $table->string($this->key)->index();
             $table->text($this->value);
         });

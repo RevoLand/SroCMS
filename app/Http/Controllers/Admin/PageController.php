@@ -130,14 +130,12 @@ class PageController extends Controller
     {
         $page->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Selected Page has been successfully deleted.']);
+        }
+
         return redirect()->route('admin.pages.index')->with('message', 'Selected Page has been successfully deleted.');
-    }
-
-    public function destroyAjax(Page $page)
-    {
-        $page->delete();
-
-        return response()->json(['message' => 'Selected Page has been successfully deleted.']);
     }
 
     private function validatePage()

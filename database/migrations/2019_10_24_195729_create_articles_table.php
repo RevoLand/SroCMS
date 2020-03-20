@@ -13,12 +13,12 @@ class CreateArticlesTable extends Migration
     {
         Schema::connection('srocms')->create('articles', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('slug');
             $table->string('title');
             $table->string('excerpt')->nullable();
             $table->text('content');
-            $table->bigInteger('author_id');
+            $table->foreignId('author_id');
             $table->boolean('is_visible')->default(true);
             $table->boolean('can_comment_on')->default(true);
             $table->timestamp('published_at')->nullable();

@@ -13,8 +13,8 @@ class CreateItemMallOrdersTable extends Migration
     {
         Schema::connection('srocms')->create('item_mall_orders', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->id();
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

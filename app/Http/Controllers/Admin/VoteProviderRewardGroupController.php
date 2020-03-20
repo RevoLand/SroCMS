@@ -109,14 +109,12 @@ class VoteProviderRewardGroupController extends Controller
     {
         $rewardgroup->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Selected reward group has been successfully deleted.']);
+        }
+
         return redirect()->route('admin.votes.providers.rewardgroups.index')->with('message', 'Selected reward group has been successfully deleted.');
-    }
-
-    public function destroyAjax(VoteProviderRewardGroup $rewardgroup)
-    {
-        $rewardgroup->delete();
-
-        return response()->json(['message' => 'Selected reward group has been successfully deleted.']);
     }
 
     public function toggleEnabled(VoteProviderRewardGroup $rewardgroup)

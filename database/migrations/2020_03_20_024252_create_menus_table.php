@@ -4,28 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemMallCategoriesTable extends Migration
+class CreateMenusTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
-        Schema::connection('srocms')->create('item_mall_categories', function (Blueprint $table)
-        {
+        Schema::connection('srocms')->create('menus', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('order')->default(0);
             $table->boolean('enabled')->default(true);
-            $table->integer('order')->default(1);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
     public function down()
     {
-        Schema::connection('srocms')->dropIfExists('item_mall_categories');
+        Schema::connection('srocms')->dropIfExists('menus');
     }
 }

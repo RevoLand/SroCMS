@@ -13,7 +13,7 @@ class CreateVoteProvidersTable extends Migration
     {
         Schema::connection('srocms')->create('vote_providers', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('url');
             $table->string('url_user_name')->default('id');

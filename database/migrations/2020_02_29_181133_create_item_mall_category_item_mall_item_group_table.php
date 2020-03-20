@@ -13,9 +13,9 @@ class CreateItemMallCategoryItemMallItemGroupTable extends Migration
     {
         Schema::connection('srocms')->create('item_mall_category_item_mall_item_group', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('item_mall_category_id');
-            $table->bigInteger('item_mall_item_group_id');
+            $table->id();
+            $table->foreignId('item_mall_category_id');
+            $table->foreignId('item_mall_item_group_id');
             $table->timestamps();
 
             $table->foreign('item_mall_category_id')->references('id')->on('item_mall_categories')->onDelete('cascade');

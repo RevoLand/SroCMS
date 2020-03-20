@@ -13,7 +13,7 @@ class CreateSidebarsTable extends Migration
     {
         Schema::connection('srocms')->create('sidebars', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('title');
             $table->longText('content')->nullable();
             $table->integer('template')->nullable();

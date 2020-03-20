@@ -25,15 +25,15 @@ class CharacterController extends Controller
     public function show(Character $character)
     {
         $character->load(['guild', 'inventory' => function ($query)
-            {
-                $query->ignoreDummy()->equipped()->with('item.objCommon.objItem.setItem');
-            }, 'inventoryForAvatar' => function ($query)
-            {
-                $query->ignoreDummy()->with('item.objCommon.objItem.setItem');
-            }, 'skillMastery' => function ($query)
-            {
-                $query->minLevel(1)->orderByDesc('Level');
-            }, ]);
+        {
+            $query->ignoreDummy()->equipped()->with(['item.objCommon.objItem.setItem', 'item.objCommon.name']);
+        }, 'inventoryForAvatar' => function ($query)
+        {
+            $query->ignoreDummy()->with(['item.objCommon.objItem.setItem', 'item.objCommon.name']);
+        }, 'skillMastery' => function ($query)
+        {
+            $query->minLevel(1)->orderByDesc('Level');
+        }, ]);
 
         return view('user.characters.show', compact('character'));
     }

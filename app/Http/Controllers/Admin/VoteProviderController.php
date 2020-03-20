@@ -131,14 +131,12 @@ class VoteProviderController extends Controller
     {
         $provider->delete();
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => 'Selected Vote Provider has been successfully deleted.']);
+        }
+
         return redirect()->route('admin.votes.providers.index')->with('message', 'Vote Provider is successfully deleted.');
-    }
-
-    public function destroyAjax(VoteProvider $provider)
-    {
-        $provider->delete();
-
-        return response()->json(['message' => 'Selected Vote Provider has been successfully deleted.']);
     }
 
     private function validateProvider()

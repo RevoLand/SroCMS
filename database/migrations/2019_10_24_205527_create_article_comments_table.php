@@ -13,18 +13,17 @@ class CreateArticleCommentsTable extends Migration
     {
         Schema::connection('srocms')->create('article_comments', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('article_id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('parent_id')->nullable();
+            $table->id();
+            $table->foreignId('article_id');
+            $table->foreignId('user_id');
+            $table->foreignId('parent_id')->nullable();
             $table->string('content', 500);
             $table->boolean('is_visible')->default(true);
             $table->boolean('is_approved')->default(true);
             $table->timestamps();
 
-            $table->foreign('article_id')
-                ->references('id')->on('articles')
-                ->onDelete('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('article_comments');
         });
     }
 

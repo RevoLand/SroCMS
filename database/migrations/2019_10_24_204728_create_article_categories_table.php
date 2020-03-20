@@ -13,7 +13,7 @@ class CreateArticleCategoriesTable extends Migration
     {
         Schema::connection('srocms')->create('article_categories', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('slug');
             $table->string('name');
             $table->boolean('enabled')->default(true);

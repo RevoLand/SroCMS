@@ -233,5 +233,8 @@ return [
 
         // Laravel collective
         'Form' => Collective\Html\FormFacade::class,
+
+        // Menu Controller
+        'Menu' => App\Http\Controllers\MenuController::class,
     ],
 ];

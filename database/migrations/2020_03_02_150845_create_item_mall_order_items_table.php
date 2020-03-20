@@ -13,10 +13,10 @@ class CreateItemMallOrderItemsTable extends Migration
     {
         Schema::connection('srocms')->create('item_mall_order_items', function (Blueprint $table)
         {
-            $table->bigIncrements('id');
-            $table->bigInteger('item_mall_item_group_id');
-            $table->bigInteger('item_mall_order_id');
-            $table->bigInteger('user_id');
+            $table->id();
+            $table->foreignId('item_mall_item_group_id');
+            $table->foreignId('item_mall_order_id');
+            $table->foreignId('user_id');
             $table->integer('quantity')->default(1);
             $table->tinyInteger('payment_type')->default(1);
             $table->decimal('item_price', 13, 2);
