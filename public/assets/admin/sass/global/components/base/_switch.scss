@@ -49,18 +49,18 @@
         // State icons
         &.kt-switch--icon {
             input:empty ~ span:after {
-                @include kt-la-icon-self('\f342');
+                @include kt-la-icon-self('\f00d');
             }
 
             input:checked ~ span:after {
-                content: '\f17b';
+                content: '\f00c';
             }
         }
 
         // State icons
         &.kt-switch--icon-check {
             input:checked ~ span:after {
-                @include kt-la-icon-self('\f17b');
+                @include kt-la-icon-self('\f00c');
             }
         }        
 

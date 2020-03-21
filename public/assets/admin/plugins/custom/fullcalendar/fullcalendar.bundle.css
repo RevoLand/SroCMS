@@ -1050,7 +1050,6 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
     /* don't display any button-related controls */
   }
 }
-
 /* DayGridView
 --------------------------------------------------------------------------------------------------*/
 /* day row structure */
@@ -1129,7 +1128,6 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   display: inline-block;
   min-width: 1.25em;
 }
-
 /* List View
 --------------------------------------------------------------------------------------------------*/
 /* possibly reusable */
@@ -1248,7 +1246,6 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
   /* theme will provide own background */
   background-color: #eee;
 }
-
 @charset "UTF-8";
 /* TimeGridView all-day area
 --------------------------------------------------------------------------------------------------*/
@@ -1558,4 +1555,3 @@ be a descendant of the grid when it is being dragged.
   border-top-color: transparent;
   border-bottom-color: transparent;
 }
-

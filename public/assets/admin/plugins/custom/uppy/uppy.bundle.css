@@ -584,7 +584,8 @@
   display: none; }
 
 .uppy-StatusBar-statusPrimary {
-  font-weight: 500; }
+  font-weight: 500;
+  line-height: 1; }
 
 .uppy-StatusBar-statusSecondary {
   margin-top: 1px;
@@ -781,7 +782,7 @@
   opacity: 0.85; }
 
 .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview .uppy-ProviderBrowserItem-inner {
-  background-color: rgba(147, 147, 147, 0.3); }
+  background-color: rgba(147, 147, 147, 0.2); }
 
 .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview svg {
   fill: rgba(0, 0, 0, 0.7);
@@ -802,7 +803,7 @@
   .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.9); }
-  .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner img, .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner svg {
+  .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1081,10 +1082,6 @@
   vertical-align: text-top; }
 
 .uppy-ProviderBrowser-searchInput:-ms-input-placeholder {
-  color: #939393;
-  opacity: 1; }
-
-.uppy-ProviderBrowser-searchInput::-ms-input-placeholder {
   color: #939393;
   opacity: 1; }
 
@@ -1426,8 +1423,7 @@ svg.UppyIcon.retry {
 
 .uppy-size--md .uppy-DashboardItem {
   position: relative;
-  display: block;
-  float: left;
+  display: inline-block;
   margin: 5px 15px;
   width: calc(33.333% - 15px - 15px);
   height: 215px; }

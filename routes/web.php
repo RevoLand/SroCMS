@@ -174,8 +174,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::resource('providers', 'Admin\VoteProviderController');
         Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
     });
-    Route::resource('votes', 'Admin\VoteController');
 
+    Route::resource('votes', 'Admin\VoteController');
     Route::resource('users', 'Admin\UserController');
 });
 

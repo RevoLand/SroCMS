@@ -197,117 +197,33 @@
                                 <span class="kt-menu__link-text">Allowed Callback IPs</span>
                             </a>
                         </li>
-                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                            data-ktmenu-submenu-toggle="hover">
-                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
-                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                    </ul>
+                </div>
+            </li>
+            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                    <i class="kt-menu__link-icon flaticon2-open-box"></i>
+                    <span class="kt-menu__link-text">E-Pin System</span>
+                    <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div class="kt-menu__submenu ">
+                    <span class="kt-menu__arrow"></span>
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.votes.providers.index') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span>
                                 </i>
-                                <span class="kt-menu__link-text">Aside</span>
-                                <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                                <span class="kt-menu__link-text">List</span>
                             </a>
-                            <div class="kt-menu__submenu ">
-                                <span class="kt-menu__arrow"></span>
-                                <ul class="kt-menu__subnav">
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/aside/minimized.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Minimized</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/aside/non-fixed.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Non-fixed</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/aside/dropdown-menu.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Dropdown Menu</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/aside/no-aside.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">No Aside</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/aside/no-aside-fixed-content.html"
-                                            class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">No Aside & Fixed Content</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
-                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true"
-                            data-ktmenu-submenu-toggle="hover">
-                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
-                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.votes.providers.create') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span>
                                 </i>
-                                <span class="kt-menu__link-text">Misc</span>
-                                <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                                <span class="kt-menu__link-text">Create</span>
                             </a>
-                            <div class="kt-menu__submenu ">
-                                <span class="kt-menu__arrow"></span>
-                                <ul class="kt-menu__subnav">
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/misc/fixed-content.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Fixed Content</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/misc/fixed-content-subheader.html"
-                                            class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Fixed Content & Subheader</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/misc/secondary-aside.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Secondary Aside</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/misc/fixed-footer.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Fixed Footer</span>
-                                        </a>
-                                    </li>
-                                    <li class="kt-menu__item " aria-haspopup="true">
-                                        <a href="layout/features/misc/blank-page.html" class="kt-menu__link ">
-                                            <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
-                                                <span></span>
-                                            </i>
-                                            <span class="kt-menu__link-text">Blank Page</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
                     </ul>
                 </div>

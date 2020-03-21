@@ -100,7 +100,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
+                ->width(150)
                 ->addClass('text-center'),
         ];
     }
