@@ -29,8 +29,8 @@
                                                             <th class="col-6 col-md-9 align-middle">{{ $cartItem['group']->name }} @if($cartItem['group']->description) <small><i class="text-muted">- {{ $cartItem['group']->description }}</i></small>@endif</th>
                                                             <th class="col-6 col-md-3">
                                                                 <div class="">
-                                                                    {{ Form::open(['route' => ['itemmall.cart.delete', $key], 'method' => 'delete', '@submit.prevent' => 'onDeleteCartItem('. $key . ')']) }}
-                                                                        <item-quantity qty="{{ $cartItem['quantity'] }}" groupid="{{ $key }}"></item-quantity>
+                                                                    {{ Form::open(['route' => ['itemmall.cart.delete', $key], 'name' => 'deleteItem-' . $key,'method' => 'delete', '@submit.prevent' => 'onDeleteCartItem(\''. $key .'\')']) }}
+                                                                        <item-quantity @ondeletecartitem="onDeleteCartItem" qty="{{ $cartItem['quantity'] }}" groupid="{{ $key }}"></item-quantity>
                                                                     {{ Form::close() }}
                                                                 </div>
                                                             </th>
@@ -174,11 +174,9 @@
 
 
 @section ('js')
-{!! Theme::js('vendor/vue/vue.js') !!}
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script>
-    window.Event = new Vue();
-
     Vue.component('item-quantity', {
         props: ['groupid', 'qty'],
         data: function() {
@@ -206,7 +204,7 @@
                 this.IsUpdating = true;
 
                 if (this.quantity <= 0) {
-                    return Event.$emit('deleteitem', this.groupId, event.target.form.action);
+                    return this.$emit('ondeletecartitem', this.groupId);
                 }
 
                 axios.patch('{{ route('itemmall.cart.update') }}', {
@@ -242,11 +240,11 @@
         },
 
         methods: {
-            onDeleteCartItem: function ($itemGroup) {
-                axios.delete(event.target.action)
+            onDeleteCartItem: function (groupId) {
+                axios.delete(document.getElementsByName('deleteItem-' + groupId)[0].action)
                 .then(response => {
                     // Remove item
-                    document.querySelector('#cartitem-' + $itemGroup).remove();
+                    document.querySelector('#cartitem-' + groupId).remove();
 
                     // Update totals
                     this.totals = response.data.totals;
