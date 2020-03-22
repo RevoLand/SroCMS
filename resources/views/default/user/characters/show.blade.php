@@ -50,12 +50,16 @@
                             <h5 class="card-title">Job Info</h5>
                             <div class="card-text">
                                 <div class="row row-cols-1">
-                                    <div class="col">@if($character->job->JobType) {!! Theme::img('img/silkroad/job/'.$character->job->JobType.'.png') !!} @endif {{ config('constants.job.' . $character->job->JobType) }}</div>
-                                    <div class="col"><strong>Name:</strong> @if(setting('characters.show_job_alias', 0)) {{ $character->NickName16 }} @else <small class="text-muted">Hidden</small> @endif</div>
-                                    <div class="col"><strong>Level:</strong> {{ $character->job->Level }}</div>
-                                    <div class="col"><strong>Exp:</strong> {{ $character->job->Exp }}</div>
-                                    <div class="col"><strong>Contribution:</strong> {{ $character->job->Contribution }}</div>
-                                    <div class="col"><strong>Reward:</strong> {{ $character->job->Reward }}</div>
+                                    @if($character->job->JobType)
+                                        <div class="col">{!! Theme::img('img/silkroad/job/'.$character->job->JobType.'.png') !!} {{ config('constants.job.' . $character->job->JobType) }}</div>
+                                        <div class="col"><strong>Name:</strong> @if(setting('characters.show_job_alias', 0)) {{ $character->NickName16 }} @else <small class="text-muted">Hidden</small> @endif</div>
+                                        <div class="col"><strong>Level:</strong> {{ $character->job->Level }}</div>
+                                        <div class="col"><strong>Exp:</strong> {{ $character->job->Exp }}</div>
+                                        <div class="col"><strong>Contribution:</strong> {{ $character->job->Contribution }}</div>
+                                        <div class="col"><strong>Reward:</strong> {{ $character->job->Reward }}</div>
+                                    @else
+                                        <div class="col">None.</div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

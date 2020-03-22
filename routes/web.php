@@ -180,6 +180,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     Route::post('epins/items/update', 'Admin\EpinItemController@update')->name('epins.items.update');
     Route::post('epins/items/destroy', 'Admin\EpinItemController@destroy')->name('epins.items.destroy');
 
+    Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
+    {
+        Route::resource('categories', 'Admin\ItemMallCategoryController');
+        Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
+    });
+
     Route::resource('votes', 'Admin\VoteController');
     Route::resource('users', 'Admin\UserController');
 });
