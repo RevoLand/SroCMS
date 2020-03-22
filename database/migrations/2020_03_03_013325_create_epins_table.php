@@ -16,7 +16,7 @@ class CreateEpinsTable extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->tinyInteger('type')->default(1);
-            $table->decimal('balance')->default(0);
+            $table->decimal('balance')->nullable();
             $table->bigInteger('user_id')->nullable();
             $table->foreignId('creater_user_id')->nullable();
             $table->boolean('enabled')->default(true);

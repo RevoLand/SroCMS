@@ -6,7 +6,6 @@ use Alert;
 use App\Epin;
 use Carbon\Carbon;
 use Redirect;
-use Str;
 
 class EpinController extends Controller
 {
@@ -17,13 +16,12 @@ class EpinController extends Controller
             Redirect::route('home')->send();
         }
 
-        $this->middleware('throttle:5,1')->only('use');
+        $this->middleware('throttle:6,1')->only('use');
     }
 
     public function index()
     {
         return view('user.epin.index');
-        //return $this->generateCode();
     }
 
     public function use()
@@ -87,32 +85,9 @@ class EpinController extends Controller
             break;
         }
 
-        // TO-DO: Daha fazla & detaylı bilgi.
+        // TODO: Daha fazla & detaylı bilgi.
         Alert::success('E-Pin code is successfully used on the account.');
 
         return redirect()->route('epin.index');
-    }
-
-    private function generateCode()
-    {
-        $mask = setting('epin.code.mask', '****-****-****-****');
-        $length = substr_count($mask, '*');
-        $code = setting('epin.code.prefix', '');
-        $characters = collect(str_split(setting('epin.code.allowed_characters', 'ABCDEFGHJKLMNOPQRSTUVWXYZ234567890')));
-
-        for ($i = 0; $i < $length; ++$i)
-        {
-            $mask = Str::replaceFirst('*', $characters->random(1)->first(), $mask);
-        }
-
-        $code .= $mask;
-        $code .= setting('epin.code.suffix', '');
-
-        if (Epin::where('code', $code)->count() !== 0)
-        {
-            return $this->generateCode();
-        }
-
-        return $code;
     }
 }

@@ -104,15 +104,15 @@
                             </span>
                         </li>
                         <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.pages.create') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-icon la la-edit"></i>
-                                <span class="kt-menu__link-text">Create Page</span>
-                            </a>
-                        </li>
-                        <li class="kt-menu__item " aria-haspopup="true">
                             <a href="{{ route('admin.pages.index') }}" class="kt-menu__link ">
                                 <i class="kt-menu__link-icon la la-copy"></i>
                                 <span class="kt-menu__link-text">List Pages</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.pages.create') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-icon la la-edit"></i>
+                                <span class="kt-menu__link-text">Create Page</span>
                             </a>
                         </li>
                     </ul>
@@ -210,7 +210,7 @@
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
                         <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.votes.providers.index') }}" class="kt-menu__link ">
+                            <a href="{{ route('admin.epins.index') }}" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span>
                                 </i>
@@ -218,7 +218,7 @@
                             </a>
                         </li>
                         <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.votes.providers.create') }}" class="kt-menu__link ">
+                            <a href="{{ route('admin.epins.create') }}" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--line">
                                     <span></span>
                                 </i>

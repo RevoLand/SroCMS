@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Pages')
+@section('pagetitle', 'E-Pins')
 
 @section('content')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -8,12 +8,14 @@
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Pages</h3>
+                <h3 class="kt-subheader__title">E-Pins</h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Pages</a>
+                    <a href="{{ route('admin.epins.index') }}" class="kt-subheader__breadcrumbs-link">E-Pin System</a>
+                    <span class="kt-subheader__breadcrumbs-separator"></span>
+                    <a href="{{ route('admin.epins.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Index</a>
                 </div>
             </div>
         </div>
@@ -39,13 +41,24 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        Pages
+                        E-Pin
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.pages.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-edit"></i> Create New Page
+                        <a href="{{ route('admin.epins.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-edit"></i> Create New
+                        </a>
+                        @if (request()->has('filter'))
+                        <a href="{{ route('admin.epins.index') }}" class="btn btn-info btn-upper btn-sm btn-bold">
+                            <i class="la la-copy"></i> List All E-Pins
+                        </a>
+                        @endif
+                        <a href="{{ route('admin.epins.index', ['filter' => '1']) }}" class="btn btn-accent btn-upper btn-sm btn-bold">
+                            <i class="la la-copy"></i> List Ununsed E-Pins
+                        </a>
+                        <a href="{{ route('admin.epins.index', ['filter' => '2']) }}" class="btn btn-success btn-upper btn-sm btn-bold">
+                            <i class="la la-copy"></i> List Used E-Pins
                         </a>
                     </div>
                 </div>
@@ -88,10 +101,8 @@
                     if (result.value) {
                         axios.delete(event.target.action)
                         .then(response => {
-                            $('tr#' + event.target.dataset.id).fadeOut("slow", function() {
-                                $( this ).remove();
-                                swal.fire( 'Deleted!', response.data.message, 'success');
-                            });
+                            $('#epins-table').DataTable().draw(false);
+                            swal.fire( 'Deleted!', response.data.message, 'success');
                         })
                         .catch(error => {
                             swal.fire( 'Error!', error.response.data.message, 'error');
@@ -102,7 +113,7 @@
             case 'toggle-enabled':
                 axios.patch(event.target.action)
                     .then(response => {
-                        $('#pages-table').DataTable().draw(false);
+                        $('#epins-table').DataTable().draw(false);
                         swal.fire( 'Updated!', response.data.message, 'success');
                     })
                     .catch(error => {

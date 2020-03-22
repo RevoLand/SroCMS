@@ -175,6 +175,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
     });
 
+    Route::resource('epins', 'Admin\EpinController');
+    Route::patch('epins/{epin}/toggleEnabled', 'Admin\EpinController@toggleEnabled')->name('epins.toggle_enabled');
+    Route::post('epins/items/update', 'Admin\EpinItemController@update')->name('epins.items.update');
+    Route::post('epins/items/destroy', 'Admin\EpinItemController@destroy')->name('epins.items.destroy');
+
     Route::resource('votes', 'Admin\VoteController');
     Route::resource('users', 'Admin\UserController');
 });

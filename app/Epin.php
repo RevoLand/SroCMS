@@ -19,7 +19,7 @@ class Epin extends Model
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 
-    public function createrUser()
+    public function creater()
     {
         return $this->belongsTo(User::class, 'creater_user_id', 'JID');
     }
