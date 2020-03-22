@@ -37,6 +37,11 @@ class Character extends Model
         return $this->hasMany(InventoryForAvatar::class, 'CharID', 'CharID');
     }
 
+    public function job()
+    {
+        return $this->hasOne(CharTriJob::class, 'CharID', 'CharID');
+    }
+
     public function skillMastery()
     {
         return $this->hasMany(CharacterSkillMastery::class, 'CharID', 'CharID');

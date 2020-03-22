@@ -330,6 +330,17 @@ return [
             'MATTR_TRADE_STR_3' => 'Str %d Increase',
         ],
     ],
+    'job' => [
+        '0' => 'None',
+        '1' => 'Trader',
+        '2' => 'Thief',
+        '3' => 'Hunter',
+
+        'none' => '0',
+        'trader' => '1',
+        'thief' => '2',
+        'hunter' => '3',
+    ],
     'skill' => [
     ],
     'skillmastery' => [

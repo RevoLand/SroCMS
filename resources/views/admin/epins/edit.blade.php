@@ -83,7 +83,6 @@
                     <div class="form-group">
                         <label>Reward Type</label>
                         <select class="form-control" id="type" name="type" v-model="epin_reward_type" required>
-                            <option></option>
                             <option value="1">Balance</option>
                             <option value="2">Balance (Point)</option>
                             <option value="3">Silk</option>
@@ -137,9 +136,6 @@
                             <span class="kt-portlet__head-icon"><i class="flaticon-stopwatch"></i></span>
                             <h3 class="kt-portlet__head-title">E-Pin Items</h3>
                         </div>
-                        <div class="kt-portlet__head-toolbar">
-                            -toolbar-
-                        </div>
                     </div>
                     <div class="kt-portlet__body">
                         <div class="kt-portlet__content">
@@ -170,9 +166,6 @@
                                     Create Item
                                 </template>
                             </h3>
-                        </div>
-                        <div class="kt-portlet__head-toolbar">
-                            Toolbar
                         </div>
                     </div>
                     <div class="kt-portlet__body">

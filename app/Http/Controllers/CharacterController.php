@@ -24,7 +24,7 @@ class CharacterController extends Controller
 
     public function show(Character $character)
     {
-        $character->load(['guild', 'inventory' => function ($query)
+        $character->load(['guild', 'job', 'inventory' => function ($query)
         {
             $query->ignoreDummy()->equipped()->with(['item.objCommon.objItem.setItem', 'item.objCommon.name']);
         }, 'inventoryForAvatar' => function ($query)
