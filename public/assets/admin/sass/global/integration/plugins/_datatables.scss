@@ -206,11 +206,11 @@
                 border: 0;
                 background-color: transparent;
 
-                @include kt-la-icon-self('\f055');
+                @include kt-la-icon-self('\f2c3');
             }
 
             tr.parent > td:first-child:before {
-                @include kt-la-icon-self('\f056');
+                @include kt-la-icon-self('\f28f');
                 color: kt-state-color(brand, base);
                 background-color: transparent;
             }

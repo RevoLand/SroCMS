@@ -12,9 +12,9 @@ class ArticleController extends Controller
             ->published()
             ->with('user')
             ->withCount(['articleComments' => function ($query)
-                {
-                    $query->visible()->approved();
-                }, ])
+            {
+                $query->visible()->approved();
+            }, ])
             ->orderByDesc('updated_at')
             ->paginate(setting('articles.index.post_per_page', 5));
 
@@ -27,9 +27,9 @@ class ArticleController extends Controller
             ->published()
             ->with('user')
             ->withCount(['articleComments' => function ($query)
-                {
-                    $query->visible()->approved();
-                }, ])
+            {
+                $query->visible()->approved();
+            }, ])
             ->firstOrFail();
 
         $articleComments = $article->articleComments()->visible()->approved()->latest()->with('user')->paginate(setting('article.comments.per_page', 20));

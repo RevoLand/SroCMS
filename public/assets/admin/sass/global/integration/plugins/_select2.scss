@@ -55,7 +55,7 @@
                 border: 0;
                 position: absolute;
                 top: 50%;
-                @include kt-la-icon-self('\f107');
+                @include kt-la-icon-self('\f110');
                 font-size: 1.4rem;
                 display: inline-block;
                 left: auto;
@@ -81,7 +81,7 @@
                 }
 
                 .select2-selection__choice__remove {
-                    @include kt-la-icon-self('\f107');
+                    @include kt-la-icon-self('\f110');
                     font-size: 1.4rem;
                     display: inline-block;
                     line-height: 0;

@@ -67,6 +67,11 @@ class ItemMallItemGroupController extends Controller
 
         $itemGroup->categories()->attach(request('categories'));
 
+        if (request()->expectsJson())
+        {
+            return response()->json(['message' => "Item Group is successfully created.\nClick <a href='" . route('admin.itemmall.itemgroups.edit', $itemGroup) . "'>here</a> to edit the newly generated itemgroup."], 200);
+        }
+
         return redirect()->route('admin.itemmall.itemgroups.edit', $itemGroup)->with('message', 'Item Group is successfully created. You can add items to the group now!');
     }
 

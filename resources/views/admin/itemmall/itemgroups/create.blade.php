@@ -26,7 +26,7 @@
     <!-- end:: Subheader -->
 
     <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid vuepicker">
         @if (session('message'))
         <div class="row">
             <div class="col">
@@ -70,58 +70,57 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.itemmall.itemgroups.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.itemmall.itemgroups.store'], 'class' => 'kt-form', 'method' => 'post', '@submit.prevent' => 'onFormSubmit']) }}
                     <div class="form-group">
                         <label>Name</label>
-                        {{ Form::text('name', old('name'), ['class' => 'form-control', 'required']) }}
+                        {{ Form::text('name', null, ['class' => 'form-control', 'required', 'v-model' => 'name']) }}
                     </div>
                     <div class="form-group">
                         <label>Categories</label>
-                        <select class="form-control select2" name="categories[]" multiple="multiple" required>
+                        <select class="form-control" name="categories[]" multiple="multiple" v-model="categories" required>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" @if(in_array($category->id, old('categories', []))) selected @endif>{{ $category->name }}</option>
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        {{ Form::text('description', old('description'), ['class' => 'form-control']) }}
+                        {{ Form::text('description', null, ['class' => 'form-control', 'v-model' => 'description']) }}
                     </div>
                     <div class="form-group">
                         <label>Image URL</label>
-                        {{ Form::text('image', old('image'), ['class' => 'form-control']) }}
+                        {{ Form::text('image', null, ['class' => 'form-control', 'v-model' => 'image']) }}
                     </div>
                     <div class="form-group">
                         <label>Payment Type</label>
-                        <select class="form-control select2" name="payment_type" data-placeholder="Select a reward type" required>
-                            <option></option>
-                            <option value="1" @if(old('payment_type') == 1) selected @endif>Balance</option>
-                            <option value="2" @if(old('payment_type') == 2) selected @endif>Balance (Point)</option>
-                            <option value="3" @if(old('payment_type') == 3) selected @endif>Silk</option>
-                            <option value="4" @if(old('payment_type') == 4) selected @endif>Silk (Gift)</option>
-                            <option value="5" @if(old('payment_type') == 5) selected @endif>Silk (Point)</option>
+                        <select class="form-control" name="payment_type" v-model="payment_type" required>
+                            <option value="1">Balance</option>
+                            <option value="2">Balance (Point)</option>
+                            <option value="3">Silk</option>
+                            <option value="4">Silk (Gift)</option>
+                            <option value="5">Silk (Point)</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        {{ Form::text('price', old('price'), ['class' => 'form-control']) }}
+                        {{ Form::text('price', null, ['class' => 'form-control', 'required', 'v-model' => 'price']) }}
                     </div>
                     <div class="form-group">
                         <label>On Sale</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('on_sale', 1, old('on_sale', false)) !!} Yes
+                                {!! Form::radio('on_sale', 1, null, ['v-model' => 'on_sale']) !!} Yes
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('on_sale', 0, !old('on_sale', false)) !!} No
+                                {!! Form::radio('on_sale', 0, null, ['v-model' => 'on_sale']) !!} No
                                 <span></span>
                             </label>
                         </div>
                     </div>
-                    <div class="form-group old-price">
+                    <div class="form-group" v-show="on_sale == 1">
                         <label>Old Price</label>
-                        {{ Form::text('price_before', old('price_before'), ['class' => 'form-control']) }}
+                        {{ Form::text('price_before', null, ['class' => 'form-control', 'v-model' => 'price_before']) }}
                         <span class="form-text text-muted">
                             Only effects visually.
                         </span>
@@ -130,154 +129,151 @@
                         <label>Limit Total Purchases</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('limit_total_purchases', 1, old('limit_total_purchases', false)) !!} Yes
+                                {!! Form::radio('limit_total_purchases', 1, null, ['v-model' => 'limit_total_purchases']) !!} Yes
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('limit_total_purchases', 0, !old('limit_total_purchases', false)) !!} No
+                                {!! Form::radio('limit_total_purchases', 0, null, ['v-model' => 'limit_total_purchases']) !!} No
                                 <span></span>
                             </label>
                         </div>
                     </div>
-                    <div class="form-group total-purchase-limit">
+                    <div class="form-group" v-show="limit_total_purchases == 1">
                         <label>Total Purchase Limit</label>
-                        {{ Form::text('total_purchase_limit', old('total_purchase_limit'), ['class' => 'form-control']) }}
+                        {{ Form::text('total_purchase_limit', null, ['class' => 'form-control', 'v-model' => 'total_purchase_limit']) }}
                     </div>
                     <div class="form-group">
                         <label>Limit User Purchases</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('limit_user_purchases', 1, old('limit_user_purchases', false)) !!} Yes
+                                {!! Form::radio('limit_user_purchases', 1, null, ['v-model' => 'limit_user_purchases']) !!} Yes
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('limit_user_purchases', 0, !old('limit_user_purchases', false)) !!} No
+                                {!! Form::radio('limit_user_purchases', 0, null, ['v-model' => 'limit_user_purchases']) !!} No
                                 <span></span>
                             </label>
                         </div>
                     </div>
-                    <div class="form-group user-purchase-limit">
+                    <div class="form-group" v-show="limit_user_purchases == 1">
                         <label>User Purchase Limit</label>
-                        {{ Form::text('user_purchase_limit', old('user_purchase_limit'), ['class' => 'form-control']) }}
+                        {{ Form::text('user_purchase_limit', null, ['class' => 'form-control', 'v-model' => 'user_purchase_limit']) }}
                     </div>
                     <div class="form-group">
                         <label>Use Customized Referral Options</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('use_customized_referral_options', 1, old('use_customized_referral_options', false), ['id' => 'use_customized_referral_options']) !!} Yes
+                                {!! Form::radio('use_customized_referral_options', 1, null, ['v-model' => 'use_customized_referral_options']) !!} Yes
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('use_customized_referral_options', 0, !old('use_customized_referral_options', false), ['id' => 'use_customized_referral_options']) !!} No
+                                {!! Form::radio('use_customized_referral_options', 0, null, ['v-model' => 'use_customized_referral_options']) !!} No
                                 <span></span>
                             </label>
                         </div>
                     </div>
-                    <div class="form-group referral-commission">
+                    <div class="form-group" v-show="use_customized_referral_options == 1">
                         <label>Referral Commission</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('referral_commission_enabled', 1, old('referral_commission_enabled', true)) !!} Enabled
+                                {!! Form::radio('referral_commission_enabled', 1, null, ['v-model' => 'referral_commission_enabled']) !!} Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('referral_commission_enabled', 0, !old('referral_commission_enabled', true)) !!} Disabled
+                                {!! Form::radio('referral_commission_enabled', 0, null, ['v-model' => 'referral_commission_enabled']) !!} Disabled
                                 <span></span>
                             </label>
                         </div>
                     </div>
-                    {{-- SELECT2 --}}
-                    <div class="form-group referral-reward-type">
+                    <div class="form-group" v-show="use_customized_referral_options == 1 && referral_commission_enabled == 1">
                         <label>Referral Commission Reward Type</label>
-                        <select class="form-control select2" id="referral_commission_reward_type" name="referral_commission_reward_type" data-placeholder="Select a reward type">
-                            <option></option>
-                            <option value="1" @if(old('referral_commission_reward_type') == 1) selected @endif>Balance</option>
-                            <option value="2" @if(old('referral_commission_reward_type') ?? 2 == 2) selected @endif>Balance (Point)</option>
-                            <option value="3" @if(old('referral_commission_reward_type') == 3) selected @endif>Silk</option>
-                            <option value="4" @if(old('referral_commission_reward_type') == 4) selected @endif>Silk (Gift)</option>
-                            <option value="5" @if(old('referral_commission_reward_type') == 5) selected @endif>Silk (Point)</option>
+                        <select class="form-control" name="referral_commission_reward_type" data-placeholder="Select a reward type" v-model="referral_commission_reward_type">
+                            <option value="1">Balance</option>
+                            <option value="2">Balance (Point)</option>
+                            <option value="3">Silk</option>
+                            <option value="4">Silk (Gift)</option>
+                            <option value="5">Silk (Point)</option>
                         </select>
                     </div>
-                    <div class="form-group referral-reward-percentage">
+                    <div class="form-group" v-show="use_customized_referral_options == 1 && referral_commission_enabled == 1">
                         <label>Referral Commission Reward Percentage</label>
-                        {{ Form::text('referral_commission_percentage', old('referral_commission_percentage') ?? 1, ['class' => 'form-control']) }}
+                        {{ Form::text('referral_commission_percentage', null, ['class' => 'form-control', 'v-model' => 'referral_commission_percentage']) }}
                     </div>
                     <div class="form-group">
                         <label>Use Customized Point Options</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('use_customized_point_options', 1, old('use_customized_point_options', false), ['id' => 'use_customized_point_options']) !!} Yes
+                                {!! Form::radio('use_customized_point_options', 1, null, ['v-model' => 'use_customized_point_options']) !!} Yes
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('use_customized_point_options', 0, !old('use_customized_point_options', false), ['id' => 'use_customized_point_options']) !!} No
+                                {!! Form::radio('use_customized_point_options', 0, null, ['v-model' => 'use_customized_point_options']) !!} No
                                 <span></span>
                             </label>
                         </div>
                     </div>
-                    <div class="form-group reward-point">
+                    <div class="form-group" v-show="use_customized_point_options == 1">
                         <label>Reward for Purchase</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('reward_point_enabled', 1, old('reward_point_enabled', true)) !!} Enabled
+                                {!! Form::radio('reward_point_enabled', 1, null, ['v-model' => 'reward_point_enabled']) !!} Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('reward_point_enabled', 0, !old('reward_point_enabled', true)) !!} Disabled
+                                {!! Form::radio('reward_point_enabled', 0, null, ['v-model' => 'reward_point_enabled']) !!} Disabled
                                 <span></span>
                             </label>
                         </div>
                     </div>
                     {{-- SELECT2 --}}
-                    <div class="form-group reward-point-type">
+                    <div class="form-group" v-show="use_customized_point_options == 1 && reward_point_enabled == 1">
                         <label>Reward Type</label>
-                        <select class="form-control select2" id="reward_point_type" name="reward_point_type" data-placeholder="Select a reward type">
-                            <option></option>
-                            <option value="1" @if(old('reward_point_type') == 1) selected @endif>Balance</option>
-                            <option value="2" @if(old('reward_point_type') ?? 2 == 2) selected @endif>Balance (Point)</option>
-                            <option value="3" @if(old('reward_point_type') == 3) selected @endif>Silk</option>
-                            <option value="4" @if(old('reward_point_type') == 4) selected @endif>Silk (Gift)</option>
-                            <option value="5" @if(old('reward_point_type') == 5) selected @endif>Silk (Point)</option>
+                        <select class="form-control" name="reward_point_type" data-placeholder="Select a reward type" v-model="reward_point_type">
+                            <option value="1">Balance</option>
+                            <option value="2">Balance (Point)</option>
+                            <option value="3">Silk</option>
+                            <option value="4">Silk (Gift)</option>
+                            <option value="5">Silk (Point)</option>
                         </select>
                     </div>
-                    <div class="form-group reward-point-percentage">
+                    <div class="form-group" v-show="use_customized_point_options == 1 && reward_point_enabled == 1">
                         <label>Reward Percentage</label>
-                        {{ Form::text('reward_point_percentage', old('reward_point_percentage') ?? 1, ['class' => 'form-control']) }}
+                        {{ Form::text('reward_point_percentage', null, ['class' => 'form-control', 'v-model' => 'reward_point_percentage']) }}
                     </div>
                     <div class="form-group">
                         <label>Featured</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('featured', 1, old('featured', false)) !!} Yes
+                                {!! Form::radio('featured', 1, null, ['v-model' => 'featured']) !!} Yes
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('featured', 0, !old('featured', false)) !!} No
+                                {!! Form::radio('featured', 0, null, ['v-model' => 'featured']) !!} No
                                 <span></span>
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Sort Order</label>
-                        {{ Form::text('order', old('order') ?? 1, ['class' => 'form-control']) }}
+                        {{ Form::text('order', null, ['class' => 'form-control', 'v-model' => 'order']) }}
                     </div>
                     <div class="form-group">
                         <label>Available After</label>
-                        {{ Form::text('available_after', old('available_after'), ['class' => 'form-control dtpicker']) }}
+                        {{ Form::text('available_after', null, ['class' => 'form-control dtpicker', 'v-model' => 'available_after']) }}
                     </div>
                     <div class="form-group">
                         <label>Available Until</label>
-                        {{ Form::text('available_until', old('available_until'), ['class' => 'form-control dtpicker']) }}
+                        {{ Form::text('available_until', null, ['class' => 'form-control dtpicker', 'v-model' => 'available_until']) }}
                     </div>
                     <div class="form-group">
                         <label>State</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, old('enabled', true)) !!} Enabled
+                                {!! Form::radio('enabled', 1, null, ['v-model'=> 'enabled']) !!} Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !old('enabled', true)) !!} Disabled
+                                {!! Form::radio('enabled', 0, null, ['v-model'=> 'enabled']) !!} Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -297,10 +293,65 @@
 </div>
 @endsection
 
+@section('css')
+
+@endsection
+
 @section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script type="text/javascript">
+    new Vue({
+        el: '.vuepicker',
+
+        data: {
+            name: '{{ old('name') }}',
+            categories: [{{ old('categories') }}],
+            description: '{{ old('description') }}',
+            image: '{{ old('image') }}',
+            payment_type: '{{ old('payment_type') }}',
+            on_sale: '{{ old('on_sale') ?? 0 }}',
+            price: '{{ old('price') }}',
+            price_before: '{{ old('price_before') }}',
+            limit_total_purchases: '{{ old('limit_total_purchases') ?? 0 }}',
+            total_purchase_limit: '{{ old('total_purchase_limit') }}',
+            limit_user_purchases: '{{ old('limit_user_purchases') ?? 0 }}',
+            user_purchase_limit: '{{ old('user_purchase_limit') }}',
+            use_customized_referral_options: '{{ old('use_customized_referral_options') ?? 0 }}',
+            referral_commission_enabled: '{{ old('referral_commission_enabled') ?? setting('referrals.commissions_enabled', 0) }}',
+            referral_commission_reward_type: '{{ old('referral_commission_reward_type') ?? setting('referrals.commission_reward_type', 2) }}',
+            referral_commission_percentage: '{{ old('referral_commission_percentage') ?? setting('referrals.commission_earned_percentage', 2) }}',
+            use_customized_point_options: '{{ old('use_customized_point_options') ?? 0 }}',
+            reward_point_enabled: '{{ old('reward_point_enabled') ?? 1 }}',
+            reward_point_type: '{{ old('reward_point_type') ?? 2 }}',
+            reward_point_percentage: '{{ old('reward_point_percentage') ?? setting('itemmall.pointrewards.percentage', 2) }}',
+            featured: '{{ old('featured') ?? 0 }}',
+            order: '{{ old('order') ?? 1 }}',
+            enabled: '{{ old('name') ?? 1 }}',
+            available_after: '{{ old('available_after') }}',
+            available_until: '{{ old('available_until') }}'
+        },
+
+        methods: {
+            onFormSubmit: function(event) {
+                axios.post(event.target.action, this.$data)
+                .then(function (response) {
+                    swal.fire( 'Created!', response.data.message, 'success');
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    swal.fire( 'Error!', error.response.data.message, 'error');
+                    break;
+                });
+
+                Object.assign(this.$data, this.$options.data.call(this));
+            }
+        }
+    });
+
     $(document).ready(function() {
-        $( ".select2" ).select2({allowClear: true});
+        // $( ".select2" ).selectpicker();
 
         $( ".dtpicker" ).datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
@@ -308,109 +359,6 @@
             todayBtn: true,
             pickerPosition: 'top-right'
         });
-
-        function toggleSaleStatus(newStatus) {
-            if (newStatus == 1) {
-                $( ".old-price" ).show({});
-            } else {
-                $( ".old-price" ).hide({});
-            }
-        };
-
-        function toggleTotalPurchaseLimit(newStatus) {
-            if (newStatus == 1) {
-                $( ".total-purchase-limit" ).show({});
-            } else {
-                $( ".total-purchase-limit" ).hide({});
-            }
-        };
-
-        function toggleUserPurchaseLimit(newStatus) {
-            if (newStatus == 1) {
-                $( ".user-purchase-limit" ).show({});
-            } else {
-                $( ".user-purchase-limit" ).hide({});
-            }
-        };
-
-        function toggleCustomizedReferralOptions(newStatus) {
-            if (newStatus == 1) {
-                $( ".referral-commission" ).show({});
-                $( ".referral-reward-type" ).show({});
-                $( ".referral-reward-percentage" ).show({});
-            } else {
-                $( ".referral-commission" ).hide({});
-                $( ".referral-reward-type" ).hide({});
-                $( ".referral-reward-percentage" ).hide({});
-            }
-        };
-
-        function toggleReferralOptions(newStatus) {
-            if (newStatus == 1) {
-                $( ".referral-reward-type" ).show({});
-                $( ".referral-reward-percentage" ).show({});
-            } else {
-                $( ".referral-reward-type" ).hide({});
-                $( ".referral-reward-percentage" ).hide({});
-            }
-        };
-
-        function toggleCustomizedPointOptions(newStatus) {
-            if (newStatus == 1) {
-                $( ".reward-point" ).show({});
-                $( ".reward-point-type" ).show({});
-                $( ".reward-point-percentage" ).show({});
-            } else {
-                $( ".reward-point" ).hide({});
-                $( ".reward-point-type" ).hide({});
-                $( ".reward-point-percentage" ).hide({});
-            }
-        };
-        function togglePointOptions(newStatus) {
-            if (newStatus == 1) {
-                $( ".reward-point-type" ).show({});
-                $( ".reward-point-percentage" ).show({});
-            } else {
-                $( ".reward-point-type" ).hide({});
-                $( ".reward-point-percentage" ).hide({});
-            }
-        };
-
-        $( "input[name='on_sale']" ).change(function() {
-            toggleSaleStatus(this.value);
-        });
-
-        $( "input[name='limit_total_purchases']" ).change(function() {
-            toggleTotalPurchaseLimit(this.value);
-        });
-
-        $( "input[name='limit_user_purchases']" ).change(function() {
-            toggleUserPurchaseLimit(this.value);
-        });
-
-        $( "input[name='use_customized_referral_options']" ).change(function() {
-            toggleCustomizedReferralOptions(this.value);
-        });
-
-        $( "input[name='referral_commission_enabled']" ).change(function() {
-            toggleReferralOptions(this.value);
-        });
-
-        $( "input[name='use_customized_point_options']" ).change(function() {
-            toggleCustomizedPointOptions(this.value);
-        });
-
-        $( "input[name='reward_point_enabled']" ).change(function() {
-            togglePointOptions(this.value);
-        });
-
-        toggleSaleStatus('{{ old('on_sale') }}');
-        toggleTotalPurchaseLimit('{{ old('limit_total_purchases') }}');
-        toggleUserPurchaseLimit('{{ old('limit_user_purchases') }}');
-        toggleCustomizedReferralOptions('{{ old('use_customized_referral_options') }}');
-        toggleReferralOptions('{{ old('referral_commission_enabled') }}');
-        toggleCustomizedPointOptions('{{ old('use_customized_point_options') }}');
-        togglePointOptions('{{ old('reward_point_enabled') }}');
     });
     </script>
 @endsection
