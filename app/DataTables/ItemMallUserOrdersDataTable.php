@@ -32,7 +32,7 @@ class ItemMallUserOrdersDataTable extends DataTable
      */
     public function query()
     {
-        return auth()->user()->orders()->with('items.itemgroup');
+        return auth()->user()->orders()->with('items.itemgroup')->newQuery();
     }
 
     /**

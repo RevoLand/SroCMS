@@ -182,8 +182,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
     Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
     {
+        // Web Item Mall Categories
         Route::resource('categories', 'Admin\ItemMallCategoryController');
         Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
+
+        // Web Item Mall Item Groups
+        Route::resource('itemgroups', 'Admin\ItemMallItemGroupController');
+        Route::patch('itemgroups/{itemgroup}/toggleEnabled', 'Admin\ItemMallItemGroupController@toggleEnabled')->name('itemgroups.toggle_enabled');
     });
 
     Route::resource('votes', 'Admin\VoteController');

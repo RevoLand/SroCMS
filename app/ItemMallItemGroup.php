@@ -13,9 +13,9 @@ class ItemMallItemGroup extends Model
 
     protected $dates = [
         'available_after',
-        'available_before',
+        'available_until',
         'created_at',
-        'updated_ad',
+        'updated_at',
     ];
 
     public function scopeEnabled($query)
@@ -30,12 +30,12 @@ class ItemMallItemGroup extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(ItemMallItemGroup::class);
+        return $this->belongsToMany(ItemMallCategory::class);
     }
 
     public function categoriesEnabled()
     {
-        return $this->belongsToMany(ItemMallItemGroup::class)->enabled();
+        return $this->categories()->enabled();
     }
 
     public function orders()

@@ -20,7 +20,7 @@ class CreateItemMallItemGroupsTable extends Migration
             $table->tinyInteger('payment_type')->default(1);
             $table->boolean('on_sale')->default(false);
             $table->decimal('price', 13, 2)->default(0);
-            $table->decimal('price_before', 13, 2)->default(0);
+            $table->decimal('price_before', 13, 2)->nullable();
             $table->string('price_item_codename')->nullable();
             $table->integer('price_item_amount')->nullable();
 

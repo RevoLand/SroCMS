@@ -21,9 +21,9 @@ class ItemMallCategoriesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'itemmall.categories.datatables.actions')
-            ->editColumn('enabled', function ($page)
+            ->editColumn('enabled', function ($category)
             {
-                if ($page->enabled)
+                if ($category->enabled)
                 {
                     return '<label class="badge badge-primary">Enabled</label>';
                 }
@@ -41,7 +41,7 @@ class ItemMallCategoriesDataTable extends DataTable
      */
     public function query(ItemMallCategory $model)
     {
-        return $model->WithCount('itemGroups')->newQuery();
+        return $model->withCount('itemGroups')->newQuery();
     }
 
     /**

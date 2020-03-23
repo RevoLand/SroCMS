@@ -74,7 +74,7 @@ class ArticlesDataTable extends DataTable
                     $q->where('article_category_id', request('category_id'));
                 });
             }
-        })->with(['user', 'articleCategories'])->withCount('articleComments');
+        })->with(['user', 'articleCategories'])->withCount('articleComments')->newQuery();
     }
 
     /**

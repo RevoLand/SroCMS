@@ -232,18 +232,6 @@
                 <div class="kt-menu__submenu ">
                     <span class="kt-menu__arrow"></span>
                     <ul class="kt-menu__subnav">
-                        <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.pages.index') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-icon la la-copy"></i>
-                                <span class="kt-menu__link-text">List Pages</span>
-                            </a>
-                        </li>
-                        <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.pages.create') }}" class="kt-menu__link ">
-                                <i class="kt-menu__link-icon la la-edit"></i>
-                                <span class="kt-menu__link-text">Create Page</span>
-                            </a>
-                        </li>
                         <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <i class="kt-menu__link-icon flaticon2-files-and-folders"></i>
@@ -261,6 +249,30 @@
                                     </li>
                                     <li class="kt-menu__item " aria-haspopup="true">
                                         <a href="{{ route('admin.itemmall.categories.create') }}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon la la-edit"></i>
+                                            <span class="kt-menu__link-text">Create</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                            <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                                <i class="kt-menu__link-icon flaticon2-files-and-folders"></i>
+                                <span class="kt-menu__link-text">Item Groups</span>
+                                <i class="kt-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="kt-menu__submenu ">
+                                <span class="kt-menu__arrow"></span>
+                                <ul class="kt-menu__subnav">
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="{{ route('admin.itemmall.itemgroups.index') }}" class="kt-menu__link ">
+                                            <i class="kt-menu__link-icon la la-copy"></i>
+                                            <span class="kt-menu__link-text">List</span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-menu__item " aria-haspopup="true">
+                                        <a href="{{ route('admin.itemmall.itemgroups.create') }}" class="kt-menu__link ">
                                             <i class="kt-menu__link-icon la la-edit"></i>
                                             <span class="kt-menu__link-text">Create</span>
                                         </a>
