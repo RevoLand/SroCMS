@@ -189,6 +189,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         // Web Item Mall Item Groups
         Route::resource('itemgroups', 'Admin\ItemMallItemGroupController');
         Route::patch('itemgroups/{itemgroup}/toggleEnabled', 'Admin\ItemMallItemGroupController@toggleEnabled')->name('itemgroups.toggle_enabled');
+
+        Route::post('itemgroups/items/update', 'Admin\ItemMallItemController@update')->name('itemgroups.items.update');
+        Route::post('itemgroups/items/destroy', 'Admin\ItemMallItemController@destroy')->name('itemgroups.items.destroy');
     });
 
     Route::resource('votes', 'Admin\VoteController');

@@ -8,6 +8,7 @@ class ItemMallItem extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $appends = ['type_name'];
 
     public function scopeEnabled($query)
     {
@@ -22,5 +23,10 @@ class ItemMallItem extends Model
     public function getName()
     {
         return $this->name ?? ($this->objCommon->name ? $this->objCommon->name->name : $this->codename);
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return config('constants.payment_types.' . $this->type);
     }
 }

@@ -127,7 +127,7 @@
                 {{ Form::close() }}
             </div>
         </div>
-        <div class="row vue_items" v-show="show_items_form">
+        <div class="row vue_items" v-show="epin_reward_type == 6">
             <div class="col-xl-6">
                 <!--begin::Portlet-->
                 <div class="kt-portlet kt-portlet--height-fluid">
@@ -140,7 +140,11 @@
                     <div class="kt-portlet__body">
                         <div class="kt-portlet__content">
                             <select class="form-control" id="type" name="type" size="10" v-model="selecteditem">
-                                <option value="">Create New Item</option>
+                                <option :value="{
+                                    epin_id: {{ $epin->id }},
+                                    amount: 1,
+                                    plus: 0
+                                }">Create New Item</option>
                                 <optgroup label="Existing Items">
                                     <option v-for="item in items" :value="item">
                                         [@{{ item.amount }}] @{{ item.codename }} (+@{{ item.plus }})
@@ -153,13 +157,13 @@
 
                 <!--end::Portlet-->
             </div>
-            <div class="col-xl-6">
+            <div class="col-xl-6" v-show="selecteditem">
                 <!--begin::Portlet-->
                 <div class="kt-portlet kt-portlet--height-fluid">
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
-                                <template v-if="selecteditem">
+                                <template v-if="selecteditem.id">
                                     Edit Item
                                 </template>
                                 <template v-else>
@@ -171,9 +175,6 @@
                     <div class="kt-portlet__body">
                         <div class="kt-portlet__content" v-if="selecteditem">
                             <item_form v-bind:item="selecteditem"></item_form>
-                        </div>
-                        <div class="kt-portlet__content" v-else>
-                            <item_form v-bind:item="{}"></item_form>
                         </div>
                     </div>
                 </div>
@@ -192,147 +193,150 @@
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script type="text/javascript">
-Vue.component('item_form', {
-    props: ['item'],
-    data: function() {
-        return {
-            IsBeingCreated: false,
-            IsBeingUpdated: false,
-            IsBeingDeleted: false
-        }
-    },
-    template: `
-        <div>
-            <form method="post" v-bind:action="this.$root.update_action" @submit.prevent="updateItem">
-                <div class="form-group">
-                    <label>Codename</label>
-                    <input class="form-control" v-model="item.codename">
-                </div>
-                <div class="form-group">
-                    <label>Amount</label>
-                    <input class="form-control" v-model="item.amount">
-                </div>
-                <div class="form-group">
-                    <label>Plus</label>
-                    <input class="form-control" v-model="item.plus">
-                </div>
-                <div class="kt-portlet__foot">
-                    <div class="kt-form__actions">
-                        <div class="row">
-                            <div class="col kt-align-left">
-                                <button type="submit" class="btn btn-primary" :disabled="IsBeingUpdated">Save</button>
-                                <button type="button" class="btn btn-danger" @click="deleteItem(item)" :disabled="IsBeingDeleted">Delete</button>
+    Vue.component('item_form', {
+        props: ['item'],
+        data: function() {
+            return {
+                IsBeingUpdated: false,
+                IsBeingDeleted: false
+            }
+        },
+        computed: {
+            IsItCreateForm: function () {
+                return typeof this.item.id == 'undefined';
+            }
+        },
+        template: `
+            <div>
+                <form method="post" v-bind:action="this.$root.update_action" @submit.prevent="updateItem">
+                    <div class="form-group">
+                        <label>Codename</label>
+                        <input class="form-control" v-model="item.codename" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input class="form-control" v-model="item.amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Plus</label>
+                        <input class="form-control" v-model="item.plus" required>
+                    </div>
+                    <div class="kt-portlet__foot">
+                            <div class="kt-form__actions">
+                                <div class="row">
+                                    <div class="col kt-align-left">
+                                        <button type="submit" class="btn btn-primary" :disabled="IsBeingUpdated">
+                                            <template v-if="IsItCreateForm">
+                                            Create
+                                            </template>
+                                            <template v-else>
+                                            Update
+                                            </template>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" @click="deleteItem(item)" v-show="!IsItCreateForm" :disabled="IsBeingDeleted">Delete</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    `,
-    methods: {
-        updateItem(event) {
-            this.IsBeingUpdated = true;
+                </form>
+            </div>
+        `,
+        methods: {
+            updateItem(event) {
+                this.IsBeingUpdated = true;
 
-            axios.post(event.target.action, {
-                id: this.item.id,
-                epin_id: this.$root.epin_id,
-                codename: this.item.codename,
-                amount: this.item.amount,
-                plus: this.item.plus
-            }).then(response => {
+                axios.post(event.target.action, this.item).then(response => {
 
-                if (typeof this.item.id == 'undefined') {
-                    this.$root.items.push(response.data.epinItem);
-                    swal.fire( 'Created!', response.data.message, 'success');
-                } else {
-                    swal.fire( 'Updated!', response.data.message, 'success');
-                }
+                    if (this.IsItCreateForm) {
+                        this.$root.items.push(response.data.epinItem);
+                        swal.fire( 'Created!', response.data.message, 'success');
+                    } else {
+                        swal.fire( 'Updated!', response.data.message, 'success');
+                    }
 
-                this.IsBeingUpdated = false;
-            })
-            .catch(error => {
-                console.log(error.response);
-                alert(error.response.data.message);
-                this.IsBeingUpdated = false;
-            });
+                    this.IsBeingUpdated = false;
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert(error.response.data.message);
+                    this.IsBeingUpdated = false;
+                });
+            },
+
+            deleteItem(itemToDelete) {
+                this.IsBeingDeleted = true;
+
+                axios.post(this.$root.destroy_action, {
+                    id: this.item.id
+                }).then(response => {
+                    this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
+                    this.$root.selecteditem = '';
+                    this.IsBeingDeleted = false;
+                    swal.fire( 'Deleted!', response.data.message, 'success');
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert(error.response.data.message);
+                    this.IsBeingDeleted = false;
+                });
+            }
+        }
+    });
+
+    new Vue({
+        el: '.vue_items',
+
+        data: {
+            items: [],
+            epin_reward_type: '',
+            selecteditem: '',
+            update_action: '{{ route('admin.epins.items.update') }}',
+            destroy_action: '{{ route('admin.epins.items.destroy') }}'
         },
 
-        deleteItem(itemToDelete) {
-            this.IsBeingDeleted = true;
+        computed: {
+            show_items_form: function () {
+                return (this.epin_reward_type == 6)
+            }
+        },
 
-            axios.post(this.$root.destroy_action, {
-                id: this.item.id
-            }).then(response => {
-                this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
-                this.$root.selecteditem = null;
-                this.IsBeingDeleted = false;
-                swal.fire( 'Deleted!', response.data.message, 'success');
-            })
-            .catch(error => {
-                console.log(error.response);
-                alert(error.response.data.message);
-                this.IsBeingDeleted = false;
-            });
+        mounted() {
+            this.items = @json($epin->items),
+            this.epin_reward_type = {{ $epin->type }}
         }
-    }
-});
-
-new Vue({
-    el: '.vuepicker',
-
-    data: {
-        items: [],
-        epin_id: 0,
-        epin_reward_type: '',
-        selecteditem: '',
-        update_action: '{{ route('admin.epins.items.update') }}',
-        destroy_action: '{{ route('admin.epins.items.destroy') }}'
-    },
-
-    computed: {
-        show_items_form: function () {
-            return (this.epin_reward_type == 6)
-        }
-    },
-
-    mounted() {
-        this.items = @json($epin->items),
-        this.epin_reward_type = {{ $epin->type }},
-        this.epin_id = {{ $epin->id }}
-    }
-});
-
-$(document).ready(function() {
-
-    function toggleFields(typeId) {
-        if (typeId == '6') {
-            $( ".balance-selector" ).hide({});
-        } else {
-            $( ".balance-selector" ).show({});
-        }
-    };
-
-    function toggleCodeInput(checked) {
-        if (checked){
-            $('.code-input').hide({});
-        } else {
-            $('.code-input').show({});
-        }
-    }
-
-    $( "#type" ).change(function() {
-        toggleFields(this.value);
     });
 
-    toggleFields('{{ $epin->type }}');
+    $(document).ready(function() {
 
-    var generateCodeCheckboxSelector = $( "input[name='generate-code']");
+        function toggleFields(typeId) {
+            if (typeId == '6') {
+                $( ".balance-selector" ).hide({});
+            } else {
+                $( ".balance-selector" ).show({});
+            }
+        };
 
-    generateCodeCheckboxSelector.click(function() {
-        toggleCodeInput(this.checked);
+        function toggleCodeInput(checked) {
+            if (checked){
+                $('.code-input').hide({});
+            } else {
+                $('.code-input').show({});
+            }
+        }
+
+        $( "#type" ).change(function() {
+            toggleFields(this.value);
+        });
+
+        toggleFields('{{ $epin->type }}');
+
+        var generateCodeCheckboxSelector = $( "input[name='generate-code']");
+
+        generateCodeCheckboxSelector.click(function() {
+            toggleCodeInput(this.checked);
+        });
+
+        toggleCodeInput(generateCodeCheckboxSelector[0].checked);
     });
-
-    toggleCodeInput(generateCodeCheckboxSelector[0].checked);
-});
 </script>
 @endsection

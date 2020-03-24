@@ -26,7 +26,7 @@
     <!-- end:: Subheader -->
 
     <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid vuepicker">
+    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         @if (session('message'))
         <div class="row">
             <div class="col">
@@ -54,7 +54,8 @@
         </div>
         @endif
 
-        <div class="kt-portlet kt-portlet--mobile">
+        <!-- edit form -->
+        <div class="kt-portlet kt-portlet--mobile editform">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
@@ -302,6 +303,71 @@
                 {{ Form::close() }}
             </div>
         </div>
+        <!-- /edit form -->
+
+        <div class="row itemgroup_items">
+            <div class="col-xl-6">
+                <!--begin::Portlet-->
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <span class="kt-portlet__head-icon"><i class="flaticon-stopwatch"></i></span>
+                            <h3 class="kt-portlet__head-title">Items</h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-portlet__content">
+                            <select class="form-control" id="type" name="type" size="10" v-model="selecteditem">
+                                <option :value="{
+                                    item_mall_item_group_id: {{ $itemgroup->id }},
+                                    type: 6,
+                                    enabled: 1
+                                }">Create New Item</option>
+                                <optgroup label="Existing Items">
+                                    <option v-for="item in items" :value="item" v-bind:class="{'alert-danger' : item.enabled == 0}">
+                                        <template v-if="item.type == 6">
+                                            [@{{ item.amount }}] @{{ item.codename }} (+@{{ item.plus }})
+                                        </template>
+                                        <template v-else-if="item.type < 6 && item.type > 2">
+                                            [@{{ item.type_name }}] @{{ item.name }} (@{{ item.amount }})
+                                        </template>
+                                        <template v-else>
+                                            [@{{ item.type_name }}] @{{ item.name }} (@{{ item.balance }})
+                                        </template>
+                                    </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end::Portlet-->
+            </div>
+            <div class="col-xl-6" v-show="selecteditem">
+                <!--begin::Portlet-->
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                <template v-if="selecteditem.id">
+                                    Edit Item
+                                </template>
+                                <template v-else>
+                                    Create Item
+                                </template>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-portlet__content">
+                            <item_form v-bind:item="selecteditem"></item_form>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end::Portlet-->
+            </div>
+        </div>
     </div>
 
     <!-- end:: Content -->
@@ -313,8 +379,144 @@
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script type="text/javascript">
-    var vm = new Vue({
-        el: '.vuepicker',
+    Vue.component('item_form', {
+        props: ['item'],
+        data: function() {
+            return {
+                IsBeingUpdated: false,
+                IsBeingDeleted: false
+            }
+        },
+        computed: {
+            IsItCreateForm: function () {
+                return typeof this.item.id == 'undefined';
+            },
+            IsItBalance: function () {
+                return this.item.type < 3;
+            },
+            IsItItem: function() {
+                return this.item.type == 6;
+            }
+        },
+        template: `
+            <div>
+                <form method="post" v-bind:action="this.$root.update_action" @submit.prevent="createEditForm">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input class="form-control" v-model="item.name">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input class="form-control" v-model="item.description">
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input class="form-control" v-model="item.image">
+                    </div>
+                    <div class="form-group">
+                        <label>Item Type</label>
+                        <select class="form-control" v-model.number.trim="item.type" required>
+                            <option value="1">Balance</option>
+                            <option value="2">Balance (Point)</option>
+                            <option value="3">Silk</option>
+                            <option value="4">Silk (Gift)</option>
+                            <option value="5">Silk (Point)</option>
+                            <option value="6">Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group" v-show="IsItItem">
+                        <label>Codename</label>
+                        <input class="form-control" v-model.number.trim="item.codename">
+                    </div>
+                    <div class="form-group" v-show="!IsItBalance">
+                        <label>Amount</label>
+                        <input class="form-control" v-model.number.trim="item.amount">
+                    </div>
+                    <div class="form-group" v-show="!IsItBalance && IsItItem">
+                        <label>Plus</label>
+                        <input class="form-control" v-model.number.trim="item.plus">
+                    </div>
+                    <div class="form-group" v-show="IsItBalance">
+                        <label>Balance</label>
+                        <input class="form-control" v-model.number.trim="item.balance">
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <div class="kt-radio-inline">
+                            <label class="kt-radio">
+                                <input type="radio" name="enabled" v-model="item.enabled" value="1"> Enabled
+                                <span></span>
+                            </label>
+                            <label class="kt-radio">
+                                <input type="radio" name="enabled" v-model="item.enabled" value="0"> Disabled
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col kt-align-left">
+                                    <button type="submit" class="btn btn-primary" :disabled="IsBeingUpdated">
+                                        <template v-if="IsItCreateForm">
+                                        Create
+                                        </template>
+                                        <template v-else>
+                                        Update
+                                        </template>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" @click="deleteItem(item)" v-show="!IsItCreateForm" :disabled="IsBeingDeleted">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        `,
+        methods: {
+            createEditForm(event) {
+                this.IsBeingUpdated = true;
+
+                axios.post(event.target.action, this.item).then(response => {
+
+                    if (this.IsItCreateForm) {
+                        swal.fire( 'Created!', response.data.message, 'success');
+                        this.$root.items.push(response.data.item);
+                    } else {
+                        swal.fire( 'Updated!', response.data.message, 'success');
+                    }
+
+                    this.IsBeingUpdated = false;
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    swal.fire( 'Error!', error.response.data.message, 'error');
+                    this.IsBeingUpdated = false;
+                });
+            },
+
+            deleteItem(itemToDelete) {
+                this.IsBeingDeleted = true;
+
+                axios.post(this.$root.destroy_action, {
+                    id: this.item.id
+                }).then(response => {
+                    this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
+                    this.$root.selecteditem = '';
+                    this.IsBeingDeleted = false;
+                    swal.fire( 'Deleted!', response.data.message, 'success');
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    swal.fire( 'Error!', error.response.data.message, 'error');
+                    this.IsBeingDeleted = false;
+                });
+            }
+        }
+    });
+
+    new Vue({
+        el: '.editform',
         data: {
             name: '{{ $itemgroup->name }}',
             categories: @json($itemgroup->categories->map(function ($category){ return $category->id; })),
@@ -359,6 +561,20 @@
         }
     });
 
+    new Vue({
+        el: '.itemgroup_items',
+        data: {
+            items: [],
+            selecteditem: '',
+            update_action: '{{ route('admin.itemmall.itemgroups.items.update') }}',
+            destroy_action: '{{ route('admin.itemmall.itemgroups.items.destroy') }}'
+        },
+
+        mounted() {
+            this.items = @json($itemgroup->items)
+        }
+    });
+
     $(document).ready(function() {
         $( ".dtpicker" ).datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
@@ -368,11 +584,11 @@
             weekStart: 1,
             pickerPosition: 'top-right'
         }).on('changeDate', function(e) {
-            this.dispatchEvent(new Event('input', { 'bubbles': true }))
+            this.dispatchEvent(new Event('input'))
         });
 
         $( ".select2" ).select2({}).on('select2:select select2:unselect', function (e) {
-            this.dispatchEvent(new Event('change', { 'bubbles': true }))
+            this.dispatchEvent(new Event('change'))
         });
     });
 </script>
