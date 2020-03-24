@@ -67,12 +67,7 @@ class ItemMallItemGroupController extends Controller
 
         $itemGroup->categories()->attach(request('categories'));
 
-        if (request()->expectsJson())
-        {
-            return response()->json(['message' => "Item Group is successfully created.\nClick <a href='" . route('admin.itemmall.itemgroups.edit', $itemGroup) . "'>here</a> to edit the newly generated itemgroup."], 200);
-        }
-
-        return redirect()->route('admin.itemmall.itemgroups.edit', $itemGroup)->with('message', 'Item Group is successfully created. You can add items to the group now!');
+        return response()->json(['message' => "Item Group is successfully created.\nClick <a href='" . route('admin.itemmall.itemgroups.edit', $itemGroup) . "'>here</a> to edit the newly generated itemgroup."], 200);
     }
 
     /**
@@ -95,6 +90,10 @@ class ItemMallItemGroupController extends Controller
      */
     public function edit(ItemMallItemGroup $itemgroup)
     {
+        $itemgroup->load(['items']);
+        $categories = ItemMallCategory::enabled()->get();
+
+        return view('itemmall.itemgroups.edit', compact('itemgroup', 'categories'));
     }
 
     /**
@@ -106,6 +105,42 @@ class ItemMallItemGroupController extends Controller
      */
     public function update(Request $request, ItemMallItemGroup $itemgroup)
     {
+        $this->validateItemGroup();
+
+        if (bccomp($itemgroup->price, request('price'), 2) != 0)
+        {
+            $itemgroup->priceChanges()->create([
+                'price_before' => $itemgroup->price,
+                'price_after' => request('price'),
+            ]);
+        }
+
+        $itemgroup->update([
+            'name' => request('name'),
+            'description' => request('description'),
+            'image' => request('image'),
+            'payment_type' => request('payment_type'),
+            'price' => request('price'),
+            'on_sale' => request('on_sale'),
+            'price_before' => request('price_before'),
+            'limit_total_purchases' => request('limit_total_purchases'),
+            'total_purchase_limit' => request('total_purchase_limit'),
+            'limit_user_purchases' => request('limit_user_purchases'),
+            'user_purchase_limit' => request('user_purchase_limit'),
+            'use_customized_referral_options' => request('use_customized_referral_options'),
+            'referral_commission_enabled' => request('referral_commission_enabled'),
+            'referral_commission_reward_type' => request('referral_commission_reward_type'),
+            'referral_commission_percentage' => request('referral_commission_percentage'),
+            'featured' => request('featured'),
+            'order' => request('order'),
+            'available_after' => request('available_after'),
+            'available_until' => request('available_until'),
+            'enabled' => request('enabled'),
+        ]);
+
+        $itemgroup->categories()->sync(request('categories'));
+
+        return response()->json(['message' => 'Item Group is updated!']);
     }
 
     /**

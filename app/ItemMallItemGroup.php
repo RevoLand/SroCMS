@@ -58,6 +58,11 @@ class ItemMallItemGroup extends Model
         return $this->userOrders->sum('quantity');
     }
 
+    public function priceChanges()
+    {
+        return $this->hasMany(ItemMallItemGroupPriceChange::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where(function ($query)

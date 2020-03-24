@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Create Item Group')
+@section('pagetitle', 'Edit Item Group')
 
 @section('content')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -8,7 +8,7 @@
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Create Item Group</h3>
+                <h3 class="kt-subheader__title">Edit Item Group</h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
@@ -18,7 +18,7 @@
                     <span class="kt-subheader__breadcrumbs-separator"></span>
                     <a href="{{ route('admin.itemmall.itemgroups.index') }}" class="kt-subheader__breadcrumbs-link">Item Groups</a>
                     <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.itemmall.itemgroups.create') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Create</a>
+                    <a href="{{ route('admin.itemmall.itemgroups.edit', $itemgroup) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit</a>
                 </div>
             </div>
         </div>
@@ -58,19 +58,22 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        Create Item Group
+                        Edit Item Group: <template v-model="name">@{{ name }}</template>
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.itemmall.itemgroups.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                        <a href="{{ route('admin.itemmall.itemgroups.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
+                            <i class="la la-copy"></i> Create Item Group
+                        </a>
+                        <a href="{{ route('admin.itemmall.itemgroups.index') }}" class="btn btn-accent btn-upper btn-sm btn-bold">
                             <i class="la la-copy"></i> List Item Groups
                         </a>
                     </div>
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.itemmall.itemgroups.store'], 'class' => 'kt-form', 'method' => 'post', '@submit.prevent' => 'onFormSubmit']) }}
+                {{ Form::open(['route' => ['admin.itemmall.itemgroups.update', $itemgroup], 'class' => 'kt-form', 'method' => 'patch', '@submit.prevent' => 'onFormSubmit']) }}
                     <div class="form-group">
                         <label>Mode</label>
                         <div class="kt-radio-inline">
@@ -271,11 +274,11 @@
                     </div>
                     <div class="form-group" v-show="mode == 0">
                         <label>Available After</label>
-                        {{ Form::text('available_after', null, ['class' => 'form-control dtpicker', 'v-model.trim' => 'available_after']) }}
+                        {{ Form::text('available_after', null, ['class' => 'form-control dtpicker', 'v-model' => 'available_after']) }}
                     </div>
                     <div class="form-group" v-show="mode == 0">
                         <label>Available Until</label>
-                        {{ Form::text('available_until', null, ['class' => 'form-control dtpicker', 'v-model.trim' => 'available_until']) }}
+                        {{ Form::text('available_until', null, ['class' => 'form-control dtpicker', 'v-model' => 'available_until']) }}
                     </div>
                     <div class="form-group">
                         <label>State</label>
@@ -305,9 +308,6 @@
 </div>
 @endsection
 
-@section('css')
-
-@endsection
 
 @section('js')
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
@@ -315,39 +315,38 @@
 <script type="text/javascript">
     var vm = new Vue({
         el: '.vuepicker',
-
         data: {
-            name: '{{ old('name') }}',
-            categories: [{{ old('categories') }}],
-            description: '{{ old('description') }}',
-            image: '{{ old('image') }}',
-            payment_type: '{{ old('payment_type') ?? 1 }}',
-            on_sale: '{{ old('on_sale') ?? 0 }}',
-            price: '{{ old('price') }}',
-            price_before: '{{ old('price_before') }}',
-            limit_total_purchases: '{{ old('limit_total_purchases') ?? 0 }}',
-            total_purchase_limit: '{{ old('total_purchase_limit') }}',
-            limit_user_purchases: '{{ old('limit_user_purchases') ?? 0 }}',
-            user_purchase_limit: '{{ old('user_purchase_limit') }}',
-            use_customized_referral_options: '{{ old('use_customized_referral_options') ?? 0 }}',
-            referral_commission_enabled: '{{ old('referral_commission_enabled') ?? setting('referrals.commissions_enabled', 0) }}',
-            referral_commission_reward_type: '{{ old('referral_commission_reward_type') ?? setting('referrals.commission_reward_type', 2) }}',
-            referral_commission_percentage: '{{ old('referral_commission_percentage') ?? setting('referrals.commission_earned_percentage', 2) }}',
-            use_customized_point_options: '{{ old('use_customized_point_options') ?? 0 }}',
-            reward_point_enabled: '{{ old('reward_point_enabled') ?? 1 }}',
-            reward_point_type: '{{ old('reward_point_type') ?? 2 }}',
-            reward_point_percentage: '{{ old('reward_point_percentage') ?? setting('itemmall.pointrewards.percentage', 2) }}',
-            featured: '{{ old('featured') ?? 0 }}',
-            order: '{{ old('order') ?? 1 }}',
-            enabled: '{{ old('enabled') ?? 1 }}',
-            available_after: '{{ old('available_after') }}',
-            available_until: '{{ old('available_until') }}',
+            name: '{{ $itemgroup->name }}',
+            categories: @json($itemgroup->categories->map(function ($category){ return $category->id; })),
+            description: '{{ $itemgroup->description }}',
+            image: '{{ $itemgroup->image }}',
+            payment_type: '{{ $itemgroup->payment_type ?? 1 }}',
+            on_sale: '{{ $itemgroup->on_sale ?? 0 }}',
+            price: '{{ $itemgroup->price }}',
+            price_before: '{{ $itemgroup->price_before }}',
+            limit_total_purchases: '{{ $itemgroup->limit_total_purchases ?? 0 }}',
+            total_purchase_limit: '{{ $itemgroup->total_purchase_limit }}',
+            limit_user_purchases: '{{ $itemgroup->limit_user_purchases ?? 0 }}',
+            user_purchase_limit: '{{ $itemgroup->user_purchase_limit }}',
+            use_customized_referral_options: '{{ $itemgroup->use_customized_referral_options ?? 0 }}',
+            referral_commission_enabled: '{{ $itemgroup->referral_commission_enabled ?? setting('referrals.commissions_enabled', 0) }}',
+            referral_commission_reward_type: '{{ $itemgroup->referral_commission_reward_type ?? setting('referrals.commission_reward_type', 2) }}',
+            referral_commission_percentage: '{{ $itemgroup->referral_commission_percentage ?? setting('referrals.commission_earned_percentage', 2) }}',
+            use_customized_point_options: '{{ $itemgroup->use_customized_point_options ?? 0 }}',
+            reward_point_enabled: '{{ $itemgroup->reward_point_enabled ?? 1 }}',
+            reward_point_type: '{{ $itemgroup->reward_point_type ?? 2 }}',
+            reward_point_percentage: '{{ $itemgroup->reward_point_percentage ?? setting('itemmall.pointrewards.percentage', 2) }}',
+            featured: '{{ $itemgroup->featured ?? 0 }}',
+            order: '{{ $itemgroup->order ?? 1 }}',
+            enabled: '{{ $itemgroup->enabled ?? 1 }}',
+            available_after: '{{ $itemgroup->available_after }}',
+            available_until: '{{ $itemgroup->available_until }}',
             mode: '{{ old('mode') ?? 1 }}'
         },
 
         methods: {
             onFormSubmit: function(event) {
-                axios.post(event.target.action, this.$data)
+                axios.patch(event.target.action, this.$data)
                 .then(function (response) {
                     swal.fire( 'Created!', response.data.message, 'success');
                 })
@@ -356,8 +355,6 @@
                     swal.fire( 'Error!', error.response.data.message, 'error');
                     return;
                 });
-
-                Object.assign(this.$data, this.$options.data.call(this));
             }
         }
     });
@@ -378,5 +375,5 @@
             this.dispatchEvent(new Event('change', { 'bubbles': true }))
         });
     });
-    </script>
+</script>
 @endsection
