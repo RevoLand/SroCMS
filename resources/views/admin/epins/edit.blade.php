@@ -157,7 +157,7 @@
 
                 <!--end::Portlet-->
             </div>
-            <div class="col-xl-6" v-show="selecteditem">
+            <div class="col-xl-6" id="test" v-show="selecteditem">
                 <!--begin::Portlet-->
                 <div class="kt-portlet kt-portlet--height-fluid">
                     <div class="kt-portlet__head">
@@ -203,7 +203,7 @@
         },
         computed: {
             IsItCreateForm: function () {
-                return typeof this.item.id == 'undefined';
+                return !(this.item.id);
             }
         },
         template: `
@@ -243,7 +243,9 @@
         `,
         methods: {
             updateItem(event) {
+                KTApp.block('.vue_items');
                 this.IsBeingUpdated = true;
+
 
                 axios.post(event.target.action, this.item).then(response => {
 
@@ -261,9 +263,12 @@
                     alert(error.response.data.message);
                     this.IsBeingUpdated = false;
                 });
+
+                KTApp.unblock('.vue_items');
             },
 
             deleteItem(itemToDelete) {
+                KTApp.block('.vue_items');
                 this.IsBeingDeleted = true;
 
                 axios.post(this.$root.destroy_action, {
@@ -279,6 +284,7 @@
                     alert(error.response.data.message);
                     this.IsBeingDeleted = false;
                 });
+                KTApp.unblock('.vue_items');
             }
         }
     });

@@ -31,6 +31,6 @@ class LogCashItem extends Model
 
     public function refItem()
     {
-        return $this->belongsTo(ObjCommon::class, 'RefItemID', 'ID')->nolock();
+        return $this->belongsTo(ObjCommon::class, 'RefItemID', 'ID');
     }
 }

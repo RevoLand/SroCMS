@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\NoLockScope;
 use Illuminate\Database\Eloquent\Model;
 
 class ObjItem extends Model
@@ -15,11 +16,6 @@ class ObjItem extends Model
     public function setItem()
     {
         return $this->belongsTo(SetItemGroup::class, 'SetID', 'ID');
-    }
-
-    public function scopeNoLock($query)
-    {
-        return $query->lock('WITH(NOLOCK)');
     }
 
     public function getDegreeAttribute()
@@ -41,5 +37,10 @@ class ObjItem extends Model
                 return 'Seal of Moon';
             break;
         }
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new NoLockScope());
     }
 }

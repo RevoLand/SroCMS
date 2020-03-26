@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\NoLockScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -15,22 +16,17 @@ class ObjCommon extends Model
 
     public function objItem()
     {
-        return $this->hasOne(ObjItem::class, 'ID', 'Link')->nolock();
+        return $this->hasOne(ObjItem::class, 'ID', 'Link');
     }
 
     public function objChar()
     {
-        return $this->hasOne(ObjChar::class, 'ID', 'Link')->nolock();
+        return $this->hasOne(ObjChar::class, 'ID', 'Link');
     }
 
     public function name()
     {
         return $this->hasOne(Name::class, 'key', 'NameStrID128');
-    }
-
-    public function scopeNoLock($query)
-    {
-        return $query->lock('WITH(NOLOCK)');
     }
 
     public function getName()
@@ -56,5 +52,43 @@ class ObjCommon extends Model
     public function getMountingPartAttribute()
     {
         return config('constants.item.typeid.' . $this->TypeID3 . '.' . $this->TypeID4) ?: '[DEBUG] Bulunamadı: ' . $this->TypeID4;
+    }
+
+    public function scopeMonster($query)
+    {
+        return $query->where('TypeID1', 1)->where('TypeID2', 2)->where('TypeID3', 1);
+    }
+
+    public function scopeNpc($query)
+    {
+        return $query->where('TypeID1', 1)->where('TypeID2', 2)->where('TypeID3', 2);
+    }
+
+    public function scopeItem($query)
+    {
+        return $query->where('TypeID1', 3);
+    }
+
+    public function scopeStructure($query)
+    {
+        return $query->where('TypeID1', 4);
+    }
+
+    public function scopeTeleportUsable($query)
+    {
+        return $query->where('TypeID1', 1)
+            ->where('TypeID2', 2)
+            ->where('TypeID3', 2)
+            ->orWhere('TypeID1', 4);
+    }
+
+    public function scopeIgnoreDummy($query)
+    {
+        return $query->where('ID', '!=', 0);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new NoLockScope());
     }
 }

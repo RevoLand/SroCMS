@@ -284,14 +284,32 @@
                 </div>
             </li>
             <li class="kt-menu__section ">
-                <h4 class="kt-menu__section-text">Vote System</h4>
+                <h4 class="kt-menu__section-text">Settings</h4>
                 <i class="kt-menu__section-icon flaticon-more-v2"></i>
             </li>
-            <li class="kt-menu__item " aria-haspopup="true">
-                <a target="_blank" href="voting.settings" class="kt-menu__link ">
-                    <i class="kt-menu__link-icon flaticon2-gear"></i>
-                    <span class="kt-menu__link-text">Settings</span>
+            <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+                <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
+                    <i class="kt-menu__link-icon flaticon2-files-and-folders"></i>
+                    <span class="kt-menu__link-text">Menus</span>
+                    <i class="kt-menu__ver-arrow la la-angle-right"></i>
                 </a>
+                <div class="kt-menu__submenu ">
+                    <span class="kt-menu__arrow"></span>
+                    <ul class="kt-menu__subnav">
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.menus.index') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-icon la la-copy"></i>
+                                <span class="kt-menu__link-text">List</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true">
+                            <a href="{{ route('admin.menus.create') }}" class="kt-menu__link ">
+                                <i class="kt-menu__link-icon la la-edit"></i>
+                                <span class="kt-menu__link-text">Create</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="kt-menu__section ">
                 <h4 class="kt-menu__section-text">Components</h4>

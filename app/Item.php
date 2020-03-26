@@ -14,7 +14,7 @@ class Item extends Model
 
     public function objCommon()
     {
-        return $this->hasOne(ObjCommon::class, 'ID', 'RefItemID')->nolock();
+        return $this->hasOne(ObjCommon::class, 'ID', 'RefItemID');
     }
 
     public function getNameAttribute()

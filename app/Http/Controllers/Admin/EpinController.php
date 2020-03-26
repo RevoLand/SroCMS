@@ -32,28 +32,6 @@ class EpinController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validateEpin();
-
-        $code = (request()->has('generate-code') || !request('code')) ? $this->generateCode() : request('code');
-
-        $epin = Epin::create([
-            'code' => $code,
-            'type' => request('type'),
-            'balance' => request('balance'),
-            'creater_user_id' => auth()->user()->JID,
-            'enabled' => request('enabled'),
-        ]);
-
-        return redirect()->route('admin.epins.edit', $epin)->with('message', 'E-Pin is successfully created.');
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param int $id
@@ -157,6 +135,28 @@ class EpinController extends Controller
         }
 
         return $code;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    private function store()
+    {
+        $this->validateEpin();
+
+        $code = (request()->has('generate-code') || !request('code')) ? $this->generateCode() : request('code');
+
+        $epin = Epin::create([
+            'code' => $code,
+            'type' => request('type'),
+            'balance' => request('balance'),
+            'creater_user_id' => auth()->user()->JID,
+            'enabled' => request('enabled'),
+        ]);
+
+        return redirect()->route('admin.epins.edit', $epin)->with('message', 'E-Pin is successfully created.');
     }
 
     private function validateEpin()

@@ -389,7 +389,7 @@
         },
         computed: {
             IsItCreateForm: function () {
-                return typeof this.item.id == 'undefined';
+                return !(this.item.id);
             },
             IsItBalance: function () {
                 return this.item.type < 3;
@@ -411,7 +411,7 @@
                     </div>
                     <div class="form-group">
                         <label>Image</label>
-                        <input class="form-control" v-model="item.image">
+                        <input class="form-control" v-model.trim="item.image">
                     </div>
                     <div class="form-group">
                         <label>Item Type</label>

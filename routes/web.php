@@ -196,6 +196,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
     Route::resource('votes', 'Admin\VoteController');
     Route::resource('users', 'Admin\UserController');
+
+    Route::resource('menus', 'Admin\MenuController');
+
+    Route::group(['prefix' => 'teleports', 'as' => 'teleports.'], function ()
+    {
+        Route::get('', 'Admin\TeleportController@index')->name('index');
+    });
 });
 
 Route::match(['get', 'post'], 'item-test', function ()

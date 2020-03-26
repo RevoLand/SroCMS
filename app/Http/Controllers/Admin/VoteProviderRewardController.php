@@ -40,15 +40,6 @@ class VoteProviderRewardController extends Controller
      */
     public function store(Request $request)
     {
-        /*
-        "reward_group_id" => "1"
-        "type" => "6"
-        "codename" => null
-        "amount" => null
-        "balance" => null
-        "plus" => null
-        "enabled" => "1"
-        */
         $this->validateReward();
 
         $reward = VoteProviderReward::create([

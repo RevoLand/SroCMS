@@ -46,7 +46,7 @@ class VoteProviderRewardGroupController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        $selectedVoteProviders = $rewardgroup->voteproviders()->attach(request('vote_providers'));
+        $rewardgroup->voteproviders()->attach(request('vote_providers'));
 
         return redirect()->route('admin.votes.rewardgroups.edit', $rewardgroup)->with('message', 'Vote Provider Reward Group is successfully created.');
     }

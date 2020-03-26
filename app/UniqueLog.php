@@ -25,6 +25,6 @@ class UniqueLog extends Model
 
     public function unique()
     {
-        return $this->belongsTo(ObjCommon::class, 'uniquecodename', 'CodeName128')->nolock();
+        return $this->belongsTo(ObjCommon::class, 'uniquecodename', 'CodeName128');
     }
 }

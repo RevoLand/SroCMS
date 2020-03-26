@@ -17,7 +17,7 @@ class ItemMallItem extends Model
 
     public function objCommon()
     {
-        return $this->belongsTo(ObjCommon::class, 'codename', 'CodeName128')->nolock();
+        return $this->belongsTo(ObjCommon::class, 'codename', 'CodeName128');
     }
 
     public function getName()
