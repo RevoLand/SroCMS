@@ -222,28 +222,28 @@
                         <input class="form-control" v-model="item.plus" required>
                     </div>
                     <div class="kt-portlet__foot">
-                            <div class="kt-form__actions">
-                                <div class="row">
-                                    <div class="col kt-align-left">
-                                        <button type="submit" class="btn btn-primary" :disabled="IsBeingUpdated">
-                                            <template v-if="IsItCreateForm">
-                                            Create
-                                            </template>
-                                            <template v-else>
-                                            Update
-                                            </template>
-                                        </button>
-                                        <button type="button" class="btn btn-danger" @click="deleteItem(item)" v-show="!IsItCreateForm" :disabled="IsBeingDeleted">Delete</button>
-                                    </div>
+                        <div class="kt-form__actions">
+                            <div class="row">
+                                <div class="col kt-align-left">
+                                    <button type="submit" class="btn btn-primary" :disabled="IsBeingUpdated">
+                                        <template v-if="IsItCreateForm">
+                                        Create
+                                        </template>
+                                        <template v-else>
+                                        Update
+                                        </template>
+                                    </button>
+                                    <button type="button" class="btn btn-danger" @click="deleteItem(item)" v-show="!IsItCreateForm" :disabled="IsBeingDeleted">Delete</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </form>
             </div>
         `,
         methods: {
             updateItem(event) {
-                KTApp.block('.vue_items');
+                KTApp.block('body');
                 this.IsBeingUpdated = true;
 
 
@@ -260,15 +260,15 @@
                 })
                 .catch(error => {
                     console.log(error.response);
-                    alert(error.response.data.message);
+                    swal.fire('Error!', error.response.data.message, 'error');
                     this.IsBeingUpdated = false;
                 });
 
-                KTApp.unblock('.vue_items');
+                KTApp.unblock('body');
             },
 
             deleteItem(itemToDelete) {
-                KTApp.block('.vue_items');
+                KTApp.block('body');
                 this.IsBeingDeleted = true;
 
                 axios.post(this.$root.destroy_action, {
@@ -281,10 +281,10 @@
                 })
                 .catch(error => {
                     console.log(error.response);
-                    alert(error.response.data.message);
+                    swal.fire('Error!', error.response.data.message, 'error');
                     this.IsBeingDeleted = false;
                 });
-                KTApp.unblock('.vue_items');
+                KTApp.unblock('body');
             }
         }
     });

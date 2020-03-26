@@ -42,7 +42,13 @@
                     </div>
                     <div class="kt-portlet__body">
                         <select class="form-control" id="type" name="type" size="30" v-model="selected_teleport_point">
-                            <option :value="{}">Create New</option>
+                            <option :value="{
+                                Service: 1,
+                                CanBeResurrectPos: 0,
+                                CanGotoResurrectPos: 0,
+                                BindInteractionMask: 1,
+                                FixedService: 0
+                            }">Create New</option>
                             <optgroup label="Existing Teleport Points">
                                 <option v-for="teleport in filteredTeleportPoints" :value="teleport" v-bind:class="{'alert-danger' : teleport.Service == 0}">
                                     [@{{ teleport.ID }}] @{{ teleport.CodeName128 }}  (Zone: @{{ teleport.zone_name }} - Obj: @{{ teleport.obj_name }})
@@ -59,19 +65,12 @@
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
                                 <template v-if="selected_teleport_point.ID">
-                                    Edit Menu: @{{ selected_teleport_point.obj_name }} (@{{ selected_teleport_point.zone_name }})
+                                    Edit Teleport Point: @{{ selected_teleport_point.obj_name }} (@{{ selected_teleport_point.zone_name }})
                                 </template>
                                 <template v-else>
-                                    Create New Menu
+                                    Create New Teleport Point
                                 </template>
                             </h3>
-                        </div>
-                        <div class="kt-portlet__head-toolbar">
-                            <div class="kt-portlet__head-actions">
-                                <a href="{{ route('admin.menus.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                                    <i class="la la-edit"></i> Create Menu Item
-                                </a>
-                            </div>
                         </div>
                     </div>
                     <div class="kt-portlet__body" v-if="selected_teleport_point">
@@ -104,8 +103,8 @@ Vue.component('teleport-point-form', {
             <label>Assoc Ref Object</label>
             <select class="form-control" v-model="teleport_point.AssocRefObjID" size="5" required>
                 <option value="0">- none -</option>
-                <option v-for="teleport in filtered_structures" :value="teleport.ID">
-                    @{{ teleport.CodeName128 }} (@{{ teleport.name }}) - [@{{ teleport.AssocFileObj128 }}]
+                <option v-for="structure in filtered_structures" :value="structure.ID" v-bind:class="{'alert-danger' : structure.Service == 0}">
+                    @{{ structure.CodeName128 }} (@{{ structure.name }}) - [@{{ structure.AssocFileObj128 }}]
                 </option>
             </select>
             <input type="search" class="form-control" v-model="search" placeholder="Search in Structures...">
@@ -161,16 +160,31 @@ Vue.component('teleport-point-form', {
             <input class="form-control" v-model.number.trim="teleport_point.GenAreaRadius" required>
         </div>
         <div class="form-group">
-            <label>CanBeResurrectPos</label>
-            <input class="form-control" v-model.number.trim="teleport_point.CanBeResurrectPos" required>
+            <label class="kt-checkbox">
+                <input type="checkbox" true-value="1" false-value="0" class="form-control" v-model.number="teleport_point.CanBeResurrectPos">
+                Can Be Resurrect Position
+                <span></span>
+            </label>
         </div>
         <div class="form-group">
-            <label>CanGotoResurrectPos</label>
-            <input class="form-control" v-model.number.trim="teleport_point.CanGotoResurrectPos" required>
+            <label class="kt-checkbox">
+                <input type="checkbox" true-value="1" false-value="0" class="form-control" v-model.number="teleport_point.CanGotoResurrectPos">
+                Can Goto Resurrect Position
+                <span></span>
+            </label>
         </div>
         <div class="form-group">
             <label>BindInteractionMask</label>
-            <input class="form-control" v-model.number.trim="teleport_point.BindInteractionMask" required>
+            <div class="kt-radio-inline">
+                <label class="kt-radio">
+                    <input type="radio" v-model="teleport_point.BindInteractionMask" value="1"> Click Object
+                    <span></span>
+                </label>
+                <label class="kt-radio">
+                    <input type="radio" v-model="teleport_point.BindInteractionMask" value="0"> Move
+                    <span></span>
+                </label>
+            </div>
         </div>
         <div class="form-group">
             <label>FixedService</label>
@@ -189,6 +203,23 @@ Vue.component('teleport-point-form', {
                 </label>
             </div>
         </div>
+        <div class="kt-portlet__foot">
+            <div class="kt-form__actions">
+                <div class="row">
+                    <div class="col kt-align-left">
+                        <button type="submit" class="btn btn-primary" @click="updateTeleportPoint" :disabled="IsBeingUpdated">
+                            <template v-if="IsItCreateForm">
+                            Create
+                            </template>
+                            <template v-else>
+                            Update
+                            </template>
+                        </button>
+                        <button type="button" class="btn btn-danger" @click="deleteTeleportPoint" v-show="!IsItCreateForm" :disabled="IsBeingDeleted">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     `,
     data() {
@@ -196,7 +227,9 @@ Vue.component('teleport-point-form', {
             search: '',
             character_name: '',
             position: 0,
-            character_position_updated: false
+            character_position_updated: false,
+            IsBeingUpdated: false,
+            IsBeingDeleted: false
         }
     },
     computed: {
@@ -206,6 +239,9 @@ Vue.component('teleport-point-form', {
                     || structure.AssocFileObj128.toLowerCase().includes(this.search.toLowerCase())
                     || structure.name.toLowerCase().includes(this.search.toLowerCase());
             });
+        },
+        IsItCreateForm() {
+            return !(this.teleport_point.ID);
         }
     },
     watch: {
@@ -223,12 +259,89 @@ Vue.component('teleport-point-form', {
         },
         character_name : function(newVal, oldVal) {
             this.character_position_updated = false;
+        },
+        teleport_point: function(newVal, oldVal) {
+            this.character_position_updated = false;
+            this.IsBeingUpdated = false;
+            this.IsBeingDeleted = false;
         }
     },
     methods: {
         update_position() {
-            alert('ok!');
-            this.character_position_updated = true;
+            KTApp.block('body');
+            this.IsBeingUpdated = true;
+
+            axios.post(this.$root.get_character_position_route, {
+                character: this.character_name
+            }).then(response => {
+                this.teleport_point.GenRegionID = response.data.RegionId;
+                this.teleport_point.GenPos_X = parseInt(response.data.PosX);
+                this.teleport_point.GenPos_Y = parseInt(response.data.PosY);
+                this.teleport_point.GenPos_Z = parseInt(response.data.PosZ);
+                this.teleport_point.GenWorldID = response.data.WorldId;
+
+                swal.fire( 'Updated!', response.data.message, 'success');
+                this.character_position_updated = true;
+            })
+            .catch(error => {
+                console.log(error.response);
+                swal.fire( 'Error!', error.response.data.message, 'error');
+            });
+
+            this.IsBeingUpdated = false;
+            KTApp.unblock('body');
+        },
+        updateTeleportPoint() {
+            KTApp.block('body');
+            this.IsBeingUpdated = true;
+
+            axios.post(this.$root.update_teleport_point_route, this.teleport_point)
+            .then(response => {
+                if (this.IsItCreateForm) {
+                    this.$root.teleport_points.push(response.data.teleport);
+                    swal.fire( 'Created!', response.data.message, 'success');
+                } else {
+                    swal.fire( 'Updated!', response.data.message, 'success');
+                }
+            })
+            .catch(error => {
+                swal.fire('Error!', error.response.data.message, 'error');
+            });
+
+            this.IsBeingUpdated = false;
+            KTApp.unblock('body');
+        },
+        deleteTeleportPoint() {
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        KTApp.block('body');
+                        this.IsBeingDeleted = true;
+
+                        axios.post(this.$root.destroy_teleport_point_route, {
+                            id: this.teleport_point.ID
+                        }).then(response => {
+                            this.$root.teleport_points.splice(this.$root.teleport_points.indexOf(this.teleport_point), 1);
+                            this.$root.selected_teleport_point = '';
+                            this.IsBeingDeleted = false;
+                            swal.fire( 'Deleted!', response.data.message, 'success');
+                        })
+                        .catch(error => {
+                            console.log(error.response);
+                            alert(error.response.data.message);
+                            this.IsBeingDeleted = false;
+                        });
+                        KTApp.unblock('body');
+                    }
+                }
+            );
         }
     }
 });
@@ -237,9 +350,15 @@ new Vue({
     el: '.teleport_points',
     data: {
         teleport_structures: [],
+
         teleport_points: [],
+        search: '',
+
         selected_teleport_point: '',
-        search: ''
+        // routes
+        get_character_position_route: '{{ route('admin.characters.get_position') }}',
+        update_teleport_point_route: '{{ route('admin.teleports.update_point') }}',
+        destroy_teleport_point_route: '{{ route('admin.teleports.destroy_point') }}'
     },
     mounted() {
         this.teleport_structures = @json($availableTeleportBuildings);
