@@ -202,8 +202,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     Route::group(['prefix' => 'teleports', 'as' => 'teleports.'], function ()
     {
         Route::get('', 'Admin\TeleportController@index')->name('index');
-        Route::post('updatePoint', 'Admin\TeleportController@updatePoint')->name('update_point');
-        Route::post('destroyPoint', 'Admin\TeleportController@destroyPoint')->name('destroy_point');
+        Route::post('update', 'Admin\TeleportController@update')->name('update_point');
+        Route::post('destroy', 'Admin\TeleportController@destroy')->name('destroy_point');
+
+        Route::post('link/update', 'Admin\TeleLinkController@update')->name('update_link');
+        Route::post('link/destroy', 'Admin\TeleLinkController@destroy')->name('destroy_link');
     });
 
     Route::group(['prefix' => 'characters', 'as' => 'characters.'], function ()

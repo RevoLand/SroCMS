@@ -12,19 +12,21 @@ class TeleportController extends Controller
 {
     public function index()
     {
-        $teleports = ResourcesRefTeleport::collection(RefTeleport::with(['zoneName', 'objCommon.name'])->orderBy('GenRegionID')->get());
         $availableTeleportBuildings = ResourcesObjCommon::collection(ObjCommon::teleportUsable()->with('name')->orderBy('CodeName128')->get());
+        $teleports = ResourcesRefTeleport::collection(RefTeleport::with(['zoneName', 'objCommon.name', 'ownedTeleports' => function ($query)
+        {
+            $query->with(['owner.zoneName', 'owner.objCommon.name', 'target.zoneName', 'target.objCommon.name'])->orderBy('OwnerTeleport');
+        }, ])->orderBy('GenRegionID')->orderBy('CodeName128')->get());
 
-        return view('teleports.index', compact('teleports', 'availableTeleportBuildings'));
+        return view('teleports.index', compact('availableTeleportBuildings', 'teleports'));
     }
 
-    public function updatePoint()
+    public function update()
     {
         $validatedInputs = request()->validate([
-            'Service' => ['required', 'boolean'],
             'ID' => ['sometimes', 'integer', 'exists:App\RefTeleport,ID'],
             'CodeName128' => ['required', 'alpha_dash'],
-            'AssocRefObjCodeName128' => ['required', 'string', 'exists:App\ObjCommon,CodeName128'],
+            'AssocRefObjCodeName128' => ['required', 'string'],
             'AssocRefObjID' => ['nullable', 'integer', 'exists:App\ObjCommon,ID'],
             'ZoneName128' => ['required', 'string'],
             'GenRegionID' => ['required', 'numeric'],
@@ -35,6 +37,7 @@ class TeleportController extends Controller
             'GenWorldID' => ['required', 'integer'],
             'CanBeResurrectPos' => ['required', 'boolean'],
             'CanGotoResurrectPos' => ['required', 'boolean'],
+            'Service' => ['required', 'boolean'],
             'BindInteractionMask' => ['required', 'integer'],
             'FixedService' => ['required', 'integer'],
         ]);
@@ -43,7 +46,7 @@ class TeleportController extends Controller
 
         if (!$teleport)
         {
-            return $this->storePoint($validatedInputs);
+            return $this->store($validatedInputs);
         }
 
         $teleport->update($validatedInputs);
@@ -51,25 +54,24 @@ class TeleportController extends Controller
         return response()->json(['message' => 'Selected Teleport Point is successfully updated.']);
     }
 
-    public function destroyPoint()
+    public function destroy()
     {
         request()->validate([
             'id' => ['required', 'integer', 'exists:App\RefTeleport,ID'],
         ]);
 
         $teleport = RefTeleport::find(request('id'));
-        $teleport->delete();
 
-        // TODO: Delete linked teleports
-        // $teleport->linkedTeleports()->destroy()?
+        $teleport->ownedTeleports()->delete();
+        $teleport->targetedTeleports()->delete();
+
+        $teleport->delete();
 
         return response()->json(['message' => 'Selected Teleport Point is successfully deleted from database.']);
     }
 
-    private function storePoint($validatedInputs)
+    private function store($validatedInputs)
     {
-        $teleport = RefTeleport::create($validatedInputs);
-
-        return response()->json(['teleport' => $teleport, 'message' => 'Teleport Point is successfully created.']);
+        return response()->json(['teleport' => new ResourcesRefTeleport(RefTeleport::where('ID', RefTeleport::create($validatedInputs)->ID)->with(['zoneName', 'objCommon.name'])->first()), 'message' => 'Teleport Point is successfully created.']);
     }
 }

@@ -32,8 +32,9 @@ class RefTeleport extends JsonResource
             'GenWorldID' => $this->GenWorldID,
             'BindInteractionMask' => $this->BindInteractionMask,
             'FixedService' => $this->FixedService,
-            'zone_name' => $this->zoneName ? $this->zoneName->name : $this->ZoneName128,
-            'obj_name' => $this->objCommon ? $this->objCommon->getName() : $this->AssocRefObjCodeName128,
+            'teleport_links' => RefTeleLink::collection($this->ownedTeleports),
+            'zone_name' => $this->zoneName ? $this->zoneName->name : $this->ZoneName128 ?? '',
+            'obj_name' => $this->objCommon ? $this->objCommon->getName() : $this->AssocRefObjCodeName128 ?? '',
         ];
     }
 }
