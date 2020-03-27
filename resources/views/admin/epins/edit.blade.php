@@ -246,25 +246,33 @@
                 KTApp.block('body');
                 this.IsBeingUpdated = true;
 
-
-                axios.post(event.target.action, this.item).then(response => {
-
+                axios.post(event.target.action, this.item)
+                .then(response => {
                     if (this.IsItCreateForm) {
                         this.$root.items.push(response.data.epinItem);
                         swal.fire( 'Created!', response.data.message, 'success');
                     } else {
                         swal.fire( 'Updated!', response.data.message, 'success');
                     }
-
-                    this.IsBeingUpdated = false;
                 })
                 .catch(error => {
-                    console.log(error.response);
-                    swal.fire('Error!', error.response.data.message, 'error');
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
                     this.IsBeingUpdated = false;
                 });
-
-                KTApp.unblock('body');
             },
 
             deleteItem(itemToDelete) {
@@ -273,18 +281,31 @@
 
                 axios.post(this.$root.destroy_action, {
                     id: this.item.id
-                }).then(response => {
+                })
+                .then(response => {
                     this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
                     this.$root.selecteditem = '';
                     this.IsBeingDeleted = false;
                     swal.fire( 'Deleted!', response.data.message, 'success');
                 })
                 .catch(error => {
-                    console.log(error.response);
-                    swal.fire('Error!', error.response.data.message, 'error');
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
                     this.IsBeingDeleted = false;
                 });
-                KTApp.unblock('body');
             }
         }
     });

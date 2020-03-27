@@ -46,6 +46,8 @@ class TeleportController extends Controller
 
         if (!$teleport)
         {
+            request()->validate(['CodeName128' => ['unique:App\RefTeleport,CodeName128']]);
+
             return $this->store($validatedInputs);
         }
 

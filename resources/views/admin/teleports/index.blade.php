@@ -41,7 +41,9 @@
                                 CanBeResurrectPos: 0,
                                 CanGotoResurrectPos: 0,
                                 BindInteractionMask: 1,
-                                FixedService: 0
+                                FixedService: 0,
+                                ZoneName128: 'xxx',
+                                GenAreaRadius: 50
                             }">Create New</option>
                             <optgroup label="Existing Teleport Points">
                                 <option v-for="teleport in filteredTeleportPoints" :value="teleport" v-bind:class="{'alert-danger' : teleport.Service == 0}">
@@ -96,7 +98,7 @@
                                 'Restrict2' : 0,
                                 'Restrict3' : 0,
                                 'Restrict4' : 0,
-                                'Restrict5' : 0,
+                                'Restrict5' : 0
                             }">Create New</option>
                             <optgroup label="Existing Teleport Links">
                                 <option v-for="teleport_link in selected_teleport_point.teleport_links" :value="teleport_link" v-bind:class="{'alert-danger' : teleport_link.Service == 0}">
@@ -258,7 +260,7 @@ Vue.component('teleport-point-form', {
             <div class="kt-form__actions">
                 <div class="row">
                     <div class="col kt-align-left">
-                        <button type="submit" class="btn btn-primary" @click="updateTeleportPoint" :disabled="IsBeingUpdated">
+                        <button type="submit" class="btn btn-primary" @click="updateTeleportPoint" :disabled="IsBeingUpdated" v-bind:class="{ 'kt-spinner kt-spinner--right kt-spinner--sm kt-spinner--light': IsBeingUpdated }">
                             <template v-if="IsItCreateForm">
                             Create
                             </template>
@@ -335,16 +337,27 @@ Vue.component('teleport-point-form', {
                 this.character_position_updated = true;
             })
             .catch(error => {
-                console.log(error.response);
-                swal.fire( 'Error!', error.response.data.message, 'error');
+                var errors = '<ul class="list-unstyled">';
+                jQuery.each(error.response.data.errors, function (key, value) {
+                    errors += '<li>';
+                    errors += value;
+                    errors += '</li>';
+                });
+                errors += '</ul>';
+                swal.fire({
+                    type: 'error',
+                    title: error.response.data.message,
+                    html: errors
+                });
+            })
+            .finally(() => {
+                KTApp.unblock('body');
+                this.IsBeingUpdated = false;
             });
-
-            this.IsBeingUpdated = false;
-            KTApp.unblock('body');
         },
         updateTeleportPoint() {
-            KTApp.block('body');
             this.IsBeingUpdated = true;
+            KTApp.block('body');
 
             var postData = Object.assign({}, this.teleport_point);
             postData.teleport_links = undefined;
@@ -360,11 +373,23 @@ Vue.component('teleport-point-form', {
                 }
             })
             .catch(error => {
-                swal.fire('Error!', error.response.data.message, 'error');
+                var errors = '<ul class="list-unstyled">';
+                jQuery.each(error.response.data.errors, function (key, value) {
+                    errors += '<li>';
+                    errors += value;
+                    errors += '</li>';
+                });
+                errors += '</ul>';
+                swal.fire({
+                    type: 'error',
+                    title: error.response.data.message,
+                    html: errors
+                });
+            })
+            .finally(() => {
+                KTApp.unblock('body');
+                this.IsBeingUpdated = false;
             });
-
-            this.IsBeingUpdated = false;
-            KTApp.unblock('body');
         },
         deleteTeleportPoint() {
             swal.fire({
@@ -385,14 +410,26 @@ Vue.component('teleport-point-form', {
                         }).then(response => {
                             this.$root.teleport_points.splice(this.$root.teleport_points.indexOf(this.teleport_point), 1);
                             this.$root.selected_teleport_point = '';
-                            this.IsBeingDeleted = false;
                             swal.fire( 'Deleted!', response.data.message, 'success');
                         })
                         .catch(error => {
-                            swal.fire('Error!', error.response.data.message, 'error');
+                            var errors = '<ul class="list-unstyled">';
+                            jQuery.each(error.response.data.errors, function (key, value) {
+                                errors += '<li>';
+                                errors += value;
+                                errors += '</li>';
+                            });
+                            errors += '</ul>';
+                            swal.fire({
+                                type: 'error',
+                                title: error.response.data.message,
+                                html: errors
+                            });
+                        })
+                        .finally(() => {
+                            KTApp.unblock('body');
                             this.IsBeingDeleted = false;
                         });
-                        KTApp.unblock('body');
                     }
                 }
             );
@@ -606,11 +643,23 @@ Vue.component('teleport-link-form', {
                 }
             })
             .catch(error => {
-                swal.fire('Error!', error.response.data.message, 'error');
+                var errors = '<ul class="list-unstyled">';
+                jQuery.each(error.response.data.errors, function (key, value) {
+                    errors += '<li>';
+                    errors += value;
+                    errors += '</li>';
+                });
+                errors += '</ul>';
+                swal.fire({
+                    type: 'error',
+                    title: error.response.data.message,
+                    html: errors
+                });
+            })
+            .finally(() => {
+                KTApp.unblock('body');
+                this.IsBeingUpdated = false;
             });
-
-            this.IsBeingUpdated = false;
-            KTApp.unblock('body');
         },
         deleteTeleportLink() {
             swal.fire({
@@ -635,10 +684,23 @@ Vue.component('teleport-link-form', {
                             swal.fire( 'Deleted!', response.data.message, 'success');
                         })
                         .catch(error => {
-                            swal.fire('Error!', error.response.data.message, 'error');
+                            var errors = '<ul class="list-unstyled">';
+                            jQuery.each(error.response.data.errors, function (key, value) {
+                                errors += '<li>';
+                                errors += value;
+                                errors += '</li>';
+                            });
+                            errors += '</ul>';
+                            swal.fire({
+                                type: 'error',
+                                title: error.response.data.message,
+                                html: errors
+                            });
+                        })
+                        .finally(() => {
+                            KTApp.unblock('body');
                             this.IsBeingDeleted = false;
                         });
-                        KTApp.unblock('body');
                     }
                 }
             );

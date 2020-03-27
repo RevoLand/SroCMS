@@ -94,7 +94,19 @@
                             });
                         })
                         .catch(error => {
-                            swal.fire( 'Error!', error.response.data.message, 'error');
+                            var errors = '<ul class="list-unstyled">';
+                            jQuery.each(error.response.data.errors, function (key, value) {
+                                errors += '<li>';
+                                errors += value;
+                                errors += '</li>';
+                            });
+                            errors += '</ul>';
+
+                            swal.fire({
+                                type: 'error',
+                                title: error.response.data.message,
+                                html: errors
+                            });
                         });
                     }
                 })
@@ -107,7 +119,19 @@
                         swal.fire( 'Updated!', response.data.message, 'success');
                     })
                     .catch(error => {
-                        swal.fire( 'Error!', error.response.data.message, 'error');
+                        var errors = '<ul class="list-unstyled">';
+                        jQuery.each(error.response.data.errors, function (key, value) {
+                            errors += '<li>';
+                            errors += value;
+                            errors += '</li>';
+                        });
+                        errors += '</ul>';
+
+                        swal.fire({
+                            type: 'error',
+                            title: error.response.data.message,
+                            html: errors
+                        });
                     });
             break;
         }

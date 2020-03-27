@@ -317,47 +317,55 @@
         el: '.vuepicker',
 
         data: {
-            name: '{{ old('name') }}',
-            categories: [{{ old('categories') }}],
-            description: '{{ old('description') }}',
-            image: '{{ old('image') }}',
-            payment_type: '{{ old('payment_type') ?? 1 }}',
-            on_sale: '{{ old('on_sale') ?? 0 }}',
-            price: '{{ old('price') }}',
-            price_before: '{{ old('price_before') }}',
-            limit_total_purchases: '{{ old('limit_total_purchases') ?? 0 }}',
-            total_purchase_limit: '{{ old('total_purchase_limit') }}',
-            limit_user_purchases: '{{ old('limit_user_purchases') ?? 0 }}',
-            user_purchase_limit: '{{ old('user_purchase_limit') }}',
-            use_customized_referral_options: '{{ old('use_customized_referral_options') ?? 0 }}',
-            referral_commission_enabled: '{{ old('referral_commission_enabled') ?? setting('referrals.commissions_enabled', 0) }}',
-            referral_commission_reward_type: '{{ old('referral_commission_reward_type') ?? setting('referrals.commission_reward_type', 2) }}',
-            referral_commission_percentage: '{{ old('referral_commission_percentage') ?? setting('referrals.commission_earned_percentage', 2) }}',
-            use_customized_point_options: '{{ old('use_customized_point_options') ?? 0 }}',
-            reward_point_enabled: '{{ old('reward_point_enabled') ?? 1 }}',
-            reward_point_type: '{{ old('reward_point_type') ?? 2 }}',
-            reward_point_percentage: '{{ old('reward_point_percentage') ?? setting('itemmall.pointrewards.percentage', 2) }}',
-            featured: '{{ old('featured') ?? 0 }}',
-            order: '{{ old('order') ?? 1 }}',
-            enabled: '{{ old('enabled') ?? 1 }}',
-            available_after: '{{ old('available_after') }}',
-            available_until: '{{ old('available_until') }}',
-            mode: '{{ old('mode') ?? 1 }}'
+            name: '',
+            categories: [],
+            description: '',
+            image: '',
+            payment_type: '1',
+            on_sale: '0',
+            price: '',
+            price_before: '',
+            limit_total_purchases: '0',
+            total_purchase_limit: '',
+            limit_user_purchases: '0',
+            user_purchase_limit: '',
+            use_customized_referral_options: '0',
+            referral_commission_enabled: '{{ setting('referrals.commissions_enabled', 0) }}',
+            referral_commission_reward_type: '{{ setting('referrals.commission_reward_type', 2) }}',
+            referral_commission_percentage: '{{ setting('referrals.commission_earned_percentage', 2) }}',
+            use_customized_point_options: '0',
+            reward_point_enabled: '1',
+            reward_point_type: '2',
+            reward_point_percentage: '{{ setting('itemmall.pointrewards.percentage', 2) }}',
+            featured: '0',
+            order: '1',
+            enabled: '1',
+            available_after: '',
+            available_until: '',
+            mode: '1'
         },
 
         methods: {
-            onFormSubmit: function(event) {
+            onFormSubmit(event) {
                 axios.post(event.target.action, this.$data)
-                .then(function (response) {
+                .then(response => {
                     swal.fire( 'Created!', response.data.message, 'success');
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    swal.fire( 'Error!', error.response.data.message, 'error');
-                    return;
-                });
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
 
-                Object.assign(this.$data, this.$options.data.call(this));
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                });
             }
         }
     });

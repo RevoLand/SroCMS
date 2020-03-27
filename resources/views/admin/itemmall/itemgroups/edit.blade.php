@@ -475,27 +475,40 @@
         `,
         methods: {
             createEditForm(event) {
+                KTApp.block('body');
                 this.IsBeingUpdated = true;
 
-                axios.post(event.target.action, this.item).then(response => {
-
+                axios.post(event.target.action, this.item)
+                .then(response => {
                     if (this.IsItCreateForm) {
                         swal.fire( 'Created!', response.data.message, 'success');
                         this.$root.items.push(response.data.item);
                     } else {
                         swal.fire( 'Updated!', response.data.message, 'success');
                     }
-
-                    this.IsBeingUpdated = false;
                 })
                 .catch(error => {
-                    console.log(error.response);
-                    swal.fire( 'Error!', error.response.data.message, 'error');
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
                     this.IsBeingUpdated = false;
                 });
             },
 
             deleteItem(itemToDelete) {
+                KTApp.block('body');
                 this.IsBeingDeleted = true;
 
                 axios.post(this.$root.destroy_action, {
@@ -503,12 +516,24 @@
                 }).then(response => {
                     this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
                     this.$root.selecteditem = '';
-                    this.IsBeingDeleted = false;
                     swal.fire( 'Deleted!', response.data.message, 'success');
                 })
                 .catch(error => {
-                    console.log(error.response);
-                    swal.fire( 'Error!', error.response.data.message, 'error');
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
                     this.IsBeingDeleted = false;
                 });
             }
@@ -553,9 +578,19 @@
                     swal.fire( 'Created!', response.data.message, 'success');
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    swal.fire( 'Error!', error.response.data.message, 'error');
-                    return;
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
                 });
             }
         }
