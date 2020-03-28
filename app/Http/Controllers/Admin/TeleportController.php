@@ -24,7 +24,7 @@ class TeleportController extends Controller
     public function update()
     {
         $validatedInputs = request()->validate([
-            'ID' => ['sometimes', 'integer', 'exists:App\RefTeleport,ID'],
+            'ID' => ['sometimes', 'integer', 'exists:App\RefTeleport'],
             'CodeName128' => ['required', 'alpha_dash'],
             'AssocRefObjCodeName128' => ['required', 'string'],
             'AssocRefObjID' => ['nullable', 'integer', 'exists:App\ObjCommon,ID'],
@@ -74,6 +74,6 @@ class TeleportController extends Controller
 
     private function store($validatedInputs)
     {
-        return response()->json(['teleport' => new ResourcesRefTeleport(RefTeleport::where('ID', RefTeleport::create($validatedInputs)->ID)->with(['zoneName', 'objCommon.name'])->first()), 'message' => 'Teleport Point is successfully created.']);
+        return response()->json(['teleport' => new ResourcesRefTeleport(RefTeleport::create($validatedInputs)->load(['zoneName', 'objCommon.name'])), 'message' => 'Teleport Point is successfully created.']);
     }
 }

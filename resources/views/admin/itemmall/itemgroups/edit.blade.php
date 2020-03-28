@@ -318,6 +318,7 @@
                     <div class="kt-portlet__body">
                         <div class="kt-portlet__content">
                             <select class="form-control" id="type" name="type" size="10" v-model="selecteditem">
+                                <option value="" v-show="false"></option>
                                 <option :value="{
                                     item_mall_item_group_id: {{ $itemgroup->id }},
                                     type: 6,

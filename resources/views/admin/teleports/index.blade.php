@@ -36,6 +36,7 @@
                     <div class="kt-portlet__body">
                         <input type="search" class="form-control" v-model="search_in_teleport_points" placeholder="Search in Teleport Points">
                         <select class="form-control" size="35" v-model="selected_teleport_point">
+                            <option value="" v-show="false"></option>
                             <option :value="{
                                 Service: 1,
                                 CanBeResurrectPos: 0,
@@ -87,6 +88,7 @@
                     </div>
                     <div class="kt-portlet__body">
                         <select class="form-control" size="30" v-model="selected_teleport_link">
+                            <option value="" v-show="false"></option>
                             <option :value="{
                                 'Service': 1,
                                 'OwnerTeleport': selected_teleport_point.ID,
@@ -279,7 +281,7 @@ Vue.component('teleport-point-form', {
         return {
             search: '',
             character_name: '',
-            position: 0,
+            position: 1,
             character_position_updated: false,
             IsBeingUpdated: false,
             IsBeingDeleted: false
@@ -721,10 +723,10 @@ new Vue({
 
         // routes
         get_character_position_route: '{{ route('admin.characters.get_position') }}',
-        update_teleport_point_route: '{{ route('admin.teleports.update_point') }}',
-        destroy_teleport_point_route: '{{ route('admin.teleports.destroy_point') }}',
-        update_teleport_link_route: '{{ route('admin.teleports.update_link') }}',
-        destroy_teleport_link_route: '{{ route('admin.teleports.destroy_link') }}'
+        update_teleport_point_route: '{{ route('admin.teleports.update') }}',
+        destroy_teleport_point_route: '{{ route('admin.teleports.destroy') }}',
+        update_teleport_link_route: '{{ route('admin.teleports.link.update') }}',
+        destroy_teleport_link_route: '{{ route('admin.teleports.link.destroy') }}'
     },
     mounted() {
         this.teleport_structures = @json($availableTeleportBuildings);

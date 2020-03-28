@@ -63,6 +63,6 @@ class TeleLinkController extends Controller
 
     private function store($validatedInputs)
     {
-        return response()->json(['teleport_link' => new ResourcesRefTeleLink(RefTeleLink::where('ID', RefTeleLink::create($validatedInputs)->ID)->with(['owner.zoneName', 'owner.objCommon.name', 'target.zoneName', 'target.objCommon.name'])->first()), 'message' => 'Teleport Link is successfully created.']);
+        return response()->json(['teleport_link' => new ResourcesRefTeleLink(RefTeleLink::create($validatedInputs)->load(['owner.zoneName', 'owner.objCommon.name', 'target.zoneName', 'target.objCommon.name'])), 'message' => 'Teleport Link is successfully created.']);
     }
 }

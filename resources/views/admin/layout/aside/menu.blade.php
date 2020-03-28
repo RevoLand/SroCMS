@@ -331,7 +331,7 @@
                             </a>
                         </li>
                         <li class="kt-menu__item " aria-haspopup="true">
-                            <a href="{{ route('admin.menus.create') }}" class="kt-menu__link ">
+                            <a href="{{ route('admin.teleports.reverse_points.index') }}" class="kt-menu__link ">
                                 <i class="kt-menu__link-icon la la-edit"></i>
                                 <span class="kt-menu__link-text">Reverse Points</span>
                             </a>

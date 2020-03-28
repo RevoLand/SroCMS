@@ -140,6 +140,7 @@
                     <div class="kt-portlet__body">
                         <div class="kt-portlet__content">
                             <select class="form-control" id="type" name="type" size="10" v-model="selecteditem">
+                                <option value="" v-show="false"></option>
                                 <option :value="{
                                     epin_id: {{ $epin->id }},
                                     amount: 1,
