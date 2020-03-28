@@ -354,7 +354,7 @@ class CartController extends Controller
                 'payment_type' => $itemGroup->payment_type,
                 'item_price' => $itemGroup->price,
                 'total_paid' => $itemPrice,
-                'points_earned' => $pointReward,
+                'points_earned' => $pointReward ?? 0,
             ]);
 
             foreach ($itemGroup->items()->enabled()->get() as $item)

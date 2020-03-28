@@ -69,7 +69,9 @@
                                                                     @break
                                                                     @case(6)
                                                                     <td class="align-middle">
-                                                                        <img class="img-fluid mr-2" src="{{ $item->image ?? $item->objCommon->image }}"/>
+                                                                        @if('' !== $item->getImage())
+                                                                        <img class="img-fluid mr-2" src="{{ $item->getImage() }}"/>
+                                                                        @endif
                                                                         {{ $item->getName() }} @if($item->plus) (+{{ $item->plus }}) @endif
                                                                         @if ($item->description)<small class="text-muted"><i>- {{ $item->description }}</i></small>@endif
                                                                     </td>

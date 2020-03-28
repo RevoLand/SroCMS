@@ -117,7 +117,9 @@
                                                                 @break
                                                                 @case(6)
                                                                 <li class="list-group-item">
-                                                                    <img class="img-fluid" src="{{ $item->image ?? $item->objCommon->image }}"/>
+                                                                    @if('' !== $item->getImage())
+                                                                    <img class="img-fluid" src="{{ $item->getImage() }}"/>
+                                                                    @endif
                                                                     {{ $item->getName() }} @if($item->plus) (+{{ $item->plus }}) @endif
                                                                     <span class="badge badge-pill bg-secondary float-right">
                                                                         {{ $item->amount }}

@@ -22,7 +22,12 @@ class ItemMallItem extends Model
 
     public function getName()
     {
-        return $this->name ?? ($this->objCommon->name ? $this->objCommon->name->name : $this->codename);
+        return $this->name ?? (($this->objCommon) ? $this->objCommon->name ? $this->objCommon->name->name : $this->codename : $this->codename);
+    }
+
+    public function getImage()
+    {
+        return $this->image ?? ($this->objCommon) ? $this->objCommon->image : '';
     }
 
     public function getTypeNameAttribute()
