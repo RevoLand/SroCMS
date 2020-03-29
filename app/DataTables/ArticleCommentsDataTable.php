@@ -25,11 +25,11 @@ class ArticleCommentsDataTable extends DataTable
             {
                 return $comment->user->articleComments->count();
             })
-            ->editColumn('article.title', function ($comment)
+            ->editColumn('article', function ($comment)
             {
                 return '<a href="' . route('admin.articles.comments.index', ['article_id' => $comment->article_id, 'user_id' => request('user_id')]) . '">' . $comment->article->title . '</a>';
             })
-            ->editColumn('user.StrUserID', 'articles.comments.datatables.user')
+            ->editColumn('user', 'articles.comments.datatables.user')
             ->editColumn('is_visible', function ($comment)
             {
                 if ($comment->is_visible)
@@ -49,7 +49,7 @@ class ArticleCommentsDataTable extends DataTable
                 return '<label class="badge badge-danger">Not Approved</label>';
             })
             ->setRowId('id')
-            ->rawColumns(['selector', 'article.title', 'user.StrUserID', 'is_visible', 'is_approved', 'action']);
+            ->rawColumns(['article', 'user', 'is_visible', 'is_approved', 'action']);
     }
 
     /**
@@ -120,8 +120,8 @@ class ArticleCommentsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('article.title')->title('Article'),
-            Column::computed('user.StrUserID')->title('User'),
+            Column::make('article', 'article.title')->title('Article'),
+            Column::computed('user')->title('User'),
             Column::computed('approvedComments')->title('Approved Comments')->width(50),
             Column::make('content')->width(800),
             Column::make('is_visible'),

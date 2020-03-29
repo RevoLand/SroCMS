@@ -42,7 +42,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
      */
     public function query(VoteProviderRewardGroup $model)
     {
-        return $model->with(['voteproviders', 'rewards'])->withCount(['logs as completed_vote_calls' => function ($query)
+        return $model->with(['voteproviders'])->withCount(['logs as completed_vote_calls' => function ($query)
         {
             $query->voted();
         }, 'rewards as total_rewards_count', 'rewards as enabled_rewards_count' => function ($query)

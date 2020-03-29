@@ -21,8 +21,8 @@ class EpinsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'epins.datatables.actions')
-            ->editColumn('user.StrUserID', 'epins.datatables.user')
-            ->editColumn('creater.StrUserID', 'epins.datatables.creater')
+            ->editColumn('user', 'epins.datatables.user')
+            ->editColumn('creater', 'epins.datatables.creater')
             ->editColumn('type', function (Epin $epin)
             {
                 return config('constants.payment_types.' . $epin->type);
@@ -41,7 +41,7 @@ class EpinsDataTable extends DataTable
                 return $epin->used_at ? 'alert-warning' : 'alert-success';
             })
             ->setRowId('id')
-            ->rawColumns(['action', 'enabled', 'user.StrUserID', 'creater.StrUserID']);
+            ->rawColumns(['action', 'enabled', 'user', 'creater']);
     }
 
     /**
@@ -110,8 +110,8 @@ class EpinsDataTable extends DataTable
             Column::make('type'),
             Column::make('balance'),
             Column::make('items_count')->searchable(false),
-            Column::computed('user.StrUserID')->title('Used by'),
-            Column::computed('creater.StrUserID')->title('Created by'),
+            Column::computed('user')->title('Used by'),
+            Column::computed('creater')->title('Created by'),
             Column::make('enabled'),
             Column::make('used_at'),
             Column::make('created_at'),

@@ -50,60 +50,7 @@ class VoteController extends Controller
             ], 403);
         }
 
-        if ($voteLog->voted)
-        {
-            return response()->json([
-                'message' => 'User already rewarded for this vote call.',
-            ], 403);
-        }
-
-        if (!$voteLog->active)
-        {
-            return response()->json([
-                'message' => 'User can not be rewarded for this call.',
-            ], 403);
-        }
-
-        $voteLog->update([
-            'voted' => true,
-            'active' => false,
-            'callback_ip' => $request->getClientIp(),
-        ]);
-
-        foreach ($voteLog->rewardGroup->rewards()->enabled() as $reward)
-        {
-            switch ($reward->type)
-            {
-                // Balance
-                case config('constants.payment_types.balance'):
-                    $voteLog->user->balance->increase(config('constants.balance.type.balance'), $reward->balance, config('constants.balance.source.vote'));
-                break;
-                // Balance Point
-                case config('constants.payment_types.balance_point'):
-                    $voteLog->user->balance->increase(config('constants.balance.type.point'), $reward->balance, config('constants.balance.source.vote'));
-                break;
-                // Silk
-                case config('constants.payment_types.silk'):
-                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_own'), $reward->amount, config('constants.silk.reason.inc.silk_own'), "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
-                break;
-                // Gift Silk
-                case config('constants.payment_types.silk_gift'):
-                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_gift'), $reward->amount, config('constants.silk.reason.inc.silk_gift'), "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
-                break;
-                // Point Silk
-                case config('constants.payment_types.silk_point'):
-                    $voteLog->user->silk->increase(config('constants.silk.type.id.silk_point'), $reward->amount, config('constants.silk.reason.inc.silk_point'), "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
-                break;
-                // Item
-                case config('constants.payment_types.item'):
-                    $voteLog->user->addChestItem($reward->codename, $reward->amount, $reward->plus);
-                break;
-            }
-        }
-
-        return response()->json([
-            'message' => 'User successfully rewarded for the vote.',
-        ], 200);
+        return $this->rewardVote($voteLog, "[SroCMS] {$request->voteProvider->name} üzerinden yapılan oylama ödülü.");
     }
 
     public function index()
@@ -157,6 +104,69 @@ class VoteController extends Controller
         ]);
 
         return redirect($voteProvider->getVoteUrl($userVoteLog));
+    }
+
+    public function rewardVote(VoteLog $votelog, string $reason = '')
+    {
+        if ($votelog->voted)
+        {
+            return response()->json([
+                'message' => 'User already rewarded for this vote call.',
+            ], 403);
+        }
+
+        if (!$votelog->active)
+        {
+            return response()->json([
+                'message' => 'User can not be rewarded for this call.',
+            ], 403);
+        }
+
+        $votelog->update([
+            'voted' => true,
+            'active' => false,
+            'callback_ip' => request()->getClientIp(),
+        ]);
+
+        $votelog->load(['rewardGroup.rewards' => function ($query)
+        {
+            $query->enabled();
+        }, 'user', ]);
+
+        foreach ($votelog->rewardGroup->rewards as $reward)
+        {
+            switch ($reward->type)
+            {
+                // Balance
+                case config('constants.payment_types.balance'):
+                    $votelog->user->balance->increase(config('constants.balance.type.balance'), $reward->balance, config('constants.balance.source.vote'));
+                break;
+                // Balance Point
+                case config('constants.payment_types.balance_point'):
+                    $votelog->user->balance->increase(config('constants.balance.type.point'), $reward->balance, config('constants.balance.source.vote'));
+                break;
+                // Silk
+                case config('constants.payment_types.silk'):
+                    $votelog->user->silk->increase(config('constants.silk.type.id.silk_own'), $reward->amount, config('constants.silk.reason.inc.silk_own'), $reason);
+                break;
+                // Gift Silk
+                case config('constants.payment_types.silk_gift'):
+                    $votelog->user->silk->increase(config('constants.silk.type.id.silk_gift'), $reward->amount, config('constants.silk.reason.inc.silk_gift'), $reason);
+                break;
+                // Point Silk
+                case config('constants.payment_types.silk_point'):
+                    $votelog->user->silk->increase(config('constants.silk.type.id.silk_point'), $reward->amount, config('constants.silk.reason.inc.silk_point'), $reason);
+                break;
+                // Item
+                case config('constants.payment_types.item'):
+                    $votelog->user->addChestItem($reward->codename, $reward->amount, $reward->plus);
+                break;
+            }
+        }
+
+        return response()->json([
+            'message' => 'User successfully rewarded for the vote.',
+        ]);
     }
 
     private function generateVoteLogSecret($length = 40)

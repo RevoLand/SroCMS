@@ -175,6 +175,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
     });
 
+    Route::resource('votes', 'Admin\VoteLogController');
+    Route::patch('votes/{votelog}/reward', 'VoteController@rewardVote')->name('votes.reward');
+    Route::patch('votes/{votelog}/toggle_active', 'Admin\VoteLogController@toggleActive')->name('votes.toggle_active');
+
     Route::resource('epins', 'Admin\EpinController');
     Route::patch('epins/{epin}/toggleEnabled', 'Admin\EpinController@toggleEnabled')->name('epins.toggle_enabled');
     Route::post('epins/items/update', 'Admin\EpinItemController@update')->name('epins.items.update');
@@ -194,7 +198,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::post('itemgroups/items/destroy', 'Admin\ItemMallItemController@destroy')->name('itemgroups.items.destroy');
     });
 
-    Route::resource('votes', 'Admin\VoteController');
     Route::resource('users', 'Admin\UserController');
 
     Route::resource('menus', 'Admin\MenuController');

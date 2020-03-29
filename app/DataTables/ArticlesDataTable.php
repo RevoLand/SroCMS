@@ -39,13 +39,13 @@ class ArticlesDataTable extends DataTable
 
                 return '<label class="badge badge-danger">No</label>';
             })
-            ->editColumn('user.StrUserID', 'articles.datatables.user')
-            ->editColumn('articleCategories', 'articles.datatables.categories')
+            ->editColumn('user', 'articles.datatables.user')
+            ->editColumn('article_categories', 'articles.datatables.categories')
             ->editColumn('article_comments_count', function ($article)
             {
                 return '<a class="badge" href="' . route('admin.articles.comments.index', ['article_id' => $article->id]) . '">' . $article->article_comments_count . '</a>';
             })
-            ->rawColumns(['action', 'user.StrUserID', 'article_comments_count', 'is_visible',  'can_comment_on', 'articleCategories'])
+            ->rawColumns(['action', 'user', 'article_comments_count', 'is_visible',  'can_comment_on', 'article_categories'])
             ->setRowId('id');
     }
 
@@ -111,9 +111,9 @@ class ArticlesDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('title'),
-            Column::computed('user.StrUserID')->title('Author'),
+            Column::computed('user')->title('Author'),
             Column::computed('article_comments_count', 'Comments')->sortable(true),
-            Column::make('articleCategories', 'articleCategories.name')->title('Categories'),
+            Column::make('article_categories', 'articleCategories.name')->title('Categories'),
             Column::make('is_visible'),
             Column::make('can_comment_on'),
             Column::make('published_at'),
