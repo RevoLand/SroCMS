@@ -313,78 +313,63 @@
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script type="text/javascript">
-    var vm = new Vue({
-        el: '.vuepicker',
+var vm = new Vue({
+    el: '.vuepicker',
 
-        data: {
-            name: '',
-            categories: [],
-            description: '',
-            image: '',
-            payment_type: '1',
-            on_sale: '0',
-            price: '',
-            price_before: '',
-            limit_total_purchases: '0',
-            total_purchase_limit: '',
-            limit_user_purchases: '0',
-            user_purchase_limit: '',
-            use_customized_referral_options: '0',
-            referral_commission_enabled: '{{ setting('referrals.commissions_enabled', 0) }}',
-            referral_commission_reward_type: '{{ setting('referrals.commission_reward_type', 2) }}',
-            referral_commission_percentage: '{{ setting('referrals.commission_earned_percentage', 2) }}',
-            use_customized_point_options: '0',
-            reward_point_enabled: '1',
-            reward_point_type: '2',
-            reward_point_percentage: '{{ setting('itemmall.pointrewards.percentage', 2) }}',
-            featured: '0',
-            order: '1',
-            enabled: '1',
-            available_after: '',
-            available_until: '',
-            mode: '1'
-        },
+    data: {
+        name: '',
+        categories: [],
+        description: '',
+        image: '',
+        payment_type: '1',
+        on_sale: '0',
+        price: '',
+        price_before: '',
+        limit_total_purchases: '0',
+        total_purchase_limit: '',
+        limit_user_purchases: '0',
+        user_purchase_limit: '',
+        use_customized_referral_options: '0',
+        referral_commission_enabled: '{{ setting('referrals.commissions_enabled', 0) }}',
+        referral_commission_reward_type: '{{ setting('referrals.commission_reward_type', 2) }}',
+        referral_commission_percentage: '{{ setting('referrals.commission_earned_percentage', 2) }}',
+        use_customized_point_options: '0',
+        reward_point_enabled: '1',
+        reward_point_type: '2',
+        reward_point_percentage: '{{ setting('itemmall.pointrewards.percentage', 2) }}',
+        featured: '0',
+        order: '1',
+        enabled: '1',
+        available_after: '',
+        available_until: '',
+        mode: '1'
+    },
 
-        methods: {
-            onFormSubmit(event) {
-                axios.post(event.target.action, this.$data)
-                .then(response => {
-                    swal.fire( 'Created!', response.data.message, 'success');
-                })
-                .catch(function (error) {
-                    var errors = '<ul class="list-unstyled">';
-                    jQuery.each(error.response.data.errors, function (key, value) {
-                        errors += '<li>';
-                        errors += value;
-                        errors += '</li>';
-                    });
-                    errors += '</ul>';
-
-                    swal.fire({
-                        type: 'error',
-                        title: error.response.data.message,
-                        html: errors
-                    });
+    methods: {
+        onFormSubmit(event) {
+            axios.post(event.target.action, this.$data)
+            .then(response => {
+                swal.fire( 'Created!', response.data.message, 'success');
+            })
+            .catch(function (error) {
+                var errors = '<ul class="list-unstyled">';
+                jQuery.each(error.response.data.errors, function (key, value) {
+                    errors += '<li>';
+                    errors += value;
+                    errors += '</li>';
                 });
-            }
+                errors += '</ul>';
+
+                swal.fire({
+                    type: 'error',
+                    title: error.response.data.message,
+                    html: errors
+                });
+            });
         }
-    });
-
-    $(document).ready(function() {
-        $( ".dtpicker" ).datetimepicker({
-            format: 'yyyy-mm-dd hh:ii',
-            autoclose: true,
-            todayBtn: true,
-            todayHighlight: true,
-            weekStart: 1,
-            pickerPosition: 'top-right'
-        }).on('changeDate', function(e) {
-            this.dispatchEvent(new Event('input', { 'bubbles': true }))
-        });
-
-        $( ".select2" ).select2({}).on('select2:select select2:unselect', function (e) {
-            this.dispatchEvent(new Event('change', { 'bubbles': true }))
-        });
-    });
-    </script>
+    }
+});
+</script>
+<script src="{{ asset('vendor/vue/ext/dtpicker.js') }}"></script>
+<script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 @endsection

@@ -220,6 +220,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     {
         Route::post('getPosition', 'Admin\CharacterController@getPosition')->name('get_position');
     });
+
+    Route::resource('maps', 'Admin\MapController');
 });
 
 Route::match(['get', 'post'], 'item-test', function ()

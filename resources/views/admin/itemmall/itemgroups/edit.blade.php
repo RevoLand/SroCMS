@@ -610,22 +610,7 @@
             this.items = @json($itemgroup->items)
         }
     });
-
-    $(document).ready(function() {
-        $( ".dtpicker" ).datetimepicker({
-            format: 'yyyy-mm-dd hh:ii',
-            autoclose: true,
-            todayBtn: true,
-            todayHighlight: true,
-            weekStart: 1,
-            pickerPosition: 'top-right'
-        }).on('changeDate', function(e) {
-            this.dispatchEvent(new Event('input'))
-        });
-
-        $( ".select2" ).select2({}).on('select2:select select2:unselect', function (e) {
-            this.dispatchEvent(new Event('change'))
-        });
-    });
 </script>
+<script src="{{ asset('vendor/vue/ext/dtpicker.js') }}"></script>
+<script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 @endsection

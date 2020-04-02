@@ -55,13 +55,17 @@ class ArticleController extends Controller
 
         $article->articleCategories()->attach(request('categories'));
 
-        if (request()->has('generate-slug'))
+        if (request('generate_slug') == 1)
         {
             $article->generateSlug();
             $article->save();
         }
 
-        return redirect()->route('admin.articles.edit', $article)->with('message', 'Article successfully created.');
+        return response()->json([
+            'title' => 'Successfully created!',
+            'message' => 'Article is successfully created.<br /><br /><a href="' . route('admin.articles.edit', $article) . '">Click here</a> to view/edit the created article.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -114,13 +118,17 @@ class ArticleController extends Controller
 
         $article->articleCategories()->sync(request('categories'));
 
-        if (request()->has('generate-slug') || is_null($article->slug))
+        if (request()->has('generate_slug') || !request()->filled('slug'))
         {
             $article->generateSlug();
             $article->save();
         }
 
-        return redirect()->route('admin.articles.edit', $article)->with('message', 'Article is successfully updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Article is successfully updated!.<br /><br /><a href="' . route('articles.show_article', $article) . '">Click here</a> to view the updated article.',
+            'type' => 'success',
+        ]);
     }
 
     public function toggleVisibility(Request $request, Article $article)
@@ -152,12 +160,11 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json(['message' => 'Selected article is successfully deleted.']);
-        }
-
-        return redirect()->route('admin.articles.index')->with('message', 'Selected article is successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected article is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function validateArticle()
