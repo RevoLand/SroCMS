@@ -26,33 +26,6 @@
 
     <!-- begin:: Content -->
     <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        @if (session('message'))
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-light alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-check-square kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        {{ session('message') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-        @if ($errors->any())
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-danger alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-warning kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
@@ -69,28 +42,28 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.articles.categories.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.articles.categories.store'], 'class' => 'kt-form', 'method' => 'post', '@submit.prevent' => 'submitForm']) }}
                     <div class="form-group">
                         <label>Name</label>
-                        {{ Form::text('name', old('name'), ['class' => 'form-control', 'required']) }}
+                        <input type="text" class="form-control" v-model="name" required>
                         <label class="kt-checkbox mt-2">
-                            {!! Form::checkbox('generate-slug', 1, true) !!} Auto Generate Slug from Title
+                            <input type="checkbox" class="form-control" v-model="generate_slug" true-value="1" false-value="0"> Auto Generate Slug from Title
                             <span></span>
                         </label>
                     </div>
-                    <div class="form-group slug-field">
+                    <div class="form-group" v-show="generate_slug == 0">
                         <label>Slug</label>
-                        {{ Form::text('slug', old('slug'), ['class' => 'form-control']) }}
+                        <input type="text" class="form-control" v-model="slug">
                     </div>
                     <div class="form-group">
                         <label>State</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, old('enabled', true)) !!} Enabled
+                                <input type="radio" v-model="enabled" value="1" name="enabled" required> Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !old('enabled', true)) !!} Disabled
+                                <input type="radio" v-model="enabled" value="0" name="enabled" required> Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -98,7 +71,6 @@
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Cancel</button>
                         </div>
                     </div>
                 {{ Form::close() }}
@@ -111,21 +83,49 @@
 @endsection
 
 @section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script>
-    $(function() {
-        var slugCheckboxSelector = $( "input[name='generate-slug']");
+    new Vue({
+        el: '#kt_content',
+        data: {
+            name: '',
+            slug: '',
+            enabled: '1',
+            generate_slug: '1',
+        },
+        methods: {
+            submitForm(event) {
+                console.log(event);
+                KTApp.block('body');
+                axios.post(event.target.action, this.$data)
+                .then(response => {
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
+                })
+                .catch(function (error) {
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
 
-        if (!slugCheckboxSelector[0].checked) {
-            $('.slug-field').show({});
-        }
-
-        slugCheckboxSelector.click(function() {
-            if (this.checked){
-                $('.slug-field').hide({});
-            } else {
-                $('.slug-field').show({});
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
+                });
             }
-        });
+        }
     });
 </script>
 @endsection

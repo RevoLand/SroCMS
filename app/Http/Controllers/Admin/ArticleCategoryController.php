@@ -44,13 +44,17 @@ class ArticleCategoryController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        if (request()->has('generate-slug'))
+        if (request('generate_slug') == 1)
         {
             $category->generateSlug();
             $category->save();
         }
 
-        return redirect()->route('admin.articles.categories.edit', $category)->with('message', 'Article Category successfully created.');
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Article Category is successfully created!.<br /><br /><a href="' . route('admin.articles.categories.edit', $category) . '">Click here</a> to view/edit the created article category.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -93,13 +97,17 @@ class ArticleCategoryController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        if (request()->has('generate-slug') || is_null(request('slug')))
+        if (request()->has('generate_slug') || !request()->filled('slug'))
         {
             $category->generateSlug();
             $category->save();
         }
 
-        return redirect()->route('admin.articles.categories.edit', $category)->with('message', 'Category is successfully updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Article Category is successfully updated!.<br /><br /><a href="' . route('articles.get_category', $category) . '">Click here</a> to view the updated article category.',
+            'type' => 'success',
+        ]);
     }
 
     public function toggleEnabled(Request $request, ArticleCategory $category)
@@ -108,7 +116,7 @@ class ArticleCategoryController extends Controller
             'enabled' => !$category->enabled,
         ]);
 
-        return response()->json(['message' => 'Category Enabled state successfully updated. New State: ' . (($category->enabled) ? 'Enabled' : 'Disabled')]);
+        return response()->json(['message' => 'Category Enabled state successfully updated.<br/>New State: ' . (($category->enabled) ? 'Enabled' : 'Disabled')]);
     }
 
     /**
@@ -122,19 +130,18 @@ class ArticleCategoryController extends Controller
     {
         $category->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json(['message' => 'Selected article category is successfully deleted.']);
-        }
-
-        return redirect()->route('admin.articles.categories.index')->with('message', 'Selected article category is successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Article Category is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function validateCategory()
     {
         request()->validate([
             'slug' => ['sometimes', 'nullable', 'string'],
-            'generate-slug' => ['sometimes', 'boolean'],
+            'generate_slug' => ['sometimes', 'boolean'],
             'name' => ['required', 'string'],
             'enabled' => ['required', 'boolean'],
         ]);

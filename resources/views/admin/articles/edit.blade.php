@@ -194,15 +194,15 @@ new Vue({
                 ]
             }
         },
-        title: '{{ $article->title }}',
-        slug: '{{ $article->slug }}',
+        title: @json($article->title),
+        slug: @json($article->slug),
         generate_slug: '0',
         categories: @json($selectedCategories),
         excerpt: @json($article->excerpt),
         content: @json($article->content),
-        is_visible: '{{ $article->is_visible }}',
-        can_comment_on: '{{ $article->can_comment_on }}',
-        published_at: '{{ $article->published_at }}'
+        is_visible: @json($article->is_visible),
+        can_comment_on: @json($article->can_comment_on),
+        published_at: @json($article->published_at)
     },
     components: {
         // Use the <ckeditor> component in this view.
@@ -239,14 +239,15 @@ new Vue({
             });
         },
         deleteForm(event) {
-            swal.fire({ title: 'Are you sure?',
+            swal.fire({
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
+            }).then((result) => {
                     KTApp.block('body');
 
                     axios.delete(event.target.action)

@@ -172,7 +172,7 @@ class ArticleController extends Controller
         return request()->validate([
             'title' => ['required', 'string'],
             'slug' => ['sometimes', 'nullable', 'string'],
-            'generate-slug' => ['sometimes', 'boolean'],
+            'generate_slug' => ['sometimes', 'boolean'],
             'excerpt' => ['sometimes', 'nullable', 'string'],
             'content' => ['required', 'string'],
             'author_id' => ['sometimes', 'integer', 'exists:App\User,JID'],

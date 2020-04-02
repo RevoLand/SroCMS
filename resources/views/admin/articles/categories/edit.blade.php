@@ -75,28 +75,28 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.articles.categories.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.articles.categories.update', $category], 'class' => 'kt-form', 'method' => 'patch', '@submit.prevent' => 'submitForm']) }}
                     <div class="form-group">
                         <label>Name</label>
-                        {{ Form::text('name', $category->name, ['class' => 'form-control', 'required']) }}
+                        <input type="text" class="form-control" v-model="name" required>
                         <label class="kt-checkbox mt-2">
-                            {!! Form::checkbox('generate-slug', 1, false) !!} Auto Generate Slug from Title
+                            <input type="checkbox" class="form-control" v-model="generate_slug" true-value="1" false-value="0"> Auto Generate Slug from Title
                             <span></span>
                         </label>
                     </div>
-                    <div class="form-group slug-field">
+                    <div class="form-group" v-show="generate_slug == 0">
                         <label>Slug</label>
-                        {{ Form::text('slug', $category->slug, ['class' => 'form-control']) }}
+                        <input type="text" class="form-control" v-model="slug">
                     </div>
                     <div class="form-group">
                         <label>State</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, $category->enabled) !!} Enabled
+                                <input type="radio" v-model="enabled" value="1" name="enabled" required> Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !$category->enabled) !!} Disabled
+                                <input type="radio" v-model="enabled" value="1" name="enabled" required> Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -106,11 +106,10 @@
                             <div class="row">
                                 <div class="col kt-align-left">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button type="reset" class="btn btn-secondary">Cancel</button>
                                     {!! Form::close() !!}
                                 </div>
                                 <div class="col kt-align-right">
-                                    {!! Form::open([ 'route' => ['admin.articles.categories.destroy', $category], 'method' => 'delete']) !!}
+                                    {!! Form::open([ 'route' => ['admin.articles.categories.destroy', $category], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     {!! Form::close() !!}
                                 </div>
@@ -127,21 +126,91 @@
 @endsection
 
 @section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script>
-    $(function() {
-        var slugCheckboxSelector = $( "input[name='generate-slug']");
+    new Vue({
+        el: '#kt_content',
+        data: {
+            name: @json($category->name),
+            slug: @json($category->slug),
+            enabled: @json($category->enabled),
+            generate_slug: '0',
+        },
+        methods: {
+            submitForm(event) {
+                console.log(event);
+                KTApp.block('body');
+                axios.patch(event.target.action, this.$data)
+                .then(response => {
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
+                })
+                .catch(function (error) {
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
 
-        if (!slugCheckboxSelector[0].checked) {
-            $('.slug-field').show({});
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
+                });
+            },
+            deleteForm(event) {
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                    KTApp.block('body');
+
+                    axios.delete(event.target.action)
+                    .then(response => {
+                        swal.fire({
+                            title: response.data.title,
+                            html: response.data.message,
+                            type: response.data.type
+                        }).then((result) => {
+                            window.location.href = '{{ route('admin.articles.categories.index') }}'
+                        });
+                    })
+                    .catch(function (error) {
+                        var errors = '<ul class="list-unstyled">';
+                        jQuery.each(error.response.data.errors, function (key, value) {
+                            errors += '<li>';
+                            errors += value;
+                            errors += '</li>';
+                        });
+                        errors += '</ul>';
+
+                        swal.fire({
+                            type: 'error',
+                            title: error.response.data.message,
+                            html: errors
+                        });
+                    })
+                    .finally(() => {
+                        KTApp.unblock('body');
+                    });
+            });
         }
-
-        slugCheckboxSelector.click(function() {
-            if (this.checked){
-                $('.slug-field').hide({});
-            } else {
-                $('.slug-field').show({});
-            }
-        });
+        }
     });
 </script>
 @endsection
