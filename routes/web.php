@@ -188,6 +188,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     {
         Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
         {
+            Route::get('', 'Admin\ItemMallController@index')->name('index');
+
             // Web Item Mall Categories
             Route::resource('categories', 'Admin\ItemMallCategoryController');
             Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
