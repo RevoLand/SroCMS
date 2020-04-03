@@ -147,53 +147,65 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::patch('articles/{article}/toggleComments', 'Admin\ArticleController@toggleComments')->name('articles.toggle_comments');
     });
 
-    Route::resource('pages', 'Admin\PageController');
-    Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
-
-    Route::group(['prefix' => 'votes', 'as' => 'votes.'], function ()
+    Route::group(['middleware' => 'can:manage pages'], function ()
     {
-        Route::resource('providers/ips', 'Admin\VoteProviderIpController', ['as' => 'providers']);
-
-        Route::resource('rewardgroups', 'Admin\VoteProviderRewardGroupController');
-        Route::patch('rewardgroups/{rewardgroup}/toggleEnabled', 'Admin\VoteProviderRewardGroupController@toggleEnabled')->name('rewardgroups.toggle_enabled');
-
-        Route::get('rewards/group/{rewardgroup}', 'Admin\VoteProviderRewardController@index')->name('rewards.index');
-        Route::get('rewards/group/{rewardgroup}/create', 'Admin\VoteProviderRewardController@create')->name('rewards.create');
-        Route::resource('rewards', 'Admin\VoteProviderRewardController')->except(['index', 'create']);
-        Route::patch('rewards/{reward}/toggleEnabled', 'Admin\VoteProviderRewardController@toggleEnabled')->name('rewards.toggle_enabled');
-
-        Route::resource('providers', 'Admin\VoteProviderController');
-        Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
+        Route::resource('pages', 'Admin\PageController');
+        Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
     });
 
-    Route::resource('votes', 'Admin\VoteLogController');
-    Route::patch('votes/{votelog}/reward', 'VoteController@rewardVote')->name('votes.reward');
-    Route::patch('votes/{votelog}/toggle_active', 'Admin\VoteLogController@toggleActive')->name('votes.toggle_active');
-
-    Route::resource('epins', 'Admin\EpinController');
-    Route::patch('epins/{epin}/toggleEnabled', 'Admin\EpinController@toggleEnabled')->name('epins.toggle_enabled');
-    Route::post('epins/items/update', 'Admin\EpinItemController@update')->name('epins.items.update');
-    Route::post('epins/items/destroy', 'Admin\EpinItemController@destroy')->name('epins.items.destroy');
-
-    Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
+    Route::group(['middleware' => 'can:manage votes'], function ()
     {
-        // Web Item Mall Categories
-        Route::resource('categories', 'Admin\ItemMallCategoryController');
-        Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
+        Route::group(['prefix' => 'votes', 'as' => 'votes.'], function ()
+        {
+            Route::resource('providers/ips', 'Admin\VoteProviderIpController', ['as' => 'providers']);
 
-        // Web Item Mall Item Groups
-        Route::resource('itemgroups', 'Admin\ItemMallItemGroupController');
-        Route::patch('itemgroups/{itemgroup}/toggleEnabled', 'Admin\ItemMallItemGroupController@toggleEnabled')->name('itemgroups.toggle_enabled');
+            Route::resource('rewardgroups', 'Admin\VoteProviderRewardGroupController');
+            Route::patch('rewardgroups/{rewardgroup}/toggleEnabled', 'Admin\VoteProviderRewardGroupController@toggleEnabled')->name('rewardgroups.toggle_enabled');
 
-        Route::post('itemgroups/items/update', 'Admin\ItemMallItemController@update')->name('itemgroups.items.update');
-        Route::post('itemgroups/items/destroy', 'Admin\ItemMallItemController@destroy')->name('itemgroups.items.destroy');
+            Route::post('rewards/update', 'Admin\VoteProviderRewardController@update')->name('rewards.update');
+            Route::post('rewards/destroy', 'Admin\VoteProviderRewardController@destroy')->name('rewards.destroy');
+
+            Route::patch('rewards/{reward}/toggleEnabled', 'Admin\VoteProviderRewardController@toggleEnabled')->name('rewards.toggle_enabled');
+
+            Route::resource('providers', 'Admin\VoteProviderController');
+            Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
+        });
+
+        Route::resource('votes', 'Admin\VoteLogController');
+        Route::patch('votes/{votelog}/reward', 'VoteController@rewardVote')->name('votes.reward');
+        Route::patch('votes/{votelog}/toggle_active', 'Admin\VoteLogController@toggleActive')->name('votes.toggle_active');
+    });
+
+    Route::group(['middleware' => 'can:manage epins'], function ()
+    {
+        Route::resource('epins', 'Admin\EpinController');
+        Route::patch('epins/{epin}/toggleEnabled', 'Admin\EpinController@toggleEnabled')->name('epins.toggle_enabled');
+        Route::post('epins/items/update', 'Admin\EpinItemController@update')->name('epins.items.update');
+        Route::post('epins/items/destroy', 'Admin\EpinItemController@destroy')->name('epins.items.destroy');
+    });
+
+    Route::group(['middleware' => 'can:manage itemmall'], function ()
+    {
+        Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
+        {
+            // Web Item Mall Categories
+            Route::resource('categories', 'Admin\ItemMallCategoryController');
+            Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
+
+            // Web Item Mall Item Groups
+            Route::resource('itemgroups', 'Admin\ItemMallItemGroupController');
+            Route::patch('itemgroups/{itemgroup}/toggleEnabled', 'Admin\ItemMallItemGroupController@toggleEnabled')->name('itemgroups.toggle_enabled');
+
+            Route::post('itemgroups/items/update', 'Admin\ItemMallItemController@update')->name('itemgroups.items.update');
+            Route::post('itemgroups/items/destroy', 'Admin\ItemMallItemController@destroy')->name('itemgroups.items.destroy');
+        });
     });
 
     Route::resource('users', 'Admin\UserController');
 
     Route::resource('menus', 'Admin\MenuController');
 
-    Route::group(['prefix' => 'teleports', 'as' => 'teleports.'], function ()
+    Route::group(['prefix' => 'teleports', 'as' => 'teleports.', 'middleware' => 'can:manage teleports'], function ()
     {
         Route::get('', 'Admin\TeleportController@index')->name('index');
         Route::post('update', 'Admin\TeleportController@update')->name('update');

@@ -8,6 +8,7 @@ class VoteProviderReward extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $appends = ['type_name'];
 
     public function rewardgroup()
     {
@@ -22,5 +23,10 @@ class VoteProviderReward extends Model
     public function scopeEnabled($query)
     {
         return $query->where('enabled', true);
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return config('constants.payment_types.' . $this->type);
     }
 }

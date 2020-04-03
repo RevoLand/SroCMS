@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Create Vote Provider Reward Group')
+@section('pagetitle', 'Create Reward Group')
 
 @section('content')
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -8,7 +8,7 @@
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Create Vote Provider Reward Group</h3>
+                <h3 class="kt-subheader__title">Create Reward Group</h3>
                 <span class="kt-subheader__separator kt-hidden"></span>
                 <div class="kt-subheader__breadcrumbs">
                     <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
@@ -59,7 +59,7 @@
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
                     <h3 class="kt-portlet__head-title">
-                        Create Vote Provider Reward Group
+                        Create Reward Group
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">

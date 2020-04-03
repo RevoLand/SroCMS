@@ -4,9 +4,6 @@
 <a href="{{ route('admin.votes.rewardgroups.edit', $id) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
     <i class="la la-edit"></i>
 </a>
-<a href="{{ route('admin.votes.rewards.index', $id) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit Rewards">
-    <i class="la la-trophy"></i>
-</a>
 <span class="dropdown">
     <a href="" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">
         <i class="la la-ellipsis-h"></i>

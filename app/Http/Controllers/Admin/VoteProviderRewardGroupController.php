@@ -71,6 +71,7 @@ class VoteProviderRewardGroupController extends Controller
      */
     public function edit(VoteProviderRewardGroup $rewardgroup)
     {
+        $rewardgroup->load('rewards');
         $voteProviders = VoteProvider::enabled()->get();
         $selectedVoteProviders = $rewardgroup->voteproviders->pluck('id')->toArray();
 
@@ -95,7 +96,11 @@ class VoteProviderRewardGroupController extends Controller
 
         $rewardgroup->voteproviders()->sync(request('vote_providers'));
 
-        return redirect()->route('admin.votes.rewardgroups.edit', compact('rewardgroup'))->with('message', 'Vote Provider Reward Group is successfully updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Reward Group is successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -107,6 +112,8 @@ class VoteProviderRewardGroupController extends Controller
      */
     public function destroy(VoteProviderRewardGroup $rewardgroup)
     {
+        $rewardgroup->voteproviders()->detach();
+        $rewardgroup->logs()->delete();
         $rewardgroup->delete();
 
         if (request()->expectsJson())
