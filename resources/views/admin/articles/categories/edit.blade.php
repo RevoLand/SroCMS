@@ -62,7 +62,7 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('articles.get_category', $category) }}" class="btn btn-accent btn-upper btn-sm btn-bold">
+                        <a href="{{ route('articles.get_category', $category->slug) }}" class="btn btn-accent btn-upper btn-sm btn-bold">
                             <i class="la la-eye"></i> View Category
                         </a>
                         <a href="{{ route('admin.articles.categories.index') }}" class="btn btn-info btn-upper btn-sm btn-bold">
@@ -139,7 +139,6 @@
         },
         methods: {
             submitForm(event) {
-                console.log(event);
                 KTApp.block('body');
                 axios.patch(event.target.action, this.$data)
                 .then(response => {

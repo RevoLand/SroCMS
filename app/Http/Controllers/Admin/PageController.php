@@ -48,13 +48,17 @@ class PageController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        if ($request->has('generate-slug'))
+        if (request('generate_slug') == 1)
         {
             $page->generateSlug();
             $page->save();
         }
 
-        return redirect()->route('admin.pages.edit', $page)->with('message', 'Page created.');
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Page is successfully created!.<br /><br /><a href="' . route('admin.pages.edit', $page) . '">Click here</a> to view/edit the created page.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -101,13 +105,17 @@ class PageController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        if ($request->has('generate-slug') || is_null($page->slug))
+        if (request()->has('generate_slug') || !request()->filled('slug'))
         {
             $page->generateSlug();
             $page->save();
         }
 
-        return redirect()->route('admin.pages.edit', $page)->with('message', 'Page updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Page is successfully updated!.<br /><br /><a href="' . route('pages.show_page', $page->slug) . '">Click here</a> to view the updated page.',
+            'type' => 'success',
+        ]);
     }
 
     public function toggleEnabled(Request $request, Page $page)
@@ -130,12 +138,11 @@ class PageController extends Controller
     {
         $page->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json(['message' => 'Selected Page has been successfully deleted.']);
-        }
-
-        return redirect()->route('admin.pages.index')->with('message', 'Selected Page has been successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Page is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function validatePage()
@@ -143,7 +150,7 @@ class PageController extends Controller
         return request()->validate([
             'title' => ['required', 'string'],
             'slug' => ['sometimes', 'nullable', 'string'],
-            'generate-slug' => ['sometimes', 'boolean'],
+            'generate_slug' => ['sometimes', 'boolean'],
             'content' => ['nullable'],
             'view' => ['nullable'],
             'middleware' => ['nullable', 'alpha_dash'],

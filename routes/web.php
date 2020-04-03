@@ -11,14 +11,6 @@
 |
 */
 
-/*
-TODO:
-Menüler controller değil de model içerisinden getByName gibi çağrılabilir/çağrılmalı?
-Örnek:
-use Harimayco\Menu\Facades\Menu;
-$menuList = Menu::getByName('Admin');
-*/
-
 use App\Item;
 use App\MagicOpt;
 
@@ -28,18 +20,18 @@ Route::group(['prefix' => 'articles'], function ()
 {
     Route::get('/', 'ArticleController@index')->name('articles.show_articles');
 
-    Route::get('categories/{category}', 'ArticleCategoryController@show')->name('articles.get_category');
-    Route::get('comments/{article}', 'ArticleCommentController@show')->name('articles.get_comments');
+    Route::get('categories/{category:slug}', 'ArticleCategoryController@show')->name('articles.get_category');
+    Route::get('comments/{article:slug}', 'ArticleCommentController@show')->name('articles.get_comments');
 
-    Route::get('{article}', 'ArticleController@show')->name('articles.show_article');
-    Route::post('{article}', 'ArticleCommentController@store')->name('articles.store_comment');
+    Route::get('{article:slug}', 'ArticleController@show')->name('articles.show_article');
+    Route::post('{article:slug}', 'ArticleCommentController@store')->name('articles.store_comment');
 });
 
 // Dinamik sayfa işlemleri
 // Middleware: dinamik olarak atanmaktadır.
 Route::group(['prefix' => 'pages', 'as' => 'pages.'], function ()
 {
-    Route::get('{page}', 'PageController@show')->name('show_page');
+    Route::get('{page:slug}', 'PageController@show')->name('show_page');
 });
 
 // Misafir işlemleri
@@ -145,7 +137,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
             Route::resource('categories', 'Admin\ArticleCategoryController', ['as' => 'articles']);
             Route::patch('categories/{category}/toggleEnabled', 'Admin\ArticleCategoryController@toggleEnabled')->name('articles.categories.toggle_enabled');
 
-            // comments/{comment}
             Route::resource('comments', 'Admin\ArticleCommentController', ['as' => 'articles']);
             Route::patch('comments/{comment}/toggleVisibility', 'Admin\ArticleCommentController@toggleVisibility')->name('articles.comments.toggle_visibility');
             Route::patch('comments/{comment}/toggleApproved', 'Admin\ArticleCommentController@toggleApproved')->name('articles.comments.toggle_approved');

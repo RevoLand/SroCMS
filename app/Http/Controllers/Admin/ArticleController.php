@@ -126,7 +126,7 @@ class ArticleController extends Controller
 
         return response()->json([
             'title' => 'Updated!',
-            'message' => 'Article is successfully updated!.<br /><br /><a href="' . route('articles.show_article', $article) . '">Click here</a> to view the updated article.',
+            'message' => 'Article is successfully updated!.<br /><br /><a href="' . route('articles.show_article', $article->slug) . '">Click here</a> to view the updated article.',
             'type' => 'success',
         ]);
     }

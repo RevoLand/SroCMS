@@ -62,7 +62,7 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('articles.show_article', $comment->article) }}" class="btn btn-accent btn-upper btn-sm btn-bold">
+                        <a href="{{ route('articles.show_article', $comment->article->slug) }}" class="btn btn-accent btn-upper btn-sm btn-bold">
                             <i class="la la-eye"></i> View Article
                         </a>
                         <a href="{{ route('admin.articles.edit', $comment->article) }}" class="btn btn-info btn-upper btn-sm btn-bold">

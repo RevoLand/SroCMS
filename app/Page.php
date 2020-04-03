@@ -25,9 +25,4 @@ class Page extends Model
     {
         return $query->whereEnabled(true);
     }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 }

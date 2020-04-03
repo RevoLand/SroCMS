@@ -33,7 +33,7 @@
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-actions">
-                        <a href="{{ route('articles.show_article', $article) }}" class="btn btn-accent btn-upper btn-sm btn-bold"><i class="la la-eye"></i> View Article</a>
+                        <a href="{{ route('articles.show_article', $article->slug) }}" class="btn btn-accent btn-upper btn-sm btn-bold"><i class="la la-eye"></i> View Article</a>
                         <a href="{{ route('admin.articles.index') }}" class="btn btn-info btn-upper btn-sm btn-bold"><i class="la la-copy"></i> List Articles</a>
                         <a href="{{ route('admin.articles.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
                             <i class="la la-edit"></i> Create Article

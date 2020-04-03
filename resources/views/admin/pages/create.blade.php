@@ -24,33 +24,6 @@
 
     <!-- begin:: Content -->
     <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        @if (session('message'))
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-light alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-check-square kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        {{ session('message') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-        @if ($errors->any())
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-danger alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-warning kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__head">
                 <div class="kt-portlet__head-label">
@@ -67,42 +40,42 @@
                 </div>
             </div>
             <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.pages.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.pages.store'], 'class' => 'kt-form', 'method' => 'post', '@submit.prevent' => 'submitForm']) }}
                     <div class="form-group">
                         <label>Title</label>
-                        {{ Form::text('title', old('title'), ['class' => 'form-control', 'required']) }}
+                        <input type="text" class="form-control" v-model="title" required>
                         <label class="kt-checkbox mt-2">
-                            {!! Form::checkbox('generate-slug', 1, true) !!} Auto Generate Slug from Title
+                            <input type="checkbox" v-model="generate_slug" true-value="1" false-value="0"> Auto Generate Slug from Title
                             <span></span>
                         </label>
                     </div>
-                    <div class="form-group slug-field">
+                    <div class="form-group" v-show="generate_slug == 0">
                         <label>Slug</label>
-                        {{ Form::text('slug', old('slug'), ['class' => 'form-control']) }}
+                        <input type="text" class="form-control" v-model="slug">
                     </div>
                     <div class="form-group">
-                        <label>Content (HTML)</label>
-                        <textarea name="content" class="tox-tinymce">{!! old('content') !!}</textarea>
+                        <label>Content</label>
+                        <ckeditor :editor="editor" v-model="content" :config="editorConfig"></ckeditor>
                     </div>
                     <div class="form-group">
                         <label>View</label>
-                        {{ Form::text('view', old('view'), ['class' => 'form-control']) }}
+                        <input type="text" class="form-control" v-model="view">
                         <span class="form-text text-muted">View will be showed rather than the content set.</span>
                     </div>
                     <div class="form-group">
                         <label>Middleware</label>
-                        {{ Form::text('middleware', old('middleware'), ['class' => 'form-control']) }}
+                        <input type="text" class="form-control" v-model="middleware">
                         <span class="form-text text-muted">Middleware required to access page.</span>
                     </div>
                     <div class="form-group">
                         <label>Sidebar</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('showsidebar', 1, old('showsidebar', true)) !!} Show
+                                <input type="radio" v-model="showsidebar" name="showsidebar" value="1"> Show
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('showsidebar', 0, !old('showsidebar', true)) !!} Hide
+                                <input type="radio" v-model="showsidebar" name="showsidebar" value="0"> Hide
                                 <span></span>
                             </label>
                         </div>
@@ -111,11 +84,11 @@
                         <label>State</label>
                         <div class="kt-radio-inline">
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, old('enabled', true)) !!} Enabled
+                                <input type="radio" v-model="enabled" name="enabled" value="1"> Enabled
                                 <span></span>
                             </label>
                             <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !old('enabled', true)) !!} Disabled
+                                <input type="radio" v-model="enabled" name="enabled" value="0"> Disabled
                                 <span></span>
                             </label>
                         </div>
@@ -134,25 +107,114 @@
     <!-- end:: Content -->
 </div>
 @endsection
-
 @section('js')
-{!! Theme::js('plugins/tinymce/tinymce.min.js') !!}
-{!! Theme::js('js/pages/tinymce-editor.js') !!}
+{!! Theme::js('js/plugins/ckeditor/ckeditor.js') !!}
+<script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script>
-$(function() {
-    var slugCheckboxSelector = $( "input[name='generate-slug']");
+    new Vue({
+        el: '#kt_content',
+        data: {
+            title: '',
+            slug: '',
+            content: '',
+            view: '',
+            middleware: '',
+            showsidebar: '1',
+            enabled: '1',
+            generate_slug: '1',
+            editor: ClassicEditor,
+            editorConfig: {
+                toolbar: {
+                    items: [
+                        'bold',
+                        'italic',
+                        'underline',
+                        'heading',
+                        'fontFamily',
+                        '|',
+                        'fontSize',
+                        'fontColor',
+                        'fontBackgroundColor',
+                        'highlight',
+                        'removeFormat',
+                        '|',
+                        'link',
+                        'code',
+                        'codeBlock',
+                        'comment',
+                        'blockQuote',
+                        'imageUpload',
+                        '|',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'alignment',
+                        'indent',
+                        'outdent',
+                        '|',
+                        'insertTable',
+                        'todoList',
+                        'mediaEmbed',
+                        'undo',
+                        'redo',
+                        'horizontalLine'
+                    ]
+                },
+                language: 'en',
+                image: {
+                    toolbar: [
+                        'imageTextAlternative',
+                        'imageStyle:full',
+                        'imageStyle:side'
+                    ]
+                },
+                table: {
+                    contentToolbar: [
+                        'tableColumn',
+                        'tableRow',
+                        'mergeTableCells',
+                        'tableCellProperties',
+                        'tableProperties'
+                    ]
+                }
+            }
+        },
+        components: {
+            ckeditor: CKEditor.component
+        },
+        methods: {
+            submitForm(event) {
+                KTApp.block('body');
+                axios.post(event.target.action, this.$data)
+                .then(response => {
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
+                })
+                .catch(function (error) {
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
 
-    if (!slugCheckboxSelector[0].checked) {
-        $('.slug-field').show({});
-    }
-
-    slugCheckboxSelector.click(function() {
-        if (this.checked){
-            $('.slug-field').hide({});
-        } else {
-            $('.slug-field').show({});
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    KTApp.unblock('body');
+                });
+            }
         }
     });
-});
 </script>
 @endsection

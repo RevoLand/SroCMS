@@ -105,7 +105,7 @@ class ArticleCategoryController extends Controller
 
         return response()->json([
             'title' => 'Updated!',
-            'message' => 'Article Category is successfully updated!.<br /><br /><a href="' . route('articles.get_category', $category) . '">Click here</a> to view the updated article category.',
+            'message' => 'Article Category is successfully updated!.<br /><br /><a href="' . route('articles.get_category', $category->slug) . '">Click here</a> to view the updated article category.',
             'type' => 'success',
         ]);
     }

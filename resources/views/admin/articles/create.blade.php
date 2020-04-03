@@ -117,8 +117,8 @@
 
 @section('js')
 {!! Theme::js('js/plugins/ckeditor/ckeditor.js') !!}
-<script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/dtpicker.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
@@ -193,7 +193,6 @@ new Vue({
         published_at: '{{ date('Y-m-d H:i') }}'
     },
     components: {
-        // Use the <ckeditor> component in this view.
         ckeditor: CKEditor.component
     },
     methods: {

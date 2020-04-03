@@ -96,7 +96,6 @@
         },
         methods: {
             submitForm(event) {
-                console.log(event);
                 KTApp.block('body');
                 axios.post(event.target.action, this.$data)
                 .then(response => {

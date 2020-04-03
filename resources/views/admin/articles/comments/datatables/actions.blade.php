@@ -1,4 +1,4 @@
-<a href="{{ route('articles.show_article', $model->article) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View Article">
+<a href="{{ route('articles.show_article', $model->article->slug) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View Article">
     <i class="la la-eye"></i>
 </a>
 <a href="{{ route('admin.users.show', $model->user) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View User">

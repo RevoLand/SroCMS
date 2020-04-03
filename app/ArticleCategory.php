@@ -29,9 +29,4 @@ class ArticleCategory extends Model
     {
         return $query->where('Enabled', true);
     }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 }
