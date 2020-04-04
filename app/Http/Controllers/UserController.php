@@ -103,41 +103,6 @@ class UserController extends Controller
         return redirect()->route('users.login_form');
     }
 
-    public function setReferrer()
-    {
-        request()->validate([
-            'referrer_name' => ['bail', 'required', 'string', 'exists:\App\User,StrUserID'],
-            'referrer_agree_change' => ['required', 'accepted'],
-        ]);
-
-        if (!setting('referrals.enabled', 1) || !setting('referrals.can_set_later', 0))
-        {
-            Alert::error('Başarısız!', 'Referans sistemi aktive edilmemiş!');
-
-            return redirect()->back();
-        }
-
-        if (strcasecmp(auth()->user()->StrUserID, request('referrer_name')) == 0)
-        {
-            Alert::error('Başarısız!', 'Kendi kendinizi tavsiye edemezsiniz!');
-
-            return redirect()->back();
-        }
-
-        if (auth()->user()->referrer)
-        {
-            Alert::error('Başarısız!', 'Zaten sizi tavsiye eden kullanıcıyı belirtmişsiniz!');
-
-            return redirect()->back();
-        }
-
-        auth()->user()->setReferrer(User::firstWhere('StrUserID', request('referrer_name'))->JID);
-
-        Alert::success('Tavsiye eden kullanıcınız başarıyla sisteme kaydedildi.');
-
-        return redirect()->route('users.edit_form');
-    }
-
     public function balance()
     {
         $balanceLogs = auth()->user()->balance->logs()->latest()->with('sourceUser')->paginate(20);

@@ -12,7 +12,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, CanResetPassword, HasRoles;
+    use Notifiable;
+    use CanResetPassword;
+    use HasRoles;
     const CREATED_AT = 'regtime';
     const UPDATED_AT = null;
 
@@ -107,13 +109,6 @@ class User extends Authenticatable implements MustVerifyEmail
         ]);
     }
 
-    public function setReferrer(int $referrerUserId)
-    {
-        $this->referrer()->create([
-            'referrer_user_id' => $referrerUserId,
-        ]);
-    }
-
     public function getEmailForPasswordReset()
     {
         return $this->Email;
@@ -127,6 +122,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function characters()
     {
         return $this->hasManyThrough(Character::class, ShardUser::class, 'UserJID', 'CharID', 'JID', 'CharID');
+    }
+
+    public function balanceLogs()
+    {
+        return $this->hasMany(UserBalanceLog::class, 'user_id', 'JID');
     }
 
     public function voteLogs()

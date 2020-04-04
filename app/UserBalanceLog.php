@@ -8,6 +8,7 @@ class UserBalanceLog extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $appends = ['balance_difference'];
 
     public function user()
     {
@@ -22,5 +23,15 @@ class UserBalanceLog extends Model
     public function getBalanceDifferenceAttribute()
     {
         return bcsub($this->balance_after, $this->balance_before, 2);
+    }
+
+    public function scopeSource($query, $source)
+    {
+        return $query->where('source', $source);
+    }
+
+    public function scopeSourceUser($query, $sourceUserId)
+    {
+        return $query->where('source_user_id', $sourceUserId);
     }
 }

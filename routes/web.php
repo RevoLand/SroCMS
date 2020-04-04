@@ -70,7 +70,8 @@ Route::group(['prefix' => 'users'], function ()
     Route::get('email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification.verify');
     Route::post('email/resend', 'Auth\VerificationController@resend')->name('verification.resend');
 
-    Route::post('referrer/update', 'UserController@setReferrer')->name('users.set_referrer');
+    Route::get('referrer', 'ReferralController@index')->name('users.referrals');
+    Route::post('referrer/update', 'ReferralController@update')->name('users.set_referrer');
 
     Route::get('balance', 'UserController@balance')->name('users.balance');
 

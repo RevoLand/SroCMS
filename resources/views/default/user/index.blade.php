@@ -70,7 +70,7 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
                 <div class="col-md">
                     <div class="card shadow-sm rounded-sm">
                         <div class="card-body">
-                            <h4 class="card-title">Bakiye Bilgilerim</h4>
+                            <h4 class="card-title"><a href="{{ route('users.balance') }}">Bakiye Bilgilerim</a></h4>
                             <ul class="card-text list-unstyled">
                                 <li>{{ setting('balance.name', 'Bakiye') }}:<br/>{{ number_format(auth()->user()->balance->balance, 2) }} {{ setting('balance.currency', 'TL') }}</li>
                                 <li>{{ setting('balance.point_name', 'Bakiye (Puan)') }}:<br/>{{ number_format(auth()->user()->balance->balance_point, 2) }} {{ setting('balance.currency', 'TL') }}</li>
@@ -82,7 +82,7 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
                 <div class="col-md">
                     <div class="card shadow-sm rounded-sm">
                         <div class="card-body">
-                            <h4 class="card-title">Referanslarım <small class="text-muted">(Son 5)</small></h4>
+                            <h4 class="card-title"><a href="{{ route('users.referrals') }}">Referanslarım</a> <small class="text-muted">(Son 5)</small></h4>
                             <ul class="card-text list-unstyled">
                                 @forelse(auth()->user()->referrals as $referral)
                                 <li><a href="{{ route('users.show_user', $referral->user) }}">{{ $referral->user->getName() }}</a><br /><small class="text-muted">{{ $referral->created_at }}</small></li>

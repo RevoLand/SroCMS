@@ -57,15 +57,13 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $data
-     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['bail', 'required', 'string', 'min:3', 'max:100'],
-            'username' => ['bail', 'required', 'alpha_num', 'min:3', 'max:255', 'unique:account.TB_User,StrUserID'],
+            'username' => ['bail', 'required', 'alpha_dash', 'min:3', 'max:255', 'unique:account.TB_User,StrUserID'],
             'email' => ['bail', 'required', 'string', 'email:rfc,dns,spoof', 'max:255'],
             'password' => ['bail', 'required', 'string', 'min:8', 'max:255', 'confirmed'],
             'referrer_name' => ['nullable', 'string', 'exists:\App\User,StrUserID'],
@@ -74,8 +72,6 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param array $data
      *
      * @return \App\User
      */
