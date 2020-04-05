@@ -6,6 +6,7 @@ use App\DataTables\VoteProviderIpsDataTable;
 use App\Http\Controllers\Controller;
 use App\VoteProviderIp;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class VoteProviderIpController extends Controller
 {
@@ -36,13 +37,15 @@ class VoteProviderIpController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validateIp();
+        request()->validate([
+            'ip' => ['required', 'ip', 'unique:App\VoteProviderIp,ip'],
+        ]);
 
         $ip = VoteProviderIp::create([
             'ip' => request('ip'),
         ]);
 
-        return redirect()->route('admin.votes.providers.ips.edit', compact('ip'));
+        return redirect()->route('admin.votes.providers.ips.edit', compact('ip'))->with('message', 'IP is successfully added.');
     }
 
     /**
@@ -77,11 +80,13 @@ class VoteProviderIpController extends Controller
      */
     public function update(Request $request, VoteProviderIp $ip)
     {
-        $this->validateIp();
+        request()->validate([
+            'ip' => ['required', 'ip', Rule::unique('vote_provider_ips')->ignoreModel($ip)],
+        ]);
 
         $ip->update(['ip' => request('ip')]);
 
-        return redirect()->route('admin.votes.providers.ips.edit', compact('ip'));
+        return redirect()->route('admin.votes.providers.ips.edit', compact('ip'))->with('message', 'IP is successfully updated.');
     }
 
     /**
@@ -105,12 +110,5 @@ class VoteProviderIpController extends Controller
         }
 
         return redirect()->route('admin.votes.providers.ips.index')->with('message', 'Selected IP has been deleted.');
-    }
-
-    private function validateIp()
-    {
-        return request()->validate([
-            'ip' => ['required', 'ip', 'unique:App\VoteProviderIp,ip'],
-        ]);
     }
 }
