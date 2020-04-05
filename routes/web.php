@@ -170,6 +170,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
             Route::resource('providers', 'Admin\VoteProviderController');
             Route::patch('providers/{provider}/toggleEnabled', 'Admin\VoteProviderController@toggleEnabled')->name('providers.toggle_enabled');
+            Route::post('providers/{provider}/getCallbackUrl', 'Admin\VoteProviderController@getCallbackUrl')->name('providers.get_callback_url');
         });
 
         Route::resource('votes', 'Admin\VoteLogController');

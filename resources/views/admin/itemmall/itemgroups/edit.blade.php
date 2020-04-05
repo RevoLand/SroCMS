@@ -3,7 +3,6 @@
 @section('pagetitle', 'Edit Item Group')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -372,7 +371,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('js')
@@ -481,11 +479,14 @@
                 axios.post(event.target.action, this.item)
                 .then(response => {
                     if (this.IsItCreateForm) {
-                        swal.fire( 'Created!', response.data.message, 'success');
                         this.$root.items.push(response.data.item);
-                    } else {
-                        swal.fire( 'Updated!', response.data.message, 'success');
                     }
+
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
                 })
                 .catch(error => {
                     var errors = '<ul class="list-unstyled">';
@@ -516,7 +517,11 @@
                 }).then(response => {
                     this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
                     this.$root.selecteditem = '';
-                    swal.fire( 'Deleted!', response.data.message, 'success');
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
                 })
                 .catch(error => {
                     var errors = '<ul class="list-unstyled">';
@@ -568,14 +573,18 @@
             enabled: @json($itemgroup->enabled ?? 1),
             available_after: @json($itemgroup->available_after),
             available_until: @json($itemgroup->available_until),
-            mode: @json(old('mode') ?? 1)
+            mode: '1'
         },
 
         methods: {
             onFormSubmit: function(event) {
                 axios.patch(event.target.action, this.$data)
                 .then(function (response) {
-                    swal.fire( 'Created!', response.data.message, 'success');
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
                 })
                 .catch(function (error) {
                     var errors = '<ul class="list-unstyled">';

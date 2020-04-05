@@ -67,7 +67,11 @@ class ItemMallItemGroupController extends Controller
 
         $itemGroup->categories()->attach(request('categories'));
 
-        return response()->json(['message' => "Item Group is successfully created.\nClick <a href='" . route('admin.itemmall.itemgroups.edit', $itemGroup) . "'>here</a> to edit the newly generated itemgroup."], 200);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => "Item Group is successfully created.\nClick <a href='" . route('admin.itemmall.itemgroups.edit', $itemGroup) . "'>here</a> to edit the newly generated itemgroup.",
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -140,7 +144,11 @@ class ItemMallItemGroupController extends Controller
 
         $itemgroup->categories()->sync(request('categories'));
 
-        return response()->json(['message' => 'Item Group is updated!']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Item Group is successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -156,7 +164,11 @@ class ItemMallItemGroupController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Selected item group is successfully deleted']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Selected Item Group has been successfully deleted.',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.itemmall.itemgroups.index')->with('message', 'Selected item group is successfully deleted');
@@ -168,7 +180,11 @@ class ItemMallItemGroupController extends Controller
             'enabled' => !$itemgroup->enabled,
         ]);
 
-        return response()->json(['message' => 'Item Group Enabled state has been successfully changed.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Item Group Enabled state has been successfully changed.',
+            'type' => 'success',
+        ]);
     }
 
     private function validateItemGroup()

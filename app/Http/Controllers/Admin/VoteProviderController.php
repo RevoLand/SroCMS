@@ -92,23 +92,29 @@ class VoteProviderController extends Controller
     {
         $this->validateProvider();
 
-        if (!request()->filled('callback_secret') || request()->has('generate-callback_secret'))
-        {
-            request()->callback_secret = $this->generateCallbackSecret();
-        }
+        $callback_secret = (!request()->filled('callback_secret') || request()->has('generate-callback_secret')) ? $this->generateCallbackSecret() : request('callback_secret');
 
         $provider->update([
             'name' => request('name'),
             'url' => request('url'),
             'url_user_name' => request('url_user_name'),
-            'callback_secret' => request()->callback_secret,
+            'callback_secret' => $callback_secret,
             'callback_user_name' => request('callback_user_name'),
             'callback_success_name' => request('callback_success_name'),
             'minutes_between_votes' => request('minutes_between_votes'),
             'enabled' => request('enabled'),
         ]);
 
-        return redirect()->route('admin.votes.providers.edit', $provider)->with('message', 'Vote Provider created. You can use this url for the callback:<br/><mark>' . route('votes.callback_url', $provider->callback_secret) . '</mark><br/>* Both GET/POST methods are supported for the URL.');
+        return redirect()->route('admin.votes.providers.edit', $provider)->with('message', 'Vote Provider created. You can use this url for the callback:<br/><mark>' . route('votes.callback_url', $provider->callback_secret) . '</mark><br/>*Both GET/POST methods are supported for the URL.');
+    }
+
+    public function getCallbackUrl(Request $request, VoteProvider $provider)
+    {
+        return response()->json([
+            'title' => 'Callback URL for: ' . $provider->name,
+            'message' => '<input type="text" readonly class="form-control" value="' . route('votes.callback_url', $provider->callback_secret) . '"><br />GET & POST methods are supported for the URL.',
+            'type' => 'info',
+        ]);
     }
 
     public function toggleEnabled(Request $request, VoteProvider $provider)
@@ -117,7 +123,11 @@ class VoteProviderController extends Controller
             'enabled' => !$provider->enabled,
         ]);
 
-        return response()->json(['message' => 'Enabled state has been successfully updated for selected vote provider.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Enabled state has been successfully updated for selected vote provider.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -133,7 +143,11 @@ class VoteProviderController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Selected Vote Provider has been successfully deleted.']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Selected Vote Provider has been successfully deleted.',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.votes.providers.index')->with('message', 'Vote Provider is successfully deleted.');
@@ -154,7 +168,7 @@ class VoteProviderController extends Controller
         ]);
     }
 
-    private function generateCallbackSecret($length = 40)
+    private function generateCallbackSecret($length = 40): string
     {
         $randomString = Str::random($length);
 

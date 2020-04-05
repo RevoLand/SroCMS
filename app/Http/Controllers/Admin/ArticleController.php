@@ -137,7 +137,11 @@ class ArticleController extends Controller
             'is_visible' => !$article->is_visible,
         ]);
 
-        return response()->json(['message' => 'Visibility state has been successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Visibility state has been successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     public function toggleComments(Request $request, Article $article)
@@ -146,7 +150,11 @@ class ArticleController extends Controller
             'can_comment_on' => !$article->can_comment_on,
         ]);
 
-        return response()->json(['message' => 'Commentable state has been successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Commentable state has been successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     /**

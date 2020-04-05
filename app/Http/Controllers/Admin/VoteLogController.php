@@ -22,7 +22,11 @@ class VoteLogController extends Controller
     {
         $votelog->update(['active' => !$votelog->active]);
 
-        return response()->json(['message' => 'Vote state has been successfully toggled.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Vote state has been successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     /**

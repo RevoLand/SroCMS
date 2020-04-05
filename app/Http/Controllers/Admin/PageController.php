@@ -124,7 +124,11 @@ class PageController extends Controller
             'enabled' => !$page->enabled,
         ]);
 
-        return response()->json(['message' => 'Enabled state has been successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Enabled state for selected page has been successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     /**

@@ -3,7 +3,6 @@
 @section('pagetitle', 'Reverse Point Manager')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -86,7 +85,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('js')
@@ -272,7 +270,11 @@ Vue.component('reverse-point-form', {
                 this.reverse.WorldID = response.data.WorldId;
 
                 this.character_position_updated = true;
-                swal.fire( 'Updated!', response.data.message, 'success');
+                swal.fire({
+                    title: response.data.title,
+                    html: response.data.message,
+                    type: response.data.type
+                });
             })
             .catch(error => {
                 var errors = '<ul class="list-unstyled">';
@@ -302,10 +304,13 @@ Vue.component('reverse-point-form', {
                 if (this.IsItCreateForm) {
                     this.$root.reverse_points.push(response.data.reverse_point);
                     this.$root.selected_reverse_point = response.data.reverse_point;
-                    swal.fire( 'Created!', response.data.message, 'success');
-                } else {
-                    swal.fire( 'Updated!', response.data.message, 'success');
                 }
+
+                swal.fire({
+                    title: response.data.title,
+                    html: response.data.message,
+                    type: response.data.type
+                });
             })
             .catch(error => {
                 var errors = '<ul class="list-unstyled">';
@@ -345,7 +350,11 @@ Vue.component('reverse-point-form', {
                         }).then(response => {
                             this.$root.reverse_points.splice(this.$root.reverse_points.indexOf(this.reverse), 1);
                             this.$root.selected_reverse_point = '';
-                            swal.fire( 'Deleted!', response.data.message, 'success');
+                            swal.fire({
+                                title: response.data.title,
+                                html: response.data.message,
+                                type: response.data.type
+                            });
                         })
                         .catch(error => {
                             var errors = '<ul class="list-unstyled">';
@@ -379,9 +388,9 @@ new Vue({
         selected_reverse_point: '',
 
         // routes
-        get_character_position_route: '{{ route('admin.characters.get_position') }}',
-        update_reverse_point_route: '{{ route('admin.teleports.reverse_points.update') }}',
-        destroy_reverse_point_route: '{{ route('admin.teleports.reverse_points.destroy') }}'
+        get_character_position_route: @json(route('admin.characters.get_position')),
+        update_reverse_point_route: @json(route('admin.teleports.reverse_points.update')),
+        destroy_reverse_point_route: @json(route('admin.teleports.reverse_points.destroy'))
     },
     mounted() {
         this.reverse_points = @json($reversePoints);

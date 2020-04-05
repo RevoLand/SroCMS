@@ -21,7 +21,7 @@
                                 <div class="card-body">
                                     <div class="card-text">
                                         <div class="row">
-                                            <div class="col-md" v-show="itemCount !== 0">
+                                            <div class="col-md" v-show="itemCount != 0">
                                                 @forelse($cart as $key => $cartItem)
                                                 <table class="table table-borderless table-responsive-md table-hover shadow-sm" id="cartitem-{{ $key }}">
                                                     <thead class="table-secondary shadow-sm">
@@ -103,7 +103,7 @@
                                                     Sepetinizde herhangi bir ürün bulunmamaktadır.
                                                 @endforelse
                                             </div>
-                                            <div class="col-md" v-show="itemCount === 0">
+                                            <div class="col-md" v-show="itemCount == 0">
                                                 Sepetinizde herhangi bir ürün bulunmamaktadır.
                                             </div>
                                         </div>
@@ -238,7 +238,7 @@
 
         mounted() {
             this.totals = @json($totals),
-            this.itemCount = {{ $itemCount }}
+            this.itemCount = @json($itemCount)
         },
 
         methods: {

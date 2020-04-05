@@ -116,7 +116,11 @@ class ArticleCategoryController extends Controller
             'enabled' => !$category->enabled,
         ]);
 
-        return response()->json(['message' => 'Category Enabled state successfully updated.<br/>New State: ' . (($category->enabled) ? 'Enabled' : 'Disabled')]);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Category Enabled state is successfully updated.<br/>New State: ' . (($category->enabled) ? 'Enabled' : 'Disabled'),
+            'type' => 'success',
+        ]);
     }
 
     /**

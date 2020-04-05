@@ -58,7 +58,10 @@ class VoteController extends Controller
         return view('user.votes.index', ['voteProviders' => VoteProvider::enabled()->with(['rewardGroups' => function ($query)
         {
             $query->enabled();
-        }, ])->get()]);
+        }, ])->whereHas('rewardGroups.rewards', function ($query)
+        {
+            $query->enabled();
+        })->get()]);
     }
 
     public function vote(VoteProvider $voteProvider)

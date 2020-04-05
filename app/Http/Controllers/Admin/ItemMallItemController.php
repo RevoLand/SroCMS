@@ -55,7 +55,11 @@ class ItemMallItemController extends Controller
 
         ItemMallItem::find(request('id'))->delete();
 
-        return response()->json(['message' => 'Selected Item is successfully removed.']);
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Item is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function store()
@@ -73,6 +77,11 @@ class ItemMallItemController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        return response()->json(['item' => $item, 'message' => 'Item is successfully created.']);
+        return response()->json([
+            'item' => $item,
+            'title' => 'Updated!',
+            'message' => 'Item is successfully created.',
+            'type' => 'success',
+        ]);
     }
 }

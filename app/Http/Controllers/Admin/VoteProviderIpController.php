@@ -97,7 +97,11 @@ class VoteProviderIpController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Selected IP has been deleted as requested.']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Selected IP has been deleted as requested.',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.votes.providers.ips.index')->with('message', 'Selected IP has been deleted.');

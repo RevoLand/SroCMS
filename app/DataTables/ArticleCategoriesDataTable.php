@@ -37,8 +37,6 @@ class ArticleCategoriesDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\ArticleCategory $model
-     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ArticleCategory $model)
@@ -57,7 +55,7 @@ class ArticleCategoriesDataTable extends DataTable
             ->setTableId('articlecategories-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>>\t\t\t<'row'<'col-sm-12'tr>>\t\t\t<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
+            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
             ->orders([[3, 'desc'], [2, 'asc']])
             ->pagingType('first_last_numbers')
             ->buttons(

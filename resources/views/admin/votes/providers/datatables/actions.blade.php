@@ -14,6 +14,11 @@
             <i class="la la-eye-slash"></i> Toggle Enabled
         </button>
         {!! Form::close() !!}
+        {!! Form::open([ 'route' => ['admin.votes.providers.get_callback_url', $id], 'method' => 'post', 'data-action' => 'get_callback_url', 'data-id' => $id ]) !!}
+        <button class="dropdown-item btn" role="button" type="submit">
+            <i class="la la-link"></i> Get Callback URL
+        </button>
+        {!! Form::close() !!}
         {!! Form::open([ 'route' => ['admin.votes.providers.destroy', $id], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!}
         <button class="dropdown-item btn" role="button" type="submit">
             <i class="la la-remove"></i> Delete

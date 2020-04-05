@@ -3,7 +3,6 @@
 @section('pagetitle', 'Edit E-Pin')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -186,9 +185,7 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
-
 
 @section('js')
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
@@ -251,10 +248,13 @@
                 .then(response => {
                     if (this.IsItCreateForm) {
                         this.$root.items.push(response.data.epinItem);
-                        swal.fire( 'Created!', response.data.message, 'success');
-                    } else {
-                        swal.fire( 'Updated!', response.data.message, 'success');
                     }
+
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
                 })
                 .catch(error => {
                     var errors = '<ul class="list-unstyled">';
@@ -287,7 +287,11 @@
                     this.$root.items.splice(this.$root.items.indexOf(itemToDelete), 1);
                     this.$root.selecteditem = '';
                     this.IsBeingDeleted = false;
-                    swal.fire( 'Deleted!', response.data.message, 'success');
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
                 })
                 .catch(error => {
                     var errors = '<ul class="list-unstyled">';
@@ -330,7 +334,7 @@
 
         mounted() {
             this.items = @json($epin->items),
-            this.epin_reward_type = {{ $epin->type }}
+            this.epin_reward_type = @json($epin->type)
         }
     });
 

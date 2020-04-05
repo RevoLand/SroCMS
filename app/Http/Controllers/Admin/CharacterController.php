@@ -22,7 +22,9 @@ class CharacterController extends Controller
             'PosY' => $character->PosY,
             'PosZ' => $character->PosZ,
             'WorldId' => $character->WorldID,
+            'title' => 'Updated!',
             'message' => 'Character position is successfully retrieved.',
+            'type' => 'success',
         ]);
     }
 }

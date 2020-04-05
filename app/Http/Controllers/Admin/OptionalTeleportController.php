@@ -49,7 +49,11 @@ class OptionalTeleportController extends Controller
 
         $teleport->update($validatedParams);
 
-        return response()->json(['message' => 'Selected Reverse Point is successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected Reverse Point is successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     public function destroy()
@@ -60,11 +64,20 @@ class OptionalTeleportController extends Controller
 
         RefOptionalTeleport::find(request('id'))->delete();
 
-        return response()->json(['message' => 'Selected Reverse Point is successfully deleted.']);
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Reverse Point is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function store($validatedParams)
     {
-        return response()->json(['message' => 'Reverse Point is successfully created.', 'reverse_point' => new ResourcesRefOptionalTeleport(RefOptionalTeleport::create($validatedParams)->load('zoneName'))]);
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Reverse Point is successfully created.',
+            'type' => 'success',
+            'reverse_point' => new ResourcesRefOptionalTeleport(RefOptionalTeleport::create($validatedParams)->load('zoneName')),
+        ]);
     }
 }

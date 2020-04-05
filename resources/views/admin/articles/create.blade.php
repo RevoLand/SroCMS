@@ -3,7 +3,6 @@
 @section('pagetitle', 'Create Article')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -112,7 +111,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('js')
@@ -190,7 +188,7 @@ new Vue({
         content: '',
         is_visible: '1',
         can_comment_on: '1',
-        published_at: '{{ date('Y-m-d H:i') }}'
+        published_at: @json(date('Y-m-d H:i'))
     },
     components: {
         ckeditor: CKEditor.component

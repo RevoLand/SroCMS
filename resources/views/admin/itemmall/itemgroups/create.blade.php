@@ -3,7 +3,6 @@
 @section('pagetitle', 'Create Item Group')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -302,7 +301,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('css')
@@ -330,13 +328,13 @@ var vm = new Vue({
         limit_user_purchases: '0',
         user_purchase_limit: '',
         use_customized_referral_options: '0',
-        referral_commission_enabled: '{{ setting('referrals.commissions_enabled', 0) }}',
-        referral_commission_reward_type: '{{ setting('referrals.commission_reward_type', 2) }}',
-        referral_commission_percentage: '{{ setting('referrals.commission_earned_percentage', 2) }}',
+        referral_commission_enabled: @json(setting('referrals.commissions_enabled', 0)),
+        referral_commission_reward_type: @json(setting('referrals.commission_reward_type', 2)),
+        referral_commission_percentage: @json(setting('referrals.commission_earned_percentage', 2)),
         use_customized_point_options: '0',
         reward_point_enabled: '1',
         reward_point_type: '2',
-        reward_point_percentage: '{{ setting('itemmall.pointrewards.percentage', 2) }}',
+        reward_point_percentage: @json(setting('itemmall.pointrewards.percentage', 2)),
         featured: '0',
         order: '1',
         enabled: '1',
@@ -349,7 +347,11 @@ var vm = new Vue({
         onFormSubmit(event) {
             axios.post(event.target.action, this.$data)
             .then(response => {
-                swal.fire( 'Created!', response.data.message, 'success');
+                swal.fire({
+                    title: response.data.title,
+                    html: response.data.message,
+                    type: response.data.type
+                });
             })
             .catch(function (error) {
                 var errors = '<ul class="list-unstyled">';

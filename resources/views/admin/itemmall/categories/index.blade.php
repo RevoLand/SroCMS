@@ -3,7 +3,6 @@
 @section('pagetitle', 'Web Item Mall Categories')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -62,7 +61,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('css')
@@ -92,7 +90,11 @@
                         axios.delete(event.target.action)
                         .then(response => {
                             $('#itemmallcategories-table').DataTable().draw(false);
-                            swal.fire( 'Deleted!', response.data.message, 'success');
+                            swal.fire({
+                                title: response.data.title,
+                                html: response.data.message,
+                                type: response.data.type
+                            });
                         })
                         .catch(error => {
                             var errors = '<ul class="list-unstyled">';
@@ -116,7 +118,11 @@
                 axios.patch(event.target.action)
                     .then(response => {
                         $('#itemmallcategories-table').DataTable().draw(false);
-                        swal.fire( 'Updated!', response.data.message, 'success');
+                        swal.fire({
+                            title: response.data.title,
+                            html: response.data.message,
+                            type: response.data.type
+                        });
                     })
                     .catch(error => {
                         var errors = '<ul class="list-unstyled">';

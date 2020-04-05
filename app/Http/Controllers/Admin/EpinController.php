@@ -65,12 +65,6 @@ class EpinController extends Controller
      */
     public function update(Request $request, Epin $epin)
     {
-        /*
-            "code" => "ALI-J4ZG-GV57-J02R-NR0T-MUSTI"
-            "type" => "6"
-            "balance" => null
-            "enabled" => "1"
-        */
         $this->validateEpin();
 
         $code = (request()->has('generate-code') || !request('code')) ? $this->generateCode() : request('code');
@@ -99,7 +93,11 @@ class EpinController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Select E-Pin is successfully deleted.']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Selected E-Pin is successfully deleted',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.epins.index')->with('message', 'Selected E-Pin is successfully deleted.');
@@ -111,7 +109,11 @@ class EpinController extends Controller
             'enabled' => !$epin->enabled,
         ]);
 
-        return response()->json(['message' => 'E-Pin status updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected E-Pin status has been successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     public function generateCode()

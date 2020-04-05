@@ -47,7 +47,11 @@ class TeleLinkController extends Controller
 
         $teleportLink->update($validatedInputs);
 
-        return response()->json(['message' => 'Selected Teleport Link is successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected Teleport Link is successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     public function destroy()
@@ -58,11 +62,20 @@ class TeleLinkController extends Controller
 
         RefTeleLink::find(request('id'))->delete();
 
-        return response()->json(['message' => 'Selected Teleport Link is successfully deleted.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected Teleport Link is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function store($validatedInputs)
     {
-        return response()->json(['teleport_link' => new ResourcesRefTeleLink(RefTeleLink::create($validatedInputs)->load(['owner.zoneName', 'owner.objCommon.name', 'target.zoneName', 'target.objCommon.name'])), 'message' => 'Teleport Link is successfully created.']);
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Teleport Link has been successfully created.',
+            'type' => 'success',
+            'teleport_link' => new ResourcesRefTeleLink(RefTeleLink::create($validatedInputs)->load(['owner.zoneName', 'owner.objCommon.name', 'target.zoneName', 'target.objCommon.name'])),
+        ]);
     }
 }

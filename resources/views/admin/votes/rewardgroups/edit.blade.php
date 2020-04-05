@@ -3,7 +3,6 @@
 @section('pagetitle', 'Edit Reward Group')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -160,8 +159,8 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
+
 @section('js')
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
@@ -356,8 +355,8 @@
         data: {
             rewards: [],
             selectedreward: '',
-            update_action: '{{ route('admin.votes.rewards.update') }}',
-            destroy_action: '{{ route('admin.votes.rewards.destroy') }}'
+            update_action: @json(route('admin.votes.rewards.update')),
+            destroy_action: @json(route('admin.votes.rewards.destroy'))
         },
 
         mounted() {

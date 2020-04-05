@@ -118,7 +118,11 @@ class VoteProviderRewardGroupController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Selected reward group has been successfully deleted.']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Selected reward group has been successfully deleted.',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.votes.rewardgroups.index')->with('message', 'Selected reward group has been successfully deleted.');
@@ -130,7 +134,11 @@ class VoteProviderRewardGroupController extends Controller
             'enabled' => !$rewardgroup->enabled,
         ]);
 
-        return response()->json(['message' => 'Selected reward group enabled state has been updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected reward group enabled state has been updated.',
+            'type' => 'success',
+        ]);
     }
 
     private function validateRewardGroup()

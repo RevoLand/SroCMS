@@ -53,7 +53,11 @@ class TeleportController extends Controller
 
         $teleport->update($validatedInputs);
 
-        return response()->json(['message' => 'Selected Teleport Point is successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected Teleport Point is successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     public function destroy()
@@ -69,11 +73,20 @@ class TeleportController extends Controller
 
         $teleport->delete();
 
-        return response()->json(['message' => 'Selected Teleport Point is successfully deleted from database.']);
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Teleport Point has been successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 
     private function store($validatedInputs)
     {
-        return response()->json(['teleport' => new ResourcesRefTeleport(RefTeleport::create($validatedInputs)->load(['zoneName', 'objCommon.name'])), 'message' => 'Teleport Point is successfully created.']);
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Teleport Point is successfully created.',
+            'type' => 'success',
+            'teleport' => new ResourcesRefTeleport(RefTeleport::create($validatedInputs)->load(['zoneName', 'objCommon.name'])),
+        ]);
     }
 }

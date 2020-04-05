@@ -31,8 +31,6 @@ class ArticleCommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -60,9 +58,9 @@ class ArticleCommentController extends Controller
     public function edit(ArticleComment $comment)
     {
         $comment->load(['user', 'article', 'user.articleComments' => function ($query)
-            {
-                $query->approved()->visible();
-            }, ]);
+        {
+            $query->approved()->visible();
+        }, ]);
 
         return view('articles.comments.edit', compact('comment'));
     }
@@ -70,8 +68,7 @@ class ArticleCommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -95,7 +92,11 @@ class ArticleCommentController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Comment is deleted.']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Comment is deleted.',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.articles.comments.index')->with('message', 'Comment is successfully deleted.');
@@ -107,7 +108,11 @@ class ArticleCommentController extends Controller
             'is_approved' => !$comment->is_approved,
         ]);
 
-        return response()->json(['message' => 'Comment Approval state is successfully updated! New state: ' . (($comment->is_approved) ? 'Approved' : 'Not Approved')]);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Comment Approval state is successfully updated! New state: ' . (($comment->is_approved) ? 'Approved' : 'Not Approved'),
+            'type' => 'success',
+        ]);
     }
 
     public function toggleVisibility(ArticleComment $comment)
@@ -116,7 +121,11 @@ class ArticleCommentController extends Controller
             'is_visible' => !$comment->is_visible,
         ]);
 
-        return response()->json(['message' => 'Comment Visibility is successfully updated! New Visibility setting is: ' . (($comment->is_visible) ? 'Visible' : 'Not Visible')]);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Comment Visibility is successfully updated! New Visibility setting is: ' . (($comment->is_visible) ? 'Visible' : 'Not Visible'),
+            'type' => 'success',
+        ]);
     }
 
     private function validateComment()

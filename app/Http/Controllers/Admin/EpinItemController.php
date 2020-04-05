@@ -22,7 +22,12 @@ class EpinItemController extends Controller
             'plus' => request('plus'),
         ]);
 
-        return response()->json(['epinItem' => $epinItem, 'message' => 'Item is successfully created.']);
+        return response()->json([
+            'epinItem' => $epinItem,
+            'title' => 'Updated!',
+            'message' => 'Item is successfully created.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -56,7 +61,12 @@ class EpinItemController extends Controller
             'plus' => request('plus'),
         ]);
 
-        return response()->json(['item' => $epinitem, 'message' => 'Item is successfully updated.']);
+        return response()->json([
+            'item' => $epinitem,
+            'title' => 'Updated!',
+            'message' => 'Item is successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     /**
@@ -74,6 +84,10 @@ class EpinItemController extends Controller
 
         EpinItem::find(request('id'))->delete();
 
-        return response()->json(['message' => 'Selected Item is successfully removed.']);
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Item is successfully deleted.',
+            'type' => 'success',
+        ]);
     }
 }

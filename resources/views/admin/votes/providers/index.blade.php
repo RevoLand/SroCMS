@@ -3,7 +3,6 @@
 @section('pagetitle', 'Vote Providers')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -61,7 +60,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('css')
@@ -92,7 +90,11 @@
                         .then(response => {
                             $('tr#' + event.target.dataset.id).fadeOut("slow", function() {
                                 $( this ).remove();
-                                swal.fire( 'Deleted!', response.data.message, 'success');
+                                swal.fire({
+                                    title: response.data.title,
+                                    html: response.data.message,
+                                    type: response.data.type
+                                });
                             });
                         })
                         .catch(error => {
@@ -113,11 +115,40 @@
                     }
                 })
             break;
+            case 'get_callback_url':
+                axios.post(event.target.action)
+                .then(response => {
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        type: response.data.type
+                    });
+                })
+                .catch(error => {
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                });
+            break;
             case 'toggle-enabled':
                 axios.patch(event.target.action)
                     .then(response => {
                         $('#voteproviders-table').DataTable().draw(false);
-                        swal.fire( 'Updated!', response.data.message, 'success');
+                        swal.fire({
+                            title: response.data.title,
+                            html: response.data.message,
+                            type: response.data.type
+                        });
                     })
                     .catch(error => {
                         var errors = '<ul class="list-unstyled">';

@@ -83,7 +83,11 @@ class VoteProviderRewardController extends Controller
             'enabled' => !$reward->enabled,
         ]);
 
-        return response()->json(['message' => 'Enabled status has been updated for selected reward.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Enabled status has been updated for selected reward.',
+            'type' => 'success',
+        ]);
     }
 
     /**

@@ -3,7 +3,6 @@
 @section('pagetitle', 'Menus')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -90,7 +89,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('css')
@@ -115,19 +113,19 @@ Vue.component('menu-edit-form', {
         <ul>
             <li v-for="element in menu_item.items" :key="element.id">
                 @{{element.title}}
-                <menu-child v-bind:menu_item="element"></menu-child>
+                <child-menu v-bind:menu_item="element"></child-menu>
             </li>
         </ul>
     `
 });
 
-Vue.component('menu-child', {
+Vue.component('child-menu', {
     props: ['menu_item'],
     template: `
     <ul>
         <li v-for="child in menu_item.childrens" :key="child.id">
             @{{ child.title }}
-            <menu-child v-bind:menu_item="child"></menu-child>
+            <child-menu v-bind:menu_item="child"></child-menu>
         </li>
     </ul>
     `,

@@ -103,7 +103,11 @@ class ItemMallCategoryController extends Controller
 
         if (request()->expectsJson())
         {
-            return response()->json(['message' => 'Selected Category is successfully deleted.']);
+            return response()->json([
+                'title' => 'Deleted!',
+                'message' => 'Selected Category is successfully deleted.',
+                'type' => 'success',
+            ]);
         }
 
         return redirect()->route('admin.itemmall.categories.index')->with('message', 'Selected Category is successfully deleted.');
@@ -115,7 +119,11 @@ class ItemMallCategoryController extends Controller
             'enabled' => !$category->enabled,
         ]);
 
-        return response()->json(['message' => 'Category state is successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Category enabled state has been successfully updated.',
+            'type' => 'success',
+        ]);
     }
 
     private function validateCategory()

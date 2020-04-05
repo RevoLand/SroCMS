@@ -3,7 +3,6 @@
 @section('pagetitle', 'Teleport Manager')
 
 @section('content')
-<div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
     <!-- begin:: Subheader -->
     <div class="kt-subheader   kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -135,7 +134,6 @@
     </div>
 
     <!-- end:: Content -->
-</div>
 @endsection
 
 @section('js')
@@ -335,7 +333,11 @@ Vue.component('teleport-point-form', {
                 this.teleport_point.GenPos_Z = parseInt(response.data.PosZ);
                 this.teleport_point.GenWorldID = response.data.WorldId;
 
-                swal.fire( 'Updated!', response.data.message, 'success');
+                swal.fire({
+                    title: response.data.title,
+                    html: response.data.message,
+                    type: response.data.type
+                });
                 this.character_position_updated = true;
             })
             .catch(error => {
@@ -369,10 +371,13 @@ Vue.component('teleport-point-form', {
                 if (this.IsItCreateForm) {
                     this.$root.teleport_points.push(response.data.teleport);
                     this.$root.selected_teleport_point = response.data.teleport;
-                    swal.fire( 'Created!', response.data.message, 'success');
-                } else {
-                    swal.fire( 'Updated!', response.data.message, 'success');
                 }
+
+                swal.fire({
+                    title: response.data.title,
+                    html: response.data.message,
+                    type: response.data.type
+                });
             })
             .catch(error => {
                 var errors = '<ul class="list-unstyled">';
@@ -412,7 +417,11 @@ Vue.component('teleport-point-form', {
                         }).then(response => {
                             this.$root.teleport_points.splice(this.$root.teleport_points.indexOf(this.teleport_point), 1);
                             this.$root.selected_teleport_point = '';
-                            swal.fire( 'Deleted!', response.data.message, 'success');
+                            swal.fire({
+                                title: response.data.title,
+                                html: response.data.message,
+                                type: response.data.type
+                            });
                         })
                         .catch(error => {
                             var errors = '<ul class="list-unstyled">';
@@ -639,10 +648,13 @@ Vue.component('teleport-link-form', {
             .then(response => {
                 if (this.IsItCreateForm) {
                     this.$root.selected_teleport_point.teleport_links.push(response.data.teleport_link);
-                    swal.fire( 'Created!', response.data.message, 'success');
-                } else {
-                    swal.fire( 'Updated!', response.data.message, 'success');
                 }
+
+                swal.fire({
+                    title: response.data.title,
+                    html: response.data.message,
+                    type: response.data.type
+                });
             })
             .catch(error => {
                 var errors = '<ul class="list-unstyled">';
@@ -683,7 +695,11 @@ Vue.component('teleport-link-form', {
                             this.$root.selected_teleport_point.teleport_links.splice(this.$root.selected_teleport_point.teleport_links.indexOf(this.teleport_link), 1);
                             this.$root.selected_teleport_link = '';
                             this.IsBeingDeleted = false;
-                            swal.fire( 'Deleted!', response.data.message, 'success');
+                            swal.fire({
+                                title: response.data.title,
+                                html: response.data.message,
+                                type: response.data.type
+                            });
                         })
                         .catch(error => {
                             var errors = '<ul class="list-unstyled">';
@@ -722,11 +738,11 @@ new Vue({
         selected_teleport_link: '',
 
         // routes
-        get_character_position_route: '{{ route('admin.characters.get_position') }}',
-        update_teleport_point_route: '{{ route('admin.teleports.update') }}',
-        destroy_teleport_point_route: '{{ route('admin.teleports.destroy') }}',
-        update_teleport_link_route: '{{ route('admin.teleports.link.update') }}',
-        destroy_teleport_link_route: '{{ route('admin.teleports.link.destroy') }}'
+        get_character_position_route: @json(route('admin.characters.get_position')),
+        update_teleport_point_route: @json(route('admin.teleports.update')),
+        destroy_teleport_point_route: @json(route('admin.teleports.destroy')),
+        update_teleport_link_route: @json(route('admin.teleports.link.update')),
+        destroy_teleport_link_route: @json(route('admin.teleports.link.destroy'))
     },
     mounted() {
         this.teleport_structures = @json($availableTeleportBuildings);
