@@ -206,6 +206,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     });
 
     Route::resource('users', 'Admin\UserController');
+    Route::group(['prefix' => 'users/{user}/orders', 'as' => 'users.orders.'], function ()
+    {
+        Route::get('', 'Admin\UserOrderController@index')->name('index');
+    });
 
     Route::resource('menus', 'Admin\MenuController');
 

@@ -1,0 +1,1 @@
+{{ $rewardedVotes }} / {{ $totalVotes }} ({{ $completionRate }}%)

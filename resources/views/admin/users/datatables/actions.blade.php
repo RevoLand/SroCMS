@@ -1,8 +1,6 @@
-<a href="{{ route('users.show_user', $JID) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
+<a href="{{ route('admin.users.show', $JID) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
     <i class="la la-eye"></i>
 </a>
-
-
 <a href="{{ route('admin.users.edit', $JID) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Edit">
     <i class="la la-edit"></i>
 </a>

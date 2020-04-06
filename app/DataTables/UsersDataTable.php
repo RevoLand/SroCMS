@@ -21,8 +21,25 @@ class UsersDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'users.datatables.actions')
-            ->rawColumns(['action'])
-            ->setRowId('id');
+            ->editColumn('orders', function ($user)
+            {
+                return '<a href="' . route('admin.itemmall.index', ['user_id' => $user->JID]) . '">' . $user->orders->count() . '</a>';
+            })
+            ->editColumn('referrals', function ($user)
+            {
+                // TODO: Referrals List/Page link
+                return '<a href="' . route('admin.itemmall.index', ['user_id' => $user->JID]) . '">' . $user->referrals->count() . '</a>';
+            })
+            ->editColumn('vote_logs', function ($user)
+            {
+                $totalVotes = $user->voteLogs->count();
+                $rewardedVotes = $user->voteLogs->where('voted', true)->count();
+                $completionRate = (!$totalVotes) ? 0 : intval($rewardedVotes * 100 / $totalVotes);
+
+                return view('users.datatables.votelogs', compact('totalVotes', 'rewardedVotes', 'completionRate'));
+            })
+            ->setRowId('id')
+            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs']);
     }
 
     /**
@@ -32,7 +49,7 @@ class UsersDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery();
+        return $model->with(['orders', 'referrals', 'voteLogs'])->newQuery();
     }
 
     /**
@@ -71,6 +88,9 @@ class UsersDataTable extends DataTable
             Column::make('StrUserID'),
             Column::make('Name'),
             Column::make('Email'),
+            Column::computed('orders'),
+            Column::computed('referrals'),
+            Column::computed('vote_logs'),
             Column::make('regtime'),
             Column::make('reg_ip'),
             Column::computed('action')
