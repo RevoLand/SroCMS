@@ -57,7 +57,7 @@ return [
      * Default html builder parameters.
      */
     'parameters' => [
-        'dom' => '<\'row\'<\'col-sm-6 text-left\'f><\'col-sm-6 text-right\'B>><\'row\'<\'col-sm-12\'tr>><\'row\'<\'col-sm-12 col-md-5\'i><\'col-sm-12 col-md-7 dataTables_pager\'lp>>',
+        'dom' => "<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>",
         'order' => [[0, 'desc']],
         'buttons' => [
             'create',
@@ -85,6 +85,6 @@ return [
         /*
          * Default DOM to generate when not set.
          */
-        'dom' => '<\'row\'<\'col-sm-6 text-left\'f><\'col-sm-6 text-right\'B>><\'row\'<\'col-sm-12\'tr>><\'row\'<\'col-sm-12 col-md-5\'i><\'col-sm-12 col-md-7 dataTables_pager\'lp>>',
+        'dom' => 'Bfrtipl',
     ],
 ];

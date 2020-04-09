@@ -1,9 +1,7 @@
 @forelse ($model->voteproviders as $voteprovider)
-<a href="{{ route('admin.votes.providers.show', $voteprovider) }}">
-    <span class="kt-badge kt-badge--info kt-badge--inline">
-        {{ $voteprovider->name }}
-    </span>
+<a class="badge bg-soft-primary rounded-lg" href="{{ route('admin.votes.providers.show', $voteprovider) }}">
+    {{ $voteprovider->name }}
 </a>
 @empty
-Not assigned.
+-
 @endforelse

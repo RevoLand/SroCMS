@@ -1,13 +1,10 @@
-<!-- begin:: Footer -->
-<div class="kt-footer kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
-	<div class="kt-container  kt-container--fluid ">
-		<div class="kt-footer__copyright">
-			2020&nbsp;&copy;&nbsp;<a href="https://mertercan.com/" target="_blank" class="kt-link">Mert Ercan</a>
-		</div>
-		<div class="kt-footer__menu">
-			<a href="http://keenthemes.com/keen" target="_blank" class="kt-footer__menu-link kt-link">About</a>
-			<a href="http://keenthemes.com/keen" target="_blank" class="kt-footer__menu-link kt-link">Contact</a>
-		</div>
-	</div>
-</div>
-<!-- end:: Footer -->
+<footer>
+    <div class="row no-gutters justify-content-between fs--1 mt-4 mb-3">
+      <div class="col-12 col-sm-auto text-center">
+        <p class="mb-0 text-600">SroCMS <span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2020 &copy; <a href="https://mertercan.com">Mert Ercan</a></p>
+      </div>
+      <div class="col-12 col-sm-auto text-center">
+        <p class="mb-0 text-600">v1.0.0</p>
+      </div>
+    </div>
+</footer>

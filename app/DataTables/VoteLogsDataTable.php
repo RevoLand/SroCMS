@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\VoteLog;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -26,19 +25,19 @@ class VoteLogsDataTable extends DataTable
             {
                 if ($votelog->voted)
                 {
-                    return '<label class="badge badge-primary">Yes</label>';
+                    return '<label class="badge badge-soft-primary">Yes</label>';
                 }
 
-                return '<label class="badge badge-danger">No</label>';
+                return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('active', function ($votelog)
             {
                 if ($votelog->active)
                 {
-                    return '<label class="badge badge-primary">Yes</label>';
+                    return '<label class="badge badge-soft-primary">Yes</label>';
                 }
 
-                return '<label class="badge badge-danger">No</label>';
+                return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('user', 'votes.datatables.user')
             ->editColumn('voteprovider', 'votes.datatables.voteprovider')
@@ -69,7 +68,7 @@ class VoteLogsDataTable extends DataTable
             {
                 $query->where('selected_reward_group_id', request('reward_group_id'));
             }
-        })->newQuery();
+        })->select(['vote_logs.*'])->newQuery();
     }
 
     /**
@@ -83,15 +82,14 @@ class VoteLogsDataTable extends DataTable
             ->setTableId('votelogs-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
-            ->orderBy(9)
-            ->rowGroupDataSrc(['voteprovider', 'rewardgroup'])
-            ->buttons(
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
+            ->responsive(true)
+            ->parameters([
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
+            ])
+            ->lengthMenu([10, 25, 50, 100, 250, 500])
+            ->orders([['4', 'asc'], ['2', 'asc'], ['3', 'asc']])
+            ->rowGroupDataSrc(['voteprovider', 'rewardgroup']);
     }
 
     /**

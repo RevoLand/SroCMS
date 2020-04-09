@@ -52,7 +52,7 @@ class OptionalTeleportController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Selected Reverse Point is successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -67,7 +67,7 @@ class OptionalTeleportController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Reverse Point is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -76,7 +76,7 @@ class OptionalTeleportController extends Controller
         return response()->json([
             'title' => 'Created!',
             'message' => 'Reverse Point is successfully created.',
-            'type' => 'success',
+            'icon' => 'success',
             'reverse_point' => new ResourcesRefOptionalTeleport(RefOptionalTeleport::create($validatedParams)->load('zoneName')),
         ]);
     }

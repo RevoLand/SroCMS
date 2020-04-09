@@ -25,8 +25,12 @@ class VoteLogController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Vote state has been successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
+    }
+
+    public function update(VoteLog $voteLog)
+    {
     }
 
     /**

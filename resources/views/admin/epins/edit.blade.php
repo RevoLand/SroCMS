@@ -3,188 +3,97 @@
 @section('pagetitle', 'Edit E-Pin')
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Edit E-Pin</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.epins.index') }}" class="kt-subheader__breadcrumbs-link">E-Pin System</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.epins.edit', $epin) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit</a>
+<div class="card mb-3" id="content">
+    <div class="card-header">
+      <h5 class="mb-0">Edit E-Pin</h5>
+    </div>
+    <div class="card-body bg-light">
+        <div class="row">
+            <div class="col-12">
+                {{ Form::open(['route' => ['admin.epins.update', $epin], 'method' => 'patch', '@submit.prevent' => 'submitForm']) }}
+                <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" class="form-control" id="code" v-model="code">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="regenerate_code" v-model="regenerate_code" true-value="1" false-value="0"/>
+                        <label for="regenerate_code" class="custom-control-label">Re-Generate Code</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Reward Type</label>
+                    <select class="custom-select" id="type" name="type" v-model="type" required>
+                        <option value="1">Balance</option>
+                        <option value="2">Balance (Point)</option>
+                        <option value="3">Silk</option>
+                        <option value="4">Silk (Gift)</option>
+                        <option value="5">Silk (Point)</option>
+                        <option value="6">Item</option>
+                    </select>
+                </div>
+                <div class="form-group" v-show="type != 6">
+                    <label><template v-if="type < 3">Balance</template><template v-else>Amount</template></label>
+                    <input type="text" class="form-control" id="balance" v-model="balance">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="row col-12">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="enabled_true" v-model="enabled" value="1"/>
+                            <label for="enabled_true" class="custom-control-label">Enabled</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" class="custom-control-input" id="enabled_false" v-model="enabled" value="0"/>
+                            <label for="enabled_false" class="custom-control-label">Disabled</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="submit" class="btn btn-falcon-primary mr-2">Save</button>
+                    {{ Form::close() }}
+                    {!! Form::open([ 'route' => ['admin.epins.destroy', $epin], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
+                        <button type="submit" class="btn btn-falcon-danger">Delete</button>
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>
     </div>
-    <!-- end:: Subheader -->
+</div>
 
-    <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid vuepicker">
-        @if (session('message'))
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-light alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-check-square kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        {{ session('message') }}
-                    </div>
-                </div>
-            </div>
+<div class="card-deck" id="vue_items" v-show="show_items_form">
+    <div class="card">
+        <div class="card-header">
+            E-Pin Items
         </div>
-        @endif
-        @if ($errors->any())
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-danger alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-warning kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        Edit E-Pin
-                    </h3>
-                </div>
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.epins.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-edit"></i> Create E-Pin
-                        </a>
-                        <a href="{{ route('admin.epins.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-copy"></i> List E-Pins
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.epins.update', $epin], 'class' => 'kt-form', 'method' => 'patch']) }}
-                    <div class="form-group">
-                        <label>Code</label>
-                        {{ Form::text('code', $epin->code, ['class' => 'form-control code-input']) }}
-                        <br />
-                        <label class="kt-checkbox">
-                            {!! Form::checkbox('generate-code', 1, false) !!} Re-Generate Code
-                            <span></span>
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label>Reward Type</label>
-                        <select class="form-control" id="type" name="type" v-model="epin_reward_type" required>
-                            <option value="1">Balance</option>
-                            <option value="2">Balance (Point)</option>
-                            <option value="3">Silk</option>
-                            <option value="4">Silk (Gift)</option>
-                            <option value="5">Silk (Point)</option>
-                            <option value="6">Item</option>
-                        </select>
-                    </div>
-                    <div class="form-group balance-selector">
-                        <label>Balance / Amount</label>
-                        {{ Form::text('balance', $epin->balance, ['class' => 'form-control']) }}
-                    </div>
-                    <div class="form-group">
-                        <label>State</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, $epin->enabled) !!} Enabled
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !$epin->enabled) !!} Disabled
-                                <span></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions kt-form__actions--right">
-                            <div class="row">
-                                <div class="col kt-align-left">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button type="reset" class="btn btn-secondary">Cancel</button>
-                                    {!! Form::close() !!}
-                                </div>
-                                <div class="col kt-align-right">
-                                    {!! Form::open([ 'route' => ['admin.epins.destroy', $epin], 'method' => 'delete']) !!}
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {{ Form::close() }}
-            </div>
-        </div>
-        <div class="row vue_items" v-show="epin_reward_type == 6">
-            <div class="col-xl-6">
-                <!--begin::Portlet-->
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <span class="kt-portlet__head-icon"><i class="flaticon-stopwatch"></i></span>
-                            <h3 class="kt-portlet__head-title">E-Pin Items</h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-portlet__content">
-                            <select class="form-control" id="type" name="type" size="10" v-model="selecteditem">
-                                <option value="" v-show="false"></option>
-                                <option :value="{
-                                    epin_id: {{ $epin->id }},
-                                    amount: 1,
-                                    plus: 0
-                                }">Create New Item</option>
-                                <optgroup label="Existing Items">
-                                    <option v-for="item in items" :value="item">
-                                        [@{{ item.amount }}] @{{ item.codename }} (+@{{ item.plus }})
-                                    </option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!--end::Portlet-->
-            </div>
-            <div class="col-xl-6" id="test" v-show="selecteditem">
-                <!--begin::Portlet-->
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                <template v-if="selecteditem.id">
-                                    Edit Item
-                                </template>
-                                <template v-else>
-                                    Create Item
-                                </template>
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-portlet__content" v-if="selecteditem">
-                            <item_form v-bind:item="selecteditem"></item_form>
-                        </div>
-                    </div>
-                </div>
-
-                <!--end::Portlet-->
-            </div>
+        <div class="card-body">
+            <select class="custom-select" id="type" name="type" size="10" v-model="selecteditem">
+                <option value="" v-show="false"></option>
+                <option :value="{
+                    epin_id: {{ $epin->id }},
+                    amount: 1,
+                    plus: 0
+                }">Create New Item</option>
+                <optgroup label="Existing Items">
+                    <option v-for="item in items" :value="item">
+                        [@{{ item.amount }}] @{{ item.codename }} (+@{{ item.plus }})
+                    </option>
+                </optgroup>
+            </select>
         </div>
     </div>
-
-    <!-- end:: Content -->
+    <div class="card">
+        <div class="card-header">
+            <template v-if="selecteditem.id">
+                Edit Item
+            </template>
+            <template v-else>
+                Create Item
+            </template>
+        </div>
+        <div class="card-body">
+            <item_form v-bind:item="selecteditem"></item_form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
@@ -241,7 +150,7 @@
         `,
         methods: {
             updateItem(event) {
-                KTApp.block('body');
+                $('.content').block();
                 this.IsBeingUpdated = true;
 
                 axios.post(event.target.action, this.item)
@@ -253,7 +162,7 @@
                     swal.fire({
                         title: response.data.title,
                         html: response.data.message,
-                        type: response.data.type
+                        icon: response.data.icon
                     });
                 })
                 .catch(error => {
@@ -265,19 +174,19 @@
                     });
                     errors += '</ul>';
                     swal.fire({
-                        type: 'error',
+                        icon: 'error',
                         title: error.response.data.message,
                         html: errors
                     });
                 })
                 .finally(() => {
-                    KTApp.unblock('body');
+                    $('.content').unblock();
                     this.IsBeingUpdated = false;
                 });
             },
 
             deleteItem(itemToDelete) {
-                KTApp.block('body');
+                $('.content').block();
                 this.IsBeingDeleted = true;
 
                 axios.post(this.$root.destroy_action, {
@@ -290,7 +199,7 @@
                     swal.fire({
                         title: response.data.title,
                         html: response.data.message,
-                        type: response.data.type
+                        icon: response.data.icon
                     });
                 })
                 .catch(error => {
@@ -302,73 +211,127 @@
                     });
                     errors += '</ul>';
                     swal.fire({
-                        type: 'error',
+                        icon: 'error',
                         title: error.response.data.message,
                         html: errors
                     });
                 })
                 .finally(() => {
-                    KTApp.unblock('body');
+                    $('.content').unblock();
                     this.IsBeingDeleted = false;
                 });
             }
         }
     });
 
+    var vue = new Vue({
+        el: '#content',
+        data: {
+            code: @json($epin->code),
+            type: @json($epin->type),
+            balance: @json($epin->balance),
+            enabled: @json($epin->enabled),
+            regenerate_code: 0
+        },
+        methods: {
+            submitForm(event) {
+                $('.content').block();
+                axios.patch(event.target.action, this.$data)
+                .then(response => {
+                    Object.assign(this.$data, response.data.epin);
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        icon: response.data.icon
+                    });
+                })
+                .catch(function (error) {
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+
+                    swal.fire({
+                        type: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                })
+                .finally(() => {
+                    $('.content').unblock();
+                });
+            },
+            deleteForm(event) {
+                swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (!result.value) {
+                        return;
+                    }
+
+                    $('.content').block();
+
+                    axios.delete(event.target.action)
+                    .then(response => {
+                        swal.fire({
+                            title: response.data.title,
+                            html: response.data.message,
+                            icon: response.data.icon
+                        }).then((result) => {
+                            window.location.href = '{{ route('admin.epins.index') }}'
+                        });
+                    })
+                    .catch(function (error) {
+                        var errors = '<ul class="list-unstyled">';
+                        jQuery.each(error.response.data.errors, function (key, value) {
+                            errors += '<li>';
+                            errors += value;
+                            errors += '</li>';
+                        });
+                        errors += '</ul>';
+
+                        swal.fire({
+                            icon: 'error',
+                            title: error.response.data.message,
+                            html: errors
+                        });
+                    })
+                    .finally(() => {
+                        $('.content').unblock();
+                    });
+                });
+            }
+        }
+    });
+
     new Vue({
-        el: '.vue_items',
+        el: '#vue_items',
 
         data: {
             items: [],
-            epin_reward_type: '',
             selecteditem: '',
-            update_action: '{{ route('admin.epins.items.update') }}',
-            destroy_action: '{{ route('admin.epins.items.destroy') }}'
+            update_action: @json(route('admin.epins.items.update')),
+            destroy_action: @json(route('admin.epins.items.destroy'))
         },
 
         computed: {
             show_items_form: function () {
-                return (this.epin_reward_type == 6)
+                return (vue.type == 6)
             }
         },
 
         mounted() {
-            this.items = @json($epin->items),
-            this.epin_reward_type = @json($epin->type)
+            this.items = @json($epin->items)
         }
-    });
-
-    $(document).ready(function() {
-
-        function toggleFields(typeId) {
-            if (typeId == '6') {
-                $( ".balance-selector" ).hide({});
-            } else {
-                $( ".balance-selector" ).show({});
-            }
-        };
-
-        function toggleCodeInput(checked) {
-            if (checked){
-                $('.code-input').hide({});
-            } else {
-                $('.code-input').show({});
-            }
-        }
-
-        $( "#type" ).change(function() {
-            toggleFields(this.value);
-        });
-
-        toggleFields('{{ $epin->type }}');
-
-        var generateCodeCheckboxSelector = $( "input[name='generate-code']");
-
-        generateCodeCheckboxSelector.click(function() {
-            toggleCodeInput(this.checked);
-        });
-
-        toggleCodeInput(generateCodeCheckboxSelector[0].checked);
     });
 </script>
 @endsection

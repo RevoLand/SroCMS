@@ -211,8 +211,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('', 'Admin\UserOrderController@index')->name('index');
     });
 
-    Route::resource('menus', 'Admin\MenuController');
-
     Route::group(['prefix' => 'teleports', 'as' => 'teleports.', 'middleware' => 'can:manage teleports'], function ()
     {
         Route::get('', 'Admin\TeleportController@index')->name('index');
@@ -252,7 +250,7 @@ Route::match(['get', 'post'], 'item-test', function ()
     <form method="post" action="">
         <input class="form-control" type="text" name="optid" placeholder="Magic Option ID">
         <input class="form-control" type="text" name="value" placeholder="Value">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-falcon-primary">Submit</button>
     </form>
 <?php
 });

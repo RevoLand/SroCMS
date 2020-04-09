@@ -3,79 +3,39 @@
 @section('pagetitle', 'Allowed Callback IPs')
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Allowed Callback IPs</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.index') }}" class="kt-subheader__breadcrumbs-link">Vote System</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.index') }}" class="kt-subheader__breadcrumbs-link">Vote Providers</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.ips.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Allowed Callback IPs</a>
-                </div>
-            </div>
-        </div>
+<div class="card mb-3">
+    <div class="card-header">
+      <h5 class="mb-0">Vote Callback Allowed IPs</h5>
     </div>
-
-    <!-- end:: Subheader -->
-    <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        @if (session('message'))
+    <div class="card-body bg-light px-0">
+        @include('components.message')
         <div class="row">
-            <div class="col">
-                <div class="alert alert-light alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-check-square kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        {{ session('message') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        Allowed Callback IPs
-                    </h3>
-                </div>
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.votes.providers.ips.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-edit"></i> Add IP
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="kt-portlet__body">
-                <!--begin: Datatable -->
-                {!! $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-checkable dataTable responsive dtr-inline'], true) !!}
-                <!--end: Datatable -->
+            <div class="col-12">
+                {!! $dataTable->table([], true) !!}
             </div>
         </div>
     </div>
-
-    <!-- end:: Content -->
+</div>
 @endsection
 
 @section('css')
-    {!! Theme::css('plugins/custom/datatables/datatables.bundle.css') !!}
+{!! Theme::css('lib/datatables-bs4/dataTables.bootstrap4.min.css') !!}
+{!! Theme::css('lib/datatables.net-responsive-bs4/responsive.bootstrap4.css') !!}
+{!! Theme::css('lib/datatables-rowgroup/css/rowGroup.bootstrap4.min.css') !!}
 @endsection
 
 @section('js')
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
-{!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
-<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-{!! $dataTable->scripts() !!}
+
+{!! Theme::js('lib/datatables/js/jquery.dataTables.min.js') !!}
+{!! Theme::js('lib/datatables-bs4/dataTables.bootstrap4.min.js') !!}
+{!! Theme::js('lib/datatables.net-responsive/dataTables.responsive.js') !!}
+{!! Theme::js('lib/datatables.net-responsive-bs4/responsive.bootstrap4.js') !!}
+{!! Theme::js('lib/datatables-rowgroup/js/dataTables.rowGroup.min.js') !!}
+{!!  $dataTable->scripts() !!}
 
 <script>
-    $(".kt-portlet__body").on('submit','form', function(event) {
+    $(".card-body").on('submit','form', function(event) {
         event.preventDefault();
         switch (event.target.dataset.action) {
             case 'delete':
@@ -94,7 +54,7 @@
                             swal.fire({
                                 title: response.data.title,
                                 html: response.data.message,
-                                type: response.data.type
+                                icon: response.data.icon
                             });
                         })
                         .catch(error => {

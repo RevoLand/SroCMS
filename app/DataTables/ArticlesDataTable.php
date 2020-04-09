@@ -25,25 +25,25 @@ class ArticlesDataTable extends DataTable
             {
                 if ($article->is_visible)
                 {
-                    return '<label class="badge badge-primary">Visible</label>';
+                    return '<span class="badge badge-soft-primary">Visible</span>';
                 }
 
-                return '<label class="badge badge-danger">Hidden</label>';
+                return '<span class="badge badge-soft-danger">Hidden</span>';
             })
             ->editColumn('can_comment_on', function ($article)
             {
                 if ($article->can_comment_on)
                 {
-                    return '<label class="badge badge-primary">Yes</label>';
+                    return '<label class="badge badge-soft-primary">Yes</label>';
                 }
 
-                return '<label class="badge badge-danger">No</label>';
+                return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('user', 'articles.datatables.user')
             ->editColumn('article_categories', 'articles.datatables.categories')
             ->editColumn('article_comments_count', function ($article)
             {
-                return '<a class="badge" href="' . route('admin.articles.comments.index', ['article_id' => $article->id]) . '">' . $article->article_comments_count . '</a>';
+                return '<a class="badge badge-soft-success" href="' . route('admin.articles.comments.index', ['article_id' => $article->id]) . '">' . $article->article_comments_count . '</a>';
             })
             ->rawColumns(['action', 'user', 'article_comments_count', 'is_visible',  'can_comment_on', 'article_categories'])
             ->setRowId('id');
@@ -88,17 +88,20 @@ class ArticlesDataTable extends DataTable
             ->setTableId('articles-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
             ->orders([[5, 'desc'], [7, 'desc']])
-            ->pagingType('first_last_numbers')
+            ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
+            ->responsive(true)
+            ->parameters([
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
+            ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+                    Button::make('create'),
+                    Button::make('export'),
+                    Button::make('print'),
+                    Button::make('reset'),
+                    Button::make('reload')
+        );
     }
 
     /**

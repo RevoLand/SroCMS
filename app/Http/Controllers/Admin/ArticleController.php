@@ -64,7 +64,7 @@ class ArticleController extends Controller
         return response()->json([
             'title' => 'Successfully created!',
             'message' => 'Article is successfully created.<br /><br /><a href="' . route('admin.articles.edit', $article) . '">Click here</a> to view/edit the created article.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -127,7 +127,7 @@ class ArticleController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Article is successfully updated!.<br /><br /><a href="' . route('articles.show_article', $article->slug) . '">Click here</a> to view the updated article.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -140,7 +140,7 @@ class ArticleController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Visibility state has been successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -153,7 +153,7 @@ class ArticleController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Commentable state has been successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -171,7 +171,7 @@ class ArticleController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected article is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

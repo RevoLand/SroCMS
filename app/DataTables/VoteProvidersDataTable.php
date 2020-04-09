@@ -29,10 +29,10 @@ class VoteProvidersDataTable extends DataTable
             {
                 if ($page->enabled)
                 {
-                    return '<label class="badge badge-primary">Enabled</label>';
+                    return '<label class="badge badge-soft-primary">Enabled</label>';
                 }
 
-                return '<label class="badge badge-danger">Disabled</label>';
+                return '<label class="badge badge-soft-danger">Disabled</label>';
             })
             ->rawColumns(['action', 'enabled'])
             ->setRowId('id');
@@ -62,9 +62,13 @@ class VoteProvidersDataTable extends DataTable
             ->setTableId('voteproviders-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
-            ->orderBy(6)
+            ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
             ->responsive(true)
+            ->parameters([
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
+            ])
+            ->lengthMenu([10, 25, 50, 100, 250, 500])
+            ->orderBy(6)
             ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -84,7 +88,7 @@ class VoteProvidersDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('url'),
+            // Column::make('url'),
             Column::make('minutes_between_votes'),
             Column::make('total_vote_count')->title('Total Votes Started')->searchable(false),
             Column::make('completed_vote_count')->title('Succeed Votes')->searchable(false),

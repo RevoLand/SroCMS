@@ -30,41 +30,41 @@ class ItemMallItemGroupsDataTable extends DataTable
             {
                 if ($itemgroup->enabled)
                 {
-                    return '<label class="badge badge-primary">Enabled</label>';
+                    return '<label class="badge badge-soft-primary">Enabled</label>';
                 }
 
-                return '<label class="badge badge-danger">Disabled</label>';
+                return '<label class="badge badge-soft-danger">Disabled</label>';
             })
             ->editColumn('on_sale', function (ItemMallItemGroup $itemgroup)
             {
                 if ($itemgroup->on_sale)
                 {
-                    return '<label class="badge badge-primary">Yes</label>';
+                    return '<label class="badge badge-soft-primary">Yes</label>';
                 }
 
-                return '<label class="badge badge-danger">No</label>';
+                return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('featured', function (ItemMallItemGroup $itemgroup)
             {
                 if ($itemgroup->featured)
                 {
-                    return '<label class="badge badge-primary">Yes</label>';
+                    return '<label class="badge badge-soft-primary">Yes</label>';
                 }
 
-                return '<label class="badge badge-danger">No</label>';
+                return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('limit_total_purchases', function (ItemMallItemGroup $itemgroup)
             {
                 if ($itemgroup->limit_total_purchases)
                 {
-                    return '<label class="badge badge-primary">Yes</label>';
+                    return '<label class="badge badge-soft-primary">Yes</label>';
                 }
 
-                return '<label class="badge badge-danger">No</label>';
+                return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('payment_type', function (ItemMallItemGroup $itemgroup)
             {
-                return '<label class="badge badge-info">' . config('constants.payment_types.' . $itemgroup->payment_type) . '</label>';
+                return '<label class="badge badge-soft-info">' . config('constants.payment_types.' . $itemgroup->payment_type) . '</label>';
             })
             ->rawColumns(['action', 'categories', 'enabled', 'on_sale', 'featured', 'limit_total_purchases', 'payment_type'])
             ->setRowId('id');
@@ -91,7 +91,12 @@ class ItemMallItemGroupsDataTable extends DataTable
             ->setTableId('itemmallitemgroups-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
+            ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
+            ->responsive(true)
+            ->parameters([
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
+            ])
+            ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->orderBy(15)
             ->buttons(
                         Button::make('create'),

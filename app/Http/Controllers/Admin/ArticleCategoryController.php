@@ -53,7 +53,7 @@ class ArticleCategoryController extends Controller
         return response()->json([
             'title' => 'Created!',
             'message' => 'Article Category is successfully created!.<br /><br /><a href="' . route('admin.articles.categories.edit', $category) . '">Click here</a> to view/edit the created article category.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -106,7 +106,7 @@ class ArticleCategoryController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Article Category is successfully updated!.<br /><br /><a href="' . route('articles.get_category', $category->slug) . '">Click here</a> to view the updated article category.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -119,7 +119,7 @@ class ArticleCategoryController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Category Enabled state is successfully updated.<br/>New State: ' . (($category->enabled) ? 'Enabled' : 'Disabled'),
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -137,7 +137,7 @@ class ArticleCategoryController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Article Category is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

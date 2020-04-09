@@ -24,9 +24,9 @@ class EpinItemController extends Controller
 
         return response()->json([
             'epinItem' => $epinItem,
-            'title' => 'Updated!',
+            'title' => 'Created!',
             'message' => 'Item is successfully created.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -65,7 +65,7 @@ class EpinItemController extends Controller
             'item' => $epinitem,
             'title' => 'Updated!',
             'message' => 'Item is successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -87,7 +87,7 @@ class EpinItemController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Item is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 }

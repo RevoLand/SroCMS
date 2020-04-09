@@ -44,7 +44,11 @@ class ItemMallItemController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        return response()->json(['message' => 'Item is successfully updated.']);
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Item is successfully updated.',
+            'icon' => 'success',
+        ]);
     }
 
     public function destroy()
@@ -58,7 +62,7 @@ class ItemMallItemController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Item is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -79,9 +83,9 @@ class ItemMallItemController extends Controller
 
         return response()->json([
             'item' => $item,
-            'title' => 'Updated!',
+            'title' => 'Created!',
             'message' => 'Item is successfully created.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 }

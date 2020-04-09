@@ -70,7 +70,7 @@ class ItemMallItemGroupController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => "Item Group is successfully created.\nClick <a href='" . route('admin.itemmall.itemgroups.edit', $itemGroup) . "'>here</a> to edit the newly generated itemgroup.",
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -147,7 +147,7 @@ class ItemMallItemGroupController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Item Group is successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -167,7 +167,7 @@ class ItemMallItemGroupController extends Controller
             return response()->json([
                 'title' => 'Deleted!',
                 'message' => 'Selected Item Group has been successfully deleted.',
-                'type' => 'success',
+                'icon' => 'success',
             ]);
         }
 
@@ -183,7 +183,7 @@ class ItemMallItemGroupController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Item Group Enabled state has been successfully changed.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

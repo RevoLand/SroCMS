@@ -3,120 +3,92 @@
 @section('pagetitle', 'Create Reward Group')
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Create Reward Group</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.index') }}" class="kt-subheader__breadcrumbs-link">Vote System</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.index') }}" class="kt-subheader__breadcrumbs-link">Vote Providers</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link">Reward Groups</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.rewardgroups.create') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Create</a>
-                </div>
-            </div>
-        </div>
+<div class="card mb-3" id="content">
+    <div class="card-header">
+      <h5 class="mb-0">Create Reward Group</h5>
     </div>
-    <!-- end:: Subheader -->
-
-    <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        @if (session('message'))
+    <div class="card-body bg-light">
         <div class="row">
-            <div class="col">
-                <div class="alert alert-light alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-check-square kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        {{ session('message') }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-        @if ($errors->any())
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-danger alert-elevate fade show" role="alert">
-                    <div class="alert-icon"><i class="la la-warning kt-font-brand"></i></div>
-                    <div class="alert-text">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endif
-
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        Create Reward Group
-                    </h3>
-                </div>
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.votes.rewardgroups.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-copy"></i> List Reward Groups
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.votes.rewardgroups.store'], 'class' => 'kt-form', 'method' => 'post']) }}
+            <div class="col-12">
+                {{ Form::open(['route' => ['admin.votes.rewardgroups.store'], 'method' => 'post', '@submit.prevent' => 'onFormSubmit']) }}
                     <div class="form-group">
-                        <label>Vote Providers</label>
-                        <select class="form-control voteprovider-selector" name="vote_providers[]" multiple="multiple">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" v-model="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vote_providers">Vote Providers</label>
+                        <select id="vote_providers" class="form-control select2" required multiple="multiple" v-model="vote_providers">
                             @foreach($voteProviders as $voteProvider)
-                                <option value="{{ $voteProvider->id }}" @if(in_array($voteProvider->id, old('categories', []))) selected @endif>{{ $voteProvider->name }}</option>
+                                <option value="{{ $voteProvider->id }}" >{{ $voteProvider->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Name</label>
-                        {{ Form::text('name', old('name'), ['class' => 'form-control', 'required']) }}
-                    </div>
-                    <div class="form-group">
                         <label>State</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                {!! Form::radio('enabled', 1, old('enabled', true)) !!} Enabled
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                {!! Form::radio('enabled', 0, !old('enabled', true)) !!} Disabled
-                                <span></span>
-                            </label>
+                        <div class="row col-12">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="enabled_true" class="custom-control-input" type="radio" v-model="enabled" value="1">
+                                <label for="enabled_true" class="custom-control-label">Enabled</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="enabled_false" class="custom-control-input" type="radio" v-model="enabled" value="0">
+                                <label for="enabled_false" class="custom-control-label">Disabled</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Cancel</button>
-                        </div>
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-falcon-primary mr-2">Create</button>
                     </div>
                 {{ Form::close() }}
             </div>
         </div>
     </div>
-
-    <!-- end:: Content -->
+</div>
 @endsection
 
 
 @section('js')
-<script type="text/javascript">
-$(document).ready(function() {
-    $( ".voteprovider-selector" ).select2({
-        placeholder: "Select a vote provider"
+{!! Theme::js('lib/select2/select2.min.js') !!}
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+
+<script>
+    new Vue({
+        el: '#content',
+        data: {
+            name: '',
+            enabled: 1,
+            vote_providers: []
+        },
+
+        methods: {
+            onFormSubmit: function(event) {
+                axios.post(event.target.action, this.$data)
+                .then(function (response) {
+                    swal.fire({
+                        title: response.data.title,
+                        html: response.data.message,
+                        icon: response.data.icon
+                    });
+                })
+                .catch(function (error) {
+                    var errors = '<ul class="list-unstyled">';
+                    jQuery.each(error.response.data.errors, function (key, value) {
+                        errors += '<li>';
+                        errors += value;
+                        errors += '</li>';
+                    });
+                    errors += '</ul>';
+
+                    swal.fire({
+                        icon: 'error',
+                        title: error.response.data.message,
+                        html: errors
+                    });
+                });
+            }
+        }
     });
-});
 </script>
 @endsection

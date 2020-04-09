@@ -48,7 +48,11 @@ class VoteProviderRewardGroupController extends Controller
 
         $rewardgroup->voteproviders()->attach(request('vote_providers'));
 
-        return redirect()->route('admin.votes.rewardgroups.edit', $rewardgroup)->with('message', 'Vote Provider Reward Group is successfully created.');
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Reward Group is successfully created.<br/><a href="' . route('admin.votes.rewardgroups.edit', $rewardgroup) . '">Click here</a> to edit the created reward group.',
+            'icon' => 'success',
+        ]);
     }
 
     /**
@@ -99,7 +103,7 @@ class VoteProviderRewardGroupController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Reward Group is successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -116,16 +120,11 @@ class VoteProviderRewardGroupController extends Controller
         $rewardgroup->logs()->delete();
         $rewardgroup->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json([
-                'title' => 'Deleted!',
-                'message' => 'Selected reward group has been successfully deleted.',
-                'type' => 'success',
-            ]);
-        }
-
-        return redirect()->route('admin.votes.rewardgroups.index')->with('message', 'Selected reward group has been successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected reward group has been successfully deleted.',
+            'icon' => 'success',
+        ]);
     }
 
     public function toggleEnabled(VoteProviderRewardGroup $rewardgroup)
@@ -137,7 +136,7 @@ class VoteProviderRewardGroupController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Selected reward group enabled state has been updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

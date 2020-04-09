@@ -63,10 +63,15 @@ class UsersDataTable extends DataTable
             ->setTableId('users-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom("<'row'<'col-sm-6 text-left'f><'col-sm-6 text-right'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>")
+            ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
+            ->responsive(true)
+            ->parameters([
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
+            ])
+            ->lengthMenu([10, 20, 50, 100, 250, 500, 1000])
+            ->pageLength(20)
             ->orderBy(0, 'asc')
             ->pagingType('first_last_numbers')
-            ->lengthMenu([10, 25, 50, 100, 250, 1000])
             ->buttons(
                         Button::make('create'),
                         Button::make('export'),

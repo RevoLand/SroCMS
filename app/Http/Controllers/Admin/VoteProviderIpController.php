@@ -105,7 +105,7 @@ class VoteProviderIpController extends Controller
             return response()->json([
                 'title' => 'Deleted!',
                 'message' => 'Selected IP has been deleted as requested.',
-                'type' => 'success',
+                'icon' => 'success',
             ]);
         }
 

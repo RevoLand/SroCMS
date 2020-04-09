@@ -3,128 +3,37 @@
 @section('pagetitle', 'Edit Page: ' . $page->title)
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Edit Page</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.index') }}" class="kt-subheader__breadcrumbs-link">Pages</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.pages.edit', $page) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit Page</a>
-                </div>
-            </div>
-        </div>
+<div class="card mb-3">
+    <div class="card-header">
+      <h5 class="mb-0">Edit Page</h5>
     </div>
-
-    <!-- end:: Subheader -->
-    <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        {{ $page->title }}
-                    </h3>
-                </div>
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-actions">
-                        <a href="{{ route('pages.show_page', $page->slug) }}" class="btn btn-accent btn-upper btn-sm btn-bold"><i class="la la-eye"></i> View Page</a>
-                        <a href="{{ route('admin.pages.index') }}" class="btn btn-info btn-upper btn-sm btn-bold"><i class="la la-copy"></i> List Pages</a>
-                        <a href="{{ route('admin.pages.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-edit"></i> Create New Page
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.pages.update', $page], 'class' => 'kt-form', 'method' => 'patch', '@submit.prevent' => 'submitForm']) }}
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" class="form-control" v-model="title" required>
-                        <label class="kt-checkbox mt-2">
-                            <input type="checkbox" v-model="generate_slug" true-value="1" false-value="0"> Auto Generate Slug from Title
-                            <span></span>
-                        </label>
-                    </div>
-                    <div class="form-group" v-show="generate_slug == 0">
-                        <label>Slug</label>
-                        <input type="text" class="form-control" v-model="slug">
-                    </div>
-                    <div class="form-group">
-                        <label>Content</label>
-                        <ckeditor :editor="editor" v-model="content" :config="editorConfig"></ckeditor>
-                    </div>
-                    <div class="form-group">
-                        <label>View</label>
-                        <input type="text" class="form-control" v-model="view">
-                        <span class="form-text text-muted">View will be showed rather than the content set.</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Middleware</label>
-                        <input type="text" class="form-control" v-model="middleware">
-                        <span class="form-text text-muted">Middleware required to access page.</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Sidebar</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                <input type="radio" v-model="showsidebar" name="showsidebar" value="1"> Show
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                <input type="radio" v-model="showsidebar" name="showsidebar" value="0"> Hide
-                                <span></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>State</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                <input type="radio" v-model="enabled" name="enabled" value="1"> Enabled
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                <input type="radio" v-model="enabled" name="enabled" value="0"> Disabled
-                                <span></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions kt-form__actions--right">
-                            <div class="row">
-                                <div class="col kt-align-left">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    {!! Form::close() !!}
-                                </div>
-                                <div class="col kt-align-right">
-                                    {!! Form::open([ 'route' => ['admin.pages.destroy', $page], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
+    <div class="card-body bg-light">
+        <div class="row">
+            <div class="col-12">
+                {{ Form::open(['route' => ['admin.pages.update', $page], 'method' => 'patch', '@submit.prevent' => 'submitForm']) }}
+                    @include('pages.forms.page')
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-falcon-primary mr-2">Save</button>
+                        {!! Form::close() !!}
+                        {!! Form::open([ 'route' => ['admin.pages.destroy', $page], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
+                            <button type="submit" class="btn btn-falcon-danger">Delete</button>
+                        {!! Form::close() !!}
                     </div>
                 {{ Form::close() }}
             </div>
         </div>
     </div>
-
-    <!-- end:: Content -->
+</div>
 @endsection
 
 @section('js')
-{!! Theme::js('js/plugins/ckeditor/ckeditor.js') !!}
+{!! Theme::js('lib/ckeditor/ckeditor.js') !!}
 <script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
 <script>
     new Vue({
-        el: '#kt_content',
+        el: '.content',
         data: {
             title: @json($page->title),
             slug: @json($page->slug),
@@ -196,13 +105,13 @@
         },
         methods: {
             submitForm(event) {
-                KTApp.block('body');
+                $('.content').block();
                 axios.patch(event.target.action, this.$data)
                 .then(response => {
                     swal.fire({
                         title: response.data.title,
                         html: response.data.message,
-                        type: response.data.type
+                        icon: response.data.icon
                     });
                 })
                 .catch(function (error) {
@@ -215,33 +124,37 @@
                     errors += '</ul>';
 
                     swal.fire({
-                        type: 'error',
+                        icon: 'error',
                         title: error.response.data.message,
                         html: errors
                     });
                 })
                 .finally(() => {
-                    KTApp.unblock('body');
+                    $('.content').unblock();
                 });
             },
             deleteForm(event) {
-            swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                    KTApp.block('body');
+                swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (!result.value) {
+                        return;
+                    }
+
+                    $('.content').block();
 
                     axios.delete(event.target.action)
                     .then(response => {
                         swal.fire({
                             title: response.data.title,
                             html: response.data.message,
-                            type: response.data.type
+                            icon: response.data.icon
                         }).then((result) => {
                             window.location.href = '{{ route('admin.articles.categories.index') }}'
                         });
@@ -256,16 +169,16 @@
                         errors += '</ul>';
 
                         swal.fire({
-                            type: 'error',
+                            icon: 'error',
                             title: error.response.data.message,
                             html: errors
                         });
                     })
                     .finally(() => {
-                        KTApp.unblock('body');
+                        $('.content').unblock();
                     });
-            });
-        }
+                });
+            }
         }
     });
 </script>

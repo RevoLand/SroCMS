@@ -67,7 +67,7 @@ class EpinController extends Controller
     {
         $this->validateEpin();
 
-        $code = (request()->has('generate-code') || !request('code')) ? $this->generateCode() : request('code');
+        $code = (request('regenerate_code') == 1 || !request('code')) ? $this->generateCode() : request('code');
 
         $epin->update([
             'code' => $code,
@@ -77,7 +77,12 @@ class EpinController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        return redirect()->route('admin.epins.edit', $epin)->with('message', 'E-Pin is successfully created.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected E-Pin code is successfully updated',
+            'icon' => 'success',
+            'epin' => $epin,
+        ]);
     }
 
     /**
@@ -91,16 +96,11 @@ class EpinController extends Controller
     {
         $epin->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json([
-                'title' => 'Deleted!',
-                'message' => 'Selected E-Pin is successfully deleted',
-                'type' => 'success',
-            ]);
-        }
-
-        return redirect()->route('admin.epins.index')->with('message', 'Selected E-Pin is successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected E-Pin is successfully deleted',
+            'icon' => 'success',
+        ]);
     }
 
     public function toggleEnabled(Epin $epin)
@@ -112,7 +112,7 @@ class EpinController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Selected E-Pin status has been successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -144,11 +144,11 @@ class EpinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    private function store()
+    public function store()
     {
         $this->validateEpin();
 
-        $code = (request()->has('generate-code') || !request('code')) ? $this->generateCode() : request('code');
+        $code = (request('regenerate_code') == 1 || !request('code')) ? $this->generateCode() : request('code');
 
         $epin = Epin::create([
             'code' => $code,
@@ -158,7 +158,11 @@ class EpinController extends Controller
             'enabled' => request('enabled'),
         ]);
 
-        return redirect()->route('admin.epins.edit', $epin)->with('message', 'E-Pin is successfully created.');
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'E-Pin is successfully created.<br/><a class="btn btn-falcon-success" href="' . route('admin.epins.edit', $epin) . '">Click here</a> to edit the created E-Pin code.',
+            'icon' => 'success',
+        ]);
     }
 
     private function validateEpin()
@@ -167,7 +171,7 @@ class EpinController extends Controller
             'code' => ['nullable', 'string'],
             'type' => ['required', 'integer', Rule::in(config('constants.payment_types'))],
             'balance' => ['nullable', 'numeric', Rule::requiredIf(request('type') < 6)],
-            'generate-code' => ['sometimes', 'boolean'],
+            'regenerate_code' => ['sometimes', 'boolean'],
             'enabled' => ['required', 'boolean'],
         ]);
     }

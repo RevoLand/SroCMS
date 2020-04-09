@@ -106,7 +106,7 @@ class ItemMallCategoryController extends Controller
             return response()->json([
                 'title' => 'Deleted!',
                 'message' => 'Selected Category is successfully deleted.',
-                'type' => 'success',
+                'icon' => 'success',
             ]);
         }
 
@@ -122,7 +122,7 @@ class ItemMallCategoryController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Category enabled state has been successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

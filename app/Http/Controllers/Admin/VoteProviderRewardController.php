@@ -50,7 +50,7 @@ class VoteProviderRewardController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Selected Reward is successfully updated!',
-            'type' => 'success',
+            'icon' => 'success',
             'type_name' => $reward->type_name,
         ]);
     }
@@ -73,7 +73,7 @@ class VoteProviderRewardController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Reward is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -86,7 +86,7 @@ class VoteProviderRewardController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Enabled status has been updated for selected reward.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -110,7 +110,7 @@ class VoteProviderRewardController extends Controller
         return response()->json([
             'title' => 'Created!',
             'message' => 'Reward is successfully created.',
-            'type' => 'success',
+            'icon' => 'success',
             'reward' => $reward,
         ]);
     }

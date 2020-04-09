@@ -56,7 +56,7 @@ class TeleportController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Selected Teleport Point is successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -76,7 +76,7 @@ class TeleportController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Teleport Point has been successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -85,7 +85,7 @@ class TeleportController extends Controller
         return response()->json([
             'title' => 'Created!',
             'message' => 'Teleport Point is successfully created.',
-            'type' => 'success',
+            'icon' => 'success',
             'teleport' => new ResourcesRefTeleport(RefTeleport::create($validatedInputs)->load(['zoneName', 'objCommon.name'])),
         ]);
     }

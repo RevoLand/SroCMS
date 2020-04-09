@@ -57,7 +57,7 @@ class PageController extends Controller
         return response()->json([
             'title' => 'Created!',
             'message' => 'Page is successfully created!.<br /><br /><a href="' . route('admin.pages.edit', $page) . '">Click here</a> to view/edit the created page.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -114,7 +114,7 @@ class PageController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Page is successfully updated!.<br /><br /><a href="' . route('pages.show_page', $page->slug) . '">Click here</a> to view the updated page.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -127,7 +127,7 @@ class PageController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Enabled state for selected page has been successfully updated.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -145,7 +145,7 @@ class PageController extends Controller
         return response()->json([
             'title' => 'Deleted!',
             'message' => 'Selected Page is successfully deleted.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

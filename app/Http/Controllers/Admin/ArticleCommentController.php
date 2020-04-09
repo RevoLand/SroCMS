@@ -95,7 +95,7 @@ class ArticleCommentController extends Controller
             return response()->json([
                 'title' => 'Deleted!',
                 'message' => 'Comment is deleted.',
-                'type' => 'success',
+                'icon' => 'success',
             ]);
         }
 
@@ -111,7 +111,7 @@ class ArticleCommentController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Comment Approval state is successfully updated! New state: ' . (($comment->is_approved) ? 'Approved' : 'Not Approved'),
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 
@@ -124,7 +124,7 @@ class ArticleCommentController extends Controller
         return response()->json([
             'title' => 'Updated!',
             'message' => 'Comment Visibility is successfully updated! New Visibility setting is: ' . (($comment->is_visible) ? 'Visible' : 'Not Visible'),
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 

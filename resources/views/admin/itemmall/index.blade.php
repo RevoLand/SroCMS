@@ -3,60 +3,33 @@
 @section('pagetitle', 'Orders')
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Orders</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.itemmall.index') }}" class="kt-subheader__breadcrumbs-link">Web Item Mall</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.itemmall.index') }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Orders</a>
-                </div>
+<div class="card mb-3">
+    <div class="card-header">
+      <h5 class="mb-0">Orders</h5>
+    </div>
+    <div class="card-body bg-light px-0">
+        <div class="row">
+            <div class="col-12">
+                {!! $dataTable->table([], true) !!}
             </div>
         </div>
     </div>
-
-    <!-- end:: Subheader -->
-    <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        <div class="kt-portlet kt-portlet--mobile">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        Orders
-                    </h3>
-                </div>
-                @if(request()->hasAny(['user_id', 'item_group_id', 'payment_type']))
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.itemmall.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-eraser"></i> Clear Filters
-                        </a>
-                    </div>
-                </div>
-                @endif
-            </div>
-            <div class="kt-portlet__body">
-                <!--begin: Datatable -->
-                {!! $dataTable->table(['class' => 'table table-bordered table-hover table-checkable dataTable responsive dtr-inline'], true) !!}
-                <!--end: Datatable -->
-            </div>
-        </div>
-    </div>
-
-    <!-- end:: Content -->
+</div>
 @endsection
 
 @section('css')
-    {!! Theme::css('plugins/custom/datatables/datatables.bundle.css') !!}
+{!! Theme::css('lib/datatables-bs4/dataTables.bootstrap4.min.css') !!}
+{!! Theme::css('lib/datatables.net-responsive-bs4/responsive.bootstrap4.css') !!}
+{!! Theme::css('lib/datatables-rowgroup/css/rowGroup.bootstrap4.min.css') !!}
 @endsection
 
 @section('js')
-{!! Theme::js('plugins/custom/datatables/datatables.bundle.js') !!}
-<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
-{!! $dataTable->scripts() !!}
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+
+{!! Theme::js('lib/datatables/js/jquery.dataTables.min.js') !!}
+{!! Theme::js('lib/datatables-bs4/dataTables.bootstrap4.min.js') !!}
+{!! Theme::js('lib/datatables.net-responsive/dataTables.responsive.js') !!}
+{!! Theme::js('lib/datatables.net-responsive-bs4/responsive.bootstrap4.js') !!}
+{!! Theme::js('lib/datatables-rowgroup/js/dataTables.rowGroup.min.js') !!}
+{!!  $dataTable->scripts() !!}
 @endsection

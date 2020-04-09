@@ -24,7 +24,7 @@ class CharacterController extends Controller
             'WorldId' => $character->WorldID,
             'title' => 'Updated!',
             'message' => 'Character position is successfully retrieved.',
-            'type' => 'success',
+            'icon' => 'success',
         ]);
     }
 }

@@ -3,50 +3,14 @@
 @section('pagetitle', 'Edit Reward Group')
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader   kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">Edit Reward Group</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.index') }}" class="kt-subheader__breadcrumbs-link">Vote System</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.providers.index') }}" class="kt-subheader__breadcrumbs-link">Vote Providers</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.rewardgroups.index') }}" class="kt-subheader__breadcrumbs-link">Reward Groups</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.votes.rewardgroups.edit', $rewardgroup) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Edit</a>
-                </div>
-            </div>
-        </div>
+<div class="card mb-3" id="content">
+    <div class="card-header">
+      <h5 class="mb-0">Edit Reward Group</h5>
     </div>
-    <!-- end:: Subheader -->
-
-    <!-- begin:: Content -->
-    <div class="kt-container kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-        <div class="kt-portlet kt-portlet--mobile" id="rewardgroup">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <h3 class="kt-portlet__head-title">
-                        Vote Provider Reward Group: {{ $rewardgroup->name }}
-                    </h3>
-                </div>
-                <div class="kt-portlet__head-toolbar">
-                    <div class="kt-portlet__head-actions">
-                        <a href="{{ route('admin.votes.rewardgroups.create') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-copy"></i> Create Reward Group
-                        </a>
-                        <a href="{{ route('admin.votes.rewardgroups.index') }}" class="btn btn-primary btn-upper btn-sm btn-bold">
-                            <i class="la la-copy"></i> List Reward Groups
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="kt-portlet__body">
-                {{ Form::open(['route' => ['admin.votes.rewardgroups.update', $rewardgroup], 'class' => 'kt-form', 'method' => 'patch', '@submit.prevent' => 'onFormSubmit']) }}
+    <div class="card-body bg-light">
+        <div class="row">
+            <div class="col-12">
+                {{ Form::open(['route' => ['admin.votes.rewardgroups.update', $rewardgroup], 'method' => 'patch', '@submit.prevent' => 'onFormSubmit']) }}
                     <div class="form-group">
                         <label>Vote Providers</label>
                         <select class="form-control select2" multiple="multiple" v-model="vote_providers">
@@ -61,109 +25,92 @@
                     </div>
                     <div class="form-group">
                         <label>State</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                <input type="radio" v-model="enabled" value="1"> Enabled
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                <input type="radio" v-model="enabled" value="0"> Disabled
-                                <span></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions kt-form__actions--right">
-                            <div class="row">
-                                <div class="col kt-align-left">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    {!! Form::close() !!}
-                                </div>
-                                <div class="col kt-align-right">
-                                    {!! Form::open([ 'route' => ['admin.votes.rewardgroups.destroy', $rewardgroup], 'method' => 'delete']) !!}
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    {!! Form::close() !!}
-                                </div>
+                        <div class="row col-12">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="enabled_true" class="custom-control-input" type="radio" v-model="enabled" value="1">
+                                <label for="enabled_true" class="custom-control-label">Enabled</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="enabled_false" class="custom-control-input" type="radio" v-model="enabled" value="0">
+                                <label for="enabled_false" class="custom-control-label">Disabled</label>
                             </div>
                         </div>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-falcon-primary mr-2">Save</button>
+                        {!! Form::close() !!}
+                        {!! Form::open([ 'route' => ['admin.votes.rewardgroups.destroy', $rewardgroup], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
+                            <button type="submit" class="btn btn-falcon-danger">Delete</button>
+                        {!! Form::close() !!}
                     </div>
                 {{ Form::close() }}
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="row" id="rewardgroup_rewards">
-            <div class="col-xl-6">
-                <!--begin::Portlet-->
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <span class="kt-portlet__head-icon"><i class="flaticon-stopwatch"></i></span>
-                            <h3 class="kt-portlet__head-title">Rewards</h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-portlet__content">
-                            <select class="form-control" id="type" name="type" size="10" v-model="selectedreward">
-                                <option value="" v-show="false"></option>
-                                <option :value="{
-                                    vote_provider_reward_group_id: @json($rewardgroup->id),
-                                    type: 3,
-                                    enabled: 1
-                                }">Create New Reward</option>
-                                <optgroup label="Existing Rewards">
-                                    <option v-for="reward in rewards" :value="reward" v-bind:class="{'alert-danger' : reward.enabled == 0}">
-                                        <template v-if="reward.type == 6">
-                                            [@{{ reward.amount }}] @{{ reward.codename }} (+@{{ reward.plus }})
-                                        </template>
-                                        <template v-else-if="reward.type < 6 && reward.type > 2">
-                                            [@{{ reward.type_name }}] @{{ reward.amount }}
-                                        </template>
-                                        <template v-else>
-                                            [@{{ reward.type_name }}] @{{ reward.balance }}
-                                        </template>
-                                    </option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!--end::Portlet-->
-            </div>
-            <div class="col-xl-6" v-show="selectedreward">
-                <!--begin::Portlet-->
-                <div class="kt-portlet kt-portlet--height-fluid">
-                    <div class="kt-portlet__head">
-                        <div class="kt-portlet__head-label">
-                            <h3 class="kt-portlet__head-title">
-                                <template v-if="selectedreward.id">
-                                    Edit Reward
+<div class="card-deck" id="rewardgroup_rewards">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h5 class="mb-0">Rewards</h5>
+        </div>
+        <div class="card-body bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <select class="custom-select" id="type" name="type" size="10" v-model="selectedreward">
+                        <option value="" v-show="false"></option>
+                        <option :value="{
+                            vote_provider_reward_group_id: @json($rewardgroup->id),
+                            type: 3,
+                            enabled: 1
+                        }">Create New Reward</option>
+                        <optgroup label="Existing Rewards">
+                            <option v-for="reward in rewards" :value="reward" v-bind:class="{'alert-danger' : reward.enabled == 0}">
+                                <template v-if="reward.type == 6">
+                                    [@{{ reward.amount }}] @{{ reward.codename }} (+@{{ reward.plus }})
+                                </template>
+                                <template v-else-if="reward.type < 6 && reward.type > 2">
+                                    [@{{ reward.type_name }}] @{{ reward.amount }}
                                 </template>
                                 <template v-else>
-                                    Create Reward
+                                    [@{{ reward.type_name }}] @{{ reward.balance }}
                                 </template>
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__body">
-                        <div class="kt-portlet__content">
-                            <reward_form v-bind:reward="selectedreward"></reward_form>
-                        </div>
-                    </div>
+                            </option>
+                        </optgroup>
+                    </select>
                 </div>
-
-                <!--end::Portlet-->
             </div>
         </div>
-
     </div>
 
-    <!-- end:: Content -->
+    <div class="card mb-3" v-show="selectedreward">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <template v-if="selectedreward.id">
+                    Edit Reward
+                </template>
+                <template v-else>
+                    Create Reward
+                </template>
+            </h5>
+        </div>
+        <div class="card-body bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <reward_form v-bind:reward="selectedreward"></reward_form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
+{!! Theme::js('lib/select2/select2.min.js') !!}
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
+
 <script type="text/javascript">
     Vue.component('reward_form', {
         props: ['reward'],
@@ -182,8 +129,8 @@
             <div>
                 <form method="post" v-bind:action="this.$root.update_action" @submit.prevent="createEditForm">
                     <div class="form-group">
-                        <label>Reward Type</label>
-                        <select class="form-control" v-model.number.trim="reward.type" required>
+                        <label for="reward_type">Reward Type</label>
+                        <select class="custom-select" v-model.number.trim="reward.type" id="reward_type" required>
                             <option value="1">Balance</option>
                             <option value="2">Balance (Point)</option>
                             <option value="3">Silk</option>
@@ -193,57 +140,49 @@
                         </select>
                     </div>
                     <div class="form-group" v-show="IsItItem">
-                        <label>Codename</label>
-                        <input class="form-control" v-model.number.trim="reward.codename">
+                        <label for="reward_codename">Codename</label>
+                        <input class="form-control" id="reward_codename" v-model.number.trim="reward.codename">
                     </div>
                     <div class="form-group" v-show="!IsItBalance">
-                        <label>Amount</label>
-                        <input class="form-control" v-model.number.trim="reward.amount">
+                        <label for="reward_amount">Amount</label>
+                        <input class="form-control" id="reward_amount" v-model.number.trim="reward.amount">
                     </div>
                     <div class="form-group" v-show="!IsItBalance && IsItItem">
-                        <label>Plus</label>
-                        <input class="form-control" v-model.number.trim="reward.plus">
+                        <label for="reward_plus">Plus</label>
+                        <input class="form-control" id="reward_plus" v-model.number.trim="reward.plus">
                     </div>
                     <div class="form-group" v-show="IsItBalance">
-                        <label>Balance</label>
-                        <input class="form-control" v-model.number.trim="reward.balance">
+                        <label for="reward_balance">Balance</label>
+                        <input class="form-control" id="reward_balance" v-model.number.trim="reward.balance">
                     </div>
                     <div class="form-group">
                         <label>State</label>
-                        <div class="kt-radio-inline">
-                            <label class="kt-radio">
-                                <input type="radio" name="enabled" v-model="reward.enabled" value="1"> Enabled
-                                <span></span>
-                            </label>
-                            <label class="kt-radio">
-                                <input type="radio" name="enabled" v-model="reward.enabled" value="0"> Disabled
-                                <span></span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions">
-                            <div class="row">
-                                <div class="col kt-align-left">
-                                    <button type="submit" class="btn btn-primary">
-                                        <template v-if="IsItCreateForm">
-                                        Create
-                                        </template>
-                                        <template v-else>
-                                        Update
-                                        </template>
-                                    </button>
-                                    <button type="button" class="btn btn-danger" @click="deleteReward(reward)" v-show="!IsItCreateForm">Delete</button>
-                                </div>
+                        <div class="row col-12">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="reward_enabled_true" class="custom-control-input" type="radio" v-model="reward.enabled" value="1">
+                                <label for="reward_enabled_true" class="custom-control-label">Enabled</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input id="reward_enabled_false" class="custom-control-input" type="radio" v-model="reward.enabled" value="0">
+                                <label for="reward_enabled_false" class="custom-control-label">Disabled</label>
                             </div>
                         </div>
                     </div>
+                    <button type="submit" class="btn btn-falcon-primary mr-2">
+                        <template v-if="IsItCreateForm">
+                        Create
+                        </template>
+                        <template v-else>
+                        Update
+                        </template>
+                    </button>
+                    <button type="button" class="btn btn-falcon-danger" @click="deleteReward(reward)" v-show="!IsItCreateForm">Delete</button>
                 </form>
             </div>
         `,
         methods: {
             createEditForm(event) {
-                KTApp.block('body');
+                $('.content').block();
                 axios.post(event.target.action, this.reward)
                 .then(response => {
                     if (this.IsItCreateForm) {
@@ -255,7 +194,7 @@
                     swal.fire({
                         title: response.data.title,
                         html: response.data.message,
-                        type: response.data.type
+                        icon: response.data.icon
                     });
                 })
                 .catch(error => {
@@ -267,18 +206,18 @@
                     });
                     errors += '</ul>';
                     swal.fire({
-                        type: 'error',
+                        icon: 'error',
                         title: error.response.data.message,
                         html: errors
                     });
                 })
                 .finally(() => {
-                    KTApp.unblock('body');
+                    $('.content').unblock();
                 });
             },
 
             deleteReward(rewardToDelete) {
-                KTApp.block('body');
+                $('.content').unblock();
 
                 axios.post(this.$root.destroy_action, {
                     id: this.reward.id
@@ -289,7 +228,7 @@
                     swal.fire({
                         title: response.data.title,
                         html: response.data.message,
-                        type: response.data.type
+                        icon: response.data.icon
                     });
                 })
                 .catch(error => {
@@ -301,20 +240,20 @@
                     });
                     errors += '</ul>';
                     swal.fire({
-                        type: 'error',
+                        icon: 'error',
                         title: error.response.data.message,
                         html: errors
                     });
                 })
                 .finally(() => {
-                    KTApp.unblock('body');
+                    $('.content').unblock();
                 });
             }
         }
     });
 
     new Vue({
-        el: '#rewardgroup',
+        el: '#content',
         data: {
             name: @json($rewardgroup->name),
             enabled: @json($rewardgroup->enabled),
@@ -328,7 +267,7 @@
                     swal.fire({
                         title: response.data.title,
                         html: response.data.message,
-                        type: response.data.type
+                        icon: response.data.icon
                     });
                 })
                 .catch(function (error) {
@@ -341,9 +280,55 @@
                     errors += '</ul>';
 
                     swal.fire({
-                        type: 'error',
+                        icon: 'error',
                         title: error.response.data.message,
                         html: errors
+                    });
+                });
+            },
+            deleteForm(event) {
+                swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (!result.value) {
+                        return;
+                    }
+
+                    $('.content').block();
+
+                    axios.delete(event.target.action)
+                    .then(response => {
+                        swal.fire({
+                            title: response.data.title,
+                            html: response.data.message,
+                            icon: response.data.icon
+                        }).then((result) => {
+                            window.location.href = @json(route('admin.votes.rewardgroups.index'))
+                        });
+                    })
+                    .catch(function (error) {
+                        var errors = '<ul class="list-unstyled">';
+                        jQuery.each(error.response.data.errors, function (key, value) {
+                            errors += '<li>';
+                            errors += value;
+                            errors += '</li>';
+                        });
+                        errors += '</ul>';
+
+                        swal.fire({
+                            icon: 'error',
+                            title: error.response.data.message,
+                            html: errors
+                        });
+                    })
+                    .finally(() => {
+                        $('.content').unblock();
                     });
                 });
             }
@@ -364,5 +349,4 @@
         }
     });
 </script>
-<script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 @endsection
