@@ -101,8 +101,8 @@ class VoteLogsDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $voteProviders = VoteProvider::select(['name'])->get();
-        $rewardGroups = VoteProviderRewardGroup::select(['name'])->get();
+        $voteProviders = VoteProvider::select(['name'])->whereHas('voteLogs')->get();
+        $rewardGroups = VoteProviderRewardGroup::select(['name'])->whereHas('logs')->get();
         $voteProviderOptions = '';
         $rewardGroupOptions = '';
 
