@@ -4,8 +4,11 @@
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header">
-      <h5 class="mb-0">Create Item Group</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">Create Item Group</h5>
+        <div>
+            <a class="btn btn-falcon-info" href="{{ route('admin.itemmall.itemgroups.index') }}">Item Groups</a>
+        </div>
     </div>
     <div class="card-body bg-light">
         <div class="row">

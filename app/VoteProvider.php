@@ -11,6 +11,10 @@ class VoteProvider extends Model
     protected $connection = 'srocms';
     protected $guarded = [];
 
+    protected $hidden = [
+        'callback_secret',
+    ];
+
     public function rewardGroups()
     {
         return $this->belongsToMany(VoteProviderRewardGroup::class);
@@ -18,7 +22,7 @@ class VoteProvider extends Model
 
     public function canUserVote()
     {
-        return Auth::user()->voteLogsByProviderId($this->id)->voted()->where(function ($voteLogQuery)
+        return auth()->user()->voteLogsByProviderId($this->id)->voted()->where(function ($voteLogQuery)
         {
             $voteLogQuery->where('updated_at', '>', Carbon::now()->subMinutes($this->minutes_between_votes));
         })->count() == 0;
@@ -36,7 +40,7 @@ class VoteProvider extends Model
 
     public function lastVoteLogForAuthUser()
     {
-        return $this->lastVoteLogForUser(Auth::user()->JID);
+        return $this->lastVoteLogForUser(auth()->user()->JID);
     }
 
     public function lastActiveVoteLogForUser($userId)

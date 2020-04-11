@@ -4,8 +4,12 @@
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header">
+    <div class="card-header d-flex align-items-center justify-content-between">
         <h5 class="mb-0">Edit Vote Provider</h5>
+        <div>
+            <a class="btn btn-falcon-primary mr-2" href="{{ route('admin.votes.providers.create') }}">Create</a>
+            <a class="btn btn-falcon-info" href="{{ route('admin.votes.providers.index') }}">Vote Providers</a>
+        </div>
     </div>
     <div class="card-body bg-light">
         <div class="row">

@@ -62,6 +62,47 @@
         {!! Theme::js('lib/stickyfilljs/stickyfill.min.js') !!}
         {!! Theme::js('lib/sticky-kit/sticky-kit.min.js') !!}
         {!! Theme::js('lib/sweetalert/js/sweetalert2.all.min.js') !!}
+        <script>
+        $(function() {
+            "use strict";
+                var url = window.location + "";
+                var path = url.replace(window.location.protocol + "//" + window.location.host + "/", "");
+                var element = $('ul.navbar-nav a').filter(function() {
+                    return this.href === url || this.href === path;// || url.href.indexOf(this.href) === 0;
+                });
+
+                element.parentsUntil(".navbar-nav").each(function (index)
+                {
+                    if($(this).is("li") && $(this).children("a").length !== 0)
+                    {
+                        $(this).children("a").addClass("active");
+                        $(this).parent("ul.navbar-nav").length === 0
+                            ? $(this).addClass("active")
+                            : $(this).addClass("active");
+
+                        if ($(this).children("a").hasClass('dropdown-indicator')) {
+                            $(this).children("a").click();
+                        }
+                    }
+                    else if(!$(this).is("ul") && $(this).children("a").length === 0)
+                    {
+                        console.log('burası geldi - 1');
+                        console.log($(this));
+                        $(this).addClass("active");
+
+                    }
+                    else if($(this).is("ul")){
+                        console.log('burası geldi - 2');
+                        console.log($(this));
+                    }
+
+                });
+
+            element.addClass("active");
+        });
+        </script>
+
+        @routes
 
         @yield('js')
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">

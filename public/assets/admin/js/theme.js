@@ -2287,82 +2287,82 @@ utils.$document.ready(function () {
   //
 
 
-  var $pieChartRevenue = document.querySelector(Selector.ECHART_DOUGHNUT);
+//   var $pieChartRevenue = document.querySelector(Selector.ECHART_DOUGHNUT);
 
-  if ($pieChartRevenue) {
-    var _$this4 = $($pieChartRevenue);
+//   if ($pieChartRevenue) {
+//     var _$this4 = $($pieChartRevenue);
 
-    var _userOptions4 = _$this4.data('options');
+//     var _userOptions4 = _$this4.data('options');
 
-    var _chart4 = window.echarts.init($pieChartRevenue);
+//     var _chart4 = window.echarts.init($pieChartRevenue);
 
-    var _defaultOptions4 = {
-      color: [utils.colors.primary, utils.colors.info, utils.grays[300]],
-      tooltip: {
-        trigger: 'item',
-        padding: [7, 10],
-        backgroundColor: utils.grays.white,
-        textStyle: {
-          color: utils.grays.black
-        },
-        transitionDuration: 0,
-        borderColor: utils.grays['300'],
-        borderWidth: 1,
-        formatter: function formatter(params) {
-          return "<strong>" + params.data.name + ":</strong> " + params.percent + "%";
-        }
-      },
-      position: function position(pos, params, dom, rect, size) {
-        return getPosition(pos, params, dom, rect, size);
-      },
-      legend: {
-        show: false
-      },
-      series: [{
-        type: 'pie',
-        radius: ['100%', '87%'],
-        avoidLabelOverlap: false,
-        hoverAnimation: false,
-        itemStyle: {
-          borderWidth: 2,
-          borderColor: utils.grays.white
-        },
-        label: {
-          normal: {
-            show: false,
-            position: 'center',
-            textStyle: {
-              fontSize: '20',
-              fontWeight: '500',
-              color: utils.grays['700']
-            }
-          },
-          emphasis: {
-            show: false
-          }
-        },
-        labelLine: {
-          normal: {
-            show: false
-          }
-        },
-        data: [{
-          value: 5300000,
-          name: 'Samsung'
-        }, {
-          value: 1900000,
-          name: 'Huawei'
-        }, {
-          value: 2000000,
-          name: 'Apple'
-        }]
-      }]
-    };
+//     var _defaultOptions4 = {
+//       color: [utils.colors.primary, utils.colors.info, utils.grays[300]],
+//       tooltip: {
+//         trigger: 'item',
+//         padding: [7, 10],
+//         backgroundColor: utils.grays.white,
+//         textStyle: {
+//           color: utils.grays.black
+//         },
+//         transitionDuration: 0,
+//         borderColor: utils.grays['300'],
+//         borderWidth: 1,
+//         formatter: function formatter(params) {
+//           return "<strong>" + params.data.name + ":</strong> " + params.percent + "%";
+//         }
+//       },
+//       position: function position(pos, params, dom, rect, size) {
+//         return getPosition(pos, params, dom, rect, size);
+//       },
+//       legend: {
+//         show: false
+//       },
+//       series: [{
+//         type: 'pie',
+//         radius: ['100%', '87%'],
+//         avoidLabelOverlap: false,
+//         hoverAnimation: false,
+//         itemStyle: {
+//           borderWidth: 2,
+//           borderColor: utils.grays.white
+//         },
+//         label: {
+//           normal: {
+//             show: false,
+//             position: 'center',
+//             textStyle: {
+//               fontSize: '20',
+//               fontWeight: '500',
+//               color: utils.grays['700']
+//             }
+//           },
+//           emphasis: {
+//             show: false
+//           }
+//         },
+//         labelLine: {
+//           normal: {
+//             show: false
+//           }
+//         },
+//         data: [{
+//           value: 5300000,
+//           name: 'Samsung'
+//         }, {
+//           value: 1900000,
+//           name: 'Huawei'
+//         }, {
+//           value: 2000000,
+//           name: 'Apple'
+//         }]
+//       }]
+//     };
 
-    var _options4 = window._.merge(_defaultOptions4, _userOptions4);
+//     var _options4 = window._.merge(_defaultOptions4, _userOptions4);
 
-    _chart4.setOption(_options4);
-  } //
+//     _chart4.setOption(_options4);
+//   } //
   // ─── WORLD MAP ──────────────────────────────────────────────────────────────────
   //
 

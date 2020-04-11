@@ -8,6 +8,9 @@ class VoteLog extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $hidden = [
+        'secret',
+    ];
 
     public function rewardgroup()
     {
@@ -32,6 +35,11 @@ class VoteLog extends Model
     public function scopeVoted($query)
     {
         return $query->where('voted', true);
+    }
+
+    public function scopeNotVoted($query)
+    {
+        return $query->where('voted', false);
     }
 
     public function scopeUser($query, $userId)

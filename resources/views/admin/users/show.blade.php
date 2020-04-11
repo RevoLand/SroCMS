@@ -3,675 +3,377 @@
 @section('pagetitle', 'User: ' . $user->getName())
 
 @section('content')
-    <!-- begin:: Subheader -->
-    <div class="kt-subheader  kt-grid__item" id="kt_subheader">
-        <div class="kt-container  kt-container--fluid ">
-            <div class="kt-subheader__main">
-                <h3 class="kt-subheader__title">User Profile</h3>
-                <span class="kt-subheader__separator kt-hidden"></span>
-                <div class="kt-subheader__breadcrumbs">
-                    <a href="{{ route('admin.dashboard.index') }}" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.users.index') }}" class="kt-subheader__breadcrumbs-link">Users</a>
-                    <span class="kt-subheader__breadcrumbs-separator"></span>
-                    <a href="{{ route('admin.users.show', $user) }}" class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Profile</a>
+<div class="card mb-3">
+    <div class="card-body position-relative">
+        <div class="row">
+            <div class="col-lg-9">
+                @isset($user->gravatar)
+                <div class="avatar avatar-5xl">
+                    <img class="rounded-circle img-thumbnail shadow-sm" src="{{ $user->gravatar }}" alt="">
+                </div>
+                @endisset
+                <h4 class="mb-1">
+                    {{ $user->getName() }}
+                </h4>
+                <h5 class="fs-0 font-weight-normal">{{ $user->Email }}</h5>
+                <p class="text-500">{{ $user->StrUserID }}</p>
+                <a class="btn btn-falcon-primary btn-sm px-3" type="button" href="{{ route('users.show_user', $user) }}">Profile</a>
+                <a class="btn btn-falcon-default btn-sm px-3 ml-2" type="button">Edit</a>
+                {{-- TODO: Open a modal? --}}
+                <a class="btn btn-falcon-danger btn-sm px-3 ml-2" type="button">Quick Ban</a>
+                <hr class="border-dashed my-4 d-lg-none">
+            </div>
+            <div class="col-lg-3 pl-lg-3 fs--1 align-self-center">
+                <ul class="list-group shadow-sm list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Balance <span>{{ number_format($user->balance->balance, 2) }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Balance (Point) <span>{{ number_format($user->balance->balance_point, 2) }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Silk <span>{{ $user->silk->silk_own }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Silk (Gift) <span>{{ $user->silk->silk_gift }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Silk (Point) <span>{{ $user->silk->silk_point }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- account totals? --}}
+<div class="card-deck">
+    <div class="card mb-3">
+        <div class="bg-holder bg-card" style="background-image:url({{ Theme::url('img/illustrations/corner-1.png') }});"></div>
+        <div class="card-body position-relative">
+            <h6>Orders</h6>
+            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-success">
+                {{ $orderCount }}
+            </div>
+            <a class="font-weight-semi-bold fs--1 text-nowrap" href="{{ route('admin.itemmall.index', ['user_id' => $user]) }}">
+                See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
+            </a>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="bg-holder bg-card" style="background-image:url({{ Theme::url('img/illustrations/corner-3.png') }});"></div>
+        <div class="card-body position-relative">
+            <h6>Referrals</h6>
+            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-info">
+                {{ $referralCount }}
+            </div>
+            {{-- TODO: Referrals index --}}
+            <a class="font-weight-semi-bold fs--1 text-nowrap" href="#!">
+                See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
+            </a>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="bg-holder bg-card" style="background-image:url({{ Theme::url('img/illustrations/corner-4.png') }});"></div>
+        <div class="card-body position-relative">
+            <h6>E-Pins Used</h6>
+            <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning">
+                {{ $epinCount }}
+            </div>
+            <a class="font-weight-semi-bold fs--1 text-nowrap" href="{{ route('admin.epins.index', ['user_id' => $user]) }}">
+                See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
+            </a>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="bg-holder bg-card" style="background-image:url({{ Theme::url('img/illustrations/corner-2.png') }});"></div>
+        <div class="card-body position-relative">
+            <div class="row h-100 justify-content-between no-gutters">
+                <div class="col-5 col-sm-6 col-xxl pr-2">
+                    <h6 class="mt-1">Vote Info</h6>
+                    <div class="fs--2 mt-3">
+                        <div class="d-flex flex-between-center mb-1">
+                            <div class="d-flex align-items-center">
+                                <span class="dot bg-primary"></span><span class="font-weight-semi-bold">Completed Votes: {{ $voteInfo->completed }}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-between-center mb-1">
+                            <div class="d-flex align-items-center">
+                                <span class="dot bg-success"></span><span class="font-weight-semi-bold">Uncompleted Votes: {{ $voteInfo->uncompleted }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="echart-doughnut"></div>
+                    <div class="absolute-centered font-weight-medium text-dark fs-2">
+                        {{ $voteInfo->total }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- end:: Subheader -->
-
-<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
-    <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
-
-        <!--Begin:: App Aside Mobile Toggle-->
-        <button class="kt-app__aside-close" id="kt_profile_aside_close">
-            <i class="la la-close"></i>
-        </button>
-
-        <!--End:: App Aside Mobile Toggle-->
-
-        <!--Begin:: App Aside-->
-        <div class="kt-grid__item kt-app__toggle kt-app__aside kt-app__aside--sm kt-app__aside--fit" id="kt_profile_aside">
-
-            <!--Begin:: Portlet-->
-            <div class="kt-portlet">
-                <div class="kt-portlet__body">
-                    <div class="kt-widget kt-widget--general-1">
-                        <div class="kt-media kt-media--brand kt-media--md kt-media--circle">
-                            @isset($user->gravatar)<img src="{{ $user->gravatar }}" alt="image">@endisset
-                        </div>
-                        <div class="kt-widget__wrapper">
-                            <div class="kt-widget__label">
-                                <a href="#" class="kt-widget__title">
-                                    {{ $user->StrUserID }}
-                                </a>
-                                <span class="kt-widget__desc">
-                                    {{ $user->getName() }}
-                                </span>
-                            </div>
-                            <div class="kt-widget__toolbar kt-widget__toolbar--top-">
-                                <div class="btn-group">
-                                    <div class="dropdown dropdown-inline">
-                                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="flaticon-more-1"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-md dropdown-menu-right">
-                                            <!--begin::Nav -- DROPDOWN -->
-                                            <ul class="kt-nav">
-                                                <li class="kt-nav__head">
-                                                    Export Options
-                                                    <i class="flaticon2-information" data-toggle="kt-tooltip" data-placement="right" title="Click to learn more..."></i>
-                                                </li>
-                                                <li class="kt-nav__separator"></li>
-                                                <li class="kt-nav__item">
-                                                    <a href="#" class="kt-nav__link">
-                                                        <i class="kt-nav__link-icon flaticon2-drop"></i>
-                                                        <span class="kt-nav__link-text">Users</span>
-                                                    </a>
-                                                </li>
-                                                <li class="kt-nav__item">
-                                                    <a href="#" class="kt-nav__link">
-                                                        <i class="kt-nav__link-icon flaticon2-calendar-8"></i>
-                                                        <span class="kt-nav__link-text">Reports</span>
-                                                        <span class="kt-nav__link-badge">
-                                                            <span class="kt-badge kt-badge--danger">9</span>
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                                <li class="kt-nav__separator"></li>
-                                                <li class="kt-nav__foot">
-                                                    <a class="btn btn-label-brand btn-bold btn-sm" href="#">Proceed</a>
-                                                    <a class="btn btn-clean btn-bold btn-sm" href="#" data-toggle="kt-tooltip" data-placement="right" title="Click to learn more...">Learn more</a>
-                                                </li>
-                                            </ul>
-
-                                            <!--end::Nav-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="kt-portlet__separator"></div>
-                <div class="kt-portlet__body">
-                    <ul class="kt-nav kt-nav--bolder kt-nav--fit-ver kt-nav--v4" role="tablist">
-                        <li class="kt-nav__item  ">
-                            <a class="kt-nav__link active" href="?page=custom/profile/personal-information" role="tab">
-                                <span class="kt-nav__link-icon"><i class="flaticon2-user"></i></span>
-                                <span class="kt-nav__link-text">Personal Information</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__item  ">
-                            <a class="kt-nav__link" href="?page=custom/profile/account-settings" role="tab">
-                                <span class="kt-nav__link-icon"><i class="flaticon-feed"></i></span>
-                                <span class="kt-nav__link-text">Account Settings</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__item  ">
-                            <a class="kt-nav__link" href="?page=custom/profile/change-password" role="tab">
-                                <span class="kt-nav__link-icon"><i class="flaticon2-settings"></i></span>
-                                <span class="kt-nav__link-text">Change Password</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__item  ">
-                            <a class="kt-nav__link" href="?page=custom/profile/user-settings" role="tab">
-                                <span class="kt-nav__link-icon"><i class="flaticon2-chart2"></i></span>
-                                <span class="kt-nav__link-text">User Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="kt-portlet__separator"></div>
-                <div class="kt-portlet__body">
-                    <ul class="kt-nav kt-nav--bolder kt-nav--fit-ver kt-nav--v4" role="tablist">
-                        <li class="kt-nav__item">
-                            <a class="kt-nav__link" href="#" role="tab" data-toggle="kt-tooltip" data-placement="right" title="This feature is coming soon!">
-                                <span class="kt-nav__link-icon"><i class="flaticon2-chart2"></i></span>
-                                <span class="kt-nav__link-text">Email Settings</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__item">
-                            <a class="kt-nav__link" href="#" role="tab" data-toggle="kt-tooltip" data-placement="right" title="This feature is coming soon!">
-                                <span class="kt-nav__link-icon"><i class="flaticon-safe-shield-protection"></i></span>
-                                <span class="kt-nav__link-text">Saved Credit Cards</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__item">
-                            <a class="kt-nav__link" href="#" role="tab" data-toggle="kt-tooltip" data-placement="right" title="This feature is coming soon!">
-                                <span class="kt-nav__link-icon"><i class="flaticon-download-1"></i></span>
-                                <span class="kt-nav__link-text">Social Networks</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__item">
-                            <a class="kt-nav__link" href="#" role="tab" data-toggle="kt-tooltip" data-placement="right" title="This feature is coming soon!">
-                                <span class="kt-nav__link-icon"><i class="flaticon-security"></i></span>
-                                <span class="kt-nav__link-text">Tax Information</span>
-                            </a>
-                        </li>
-                        <li class="kt-nav__space"></li>
-                        <li class="kt-nav__custom">
-                            <a href="#" class="btn btn-default btn-sm btn-upper btn-bold">
-                                New Group
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!--End:: Portlet-->
-
-            <!--Begin:: Portlet-->
-            <div class="kt-portlet kt-portlet--head-noborder">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-portlet__head-title  kt-font-danger">
-                            Important Update
-                        </h3>
-                    </div>
-                    <div class="kt-portlet__head-toolbar">
-                        <span class="kt-badge kt-badge--bolder kt-badge kt-badge--inline kt-badge--danger">Now</span>
-                    </div>
-                </div>
-                <div class="kt-portlet__body kt-portlet__body--fit-top">
-                    <div class="kt-section kt-section--space-sm">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-                    </div>
-                    <div class="kt-section kt-section--last">
-                        <a href="#" class="btn btn-brand btn-sm btn-bold"><i class=""></i> Take Action</a>&nbsp;
-                        <a href="#" class="btn btn-clean btn-sm btn-bold">Dismiss</a>
-                    </div>
-                </div>
-            </div>
-
-            <!--End:: Portlet-->
+</div>
+<div class="card-deck">
+    <div class="card mb-3" id="orders">
+        <div class="card-header d-flex justify-content-between">
+            Latest Orders
+            <span>
+                <select class="custom-select custom-select-sm" v-model.number="show_limit">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>40</option>
+                </select>
+            </span>
         </div>
-        <!--End:: App Aside-->
-
-        <!--Begin:: App Content-->
-        <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
-            <div class="row">
-                <div class="col-lg-12 col-xl-6  order-lg-1 order-xl-1">
-                    <!--begin::Portlet-->
-                    <div class="kt-portlet kt-portlet--height-fluid">
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">Son Siparişler</h3>
-                            </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-actions">
-                                    <a href="#" class="btn btn-default btn-sm btn-bold btn-upper">CSV</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kt-portlet__body">
-                            <div class="kt-portlet__body kt-portlet__body--fit">
-                                <!--Doc: For the datatable initialization refer to "recentOrdersInit" function in "src\theme\app\scripts\custom\dashboard.js" -->
-                                <div class="kt-datatable" id="kt_recent_orders"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--end::Portlet-->
-                </div>
-                <div class="col-lg-12 col-xl-6 order-lg-2 order-xl-1">
-                    <!--begin::Portlet-->
-                    <div class="kt-portlet kt-portlet--height-fluid">
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">Sales Statistics</h3>
-                            </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-wrapper">
-                                    <div class="dropdown dropdown-inline">
-                                        <button type="button" class="btn btn-label-brand btn-sm btn-bold dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Export
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <ul class="kt-nav">
-                                                <li class="kt-nav__section kt-nav__section--first">
-                                                    <span class="kt-nav__section-text">Export Tools</span>
-                                                </li>
-                                                <li class="kt-nav__item">
-                                                    <a href="#" class="kt-nav__link">
-                                                        <i class="kt-nav__link-icon la la-print"></i>
-                                                        <span class="kt-nav__link-text">Print</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kt-portlet__body kt-portlet__body--fluid">
-                            <div class="kt-widget-9">
-                                <div class="kt-widget-9__panel">
-                                    <div class="kt-widget-9__legends">
-                                        <div class="kt-widget-9__legend">
-                                            <div class="kt-widget-9__legend-bullet kt-bg-brand"></div>
-                                            <div class="kt-widget-9__legend-label">Author</div>
-                                        </div>
-                                        <div class="kt-widget-9__legend">
-                                            <div class="kt-widget-9__legend-bullet kt-label-bg-color-1"></div>
-                                            <div class="kt-widget-9__legend-label">Customer</div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-widget-9__toolbar">
-                                        <div class="dropdown dropdown-inline">
-                                            <button type="button" class="btn btn-default dropdown-toggle btn-font-sm btn-bold btn-upper" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                August
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="kt-nav">
-                                                    <li class="kt-nav__section kt-nav__section--first">
-                                                        <span class="kt-nav__section-text">Export Tools</span>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon la la-print"></i>
-                                                            <span class="kt-nav__link-text">Print</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="kt-widget-9__chart">
-
-                                    <!--Doc: For the chart initialization refer to "widgetSalesStatisticsChart" function in "src\theme\app\scripts\custom\dashboard.js" -->
-                                    <canvas id="kt_chart_sales_statistics" height="300"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--end::Portlet-->
-                </div>
-                <div class="col-lg-12 col-xl-4  order-lg-1 order-xl-1">
-
-                    <!--begin::Portlet-->
-                    <div class="kt-portlet kt-portlet--height-fluid">
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">Top Products</h3>
-                            </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <div class="kt-portlet__head-toolbar-wrapper">
-                                    <div class="dropdown dropdown-inline">
-                                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="flaticon-more-1"></i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <ul class="kt-nav">
-                                                <li class="kt-nav__section kt-nav__section--first">
-                                                    <span class="kt-nav__section-text">Export Tools</span>
-                                                </li>
-                                                <li class="kt-nav__item">
-                                                    <a href="#" class="kt-nav__link">
-                                                        <i class="kt-nav__link-icon la la-print"></i>
-                                                        <span class="kt-nav__link-text">Print</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kt-portlet__body">
-                            <div class="kt-widget-1">
-                                <ul class="nav nav-pills nav-tabs-btn nav-pills-btn-brand" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#kt_tabs_19_15e310a3227b2b" role="tab">
-                                            <span class="nav-link-icon"><i class="flaticon2-graphic"></i></span>
-                                            <span class="nav-link-title">Settings</span>
-                                        </a>
+        <div class="card-body position-relative">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm fs--1">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Items</th>
+                            <th scope="col" class="white-space-nowrap">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="order in filteredOrders">
+                            <th scope="row">@{{ order.id }}</th>
+                            <td class="fs--2">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-content-center" v-for="item in order.items">
+                                        <span class="badge badge-soft-primary">@{{ item.quantity }}</span>
+                                        @{{ item.itemgroup.name }}
+                                        <span class="badge badge-soft-primary">@{{ item.total_paid }} @{{ item.type_name }}</span>
                                     </li>
                                 </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane fade active show" id="kt_tabs_19_15e310a3227b2b" role="tabpanel">
-                                        <div class="kt-widget-1__item">
-                                            <div class="kt-widget-1__item-info">
-                                                <a href="#" class="kt-widget-1__item-title">
-                                                    HTML 5 Templates
-                                                </a>
-                                                <div class="kt-widget-1__item-desc">Font-end,Admin & Email</div>
-                                            </div>
-                                            <div class="kt-widget-1__item-stats">
-                                                <div class="kt-widget-1__item-value">+79%</div>
-                                                <div class="kt-widget-1__item-progress">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 79%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-1__item">
-                                            <div class="kt-widget-1__item-info">
-                                                <a href="#" class="kt-widget-1__item-title">
-                                                    Wordpress Themes
-                                                </a>
-                                                <div class="kt-widget-1__item-desc">eCommerce Website, Plugin</div>
-                                            </div>
-                                            <div class="kt-widget-1__item-stats">
-                                                <div class="kt-widget-1__item-value">+21%</div>
-                                                <div class="kt-widget-1__item-progress">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-brand" role="progressbar" style="width: 60%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-1__item">
-                                            <div class="kt-widget-1__item-info">
-                                                <a href="#" class="kt-widget-1__item-title">eCommerce Websites</a>
-                                                <div class="kt-widget-1__item-desc">Shops, Fasion wep sites & atc</div>
-                                            </div>
-                                            <div class="kt-widget-1__item-stats">
-                                                <div class="kt-widget-1__item-value">-16%</div>
-                                                <div class="kt-widget-1__item-progress">
-                                                    <div class="progress">
-                                                        <div class="progress-bar  bg-success" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-1__item">
-                                            <div class="kt-widget-1__item-info">
-                                                <a href="#" class="kt-widget-1__item-title">UI/UX Design</a>
-                                                <div class="kt-widget-1__item-desc">Evrything you ever imagine</div>
-                                            </div>
-                                            <div class="kt-widget-1__item-stats">
-                                                <div class="kt-widget-1__item-value">+4%</div>
-                                                <div class="kt-widget-1__item-progress">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-focus" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-1__item">
-                                            <div class="kt-widget-1__item-info">
-                                                <a href="#" class="kt-widget-1__item-title">Freebie Themes</a>
-                                                <div class="kt-widget-1__item-desc">Font-end & Admin</div>
-                                            </div>
-                                            <div class="kt-widget-1__item-stats">
-                                                <div class="kt-widget-1__item-value">+34</div>
-                                                <div class="kt-widget-1__item-progress">
-                                                    <div class="progress">
-                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--end::Portlet-->
-                </div>
-                <div class="col-lg-12 col-xl-4  order-lg-1 order-xl-1">
-
-                    <!--begin::Portlet-->
-                    <div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">
-                                    Work Progress
-                                </h3>
-                            </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-brand nav-tabs-bold" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active show" data-toggle="tab" href="#kt_portlet_tabs_1111_1_content" role="tab" aria-selected="false">
-                                            Emails
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="kt-portlet__body">
-                            <div class="tab-content">
-                                <div class="tab-pane fade active show" id="kt_portlet_tabs_1111_1_content" role="tabpanel">
-                                    <div class="kt-widget-11">
-                                        <div class="kt-widget-11__item">
-                                            <div class="kt-widget-11__wrapper">
-                                                <div class="kt-widget-11__title">
-                                                    Pendings Tasks
-                                                </div>
-                                                <div class="kt-widget-11__value">
-                                                    78%
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-11__progress">
-                                                <div class="progress">
-
-                                                    <!-- Doc: A bootstrap progress bar can be used to show a user how far along it's in a process, see https://getbootstrap.com/docs/4.1/components/progress/ -->
-                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-11__item">
-                                            <div class="kt-widget-11__wrapper">
-                                                <div class="kt-widget-11__title">
-                                                    Completed Tasks
-                                                </div>
-                                                <div class="kt-widget-11__value">
-                                                    320&nbsp;/&nbsp;<span class="kt-opacity-5">780</span>
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-11__progress">
-                                                <div class="progress">
-
-                                                    <!-- Doc: A bootstrap progress bar can be used to show a user how far along it's in a process, see https://getbootstrap.com/docs/4.1/components/progress/ -->
-                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-11__item">
-                                            <div class="kt-widget-11__wrapper">
-                                                <div class="kt-widget-11__title">
-                                                    Tasks In Progress
-                                                </div>
-                                                <div class="kt-widget-11__value">
-                                                    45%
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-11__progress">
-                                                <div class="progress">
-
-                                                    <!-- Doc: A bootstrap progress bar can be used to show a user how far along it's in a process, see https://getbootstrap.com/docs/4.1/components/progress/ -->
-                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-11__item">
-                                            <div class="kt-widget-11__wrapper">
-                                                <div class="kt-widget-11__title">
-                                                    All Tasks
-                                                </div>
-                                                <div class="kt-widget-11__value">
-                                                    1200
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-11__progress">
-                                                <div class="progress">
-
-                                                    <!-- Doc: A bootstrap progress bar can be used to show a user how far along it's in a process, see https://getbootstrap.com/docs/4.1/components/progress/ -->
-                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-11__item">
-                                            <div class="kt-widget-11__wrapper">
-                                                <div class="kt-widget-11__title">
-                                                    Reports
-                                                </div>
-                                                <div class="kt-widget-11__value">
-                                                    40
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-11__progress">
-                                                <div class="progress">
-
-                                                    <!-- Doc: A bootstrap progress bar can be used to show a user how far along it's in a process, see https://getbootstrap.com/docs/4.1/components/progress/ -->
-                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="kt-margin-t-30 kt-align-center">
-                                        <a href="#" class="btn btn-brand btn-upper btn-bold kt-align-center">Full Report</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--end::Portlet-->
-                </div>
-                <div class="col-lg-12 col-xl-4  order-lg-1 order-xl-1">
-
-                    <!--begin::Portlet-->
-                    <div class="kt-portlet kt-portlet--height-fluid kt-portlet--tabs">
-                        <div class="kt-portlet__head">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-portlet__head-title">
-                                    Latest Tasks
-                                </h3>
-                            </div>
-                            <div class="kt-portlet__head-toolbar">
-                                <ul class="nav nav-tabs nav-tabs-line nav-tabs-line-brand nav-tabs-bold" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active show" data-toggle="tab" href="#kt_portlet_tabs_1_1_content" role="tab" aria-selected="false">
-                                            Today
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="kt-portlet__body">
-                            <div class="tab-content">
-                                <div class="tab-pane fade active show" id="kt_portlet_tabs_1_1_content" role="tabpanel">
-                                    <div class="kt-widget-5">
-                                        <div class="kt-widget-5__item kt-widget-5__item--info">
-                                            <div class="kt-widget-5__item-info">
-                                                <a href="#" class="kt-widget-5__item-title">
-                                                    Management meeting
-                                                </a>
-                                                <div class="kt-widget-5__item-datetime">
-                                                    09:30 AM
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-5__item-check">
-                                                <label class="kt-radio">
-                                                    <input type="radio" checked="checked" name="radio1">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-5__item kt-widget-5__item--danger">
-                                            <div class="kt-widget-5__item-info">
-                                                <a href="#" class="kt-widget-5__item-title">
-                                                    Replace datatables rows color
-                                                </a>
-                                                <div class="kt-widget-5__item-datetime">
-                                                    12:00 AM
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-5__item-check">
-                                                <label class="kt-radio">
-                                                    <input type="radio" checked="checked" name="radio1">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-5__item kt-widget-5__item--brand">
-                                            <div class="kt-widget-5__item-info">
-                                                <a href="#" class="kt-widget-5__item-title">
-                                                    Export Navitare booking table
-                                                </a>
-                                                <div class="kt-widget-5__item-datetime">
-                                                    01:20 PM
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-5__item-check">
-                                                <label class="kt-radio">
-                                                    <input type="radio" checked="checked" name="radio1">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-5__item kt-widget-5__item--success">
-                                            <div class="kt-widget-5__item-info">
-                                                <a href="#" class="kt-widget-5__item-title">
-                                                    NYCS internal discussion
-                                                </a>
-                                                <div class="kt-widget-5__item-datetime">
-                                                    03: 00 PM
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-5__item-check">
-                                                <label class="kt-radio">
-                                                    <input type="radio" checked="checked" name="radio1">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-5__item kt-widget-5__item--danger">
-                                            <div class="kt-widget-5__item-info">
-                                                <a href="#" class="kt-widget-5__item-title">
-                                                    Project Launch
-                                                </a>
-                                                <div class="kt-widget-5__item-datetime">
-                                                    11: 00 AM
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-5__item-check">
-                                                <label class="kt-radio">
-                                                    <input type="radio" checked="checked" name="radio1">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="kt-widget-5__item kt-widget-5__item--success">
-                                            <div class="kt-widget-5__item-info">
-                                                <a href="#" class="kt-widget-5__item-title">
-                                                    Server maintenance
-                                                </a>
-                                                <div class="kt-widget-5__item-datetime">
-                                                    4: 30 PM
-                                                </div>
-                                            </div>
-                                            <div class="kt-widget-5__item-check">
-                                                <label class="kt-radio">
-                                                    <input type="radio" checked="checked" name="radio1">
-                                                    <span></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--end::Portlet-->
-                </div>
+                            </td>
+                            <td class="white-space-nowrap">@{{ order.created_at }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+    <div class="card mb-3" id="votes">
+        <div class="card-header d-flex justify-content-between">
+            Latest Votes
+            <span>
+                <select class="custom-select custom-select-sm" v-model.number="show_limit">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>40</option>
+                </select>
+            </span>
+        </div>
+        <div class="card-body position-relative">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm fs--1">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Provider</th>
+                            <th scope="col">Reward</th>
+                            <th scope="col">Voted</th>
+                            <th scope="col" class="white-space-nowrap">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="vote in filteredVotes">
+                            <th scope="row" v-text="vote.id"></th>
+                            <td><a :href="getProviderUrl(vote.vote_provider_id)" v-text="vote.vote_provider.name"></a></td>
+                            <td><a :href="getRewardGroupUrl(vote.selected_reward_group_id)" v-text="vote.rewardgroup.name"></a></td>
+                            <td><template v-if="vote.voted"><label class="badge badge-soft-primary">Yes</label></template><template v-else><label class="badge badge-soft-warning">No</label></template></td>
+                            <td class="white-space-nowrap" v-text="vote.created_at"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3" id="referrals">
+        <div class="card-header d-flex justify-content-between">
+            Latest Referrals
+            <span>
+                <select class="custom-select custom-select-sm" v-model.number="show_limit">
+                    <option>3</option>
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>40</option>
+                </select>
+            </span>
+        </div>
+        <div class="card-body position-relative">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm fs--1">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col" class="white-space-nowrap">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="referral in filteredReferrals">
+                            <th scope="row" v-text="referral.id"></th>
+                            <td><a :href="getUserUrl(referral.user.JID)">@{{ referral.user.Name || referral.user.StrUserID }}</a></td>
+                            <td class="white-space-nowrap" v-text="referral.created_at"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <!--End:: App Content-->
-
+<div class="row no-gutters">
+    <div class="col-lg-8 pr-lg-2">
+        .a.
+    </div>
+    <div class="col-lg-4 pl-lg-2">
+        .b.
     </div>
 </div>
 @endsection
 
 @section('js')
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+{!! Theme::js('lib/echarts/echarts.min.js') !!}
+
+<script>
+    var ordersVue = new Vue({
+        el: '#orders',
+        data: {
+            orders: '',
+            show_limit: 3
+        },
+        computed: {
+            filteredOrders() {
+                return _.take(this.orders, this.show_limit);
+            }
+        },
+        mounted() {
+            this.orders = @json($user->orders);
+        }
+    });
+
+    var votesVue = new Vue({
+        el: '#votes',
+        data: {
+            votes: '',
+            show_limit: 3
+        },
+        mounted() {
+            this.votes = @json($user->voteLogs);
+        },
+        computed: {
+            filteredVotes() {
+                return _.take(this.votes, this.show_limit);
+            }
+        },
+        methods: {
+            getProviderUrl(providerId) {
+                return route('admin.votes.providers.show', providerId);
+            },
+            getRewardGroupUrl(rewardGroupId) {
+                return route('admin.votes.rewardgroups.show', rewardGroupId);
+            }
+        },
+    })
+
+    var referralsVue = new Vue({
+        el: '#referrals',
+        data: {
+            referrals: '',
+            show_limit: 3
+        },
+        computed: {
+            filteredReferrals(){
+                return _.take(this.referrals, this.show_limit);
+            }
+        },
+        mounted() {
+            this.referrals = @json($user->referrals);
+        },
+        methods: {
+            getUserUrl(userJID) {
+                return route('admin.users.show', userJID);
+            }
+        },
+    });
+</script>
+
+<script>
+    var $voteInfoChart = document.querySelector('.echart-doughnut');
+    if ($voteInfoChart) {
+        var _voteinfochart = window.echarts.init($voteInfoChart);
+        _voteinfochart.setOption({
+            color: [utils.colors.primary, utils.colors.success],
+            tooltip: {
+                trigger: 'item',
+                padding: [7, 10],
+                backgroundColor: utils.grays.white,
+                textStyle: {
+                    color: utils.grays.black
+                },
+                transitionDuration: 0,
+                borderColor: utils.grays['300'],
+                borderWidth: 1,
+                formatter: function formatter(params) {
+                    return "<strong>" + params.data.name + ":</strong> " + params.percent + "%";
+                }
+            },
+            position: function position(pos, params, dom, rect, size) {
+                return getPosition(pos, params, dom, rect, size);
+            },
+            legend: {
+                show: false
+            },
+            series: [{
+                type: 'pie',
+                radius: ['100%', '87%'],
+                avoidLabelOverlap: false,
+                hoverAnimation: false,
+                itemStyle: {
+                    borderWidth: 2,
+                    borderColor: utils.grays.white
+                },
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center',
+                        textStyle: {
+                            fontSize: '20',
+                            fontWeight: '500',
+                            color: utils.grays['700']
+                        }
+                    },
+                    emphasis: {
+                        show: false
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [
+                    {
+                        value: @json($voteInfo->completed),
+                        name: 'Completed Votes'
+                    },
+                    {
+                        value: @json($voteInfo->uncompleted),
+                        name: 'Uncompleted Votes'
+                    }
+                ]
+            }]
+        });
+    };
+</script>
 @endsection

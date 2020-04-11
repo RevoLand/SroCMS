@@ -4,45 +4,25 @@
 
 @section('content')
 <div class="card mb-3" id="content">
-    <div class="card-header">
-      <h5 class="mb-0">Edit Reward Group</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">Edit Reward Group</h5>
+        <div>
+            <a class="btn btn-falcon-primary mr-2" href="{{ route('admin.votes.rewardgroups.create') }}">Create</a>
+            <a class="btn btn-falcon-info" href="{{ route('admin.votes.rewardgroups.index') }}">Reward Groups</a>
+        </div>
     </div>
     <div class="card-body bg-light">
         <div class="row">
             <div class="col-12">
                 {{ Form::open(['route' => ['admin.votes.rewardgroups.update', $rewardgroup], 'method' => 'patch', '@submit.prevent' => 'onFormSubmit']) }}
-                    <div class="form-group">
-                        <label>Vote Providers</label>
-                        <select class="form-control select2" multiple="multiple" v-model="vote_providers">
-                            @foreach($voteProviders as $voteProvider)
-                                <option value="{{ $voteProvider->id }}" >{{ $voteProvider->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" v-model="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>State</label>
-                        <div class="row col-12">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input id="enabled_true" class="custom-control-input" type="radio" v-model="enabled" value="1">
-                                <label for="enabled_true" class="custom-control-label">Enabled</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input id="enabled_false" class="custom-control-input" type="radio" v-model="enabled" value="0">
-                                <label for="enabled_false" class="custom-control-label">Disabled</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-falcon-primary mr-2">Save</button>
-                        {!! Form::close() !!}
-                        {!! Form::open([ 'route' => ['admin.votes.rewardgroups.destroy', $rewardgroup], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
-                            <button type="submit" class="btn btn-falcon-danger">Delete</button>
-                        {!! Form::close() !!}
-                    </div>
+                @include('votes.rewardgroups.forms.rewardgroup')
+                <div class="btn-group" role="group">
+                    <button type="submit" class="btn btn-falcon-primary mr-2">Save</button>
+                    {!! Form::close() !!}
+                    {!! Form::open([ 'route' => ['admin.votes.rewardgroups.destroy', $rewardgroup], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
+                        <button type="submit" class="btn btn-falcon-danger">Delete</button>
+                    {!! Form::close() !!}
+                </div>
                 {{ Form::close() }}
             </div>
         </div>

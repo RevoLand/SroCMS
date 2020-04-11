@@ -126,8 +126,8 @@ class ArticleCommentsDataTable extends DataTable
             Column::computed('user')->title('User'),
             Column::computed('approvedComments')->title('Approved Comments')->width(50),
             Column::make('content')->width(800),
-            Column::make('is_visible'),
-            Column::make('is_approved'),
+            Column::make('is_visible')->footer('<select id="is_visible_select" class="custom-select custom-select-sm"><option selected></option><option value="1">Visible</option><option value="0">Hidden</option></select>'),
+            Column::make('is_approved')->footer('<select id="is_approved_select" class="custom-select custom-select-sm"><option selected></option><option value="1">Yes</option><option value="0">No</option></select>'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')

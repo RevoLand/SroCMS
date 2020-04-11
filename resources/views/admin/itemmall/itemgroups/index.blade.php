@@ -4,8 +4,11 @@
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header">
-      <h5 class="mb-0">Item Groups</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">Item Groups</h5>
+        <div>
+            <a class="btn btn-falcon-primary mr-2" href="{{ route('admin.itemmall.itemgroups.create') }}">Create</a>
+        </div>
     </div>
     <div class="card-body bg-light px-0">
         <div class="row">
@@ -32,6 +35,38 @@
 {!! Theme::js('lib/datatables.net-responsive-bs4/responsive.bootstrap4.js') !!}
 {!! Theme::js('lib/datatables-rowgroup/js/dataTables.rowGroup.min.js') !!}
 {!!  $dataTable->scripts() !!}
+
+<script>
+    let dataTableCustomSearchOptions = [
+        {
+            'index': 3,
+            'selector': '#payment_type_select'
+        },
+        {
+            'index': 6,
+            'selector': '#on_sale_select'
+        },
+        {
+            'index': 7,
+            'selector': '#featured_select'
+        },
+        {
+            'index': 8,
+            'selector': '#limit_total_purchases_select'
+        },
+        {
+            'index': 11,
+            'selector': '#enabled_select'
+        }
+    ];
+
+    _.forEach(dataTableCustomSearchOptions, function(value) {
+        $(value.selector).on('change', function() {
+            let searchValue = $(this).children("option:selected").val();
+            $('#itemmallitemgroups-table').DataTable().column(value.index).search(searchValue).draw();
+        });
+    });
+</script>
 
 <script>
     $(".card-body").on('submit','form', function(event) {

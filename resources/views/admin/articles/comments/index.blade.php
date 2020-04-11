@@ -5,7 +5,7 @@
 @section('content')
 <div class="card mb-3">
     <div class="card-header">
-      <h5 class="mb-0">Article Comments</h5>
+        <h5 class="mb-0">Article Comments</h5>
     </div>
     <div class="card-body bg-light px-0">
         <div class="row">
@@ -34,6 +34,26 @@
 {!!  $dataTable->scripts() !!}
 
 <script>
+    $(document).ready( function () {
+        let dataTableCustomSearchOptions = [
+            {
+                'index': 5,
+                'selector': '#is_visible_select'
+            },
+            {
+                'index': 6,
+                'selector': '#is_approved_select'
+            }
+        ];
+
+        _.forEach(dataTableCustomSearchOptions, function(value) {
+            $(value.selector).on('change', function() {
+                let searchValue = $(this).children("option:selected").val();
+                $('#articlecomments-table').DataTable().column(value.index).search(searchValue).draw();
+            });
+        });
+    });
+
     $(".card-body").on('submit','form', function(event) {
         event.preventDefault();
         switch (event.target.dataset.action) {

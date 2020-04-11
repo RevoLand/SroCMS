@@ -3,6 +3,8 @@
 namespace App\DataTables;
 
 use App\VoteLog;
+use App\VoteProvider;
+use App\VoteProviderRewardGroup;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -99,13 +101,28 @@ class VoteLogsDataTable extends DataTable
      */
     protected function getColumns()
     {
+        $voteProviders = VoteProvider::select(['name'])->get();
+        $rewardGroups = VoteProviderRewardGroup::select(['name'])->get();
+        $voteProviderOptions = '';
+        $rewardGroupOptions = '';
+
+        foreach ($voteProviders as $voteProvider)
+        {
+            $voteProviderOptions .= '<option>' . $voteProvider->name . '</option>';
+        }
+
+        foreach ($rewardGroups as $rewardGroup)
+        {
+            $rewardGroupOptions .= '<option>' . $rewardGroup->name . '</option>';
+        }
+
         return [
             Column::make('id'),
             Column::make('user', 'user_id')->title('User'),
-            Column::make('voteprovider', 'voteprovider.name')->title('Vote Provider'),
-            Column::make('rewardgroup', 'rewardgroup.name')->title('Reward Group Name'),
-            Column::make('voted'),
-            Column::make('active'),
+            Column::make('voteprovider', 'voteprovider.name')->title('Vote Provider')->footer('<select id="vote_provider_select" class="form-control select2"><option value="" selected>-</option>' . $voteProviderOptions . '</select>'),
+            Column::make('rewardgroup', 'rewardgroup.name')->title('Reward Group Name')->footer('<select id="reward_group_select" class="form-control select2"><option value="" selected>-</option>' . $rewardGroupOptions . '</select>'),
+            Column::make('voted')->footer('<select id="voted_select" class="form-control select2"><option value="" selected>-</option><option value="1">Voted</option><option value="0">Not Voted</option></select>'),
+            Column::make('active')->footer('<select id="active_select" class="form-control select2"><option value="" selected>-</option><option value="1">Yes</option><option value="0">No</option></select>'),
             Column::make('user_ip'),
             Column::make('callback_ip'),
             Column::make('created_at'),

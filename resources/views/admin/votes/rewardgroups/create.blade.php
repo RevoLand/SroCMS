@@ -4,41 +4,18 @@
 
 @section('content')
 <div class="card mb-3" id="content">
-    <div class="card-header">
-      <h5 class="mb-0">Create Reward Group</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">Create Reward Group</h5>
+        <div>
+            <a class="btn btn-falcon-info" href="{{ route('admin.votes.rewardgroups.index') }}">Reward Groups</a>
+        </div>
     </div>
     <div class="card-body bg-light">
         <div class="row">
             <div class="col-12">
                 {{ Form::open(['route' => ['admin.votes.rewardgroups.store'], 'method' => 'post', '@submit.prevent' => 'onFormSubmit']) }}
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" v-model="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="vote_providers">Vote Providers</label>
-                        <select id="vote_providers" class="form-control select2" required multiple="multiple" v-model="vote_providers">
-                            @foreach($voteProviders as $voteProvider)
-                                <option value="{{ $voteProvider->id }}" >{{ $voteProvider->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>State</label>
-                        <div class="row col-12">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input id="enabled_true" class="custom-control-input" type="radio" v-model="enabled" value="1">
-                                <label for="enabled_true" class="custom-control-label">Enabled</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input id="enabled_false" class="custom-control-input" type="radio" v-model="enabled" value="0">
-                                <label for="enabled_false" class="custom-control-label">Disabled</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-falcon-primary mr-2">Create</button>
-                    </div>
+                @include('votes.rewardgroups.forms.rewardgroup')
+                <button type="submit" class="btn btn-falcon-primary mr-2">Create</button>
                 {{ Form::close() }}
             </div>
         </div>

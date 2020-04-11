@@ -206,9 +206,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     });
 
     Route::resource('users', 'Admin\UserController');
-    Route::group(['prefix' => 'users/{user}/orders', 'as' => 'users.orders.'], function ()
+    Route::group(['prefix' => 'ajaxData', 'as' => 'ajaxData.'], function ()
     {
-        Route::get('', 'Admin\UserOrderController@index')->name('index');
+        Route::get('users/getUsername', 'Admin\UserController@getUsernames')->name('users.get_usernames');
     });
 
     Route::group(['prefix' => 'teleports', 'as' => 'teleports.', 'middleware' => 'can:manage teleports'], function ()

@@ -3,7 +3,7 @@
         <span class="navbar-toggle-icon"><span class="toggle-line"></span></span>
     </button>
     <a class="navbar-brand mr-1 mr-sm-3" href="{{ route('admin.dashboard.index') }}">
-        <div class="d-flex align-items-center"><img class="mr-2" src="{{ Theme::url('img/illustrations/falcon.png"') }}" alt="" width="40" /><span class="text-sans-serif">SroCMS</span>
+        <div class="d-flex align-items-center"><img class="mr-2" src="{{ Theme::url('img/illustrations/falcon.png') }}" alt="" width="40" /><span class="text-sans-serif">SroCMS</span>
         </div>
     </a>
     <ul class="navbar-nav align-items-center d-none d-lg-block">

@@ -6,6 +6,7 @@ use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use stdClass;
 
 class UserController extends Controller
 {
@@ -46,9 +47,27 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $user->load(['orders', 'referrals', 'loginAttempts', 'characters', 'balanceLogs', 'voteLogs', 'articleComments']);
+        $user->load(['loginAttempts', 'characters', 'orders' => function ($query)
+        {
+            $query->with('items.itemgroup')->latest()->take(40);
+        }, 'referrals' => function ($query)
+        {
+            $query->with('user')->latest()->take(40);
+        }, 'voteLogs' => function ($query)
+        {
+            $query->with(['rewardgroup', 'voteProvider'])->latest()->take(40);
+        }, 'articleComments', ]);
 
-        return view('users.show', compact('user'));
+        $orderCount = $user->orders()->count();
+        $referralCount = $user->referrals()->count();
+        $epinCount = $user->epins()->count();
+
+        $voteInfo = new stdClass();
+        $voteInfo->completed = $user->voteLogs()->voted()->count();
+        $voteInfo->uncompleted = $user->voteLogs()->notVoted()->count();
+        $voteInfo->total = $voteInfo->completed + $voteInfo->uncompleted;
+
+        return view('users.show', compact('user', 'orderCount', 'referralCount', 'epinCount', 'voteInfo'));
     }
 
     /**
@@ -82,5 +101,19 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+    public function getUsernames()
+    {
+        if (!request()->expectsJson())
+        {
+            return;
+        }
+
+        $search = request()->validate([
+            'search' => ['string'],
+        ])['search'];
+
+        return User::select(['JID as id', 'StrUserID as text'])->where('StrUserID', 'like', "{$search}%")->orWhere('Name', 'like', "{$search}%")->paginate(10);
     }
 }

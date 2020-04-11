@@ -4,8 +4,12 @@
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header">
-      <h5 class="mb-0">Edit Callback IP</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">Edit Callback IP</h5>
+        <div>
+            <a class="btn btn-falcon-primary mr-2" href="{{ route('admin.votes.providers.ips.create') }}">Create</a>
+            <a class="btn btn-falcon-info" href="{{ route('admin.votes.providers.ips.index') }}">Callback Allowed IPs</a>
+        </div>
     </div>
     <div class="card-body bg-light">
         @include('components.message')

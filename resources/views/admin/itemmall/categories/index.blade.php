@@ -4,8 +4,11 @@
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header">
-      <h5 class="mb-0">Categories</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">Categories</h5>
+        <div>
+            <a class="btn btn-falcon-primary mr-2" href="{{ route('admin.itemmall.categories.create') }}">Create</a>
+        </div>
     </div>
     <div class="card-body bg-light px-0">
         <div class="row">

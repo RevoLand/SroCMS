@@ -33,7 +33,38 @@
 {!! Theme::js('lib/datatables-rowgroup/js/dataTables.rowGroup.min.js') !!}
 {!!  $dataTable->scripts() !!}
 
-<script>
+{!! Theme::js('lib/select2/select2.min.js') !!}
+    <script>
+    $(document).ready( function () {
+        $('.select2').select2({});
+        let dataTableCustomSearchOptions = [
+            {
+                'index': 2,
+                'selector': '#vote_provider_select'
+            },
+            {
+                'index': 3,
+                'selector': '#reward_group_select'
+            },
+            {
+                'index': 4,
+                'selector': '#voted_select'
+            },
+            {
+                'index': 5,
+                'selector': '#active_select'
+            }
+        ];
+
+        _.forEach(dataTableCustomSearchOptions, function(value) {
+            $(value.selector).on('change', function() {
+                let searchValue = $(this).children("option:selected").val();
+                $('#votelogs-table').DataTable().column(value.index).search(searchValue).draw();
+            });
+        });
+    });
+    </script>
+    <script>
     $(".card-body").on('submit', 'form', function(event) {
         event.preventDefault();
         axios.patch(event.target.action)

@@ -8,6 +8,7 @@ class ItemMallOrderItem extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $appends = ['type_name'];
 
     public function itemgroup()
     {
@@ -17,5 +18,10 @@ class ItemMallOrderItem extends Model
     public function order()
     {
         return $this->belongsTo(ItemMallOrder::class);
+    }
+
+    public function getTypeNameAttribute()
+    {
+        return config('constants.payment_types.' . $this->payment_type);
     }
 }

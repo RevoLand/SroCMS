@@ -139,6 +139,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->voteLogs()->voteProvider($voteProviderId);
     }
 
+    public function epins()
+    {
+        return $this->hasMany(Epin::class, 'user_id', 'JID');
+    }
+
     public function articles()
     {
         return $this->hasMany(Article::class, 'author_id', 'JID');

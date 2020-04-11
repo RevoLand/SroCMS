@@ -23,7 +23,7 @@
 						<span class="nav-link-text">Home</span>
 					</div>
 				</a>
-				<ul class="nav collapse show" id="home" data-parent="#navbarVerticalCollapse">
+				<ul class="nav collapse" id="home" data-parent="#navbarVerticalCollapse">
 					<li class="nav-item active">
 						<a class="nav-link" href="{{ route('admin.dashboard.index') }}">Dashboard</a>
 					</li>
@@ -138,7 +138,15 @@
 						</ul>
                     </li>
                     <li class="nav-item">
-						<a class="nav-link" href="{{ route('admin.votes.providers.ips.index') }}">Callback IP Management</a>
+                        <a class="nav-link dropdown-indicator" href="#vote-callback-management" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="vote-callback-management">Callback IP Management</a>
+                        <ul class="nav collapse" id="vote-callback-management" data-parent="#vote-system">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.votes.providers.ips.index') }}">List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.votes.providers.ips.create') }}">Create</a>
+                            </li>
+                        </ul>
 					</li>
 				</ul>
 			</li>
