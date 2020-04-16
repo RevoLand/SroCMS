@@ -24,9 +24,6 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/vue/vue.js') }}"></script>
-<script src="{{ asset('vendor/axios.min.js') }}"></script>
-<script src="{{ asset('vendor/srocms.js') }}"></script>
 <script type="text/javascript">
     new Vue({
         el: '.content',

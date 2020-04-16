@@ -33,12 +33,9 @@
 {!! Theme::js('lib/ckeditor/ckeditor.js') !!}
 {!! Theme::js('lib/select2/select2.min.js') !!}
 {!! Theme::js('lib/flatpickr/flatpickr.min.js') !!}
-<script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/flatpickr.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
-<script src="{{ asset('vendor/axios.min.js') }}"></script>
-<script src="{{ asset('vendor/srocms.js') }}"></script>
 
 <script type="text/javascript">
 new Vue({

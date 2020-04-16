@@ -168,7 +168,9 @@ class VoteController extends Controller
         }
 
         return response()->json([
+            'title' => 'Success!',
             'message' => 'User successfully rewarded for the vote.',
+            'icon' => 'success',
         ]);
     }
 

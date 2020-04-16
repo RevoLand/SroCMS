@@ -275,8 +275,6 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/vue/vue.js') }}"></script>
-<script src="{{ asset('vendor/axios.min.js') }}"></script>
 {!! Theme::js('lib/chart.js/Chart.min.js') !!}
 {!! Theme::js('lib/chart.js/chartjs-plugin-labels.min.js') !!}
 

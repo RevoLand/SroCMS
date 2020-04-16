@@ -87,11 +87,7 @@
 
 @section('js')
 {!! Theme::js('lib/select2/select2.min.js') !!}
-<script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
-<script src="{{ asset('vendor/axios.min.js') }}"></script>
-<script src="{{ asset('vendor/srocms.js') }}"></script>
-
 <script type="text/javascript">
     Vue.component('reward_form', {
         props: ['reward'],

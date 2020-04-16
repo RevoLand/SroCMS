@@ -50,18 +50,16 @@
                 </div>
             </div>
         </main>
-
-        {!! Theme::js('js/jquery.min.js') !!}
+        <script src="{{ mix('js/manifest.js') }}"></script>
+        <script src="{{ mix('js/vendor.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
         {!! Theme::js('js/popper.min.js') !!}
         {!! Theme::js('js/bootstrap.min.js') !!}
         {!! Theme::js('js/theme.js') !!}
         {!! Theme::js('lib/blockui/jquery.blockUI.min.js') !!}
         {!! Theme::js('lib/@fortawesome/all.min.js') !!}
-        {!! Theme::js('lib/lodash/lodash.min.js') !!}
-        {!! Theme::js('lib/is_js/is.min.js') !!}
         {!! Theme::js('lib/stickyfilljs/stickyfill.min.js') !!}
         {!! Theme::js('lib/sticky-kit/sticky-kit.min.js') !!}
-        {!! Theme::js('lib/sweetalert/js/sweetalert2.all.min.js') !!}
         <script>
         $(function() {
             "use strict";

@@ -25,8 +25,6 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('vendor/axios.min.js') }}"></script>
-
 {!! Theme::js('lib/datatables/js/jquery.dataTables.min.js') !!}
 {!! Theme::js('lib/datatables-bs4/dataTables.bootstrap4.min.js') !!}
 {!! Theme::js('lib/datatables.net-responsive/dataTables.responsive.js') !!}

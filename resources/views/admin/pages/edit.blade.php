@@ -33,9 +33,6 @@
 @section('js')
 {!! Theme::js('lib/ckeditor/ckeditor.js') !!}
 <script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
-<script src="{{ asset('vendor/vue/vue.js') }}"></script>
-<script src="{{ asset('vendor/axios.min.js') }}"></script>
-<script src="{{ asset('vendor/srocms.js') }}"></script>
 <script>
     new Vue({
         el: '.content',
