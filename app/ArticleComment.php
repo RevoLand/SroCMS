@@ -19,6 +19,11 @@ class ArticleComment extends Model
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 
+    public function userComments()
+    {
+        return $this->hasMany(ArticleComment::class, 'user_id', 'user_id');
+    }
+
     public function scopeVisible($query)
     {
         return $query->where('is_visible', true);

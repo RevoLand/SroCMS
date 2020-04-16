@@ -8,6 +8,7 @@
       <h5 class="mb-0">Orders</h5>
     </div>
     <div class="card-body bg-light px-0">
+        @include('components.message')
         <div class="row">
             <div class="col-12">
                 {!! $dataTable->table([], true) !!}

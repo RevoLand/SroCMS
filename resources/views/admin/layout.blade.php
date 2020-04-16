@@ -86,14 +86,14 @@
                     }
                     else if(!$(this).is("ul") && $(this).children("a").length === 0)
                     {
-                        console.log('burası geldi - 1');
-                        console.log($(this));
+                        // console.log('burası geldi - 1');
+                        // console.log($(this));
                         $(this).addClass("active");
 
                     }
                     else if($(this).is("ul")){
-                        console.log('burası geldi - 2');
-                        console.log($(this));
+                        // console.log('burası geldi - 2');
+                        // console.log($(this));
                     }
 
                 });

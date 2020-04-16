@@ -13,7 +13,7 @@
     <div class="card-body bg-light">
         <div class="row">
             <div class="col-12">
-                {{ Form::open(['route' => ['admin.itemmall.itemgroups.store'], 'method' => 'post', '@submit.prevent' => 'onFormSubmit']) }}
+                {{ Form::open(['route' => ['admin.itemmall.itemgroups.store'], 'method' => 'post', '@submit.prevent' => 'onSubmit']) }}
                 @include('itemmall.itemgroups.forms.itemgroups')
                 <button type="submit" class="btn btn-falcon-primary">Create</button>
                 {{ Form::close() }}
@@ -30,63 +30,46 @@
 <script src="{{ asset('vendor/vue/ext/flatpickr.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
 <script type="text/javascript">
 new Vue({
     el: '.content',
-
     data: {
-        name: '',
-        categories: [],
-        description: '',
-        image: '',
-        payment_type: '1',
-        on_sale: '0',
-        price: '',
-        price_before: '',
-        limit_total_purchases: '0',
-        total_purchase_limit: '',
-        limit_user_purchases: '0',
-        user_purchase_limit: '',
-        use_customized_referral_options: '0',
-        referral_commission_enabled: @json(setting('referrals.commissions_enabled', 0)),
-        referral_commission_reward_type: @json(setting('referrals.commission_reward_type', 2)),
-        referral_commission_percentage: @json(setting('referrals.commission_earned_percentage', 2)),
-        use_customized_point_options: '0',
-        reward_point_enabled: '1',
-        reward_point_type: '2',
-        reward_point_percentage: @json(setting('itemmall.pointrewards.percentage', 2)),
-        featured: '0',
-        order: '1',
-        enabled: '1',
-        available_after: '',
-        available_until: '',
+        form: new Form({
+            name: '',
+            categories: [],
+            description: '',
+            image: '',
+            payment_type: '1',
+            on_sale: '0',
+            price: '',
+            price_before: '',
+            limit_total_purchases: '0',
+            total_purchase_limit: '',
+            limit_user_purchases: '0',
+            user_purchase_limit: '',
+            use_customized_referral_options: '0',
+            referral_commission_enabled: @json(setting('referrals.commissions_enabled', 0)),
+            referral_commission_reward_type: @json(setting('referrals.commission_reward_type', 2)),
+            referral_commission_percentage: @json(setting('referrals.commission_earned_percentage', 2)),
+            use_customized_point_options: '0',
+            reward_point_enabled: '1',
+            reward_point_type: '2',
+            reward_point_percentage: @json(setting('itemmall.pointrewards.percentage', 2)),
+            featured: '0',
+            order: '1',
+            enabled: '1',
+            available_after: '',
+            available_until: ''
+        }),
         mode: '1'
     },
 
     methods: {
-        onFormSubmit(event) {
-            axios.post(event.target.action, this.$data)
+        onSubmit() {
+            this.form.post(event.target.action)
             .then(response => {
-                swal.fire({
-                    title: response.data.title,
-                    html: response.data.message,
-                    icon: response.data.icon
-                });
-            })
-            .catch(function (error) {
-                var errors = '<ul class="list-unstyled">';
-                jQuery.each(error.response.data.errors, function (key, value) {
-                    errors += '<li>';
-                    errors += value;
-                    errors += '</li>';
-                });
-                errors += '</ul>';
-
-                swal.fire({
-                    type: 'error',
-                    title: error.response.data.message,
-                    html: errors
-                });
+                this.form.reset();
             });
         }
     }

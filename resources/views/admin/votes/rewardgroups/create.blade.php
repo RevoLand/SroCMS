@@ -13,7 +13,7 @@
     <div class="card-body bg-light">
         <div class="row">
             <div class="col-12">
-                {{ Form::open(['route' => ['admin.votes.rewardgroups.store'], 'method' => 'post', '@submit.prevent' => 'onFormSubmit']) }}
+                {{ Form::open(['route' => ['admin.votes.rewardgroups.store'], 'method' => 'post', '@submit.prevent' => 'onSubmit']) }}
                 @include('votes.rewardgroups.forms.rewardgroup')
                 <button type="submit" class="btn btn-falcon-primary mr-2">Create</button>
                 {{ Form::close() }}
@@ -29,40 +29,23 @@
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
-
+<script src="{{ asset('vendor/srocms.js') }}"></script>
 <script>
     new Vue({
         el: '#content',
         data: {
-            name: '',
-            enabled: 1,
-            vote_providers: []
+            form: new Form({
+                name: '',
+                enabled: 1,
+                vote_providers: []
+            })
         },
 
         methods: {
-            onFormSubmit: function(event) {
-                axios.post(event.target.action, this.$data)
-                .then(function (response) {
-                    swal.fire({
-                        title: response.data.title,
-                        html: response.data.message,
-                        icon: response.data.icon
-                    });
-                })
-                .catch(function (error) {
-                    var errors = '<ul class="list-unstyled">';
-                    jQuery.each(error.response.data.errors, function (key, value) {
-                        errors += '<li>';
-                        errors += value;
-                        errors += '</li>';
-                    });
-                    errors += '</ul>';
-
-                    swal.fire({
-                        icon: 'error',
-                        title: error.response.data.message,
-                        html: errors
-                    });
+            onSubmit() {
+                this.form.post(event.target.action)
+                .then(response => {
+                    this.form.reset();
                 });
             }
         }

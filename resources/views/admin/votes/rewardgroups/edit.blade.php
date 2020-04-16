@@ -90,6 +90,7 @@
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
 
 <script type="text/javascript">
     Vue.component('reward_form', {
@@ -235,81 +236,21 @@
     new Vue({
         el: '#content',
         data: {
-            name: @json($rewardgroup->name),
-            enabled: @json($rewardgroup->enabled),
-            vote_providers: @json($selectedVoteProviders)
+            form: new Form({
+                name: @json($rewardgroup->name),
+                enabled: @json($rewardgroup->enabled),
+                vote_providers: @json($selectedVoteProviders)
+            })
         },
 
         methods: {
-            onFormSubmit: function(event) {
-                axios.patch(event.target.action, this.$data)
-                .then(function (response) {
-                    swal.fire({
-                        title: response.data.title,
-                        html: response.data.message,
-                        icon: response.data.icon
-                    });
-                })
-                .catch(function (error) {
-                    var errors = '<ul class="list-unstyled">';
-                    jQuery.each(error.response.data.errors, function (key, value) {
-                        errors += '<li>';
-                        errors += value;
-                        errors += '</li>';
-                    });
-                    errors += '</ul>';
-
-                    swal.fire({
-                        icon: 'error',
-                        title: error.response.data.message,
-                        html: errors
-                    });
-                });
+            onFormSubmit() {
+                this.form.patch(event.target.action);
             },
-            deleteForm(event) {
-                swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (!result.value) {
-                        return;
-                    }
-
-                    $('.content').block();
-
-                    axios.delete(event.target.action)
-                    .then(response => {
-                        swal.fire({
-                            title: response.data.title,
-                            html: response.data.message,
-                            icon: response.data.icon
-                        }).then((result) => {
-                            window.location.href = @json(route('admin.votes.rewardgroups.index'))
-                        });
-                    })
-                    .catch(function (error) {
-                        var errors = '<ul class="list-unstyled">';
-                        jQuery.each(error.response.data.errors, function (key, value) {
-                            errors += '<li>';
-                            errors += value;
-                            errors += '</li>';
-                        });
-                        errors += '</ul>';
-
-                        swal.fire({
-                            icon: 'error',
-                            title: error.response.data.message,
-                            html: errors
-                        });
-                    })
-                    .finally(() => {
-                        $('.content').unblock();
-                    });
+            deleteForm() {
+                this.form.delete(event.target.action)
+                .then(response => {
+                    window.location.href = @json(route('admin.votes.rewardgroups.index'))
                 });
             }
         }

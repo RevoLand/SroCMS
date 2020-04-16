@@ -28,18 +28,21 @@
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
 <script>
     new Vue({
         el: '.content',
         data: {
-            title: '',
-            slug: '',
-            content: '',
-            view: '',
-            middleware: '',
-            showsidebar: '1',
-            enabled: '1',
-            generate_slug: '1',
+            form: new Form({
+                title: '',
+                slug: '',
+                content: '',
+                view: '',
+                middleware: '',
+                showsidebar: '1',
+                enabled: '1',
+                generate_slug: '1',
+            }),
             editor: ClassicEditor,
             editorConfig: {
                 toolbar: {
@@ -101,33 +104,10 @@
             ckeditor: CKEditor.component
         },
         methods: {
-            submitForm(event) {
-                $('.content').block();
-                axios.post(event.target.action, this.$data)
+            submitForm() {
+                this.form.post(event.target.action)
                 .then(response => {
-                    swal.fire({
-                        title: response.data.title,
-                        html: response.data.message,
-                        icon: response.data.icon
-                    });
-                })
-                .catch(function (error) {
-                    var errors = '<ul class="list-unstyled">';
-                    jQuery.each(error.response.data.errors, function (key, value) {
-                        errors += '<li>';
-                        errors += value;
-                        errors += '</li>';
-                    });
-                    errors += '</ul>';
-
-                    swal.fire({
-                        icon: 'error',
-                        title: error.response.data.message,
-                        html: errors
-                    });
-                })
-                .finally(() => {
-                    $('.content').unblock();
+                    this.form.reset();
                 });
             }
         }

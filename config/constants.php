@@ -389,4 +389,10 @@ return [
             '6' => 'Bandit',
         ],
     ],
+    'punishment' => [
+        'login' => '1',
+        'login_inspection' => '2',
+        'p2p_trade' => '3',
+        'chat' => '4',
+    ],
 ];

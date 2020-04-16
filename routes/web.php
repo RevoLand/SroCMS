@@ -206,7 +206,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     });
 
     Route::resource('users', 'Admin\UserController');
-    Route::group(['prefix' => 'ajaxData', 'as' => 'ajaxData.'], function ()
+    Route::group(['prefix' => 'ajax/users/{user}/', 'as' => 'ajax.users.'], function ()
+    {
+        Route::get('getCounts', 'Admin\UserController@getCounts')->name('get_counts');
+        Route::get('getVoteInfo', 'Admin\UserController@getVoteInfo')->name('get_voteinfo');
+        Route::get('getVoteInfoByRewards', 'Admin\UserController@getVoteInfoByRewards')->name('get_voteinfobyrewards');
+        Route::get('getVoteInfoByProviders', 'Admin\UserController@getVoteInfoByProviders')->name('get_voteinfobyproviders');
+    });
+    Route::group(['prefix' => 'ajaxData', 'as' => 'ajax.'], function ()
     {
         Route::get('users/getUsername', 'Admin\UserController@getUsernames')->name('users.get_usernames');
     });

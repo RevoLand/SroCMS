@@ -45,7 +45,7 @@ $(document).ready( function () {
         allowClear: true,
         dropdownAutoWidth: true,
         ajax: {
-            url: route('admin.ajaxData.users.get_usernames'),
+            url: route('admin.ajax.users.get_usernames'),
             dataType: 'json',
             delay: 300,
             cache: true,

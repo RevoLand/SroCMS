@@ -35,18 +35,21 @@
 <script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
 <script src="{{ asset('vendor/vue/vue.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
 <script>
     new Vue({
         el: '.content',
         data: {
-            title: @json($page->title),
-            slug: @json($page->slug),
-            content: @json($page->content),
-            view: @json($page->view),
-            middleware: @json($page->middleware),
-            showsidebar: @json($page->showsidebar),
-            enabled: @json($page->enabled),
-            generate_slug: '0',
+            form: new Form({
+                title: @json($page->title),
+                slug: @json($page->slug),
+                content: @json($page->content),
+                view: @json($page->view),
+                middleware: @json($page->middleware),
+                showsidebar: @json($page->showsidebar),
+                enabled: @json($page->enabled),
+                generate_slug: '0',
+            }),
             editor: ClassicEditor,
             editorConfig: {
                 toolbar: {
@@ -108,79 +111,13 @@
             ckeditor: CKEditor.component
         },
         methods: {
-            submitForm(event) {
-                $('.content').block();
-                axios.patch(event.target.action, this.$data)
-                .then(response => {
-                    swal.fire({
-                        title: response.data.title,
-                        html: response.data.message,
-                        icon: response.data.icon
-                    });
-                })
-                .catch(function (error) {
-                    var errors = '<ul class="list-unstyled">';
-                    jQuery.each(error.response.data.errors, function (key, value) {
-                        errors += '<li>';
-                        errors += value;
-                        errors += '</li>';
-                    });
-                    errors += '</ul>';
-
-                    swal.fire({
-                        icon: 'error',
-                        title: error.response.data.message,
-                        html: errors
-                    });
-                })
-                .finally(() => {
-                    $('.content').unblock();
-                });
+            submitForm() {
+                this.form.patch(event.target.action);
             },
             deleteForm(event) {
-                swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (!result.value) {
-                        return;
-                    }
-
-                    $('.content').block();
-
-                    axios.delete(event.target.action)
-                    .then(response => {
-                        swal.fire({
-                            title: response.data.title,
-                            html: response.data.message,
-                            icon: response.data.icon
-                        }).then((result) => {
-                            window.location.href = '{{ route('admin.articles.categories.index') }}'
-                        });
-                    })
-                    .catch(function (error) {
-                        var errors = '<ul class="list-unstyled">';
-                        jQuery.each(error.response.data.errors, function (key, value) {
-                            errors += '<li>';
-                            errors += value;
-                            errors += '</li>';
-                        });
-                        errors += '</ul>';
-
-                        swal.fire({
-                            icon: 'error',
-                            title: error.response.data.message,
-                            html: errors
-                        });
-                    })
-                    .finally(() => {
-                        $('.content').unblock();
-                    });
+                this.form.delete(event.target.action)
+                .then(response => {
+                    window.location.href = '{{ route('admin.pages.index') }}'
                 });
             }
         }

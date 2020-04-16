@@ -11,22 +11,41 @@
         </div>
     </div>
     <div class="card-body bg-light">
-        @include('components.message')
-        @include('components.errors')
         <div class="row">
             <div class="col-12">
-                {{ Form::open(['route' => ['admin.votes.providers.ips.store'], 'method' => 'post']) }}
+                {{ Form::open(['route' => ['admin.votes.providers.ips.store'], 'method' => 'post', '@submit.prevent' => 'onSubmit']) }}
                 <div class="form-group">
                     <label for="ip">IP</label>
-                    {{ Form::text('ip', old('ip'), ['class' => 'form-control', 'required', 'id' => 'ip']) }}
+                    <input type="text" class="form-control" id="ip" v-model="form.ip" required>
                 </div>
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-falcon-primary">Submit</button>
-                    <button type="reset" class="btn btn-falcon-info">Cancel</button>
-                </div>
+                <button type="submit" class="btn btn-falcon-primary">Submit</button>
                 {{ Form::close() }}
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
+<script>
+    new Vue({
+        el: '.content',
+        data: {
+            form: new Form({
+                ip: ''
+            })
+        },
+        methods: {
+            onSubmit() {
+                this.form.post(event.target.action)
+                .then(response => {
+                    this.form.reset();
+                });
+            }
+        }
+    });
+</script>
 @endsection

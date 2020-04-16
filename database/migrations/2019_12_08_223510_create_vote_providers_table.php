@@ -19,7 +19,7 @@ class CreateVoteProvidersTable extends Migration
             $table->string('url_user_name')->default('id');
             $table->string('callback_secret');
             $table->string('callback_user_name');
-            $table->string('callback_success_name');
+            $table->string('callback_success_name')->nullable();
             $table->integer('minutes_between_votes')->default(360);
             $table->boolean('enabled')->default(true);
             $table->timestamps();

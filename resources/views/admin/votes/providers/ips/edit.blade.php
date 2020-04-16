@@ -12,20 +12,17 @@
         </div>
     </div>
     <div class="card-body bg-light">
-        @include('components.message')
-        @include('components.errors')
         <div class="row">
             <div class="col-12">
-                {{ Form::open(['route' => ['admin.votes.providers.ips.update', $ip], 'method' => 'patch']) }}
+                {{ Form::open(['route' => ['admin.votes.providers.ips.update', $ip], 'method' => 'patch', '@submit.prevent' => 'onSubmit']) }}
                     <div class="form-group">
                         <label for="ip">IP</label>
-                        {{ Form::text('ip', $ip->ip, ['class' => 'form-control', 'required', 'id' => 'ip']) }}
+                        <input type="text" class="form-control" id="ip" v-model="form.ip" required>
                     </div>
                     <div class="btn-group" role="group">
                         <button type="submit" class="btn btn-falcon-primary mr-2">Save</button>
-                        <button type="reset" class="btn btn-falcon-info">Cancel</button>
                         {!! Form::close() !!}
-                        {!! Form::open([ 'route' => ['admin.votes.providers.ips.destroy', $ip], 'method' => 'delete']) !!}
+                        {!! Form::open([ 'route' => ['admin.votes.providers.ips.destroy', $ip], 'method' => 'delete', '@submit.prevent' => 'onDelete']) !!}
                             <button type="submit" class="btn btn-falcon-danger">Delete</button>
                         {!! Form::close() !!}
                     </div>
@@ -34,4 +31,31 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
+<script>
+    new Vue({
+        el: '.content',
+        data: {
+            form: new Form({
+                ip: @json($ip->ip)
+            })
+        },
+        methods: {
+            onSubmit() {
+                this.form.patch(event.target.action);
+            },
+            onDelete() {
+                this.form.delete(event.target.action)
+                .then(response => {
+                    window.location = @json(route('admin.votes.providers.ips.index'))
+                });
+            }
+        }
+    });
+</script>
 @endsection

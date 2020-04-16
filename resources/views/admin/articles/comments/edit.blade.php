@@ -15,12 +15,10 @@
         @include('components.errors')
         <div class="row">
             <div class="col-12">
-                {!! Form::open(['route'=>['admin.articles.comments.update', $comment], 'method' => 'patch']) !!}
+                {!! Form::open(['route'=>['admin.articles.comments.update', $comment], 'method' => 'patch', '@submit.prevent' => 'onSubmit', '@change' => 'form.errors.clear($event.target.name)', 'class' => 'form-validation']) !!}
                 <div class="form-group">
                     <label>Article</label><br />
-                    <span class="lead">
-                        {{ $comment->article->title }}
-                    </span>
+                    <span class="lead">{{ $comment->article->title }}</span>
                 </div>
                 <div class="form-group">
                     <label>User</label><br />
@@ -39,7 +37,8 @@
                             @isset($comment->user->Name)<p class="mb-1">{{ $comment->user->Name }}</p>@endisset
                             <p class="text-1000">
                                 <a class="text-reset" href="{{ route('admin.articles.comments.index', ['user_id' => $comment->user_id]) }}" title="View User Comments">
-                                    Approved Comments: {{ $comment->user->articleComments->count() }}
+                                    Total Comments: {{ $comment->total_comments }}<br/>
+                                    Approved & Visible Comments: {{ $comment->approved_comments }}
                                 </a>
                             </p>
                         </div>
@@ -47,17 +46,17 @@
                 </div>
                 <div class="form-group">
                     <label>Comment</label>
-                    {!! Form::textarea('content', $comment->content, ['class'=>'form-control']) !!}
+                    <textarea class="form-control" v-text="form.content"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Visibility</label>
                     <div class="row col-12">
                         <div class="custom-control custom-radio custom-control-inline">
-                            {!! Form::radio('is_visible', 1, $comment->is_visible, ['class' => 'custom-control-input', 'id' => 'is_visible_true']) !!}
+                            <input type="radio" class="custom-control-input" id="is_visible_true" v-model="form.is_visible" value="1"/>
                             <label for="is_visible_true" class="custom-control-label">Visible</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            {!! Form::radio('is_visible', 0, !$comment->is_visible, ['class' => 'custom-control-input', 'id' => 'is_visible_false']) !!}
+                            <input type="radio" class="custom-control-input" id="is_visible_false" v-model="form.is_visible" value="0"/>
                             <label for="is_visible_false" class="custom-control-label">Hidden</label>
                         </div>
                     </div>
@@ -67,11 +66,11 @@
                     <label>Status</label>
                     <div class="row col-12">
                         <div class="custom-control custom-radio custom-control-inline">
-                            {!! Form::radio('is_approved', 1, $comment->is_approved, ['class' => 'custom-control-input', 'id' => 'is_approved_true']) !!}
+                            <input type="radio" class="custom-control-input" id="is_approved_true" v-model="form.is_approved" value="1"/>
                             <label for="is_approved_true" class="custom-control-label">Approved</label>
                         </div>
                         <div class="custom-control custom-radio custom-control-inline">
-                            {!! Form::radio('is_approved', 0, !$comment->is_approved, ['class' => 'custom-control-input', 'id' => 'is_approved_false']) !!}
+                            <input type="radio" class="custom-control-input" id="is_approved_false" v-model="form.is_approved" value="0"/>
                             <label for="is_approved_false" class="custom-control-label">Not Approved</label>
                         </div>
                     </div>
@@ -79,9 +78,8 @@
                 </div>
                 <div class="btn-group" role="group">
                     <button type="submit" class="btn btn-falcon-primary">Save</button>
-                    <button type="reset" class="btn btn-falcon-info mr-2">Cancel</button>
                     {!! Form::close() !!}
-                    {!! Form::open([ 'route' => ['admin.articles.comments.destroy', $comment], 'method' => 'delete']) !!}
+                    {!! Form::open([ 'route' => ['admin.articles.comments.destroy', $comment], 'method' => 'delete', '@submit.prevent' => 'deleteForm']) !!}
                         <button type="submit" class="btn btn-falcon-danger">Delete</button>
                     {!! Form::close() !!}
                 </div>
@@ -89,4 +87,33 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
+<script>
+    new Vue({
+        el: '.content',
+        data: {
+            form: new Form({
+                content: @json($comment->content),
+                is_visible: @json($comment->is_visible),
+                is_approved: @json($comment->is_approved)
+            })
+        },
+        methods: {
+            onSubmit() {
+                this.form.patch(event.target.action);
+            },
+            deleteForm() {
+                this.form.delete(event.target.action)
+                .then(response => {
+                    window.location.href = '{{ route('admin.articles.comments.index') }}'
+                });
+            }
+        }
+    });
+</script>
 @endsection

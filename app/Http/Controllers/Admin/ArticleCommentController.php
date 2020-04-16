@@ -57,9 +57,11 @@ class ArticleCommentController extends Controller
      */
     public function edit(ArticleComment $comment)
     {
-        $comment->load(['user', 'article', 'user.articleComments' => function ($query)
+        $comment->load(['user', 'article']);
+
+        $comment->loadCount(['userComments as total_comments', 'userComments as approved_comments' => function ($query)
         {
-            $query->approved()->visible();
+            $query->visible()->approved();
         }, ]);
 
         return view('articles.comments.edit', compact('comment'));
@@ -76,7 +78,11 @@ class ArticleCommentController extends Controller
     {
         $comment->update($this->validateComment());
 
-        return redirect()->route('admin.articles.comments.edit', $comment)->with('message', 'Comment is successfully updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Comment is successfully updated.',
+            'icon' => 'success',
+        ]);
     }
 
     /**
@@ -90,16 +96,11 @@ class ArticleCommentController extends Controller
     {
         $comment->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json([
-                'title' => 'Deleted!',
-                'message' => 'Comment is deleted.',
-                'icon' => 'success',
-            ]);
-        }
-
-        return redirect()->route('admin.articles.comments.index')->with('message', 'Comment is successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Comment is deleted.',
+            'icon' => 'success',
+        ]);
     }
 
     public function toggleApproved(ArticleComment $comment)

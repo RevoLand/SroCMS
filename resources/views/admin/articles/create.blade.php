@@ -13,7 +13,7 @@
     <div class="card-body bg-light">
         <div class="row">
             <div class="col-12">
-                {{ Form::open(['route' => ['admin.articles.store'], 'method' => 'post', '@submit.prevent' => 'submitForm']) }}
+                {{ Form::open(['route' => ['admin.articles.store'], 'method' => 'post', '@submit.prevent' => 'onSubmit', '@change' => 'form.errors.clear($event.target.name)', 'class' => 'form-validation']) }}
                     @include('articles.forms.article')
                     <button type="submit" class="btn btn-falcon-primary">Submit</button>
                 {{ Form::close() }}
@@ -32,11 +32,23 @@
 <script src="{{ asset('vendor/vue/ext/flatpickr.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 <script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
 
 <script type="text/javascript">
 new Vue({
     el: '.content',
     data: {
+        form: new Form({
+            title: '',
+            slug: '',
+            generate_slug: '1',
+            categories: [],
+            excerpt: '',
+            content: '',
+            is_visible: '1',
+            can_comment_on: '1',
+            published_at: @json(date('Y-m-d H:i'))
+        }),
         editor: ClassicEditor,
         editorConfig: {
             toolbar: {
@@ -93,47 +105,15 @@ new Vue({
                 ]
             }
         },
-        title: '',
-        slug: '',
-        generate_slug: '1',
-        categories: [],
-        excerpt: '',
-        content: '',
-        is_visible: '1',
-        can_comment_on: '1',
-        published_at: @json(date('Y-m-d H:i'))
     },
     components: {
         ckeditor: CKEditor.component
     },
     methods: {
-        submitForm(event) {
-            $('.content').block();
-            axios.post(event.target.action, this.$data)
+        onSubmit() {
+            this.form.post(event.target.action)
             .then(response => {
-                swal.fire({
-                    title: response.data.title,
-                    html: response.data.message,
-                    icon: response.data.icon
-                });
-            })
-            .catch(function (error) {
-                var errors = '<ul class="list-unstyled">';
-                jQuery.each(error.response.data.errors, function (key, value) {
-                    errors += '<li>';
-                    errors += value;
-                    errors += '</li>';
-                });
-                errors += '</ul>';
-
-                swal.fire({
-                    type: 'error',
-                    title: error.response.data.message,
-                    html: errors
-                });
-            })
-            .finally(() => {
-                $('.content').unblock();
+                this.form.reset();
             });
         }
     }

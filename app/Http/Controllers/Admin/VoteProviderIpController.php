@@ -45,7 +45,11 @@ class VoteProviderIpController extends Controller
             'ip' => request('ip'),
         ]);
 
-        return redirect()->route('admin.votes.providers.ips.edit', compact('ip'))->with('message', 'IP is successfully added.');
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'IP address is successfully added to allowed ip list.',
+            'icon' => 'success',
+        ]);
     }
 
     /**
@@ -86,7 +90,11 @@ class VoteProviderIpController extends Controller
 
         $ip->update(['ip' => request('ip')]);
 
-        return redirect()->route('admin.votes.providers.ips.edit', compact('ip'))->with('message', 'IP is successfully updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected IP has been successfully updated.',
+            'icon' => 'success',
+        ]);
     }
 
     /**
@@ -100,15 +108,10 @@ class VoteProviderIpController extends Controller
     {
         $ip->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json([
-                'title' => 'Deleted!',
-                'message' => 'Selected IP has been deleted as requested.',
-                'icon' => 'success',
-            ]);
-        }
-
-        return redirect()->route('admin.votes.providers.ips.index')->with('message', 'Selected IP has been deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected IP has been deleted as requested.',
+            'icon' => 'success',
+        ]);
     }
 }

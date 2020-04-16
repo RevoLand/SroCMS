@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('pagetitle', 'Edit Category')
+@section('pagetitle', 'Edit Item Mall Category')
 
 @section('content')
 <div class="card mb-3">
@@ -12,40 +12,48 @@
         </div>
     </div>
     <div class="card-body bg-light">
-        @include('components.message')
-        @include('components.errors')
         <div class="row">
             <div class="col-12">
-                {{ Form::open(['route' => ['admin.itemmall.categories.update', $category], 'method' => 'patch']) }}
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        {{ Form::text('name', $category->name, ['class' => 'form-control', 'id' => 'name', 'required']) }}
-                    </div>
-                    <div class="form-group balance-selector">
-                        <label for="order">Sort Order</label>
-                        {{ Form::text('order', $category->order, ['class' => 'form-control', 'id' => 'order', 'required']) }}
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <div class="row col-12">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                {!! Form::radio('enabled', 1, $category->enabled, ['class' => 'custom-control-input', 'id' => 'enabled_true']) !!}
-                                <label for="enabled_true" class="custom-control-label">Enabled</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                {!! Form::radio('enabled', 0, !$category->enabled, ['class' => 'custom-control-input', 'id' => 'enabled_false']) !!}
-                                <label for="enabled_false" class="custom-control-label">Disabled</label>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-falcon-primary">Submit</button>
-                    <button type="reset" class="btn btn-falcon-info">Cancel</button>
-                    {!! Form::open([ 'route' => ['admin.itemmall.categories.destroy', $category], 'method' => 'delete']) !!}
+                {{ Form::open(['route' => ['admin.itemmall.categories.update', $category], 'method' => 'patch', ]) }}
+                    @include('itemmall.categories.forms.category')
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-falcon-primary">Submit</button>
+                        {{ Form::close() }}
+                        {!! Form::open([ 'route' => ['admin.itemmall.categories.destroy', $category], 'method' => 'delete', '@submit.prevent' => 'onDelete']) !!}
                         <button type="submit" class="btn btn-falcon-danger">Delete</button>
-                    {!! Form::close() !!}
-                {{ Form::close() }}
+                        {!! Form::close() !!}
+                    </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script src="{{ asset('vendor/vue/vue.js') }}"></script>
+<script src="{{ asset('vendor/axios.min.js') }}"></script>
+<script src="{{ asset('vendor/srocms.js') }}"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '.content',
+        data: {
+            form: new Form({
+                name: @json($category->name),
+                order: @json($category->order),
+                enabled: @json($category->enabled)
+            })
+        },
+        methods: {
+            onSubmit() {
+                this.form.patch(event.target.action);
+            },
+            onDelete() {
+                this.form.delete(event.target.action)
+                .then(response => {
+                    window.location = @json(route('admin.itemmall.categories.index'))
+                });
+            }
+        }
+    });
+</script>
 @endsection

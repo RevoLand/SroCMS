@@ -154,6 +154,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ArticleComment::class, 'user_id', 'JID');
     }
 
+    public function blockedUser()
+    {
+        return $this->hasMany(BlockedUser::class, 'UserJID', 'JID');
+    }
+
+    public function activeBlockedUser()
+    {
+        return $this->blockedUser()->active();
+    }
+
+    public function punishments()
+    {
+        return $this->hasMany(Punishment::class, 'UserJID', 'JID');
+    }
+
     public function addChestItem(string $itemCodeName, int $data, int $optLevel): bool
     {
         return DB::connection('shard')->statement(

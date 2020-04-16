@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\LogCashItem;
+use App\User;
 
 class StatisticsController extends Controller
 {
@@ -12,10 +13,19 @@ class StatisticsController extends Controller
 
     public function index()
     {
+        echo $this->getBlockedUserCount();
+        echo '<br/>';
+
         foreach ($this->getItemMallBestSellers() as $item)
         {
             echo $item->refItem->getName() . ' | ' . $item->sales_count . '<br />';
         }
+    }
+
+    private function getBlockedUserCount()
+    {
+        // TODO: Determine with types
+        return User::has('activeBlockedUser')->count();
     }
 
     private function getItemMallBestSellers()

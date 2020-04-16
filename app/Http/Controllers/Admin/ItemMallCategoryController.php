@@ -44,7 +44,11 @@ class ItemMallCategoryController extends Controller
             'order' => request('order'),
         ]);
 
-        return redirect()->route('admin.itemmall.categories.edit', $category)->with('message', 'Category is successfully created.');
+        return response()->json([
+            'title' => 'Created!',
+            'message' => 'Category is successfully created.',
+            'icon' => 'success',
+        ]);
     }
 
     /**
@@ -87,7 +91,11 @@ class ItemMallCategoryController extends Controller
             'order' => request('order'),
         ]);
 
-        return redirect()->route('admin.itemmall.categories.index')->with('message', 'Category is successfully updated.');
+        return response()->json([
+            'title' => 'Updated!',
+            'message' => 'Selected Category is successfully updated.',
+            'icon' => 'success',
+        ]);
     }
 
     /**
@@ -101,16 +109,11 @@ class ItemMallCategoryController extends Controller
     {
         $category->delete();
 
-        if (request()->expectsJson())
-        {
-            return response()->json([
-                'title' => 'Deleted!',
-                'message' => 'Selected Category is successfully deleted.',
-                'icon' => 'success',
-            ]);
-        }
-
-        return redirect()->route('admin.itemmall.categories.index')->with('message', 'Selected Category is successfully deleted.');
+        return response()->json([
+            'title' => 'Deleted!',
+            'message' => 'Selected Category is successfully deleted.',
+            'icon' => 'success',
+        ]);
     }
 
     public function toggleEnabled(ItemMallCategory $category)

@@ -4036,18 +4036,6 @@ utils.$document.ready(function () {
   });
 });
 /*-----------------------------------------------
-|   Jquery Validation
------------------------------------------------*/
-
-window.utils.$document.ready(function () {
-  var forms = $('.form-validation');
-  forms.length && forms.each(function (index, value) {
-    var $this = $(value);
-    var options = $.extend({}, $this.data('options'));
-    $this.validate(options);
-  });
-});
-/*-----------------------------------------------
 |   Leaflet
 -----------------------------------------------*/
 
