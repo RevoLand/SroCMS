@@ -9,7 +9,7 @@ Kontrol Paneli: {{ $user->getName() }}
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="user-profile bg-dark px-3 py-3 shadow-sm rounded-sm">
+        <div class="user-profile bg-dark p-3 shadow-sm rounded-sm">
             <div class="row border-bottom border-secondary shadow-sm mb-3 pb-3">
                 @if ($user->gravatar)
                 <div class="col-md-3">
@@ -36,13 +36,46 @@ Kontrol Paneli: {{ $user->getName() }}
                                         @if ($user->regtime)
                                             <div class="text-muted" data-toggle="tooltip" title="{{ $user->regtime }}">{{ $user->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
                                         @else
-                                            Yok.
+                                            <div class="text-muted">Yok</div>
                                         @endif
                                     </li>
                                 </ul>
                             </div>
                             <div class="col-md">
-
+                                <ul class="list-unstyled">
+                                    <li>
+                                        Giriş Yasağı:
+                                        @if ($user->activeLoginBlock)
+                                            <div class="text-muted" data-toggle="tooltip" title="{{ $user->activeLoginBlock->timeEnd }}">{{ $user->activeLoginBlock->timeEnd->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
+                                        @else
+                                            <div class="text-muted">-</div>
+                                        @endif
+                                    </li>
+                                    <li>
+                                        Geçici Giriş Yasağı:
+                                        @if ($user->activeLoginTempBlock)
+                                            <div class="text-muted" data-toggle="tooltip" title="{{ $user->activeLoginTempBlock->timeEnd }}">{{ $user->activeLoginTempBlock->timeEnd->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
+                                        @else
+                                            <div class="text-muted">-</div>
+                                        @endif
+                                    </li>
+                                    <li>
+                                        Trade Yasağı:
+                                        @if ($user->activeTradeBlock)
+                                            <div class="text-muted" data-toggle="tooltip" title="{{ $user->activeTradeBlock->timeEnd }}">{{ $user->activeTradeBlock->timeEnd->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
+                                        @else
+                                            <div class="text-muted">-</div>
+                                        @endif
+                                    </li>
+                                    <li>
+                                        Chat Yasağı:
+                                        @if ($user->activeChatBlock)
+                                            <div class="text-muted" data-toggle="tooltip" title="{{ $user->activeChatBlock->timeEnd }}">{{ $user->activeChatBlock->timeEnd->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
+                                        @else
+                                            <div class="text-muted">-</div>
+                                        @endif
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

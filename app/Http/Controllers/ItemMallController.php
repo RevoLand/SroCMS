@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ItemMallCategory;
+use DB;
 use Redirect;
 
 class ItemMallController extends Controller
@@ -25,10 +26,18 @@ class ItemMallController extends Controller
         $itemMallCategories = ItemMallCategory::enabled()->with(['itemGroups' => function ($query)
         {
             $query->enabled()->active()->with([
-                'userOrders',
                 'items' => function ($itemsQuery)
                 {
                     $itemsQuery->enabled()->with('objCommon.name');
+                },
+            ])->withCount([
+                'userOrders' => function ($query)
+                {
+                    $query->select(DB::raw('sum(quantity)'));
+                },
+                'orders' => function ($query)
+                {
+                    $query->select(DB::raw('sum(quantity)'));
                 },
             ])->orderByDesc('featured')->orderBy('order')->whereHas('items');
         }, ])->get();

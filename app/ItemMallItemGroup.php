@@ -45,17 +45,17 @@ class ItemMallItemGroup extends Model
 
     public function userOrders()
     {
-        return $this->orders()->where('user_id', Auth::user()->JID);
+        return $this->orders()->where('user_id', auth()->user()->JID);
     }
 
     public function getTotalOrdersAttribute()
     {
-        return $this->orders->sum('quantity');
+        return $this->orders()->sum('quantity');
     }
 
     public function getTotalUserOrdersAttribute()
     {
-        return $this->userOrders->sum('quantity');
+        return $this->userOrders()->sum('quantity');
     }
 
     public function priceChanges()

@@ -154,14 +154,39 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ArticleComment::class, 'user_id', 'JID');
     }
 
-    public function blockedUser()
+    public function userBlocks()
     {
         return $this->hasMany(BlockedUser::class, 'UserJID', 'JID');
     }
 
-    public function activeBlockedUser()
+    public function activeUserBlocks()
     {
         return $this->blockedUser()->active();
+    }
+
+    public function userBlock()
+    {
+        return $this->hasOne(BlockedUser::class, 'UserJID', 'JID');
+    }
+
+    public function activeLoginBlock()
+    {
+        return $this->userBlock()->active()->type(config('constants.punishment.login'));
+    }
+
+    public function activeLoginTempBlock()
+    {
+        return $this->userBlock()->active()->type(config('constants.punishment.login_inspection'));
+    }
+
+    public function activeTradeBlock()
+    {
+        return $this->userBlock()->active()->type(config('constants.punishment.p2p_trade'));
+    }
+
+    public function activeChatBlock()
+    {
+        return $this->userBlock()->active()->type(config('constants.punishment.chat'));
     }
 
     public function punishments()

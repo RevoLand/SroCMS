@@ -6,7 +6,7 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <div class="item-mall bg-dark px-3 py-3 shadow-sm rounded-sm">
+        <div class="item-mall bg-dark p-3 shadow-sm rounded-lg">
             <div class="row">
                 <div class="col-md-3">
                     <div class="row row-cols-1">
@@ -17,12 +17,12 @@
                                 </div>
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <ul class="list-group mb-n4 mt-n4">
+                                        <ul class="list-group list-group-flush mb-n4 mt-n4">
                                             <li class="list-group-item">{{ setting('balance.name', 'Bakiye') }}: {{ number_format(Auth::user()->balance->balance, 2) }} {{ setting('balance.currency', 'TL') }}</li>
                                             <li class="list-group-item">{{ setting('balance.point_name', 'Bakiye (Puan)') }}: {{ number_format(Auth::user()->balance->balance_point, 2) }} {{ setting('balance.currency', 'TL') }}</li>
                                             <li class="list-group-item">{{ setting('silk.silk_own_name', 'Silk') }}: {{ number_format(Auth::user()->silk->silk_own) }}</li>
                                             <li class="list-group-item">{{ setting('silk.silk_gift_name', 'Silk (Gift)') }}: {{ number_format(Auth::user()->silk->silk_gift) }}</li>
-                                            <li class="list-group-item">{{ setting('silk.silk_point_name', 'Silk (Point)') }}: {{ number_format(Auth::user()->silk->silk_point) }}</li>
+                                            <li class="list-group-item border-bottom-0">{{ setting('silk.silk_point_name', 'Silk (Point)') }}: {{ number_format(Auth::user()->silk->silk_point) }}</li>
                                         </ul>
                                     </p>
                                 </div>
@@ -69,7 +69,7 @@
                                                         <div class="btn-group">
                                                             <a class="btn" data-toggle="collapse" href="#itemGroupContent_{{ $itemGroup->id }}" role="button" aria-expanded="false" aria-controls="itemGroupContent_{{ $itemGroup->id }}"><small class="text-muted">İçeriği Göster</small></a>
 
-                                                            @if ((!$itemGroup->limit_total_purchases || $itemGroup->totalOrders < $itemGroup->total_purchase_limit) && (!$itemGroup->limit_user_purchases || $itemGroup->totalUserOrders < $itemGroup->user_purchase_limit))
+                                                            @if ((!$itemGroup->limit_total_purchases || $itemGroup->orders_count < $itemGroup->total_purchase_limit) && (!$itemGroup->limit_user_purchases || $itemGroup->user_orders_count < $itemGroup->user_purchase_limit))
                                                             {{ Form::open(['route' => ['itemmall.cart.add', $itemGroup]]) }}
                                                                 <button class="btn btn-primary" type="submit" role="button">Ekle</button>
                                                             {{ Form::close() }}
