@@ -1,7 +1,7 @@
 <div class="container text-monospace tooltip-item-info">
     <div class="row row-cols-1">
         <h6 class="col mb-4 @if($item->objCommon->Rarity) text-warning @endif">
-            {{ $item->name }} (+{{ $item->OptLevel }})
+            {{ $item->name }} (+{{ $item->OptLevel }}) @isset($item->bindingOptionWithItem) [+{{ $item->bindingOptionWithItem->nOptValue }} Adv] @endisset
         </h6>
         @if ($item->objCommon->Rarity)
             @if ($item->objCommon->Rarity != 3)
@@ -113,5 +113,10 @@
         @foreach($item->magicParams as $blue)
             <h6 class="col text-primary @if($loop->first) mt-4 @endif">{{ sprintf($blue->name, $blue->value) }}</h6>
         @endforeach
+        @isset($item->bindingOptionWithItem)
+        <div class="col">
+            Advanced elixir is in use. [{{ $item->bindingOptionWithItem->nOptValue }}]
+        </div>
+        @endisset
     </div>
 </div>

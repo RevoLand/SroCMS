@@ -17,6 +17,13 @@ class Item extends Model
         return $this->hasOne(ObjCommon::class, 'ID', 'RefItemID');
     }
 
+    public function bindingOptionWithItem()
+    {
+        // TODO: Make constants from types?
+        // 2 = adv
+        return $this->hasOne(BindingOptionWithItem::class, 'nItemDBID', 'ID64')->type('2');
+    }
+
     public function getNameAttribute()
     {
         return ($this->objCommon->name) ? $this->objCommon->name->name : $this->objCommon->CodeName128;

@@ -216,12 +216,11 @@
                     this.quantity = response.data.quantity;
                     this.$root.totals = response.data.totals;
                     this.$root.itemCount = response.data.itemCount;
-
-                    this.IsUpdating = false;
                 })
                 .catch(error => {
-                    console.log(error.response);
                     alert(error.response.data.message);
+                })
+                .finally(() => {
                     this.IsUpdating = false;
                 });
 
@@ -255,7 +254,6 @@
                     this.itemCount = response.data.itemCount;
                 })
                 .catch(error => {
-                    console.log(error.response);
                     alert(error.response.data.message);
                 });
             }

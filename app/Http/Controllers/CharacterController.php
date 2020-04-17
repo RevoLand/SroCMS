@@ -26,7 +26,7 @@ class CharacterController extends Controller
     {
         $character->load(['guild', 'job', 'inventory' => function ($query)
         {
-            $query->ignoreDummy()->equipped()->with(['item.objCommon.objItem.setItem', 'item.objCommon.name']);
+            $query->ignoreDummy()->equipped()->with(['item.objCommon.objItem.setItem', 'item.objCommon.name', 'item.bindingOptionWithItem']);
         }, 'inventoryForAvatar' => function ($query)
         {
             $query->ignoreDummy()->with(['item.objCommon.objItem.setItem', 'item.objCommon.name']);
