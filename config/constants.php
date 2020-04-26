@@ -121,6 +121,7 @@ return [
             '1' => 'Seal of Nova',
             '2' => 'Seal of Moon',
             '3' => 'Seal of Sun',
+            '6' => 'Set',
         ],
         'country' => [
             '0' => 'Chinese',
@@ -355,9 +356,9 @@ return [
             '276' => 'Force',
 
             '513' => 'Warrior',
-            '514' => 'Warlock',
+            '514' => 'Wizard',
             '515' => 'Rogue',
-            '516' => 'Wizard',
+            '516' => 'Warlock',
             '517' => 'Bard',
             '518' => 'Cleric',
         ],

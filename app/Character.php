@@ -46,4 +46,15 @@ class Character extends Model
     {
         return $this->hasMany(CharacterSkillMastery::class, 'CharID', 'CharID');
     }
+
+    public function getItemPointAttribute()
+    {
+        $itemPoint = 0;
+        $this->inventory->each(function ($inventoryItem) use (&$itemPoint)
+        {
+            $itemPoint = bcadd($itemPoint, $inventoryItem->item->itemValue, 2);
+        });
+
+        return $itemPoint;
+    }
 }

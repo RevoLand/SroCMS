@@ -201,6 +201,138 @@ class Item extends Model
         return (object) $magicParamValues;
     }
 
+    /*
+        - ObjCommon -
+        'rarity' => [
+            '0' => 'Normal',
+            '1' => 'Seal of Nova',
+            '2' => 'Seal of Moon',
+            '3' => 'Seal of Sun',
+            '6 => 'Set'
+        ]
+
+        - ObjItem -
+        ItemClass => 1-60 arası
+
+        - _Items -
+        OptLevel
+
+    */
+    public function getItemValueAttribute()
+    {
+        $itemPoint = 1;
+        $itemPoint = bcmul($itemPoint, bcdiv($this->objCommon->objItem->ItemClass, 10, 2), 2);
+
+        if ($this->objCommon->Rarity > 0)
+        {
+            $itemPoint = bcadd($itemPoint, bcdiv($this->objCommon->Rarity, 100, 2), 2);
+        }
+
+        if ($this->OptLevel > 0)
+        {
+            $itemPoint = bcadd($itemPoint, bcdiv($this->OptLevel, 10, 2), 2);
+        }
+
+        foreach ($this->stats as $key => $whiteStat)
+        {
+            $calculatedPoint = 0;
+            switch ($key)
+            {
+                case 'Durability':
+                    $calculatedPoint = bcdiv($whiteStat, 1000, 2);
+                break;
+                case 'PhyReinforce':
+                case 'MagReinforce':
+                    $calculatedPoint = bcdiv($whiteStat, 300, 2);
+                break;
+                case 'PhyAttack':
+                case 'MagAttack':
+                    $calculatedPoint = bcdiv($whiteStat, 300, 2);
+                break;
+                case 'CriticalRatio':
+                    $calculatedPoint = bcdiv($whiteStat, 500, 2);
+                break;
+                case 'PhyDefense':
+                case 'MagDefense':
+                    $calculatedPoint = bcdiv($whiteStat, 300, 2);
+                break;
+                case 'HitRatio':
+                case 'ParryRatio':
+                    $calculatedPoint = bcdiv($whiteStat, 800, 2);
+                break;
+                case 'BlockRatio':
+                    $calculatedPoint = bcdiv($whiteStat, 500, 2);
+                break;
+                case 'PhyAbsorption':
+                case 'MagAbsorption':
+                    $calculatedPoint = bcdiv($whiteStat, 300, 2);
+                break;
+            }
+
+            if ($calculatedPoint != 0)
+            {
+                // echo '<br/>';
+                // echo "{$key}:";
+                // echo $calculatedPoint;
+                // echo '<br/>';
+                $itemPoint = bcadd($itemPoint, $calculatedPoint, 2);
+            }
+        }
+
+        foreach ($this->magicParams as $magicParam)
+        {
+            $calculatedPoint = 0;
+            // MOptName128
+            switch ($magicParam->magicOpt->MOptName128)
+            {
+                case 'MATTR_AVATAR_INT':
+                case 'MATTR_AVATAR_INT_2':
+                case 'MATTR_AVATAR_INT_3':
+                case 'MATTR_AVATAR_INT_4':
+                case 'MATTR_AVATAR_STR':
+                case 'MATTR_AVATAR_STR_1':
+                case 'MATTR_AVATAR_STR_2':
+                case 'MATTR_AVATAR_STR_3':
+                case 'MATTR_AVATAR_STR_4':
+                case 'MATTR_INT':
+                case 'MATTR_INT_3JOB':
+                case 'MATTR_INT_AVATAR':
+                case 'MATTR_INT_SET':
+                case 'MATTR_STR':
+                case 'MATTR_STR_3JOB':
+                case 'MATTR_STR_AVATAR':
+                case 'MATTR_STR_SET':
+                case 'MATTR_TRADE_INT':
+                case 'MATTR_TRADE_INT_2':
+                case 'MATTR_TRADE_INT_3':
+                case 'MATTR_TRADE_STR':
+                case 'MATTR_TRADE_STR_2':
+                case 'MATTR_TRADE_STR_3':
+                    $calculatedPoint = bcmul(bcdiv($magicParam->value, $magicParam->percentage, 2), $magicParam->value, 2);
+                break;
+                case 'MATTR_AVATAR_ER':
+                case 'MATTR_ER':
+                case 'MATTR_ER_SET':
+                    $calculatedPoint = bcdiv($magicParam->value, 1000, 2);
+                break;
+                case 'MATTR_DUR':
+                case 'MATTR_DUR_SET':
+                    $calculatedPoint = bcdiv($magicParam->value, 5000, 2);
+                break;
+                default:
+                    // dd($magicParam);
+                break;
+            }
+
+            if ($calculatedPoint != 0)
+            {
+                $itemPoint = bcadd($itemPoint, $calculatedPoint, 2);
+            }
+        }
+
+        return bcmul($itemPoint, 10, 2);
+    }
+
     private function parseMagicParamValue($magicParam): object
     {
         $magicParamInfo = [

@@ -13,23 +13,43 @@ class StatisticsController extends Controller
 
     public function index()
     {
-        echo $this->getBlockedUserCount();
+        echo $this->getLoginBlockedUsers();
+        echo '<br/>';
+        echo $this->getLoginTempBlockedUsers();
+        echo '<br/>';
+        echo $this->getTradeBlockedUsers();
+        echo '<br/>';
+        echo $this->getChatBlockedUsers();
         echo '<br/>';
 
         foreach ($this->getItemMallBestSellers() as $item)
         {
-            echo $item->refItem->getName() . ' | ' . $item->sales_count . '<br />';
+            echo $item->refItem->getName() . ' | ' . $item->sales . '<br />';
         }
     }
 
-    private function getBlockedUserCount()
+    private function getLoginBlockedUsers()
     {
-        // TODO: Determine with types
-        return User::has('activeBlockedUser')->count();
+        return User::has('activeLoginBlock')->count();
+    }
+
+    private function getLoginTempBlockedUsers()
+    {
+        return User::has('activeLoginTempBlock')->count();
+    }
+
+    private function getTradeBlockedUsers()
+    {
+        return User::has('activeTradeBlock')->count();
+    }
+
+    private function getChatBlockedUsers()
+    {
+        return User::has('activeChatBlock')->count();
     }
 
     private function getItemMallBestSellers()
     {
-        return LogCashItem::daysSince(30)->group()->with('refItem.name')->latest('sales_count')->get();
+        return LogCashItem::daysSince(30)->group()->with('refItem.name')->orderByDesc('sales')->get();
     }
 }

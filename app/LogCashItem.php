@@ -26,7 +26,7 @@ class LogCashItem extends Model
 
     public function scopeGroup($query)
     {
-        return $query->groupBy('RefItemID')->select('RefItemID', \DB::raw('count(*) as sales_count'));
+        return $query->groupBy('RefItemID')->select('RefItemID', \DB::raw('count(*) as sales'));
     }
 
     public function refItem()

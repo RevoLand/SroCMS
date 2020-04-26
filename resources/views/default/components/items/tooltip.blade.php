@@ -111,12 +111,15 @@
             Max. no. of magic options: {{ $item->objCommon->objItem->MaxMagicOptCount }}Unit
         </div>
         @foreach($item->magicParams as $blue)
-            <h6 class="col text-primary @if($loop->first) mt-4 @endif">{{ sprintf($blue->name, $blue->value) }}</h6>
+        <h6 class="col text-primary @if($loop->first) mt-4 @endif">{{ sprintf($blue->name, $blue->value) }}</h6>
         @endforeach
         @isset($item->bindingOptionWithItem)
         <div class="col">
             Advanced elixir is in use. [{{ $item->bindingOptionWithItem->nOptValue }}]
         </div>
         @endisset
+        <div class="col mt-4">
+            Item Point: {{ $item->itemValue }}
+        </div>
     </div>
 </div>
