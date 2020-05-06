@@ -13,6 +13,7 @@
 
 use App\Item;
 use App\MagicOpt;
+use App\User;
 
 Route::get('/', 'ArticleController@index')->name('home');
 
@@ -77,6 +78,13 @@ Route::group(['prefix' => 'users'], function ()
 
     Route::get('orders', 'UserController@orders')->name('users.orders.index');
     Route::get('orders/{order}', 'UserController@showorder')->name('user.orders.show');
+
+    Route::get('tickets', 'TicketController@index')->name('users.tickets.index');
+    Route::get('tickets/create', 'TicketController@create')->name('users.tickets.create');
+    Route::get('tickets/{ticket}', 'TicketController@show')->name('users.tickets.show');
+
+    Route::post('tickets', 'TicketController@store')->name('users.tickets.store');
+    Route::post('tickets/{ticket}', 'TicketMessageController@store')->name('users.tickets.messages.store');
 });
 
 Route::group(['prefix' => 'uniques', 'as' => 'uniques.'], function ()
@@ -249,9 +257,10 @@ Route::match(['get', 'post'], 'item-test', function ()
 
         echo "<h4>{$magicParam}</h4><h5>[{$optId}] {$value}</h5>";
 
-        // Item::find(179384)->update([
-        //     'MagParam1' => $magicParam,
-        // ]);
+        Item::find(178880)->update([
+            'MagParamNum' => 1,
+            'MagParam1' => $magicParam,
+        ]);
     } ?>
 
     <form method="post" action="">
@@ -271,7 +280,7 @@ Route::get('random', function ()
 
 Route::get('test', function ()
 {
-    // increase($type, $balance, $source, $comment = '', $source_user_id = '')
+    // // User::where('StrUserID', 'ali')->first()->silk->increase(config('constants.silk.type.id.silk_point'), 100000, config('constants.silk.reason.inc.silk_point'), 'SroCMS Deneme');
     Auth::user()->balance->increase(config('constants.balance.type.balance'), 100, config('constants.balance.source.admin'));
 
     // $user->silk->decrease(config('constants.silk.type.id.silk_own'), 50, config('constants.silk.reason.dec.silk_own'), 'SroCMS Deneme');

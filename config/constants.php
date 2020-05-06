@@ -396,4 +396,64 @@ return [
         'p2p_trade' => '3',
         'chat' => '4',
     ],
+    'ticket_system' => [
+        'priority' => [
+            '0' => [
+                'name' => 'Low',
+                'color' => 'btn-light',
+            ],
+            '1' => [
+                'name' => 'Below Normal',
+                'color' => 'btn-light',
+            ],
+            '2' => [
+                'name' => 'Normal',
+                'color' => 'btn-info',
+            ],
+            '3' => [
+                'name' => 'Above Normal',
+                'color' => 'btn-primary',
+            ],
+            '4' => [
+                'name' => 'High',
+                'color' => 'btn-warning',
+            ],
+            '5' => [
+                'name' => 'Urgent!',
+                'color' => 'btn-danger',
+            ],
+        ],
+        'priority_array' => [
+            '0',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+        ],
+        'status' => [
+            '0' => [
+                'name' => 'New',
+                'color' => 'btn-primary',
+            ],
+            '1' => [
+                'name' => 'Answered',
+                'color' => 'btn-success',
+            ],
+            '2' => [
+                'name' => 'Not Answered',
+                'color' => 'btn-warning',
+            ],
+            '3' => [
+                'name' => 'Closed',
+                'color' => 'btn-danger',
+            ],
+        ],
+        'status_from_name' => [
+            'New' => '0',
+            'Answered' => '1',
+            'NotAnswered' => '2',
+            'Closed' => '3',
+        ],
+    ],
 ];

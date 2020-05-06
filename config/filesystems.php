@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -42,7 +41,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -51,7 +49,14 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        'tickets' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/tickets'),
+            'url' => env('APP_URL') . '/storage/tickets',
             'visibility' => 'public',
         ],
 
@@ -63,7 +68,10 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
-
     ],
 
+    'links' => [
+        public_path('storage') => storage_path('app/public'),
+        public_path('storage/tickets') => storage_path('app/public/tickets'),
+    ],
 ];

@@ -194,6 +194,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Punishment::class, 'UserJID', 'JID');
     }
 
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'user_id', 'JID');
+    }
+
+    public function activeTickets()
+    {
+        return $this->tickets()->active();
+    }
+
     public function addChestItem(string $itemCodeName, int $data, int $optLevel): bool
     {
         return DB::connection('shard')->statement(

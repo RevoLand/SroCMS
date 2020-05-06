@@ -34,24 +34,25 @@ class ItemMallOrdersDataTable extends DataTable
      */
     public function query(ItemMallOrder $model)
     {
-        return $model->with(['items' => function ($query)
-        {
-            if (request()->has('payment_type'))
+        return $model->with(['items', 'items.itemgroup', 'user'])
+            ->where(function ($query)
             {
-                $query->where('payment_type', request('payment_type'));
-            }
+                if (request()->has('user_id'))
+                {
+                    $query->where('user_id', request('user_id'));
+                }
+            })->whereHas('items', function ($query)
+            {
+                if (request()->has('payment_type'))
+                {
+                    $query->where('payment_type', request('payment_type'));
+                }
 
-            if (request()->has('item_group_id'))
-            {
-                $query->where('item_mall_item_group_id', request('item_group_id'));
-            }
-        }, 'items.itemgroup', 'user', ])->where(function ($query)
-        {
-            if (request()->has('user_id'))
-            {
-                $query->where('user_id', request('user_id'));
-            }
-        })->whereHas('items')->newQuery();
+                if (request()->has('item_group_id'))
+                {
+                    $query->where('item_mall_item_group_id', request('item_group_id'));
+                }
+            })->newQuery();
     }
 
     /**
