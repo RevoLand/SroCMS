@@ -50,12 +50,12 @@ class ItemMallItemGroup extends Model
 
     public function getTotalOrdersAttribute()
     {
-        return $this->orders()->sum('quantity');
+        return $this->orders->sum('quantity');
     }
 
     public function getTotalUserOrdersAttribute()
     {
-        return $this->userOrders()->sum('quantity');
+        return $this->userOrders->sum('quantity');
     }
 
     public function priceChanges()

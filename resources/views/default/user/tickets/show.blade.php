@@ -77,7 +77,7 @@ Ticket: {{ $ticket->title }}
                 @endif
                 @foreach($ticket->messages as $ticketMessage)
                 <div class="row">
-                    <div class="col-md-3 p-2 border-right border-secondary">
+                    <div class="col-md-3 pl-3 p-2 border-right border-secondary">
                         <h5>{{ $ticketMessage->user->getName() }}</h5>
                     </div>
                     <div class="col-md-9 p-3">
@@ -92,7 +92,11 @@ Ticket: {{ $ticket->title }}
                             @endforeach
                         </div>
                         @endif
-                        <div class="text-muted text-right" data-toggle="tooltip" title="{{ $ticketMessage->created_at }}">{{ $ticketMessage->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
+                        <div class="text-muted text-right">
+                            <span data-toggle="tooltip" title="{{ $ticketMessage->created_at }}">
+                                {{ $ticketMessage->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <hr class="my-4">
@@ -109,10 +113,12 @@ Ticket: {{ $ticket->title }}
                                 <label for="message">Your Message:</label>
                                 <textarea class="form-control" id="message" name="message" placeholder="" minlength="6" maxlength="1800" required></textarea>
                             </div>
+                            @if(setting('ticketsystem.attachments.maxfilecount', 3) > 0)
                             <div class="form-group">
                                 <label for="attachments">Attachments: <div class="text-muted font-italic">(Maximum allowed attachment count per message: {{ setting('ticketsystem.attachments.maxfilecount', 3) }})</div></label>
                                 <input type="file" class="form-control form-control-file" id="attachments" name="attachments[]" accept="image/*" multiple>
                             </div>
+                            @endif
                             <div class="custom-control custom-checkbox mb-2">
                                 <input id="close_ticket" class="custom-control-input" type="checkbox" name="close_ticket" value="1">
                                 <label for="close_ticket" class="custom-control-label">Close Ticket</label>

@@ -42,9 +42,9 @@ class VoteLogsDataTable extends DataTable
                 return '<label class="badge badge-soft-danger">No</label>';
             })
             ->editColumn('user', 'votes.datatables.user')
-            ->editColumn('voteprovider', 'votes.datatables.voteprovider')
+            ->editColumn('voteProvider', 'votes.datatables.voteprovider')
             ->editColumn('rewardgroup', 'votes.datatables.rewardgroup')
-            ->rawColumns(['action', 'voted', 'active', 'user', 'voteprovider', 'rewardgroup']);
+            ->rawColumns(['action', 'voted', 'active', 'user', 'voteProvider', 'rewardgroup']);
     }
 
     /**
@@ -54,7 +54,7 @@ class VoteLogsDataTable extends DataTable
      */
     public function query(VoteLog $model)
     {
-        return $model->with(['user', 'voteprovider', 'rewardgroup'])->where(function ($query)
+        return $model->with(['user', 'voteProvider', 'rewardgroup'])->where(function ($query)
         {
             if (request()->filled('user_id'))
             {
@@ -119,7 +119,7 @@ class VoteLogsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('user', 'user_id')->title('User'),
-            Column::make('voteprovider', 'voteprovider.name')->title('Vote Provider')->footer('<select id="vote_provider_select" class="form-control select2"><option value="" selected>-</option>' . $voteProviderOptions . '</select>'),
+            Column::make('voteProvider', 'voteProvider.name')->title('Vote Provider')->footer('<select id="vote_provider_select" class="form-control select2"><option value="" selected>-</option>' . $voteProviderOptions . '</select>'),
             Column::make('rewardgroup', 'rewardgroup.name')->title('Reward Group Name')->footer('<select id="reward_group_select" class="form-control select2"><option value="" selected>-</option>' . $rewardGroupOptions . '</select>'),
             Column::make('voted')->footer('<select id="voted_select" class="form-control select2"><option value="" selected>-</option><option value="1">Voted</option><option value="0">Not Voted</option></select>'),
             Column::make('active')->footer('<select id="active_select" class="form-control select2"><option value="" selected>-</option><option value="1">Yes</option><option value="0">No</option></select>'),

@@ -53,11 +53,13 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @if(setting('ticketsystem.attachments.maxfilecount', 3) > 0)
                             <div class="form-group">
                                 <label for="attachments">Attachments: <div class="text-muted font-italic">(Maximum allowed attachment count per message: {{ setting('ticketsystem.attachments.maxfilecount', 3) }})</div></label>
                                 <input type="file" class="form-control form-control-file" id="attachments" name="attachments[]" accept="image/*" multiple>
                                 <input type="hidden" name="MAX_FILE_SIZE" value="{{ setting('ticketsystem.attachments.maxfilesize', 1024) }}" />
                             </div>
+                            @endif
                             <button type="submit" class="btn btn-block btn-lg btn-primary">Create Ticket</button>
                         {!! Form::close() !!}
                     </div>

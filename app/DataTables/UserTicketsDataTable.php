@@ -90,8 +90,8 @@ class UserTicketsDataTable extends DataTable
             Column::make('title')->width(140),
             Column::make('category.name', 'category.name')->title('Category')->width(80),
             Column::computed('messages_count', 'Messages')->width(20),
-            Column::make('priority')->addClass('text-center')->footer($priority_selector)->width(40),
-            Column::make('status')->addClass('text-center')->footer($status_selector)->width(40),
+            Column::make('priority')->addClass('text-center')->footer($priority_selector)->width(70),
+            Column::make('status')->addClass('text-center')->footer($status_selector)->width(70),
             Column::make('created_at')->addClass('text-center')->width(50),
             Column::make('updated_at')->addClass('text-center')->width(50),
             Column::computed('actions')
