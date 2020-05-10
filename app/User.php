@@ -22,6 +22,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $table = 'TB_User';
     protected $primaryKey = 'JID';
     protected $guarded = [];
+    protected $appends = [
+        'gravatar',
+    ];
 
     protected $hidden = [
         'password', 'remember_token',
@@ -202,6 +205,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activeTickets()
     {
         return $this->tickets()->active();
+    }
+
+    public function ticketBans()
+    {
+        return $this->hasMany(TicketBan::class, 'user_id', 'JID');
+    }
+
+    public function activeTicketBans()
+    {
+        return $this->ticketBans()->active();
     }
 
     public function addChestItem(string $itemCodeName, int $data, int $optLevel): bool

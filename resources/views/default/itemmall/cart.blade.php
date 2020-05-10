@@ -126,7 +126,7 @@
                                 <table class="table table-sm table-responsive-md">
                                     <tr>
                                         <td>{{ __('Ürün Sayısı') }}:</td>
-                                        <td :bind="itemCount">@{{ itemCount }}</td>
+                                        <td v-text="itemCount"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="2" class="lead text-center">Toplam</td>

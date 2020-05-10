@@ -8,6 +8,8 @@ class TicketMessage extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $touches = ['ticket'];
+    protected $appends = ['group_date'];
 
     public function ticket()
     {
@@ -22,5 +24,10 @@ class TicketMessage extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'JID');
+    }
+
+    public function getGroupDateAttribute()
+    {
+        return $this->created_at->toDateString();
     }
 }

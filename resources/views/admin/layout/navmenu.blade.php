@@ -210,7 +210,24 @@
                         <a class="nav-link" href="{{ route('admin.epins.index', ['filter' => 2]) }}">Used</a>
                     </li>
 				</ul>
-			</li>
+            </li>
+            @can('manage tickets')
+            <li class="nav-item">
+				<a class="nav-link dropdown-indicator" href="#ticket-system" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="ticket-system">
+					<div class="d-flex align-items-center">
+						<span class="nav-link-icon">
+							<span class="fas fa-support"></span>
+						</span>
+						<span class="nav-link-text">Tickets</span>
+					</div>
+				</a>
+				<ul class="nav collapse" id="ticket-system" data-parent="#navbarVerticalCollapse">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.tickets.index') }}">List</a>
+                    </li>
+				</ul>
+            </li>
+            @endcan
 		</ul>
 		<div class="px-3 px-xl-0 navbar-vertical-divider">
 			<hr class="border-300 my-2"/>

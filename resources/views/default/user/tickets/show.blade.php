@@ -81,7 +81,11 @@ Ticket: {{ $ticket->title }}
                         <h5>{{ $ticketMessage->user->getName() }}</h5>
                     </div>
                     <div class="col-md-9 p-3">
+                        @if ($ticketMessage->html)
+                        <p>{!! $ticketMessage->content !!}</p>
+                        @else
                         <p>{{ $ticketMessage->content }}</p>
+                        @endif
                         @if (count($ticketMessage->attachments) > 0)
                         <div class="alert alert-secondary" role="alert">
                             @foreach($ticketMessage->attachments as $attachment)

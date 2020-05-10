@@ -6,9 +6,8 @@ class Form {
      *
      * @param {object} data
      */
-    constructor(data, config = null) {
+    constructor(data) {
         this.originalData = data;
-        this.config = config;
 
         for (let field in data) {
             this[field] = data[field];
@@ -102,7 +101,7 @@ class Form {
     submit(requestType, url) {
         return new Promise((resolve, reject) => {
             $(".content").block();
-            axios[requestType](url, this.data(), this.config)
+            axios[requestType](url, this.data())
                 .then((response) => {
                     this.onSuccess(response.data);
 

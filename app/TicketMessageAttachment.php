@@ -9,6 +9,7 @@ class TicketMessageAttachment extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $appends = ['file_url', 'last_modified'];
 
     public function ticketMessage()
     {

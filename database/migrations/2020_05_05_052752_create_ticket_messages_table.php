@@ -17,6 +17,7 @@ class CreateTicketMessagesTable extends Migration
             $table->foreignId('ticket_id');
             $table->integer('user_id');
             $table->string('content', 2000);
+            $table->boolean('html')->default(false);
             $table->timestamps();
 
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');

@@ -20,11 +20,11 @@
 </div>
 <div class="form-group">
     <label>Excerpt (HTML)</label>
-    <ckeditor :editor="editor" v-model="form.excerpt" :config="editorConfig"></ckeditor>
+    <editor id="excerpt" :init="editorConfig" v-model="form.excerpt" />
 </div>
 <div class="form-group">
     <label>Content (HTML)</label>
-    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+    <editor id="content" :init="editorConfig" v-model="form.content" />
 </div>
 <div class="form-group">
     <label>Visibility</label>

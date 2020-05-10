@@ -162,6 +162,18 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
     });
 
+    Route::group(['middleware' => 'can:manage tickets'], function ()
+    {
+        Route::resource('tickets', 'Admin\TicketController');
+        Route::patch('tickets/{ticket}/update_status', 'Admin\TicketController@update_status')->name('tickets.update_status');
+        Route::patch('tickets/{ticket}/update_priority', 'Admin\TicketController@update_priority')->name('tickets.update_priority');
+        Route::patch('tickets/{ticket}/update_assigned_user', 'Admin\TicketController@update_assigned_user')->name('tickets.update_assigned_user');
+        Route::resource('ticketmessages', 'Admin\TicketMessageController');
+
+        Route::post('tickets/{ticket}', 'Admin\TicketMessageController@store')->name('ticketmessages.store');
+        // Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
+    });
+
     Route::group(['middleware' => 'can:manage votes'], function ()
     {
         Route::group(['prefix' => 'votes', 'as' => 'votes.'], function ()
@@ -194,23 +206,25 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::post('epins/items/destroy', 'Admin\EpinItemController@destroy')->name('epins.items.destroy');
     });
 
-    Route::group(['middleware' => 'can:manage itemmall'], function ()
+    Route::group(['middleware' => 'can:manage itemmall', 'prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
     {
-        Route::group(['prefix' => 'itemmall', 'as' => 'itemmall.'], function ()
-        {
-            Route::get('', 'Admin\ItemMallController@index')->name('index');
+        Route::get('', 'Admin\ItemMallController@index')->name('index');
 
-            // Web Item Mall Categories
-            Route::resource('categories', 'Admin\ItemMallCategoryController');
-            Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
+        // Web Item Mall Categories
+        Route::resource('categories', 'Admin\ItemMallCategoryController');
+        Route::patch('categories/{category}/toggleEnabled', 'Admin\ItemMallCategoryController@toggleEnabled')->name('categories.toggle_enabled');
 
-            // Web Item Mall Item Groups
-            Route::resource('itemgroups', 'Admin\ItemMallItemGroupController');
-            Route::patch('itemgroups/{itemgroup}/toggleEnabled', 'Admin\ItemMallItemGroupController@toggleEnabled')->name('itemgroups.toggle_enabled');
+        // Web Item Mall Item Groups
+        Route::resource('itemgroups', 'Admin\ItemMallItemGroupController');
+        Route::patch('itemgroups/{itemgroup}/toggleEnabled', 'Admin\ItemMallItemGroupController@toggleEnabled')->name('itemgroups.toggle_enabled');
 
-            Route::post('itemgroups/items/update', 'Admin\ItemMallItemController@update')->name('itemgroups.items.update');
-            Route::post('itemgroups/items/destroy', 'Admin\ItemMallItemController@destroy')->name('itemgroups.items.destroy');
-        });
+        Route::post('itemgroups/items/update', 'Admin\ItemMallItemController@update')->name('itemgroups.items.update');
+        Route::post('itemgroups/items/destroy', 'Admin\ItemMallItemController@destroy')->name('itemgroups.items.destroy');
+    });
+
+    Route::group(['middleware' => 'can:manage itemmall orders'], function ()
+    {
+        Route::get('itemmall/orders/{order}', 'Admin\ItemMallOrderController@show')->name('itemmall.orders.show');
     });
 
     Route::resource('users', 'Admin\UserController');

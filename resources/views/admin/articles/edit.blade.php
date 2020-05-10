@@ -30,10 +30,10 @@
 @endsection
 
 @section('js')
-{!! Theme::js('lib/ckeditor/ckeditor.js') !!}
 {!! Theme::js('lib/select2/select2.min.js') !!}
 {!! Theme::js('lib/flatpickr/flatpickr.min.js') !!}
-<script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
+{!! Theme::js('lib/tinymce/tinymce.min.js') !!}
+<script src="{{ asset('vendor/vue/components/tinymce.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/flatpickr.js') }}"></script>
 <script src="{{ asset('vendor/vue/ext/select2.js') }}"></script>
 
@@ -41,62 +41,6 @@
 new Vue({
     el: '.content',
     data: {
-        editor: ClassicEditor,
-        editorConfig: {
-            toolbar: {
-                items: [
-                    'bold',
-                    'italic',
-                    'underline',
-                    'heading',
-                    'fontFamily',
-                    '|',
-                    'fontSize',
-                    'fontColor',
-                    'fontBackgroundColor',
-                    'highlight',
-                    'removeFormat',
-                    '|',
-                    'link',
-                    'code',
-                    'codeBlock',
-                    'comment',
-                    'blockQuote',
-                    'imageUpload',
-                    '|',
-                    'bulletedList',
-                    'numberedList',
-                    '|',
-                    'alignment',
-                    'indent',
-                    'outdent',
-                    '|',
-                    'insertTable',
-                    'todoList',
-                    'mediaEmbed',
-                    'undo',
-                    'redo',
-                    'horizontalLine'
-                ]
-            },
-            language: 'en',
-            image: {
-                toolbar: [
-                    'imageTextAlternative',
-                    'imageStyle:full',
-                    'imageStyle:side'
-                ]
-            },
-            table: {
-                contentToolbar: [
-                    'tableColumn',
-                    'tableRow',
-                    'mergeTableCells',
-                    'tableCellProperties',
-                    'tableProperties'
-                ]
-            }
-        },
         form: new Form({
             title: @json($article->title),
             slug: @json($article->slug),
@@ -107,10 +51,32 @@ new Vue({
             is_visible: @json($article->is_visible),
             can_comment_on: @json($article->can_comment_on),
             published_at: @json($article->published_at)
-        })
+        }),
+        editorConfig: {
+            skin: 'oxide-dark',
+            content_style: '.mce-content-body {color: #fff}',
+            plugins: 'link,image,lists,table,media,autoresize',
+            toolbar: 'styleselect | bold italic link bullist numlist image blockquote table media undo redo',
+            statusbar: false,
+            mobile: {
+                menubar: true,
+                toolbar_mode: 'floating'
+            },
+            menubar: true,
+            menu: {
+                file: { title: 'File', items: 'newdocument restoredraft | preview | print ' },
+                edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
+                view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen' },
+                insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
+                format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat' },
+                tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
+                table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
+                help: { title: 'Help', items: 'help' }
+            }
+        }
     },
     components: {
-        ckeditor: CKEditor.component
+        editor: Editor
     },
     methods: {
         onSubmit() {

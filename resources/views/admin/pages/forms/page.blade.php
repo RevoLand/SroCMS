@@ -12,7 +12,7 @@
 </div>
 <div class="form-group">
     <label>Content</label>
-    <ckeditor :editor="editor" v-model="form.content" :config="editorConfig"></ckeditor>
+    <editor id="editor" :init="editorConfig" v-model="form.content" />
 </div>
 <div class="form-group">
     <label for="view">View</label>

@@ -24,8 +24,8 @@
 @endsection
 
 @section('js')
-{!! Theme::js('lib/ckeditor/ckeditor.js') !!}
-<script src="{{ asset('vendor/vue/components/ckeditor.js') }}"></script>
+{!! Theme::js('lib/tinymce/tinymce.min.js') !!}
+<script src="{{ asset('vendor/vue/components/tinymce.js') }}"></script>
 <script>
     new Vue({
         el: '.content',
@@ -40,65 +40,31 @@
                 enabled: '1',
                 generate_slug: '1',
             }),
-            editor: ClassicEditor,
             editorConfig: {
-                toolbar: {
-                    items: [
-                        'bold',
-                        'italic',
-                        'underline',
-                        'heading',
-                        'fontFamily',
-                        '|',
-                        'fontSize',
-                        'fontColor',
-                        'fontBackgroundColor',
-                        'highlight',
-                        'removeFormat',
-                        '|',
-                        'link',
-                        'code',
-                        'codeBlock',
-                        'comment',
-                        'blockQuote',
-                        'imageUpload',
-                        '|',
-                        'bulletedList',
-                        'numberedList',
-                        '|',
-                        'alignment',
-                        'indent',
-                        'outdent',
-                        '|',
-                        'insertTable',
-                        'todoList',
-                        'mediaEmbed',
-                        'undo',
-                        'redo',
-                        'horizontalLine'
-                    ]
+                skin: 'oxide-dark',
+                content_style: '.mce-content-body {color: #fff}',
+                plugins: 'link,image,lists,table,media,autoresize',
+                toolbar: 'styleselect | bold italic link bullist numlist image blockquote table media undo redo',
+                statusbar: false,
+                mobile: {
+                    menubar: true,
+                    toolbar_mode: 'floating'
                 },
-                language: 'en',
-                image: {
-                    toolbar: [
-                        'imageTextAlternative',
-                        'imageStyle:full',
-                        'imageStyle:side'
-                    ]
-                },
-                table: {
-                    contentToolbar: [
-                        'tableColumn',
-                        'tableRow',
-                        'mergeTableCells',
-                        'tableCellProperties',
-                        'tableProperties'
-                    ]
+                menubar: true,
+                menu: {
+                    file: { title: 'File', items: 'newdocument restoredraft | preview | print ' },
+                    edit: { title: 'Edit', items: 'undo redo | cut copy paste | selectall | searchreplace' },
+                    view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen' },
+                    insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
+                    format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat' },
+                    tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
+                    table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
+                    help: { title: 'Help', items: 'help' }
                 }
             }
         },
         components: {
-            ckeditor: CKEditor.component
+            'editor': Editor
         },
         methods: {
             submitForm() {

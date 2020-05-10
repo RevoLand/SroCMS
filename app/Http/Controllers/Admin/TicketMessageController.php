@@ -1,26 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Alert;
+use App\Http\Controllers\Controller;
+use App\Notifications\TicketReplied;
 use App\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class TicketMessageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-
-        if (setting('users.email_must_be_verified', 0))
-        {
-            $this->middleware('verified');
-        }
-
-        $this->middleware('throttle:6,3')->only('store');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -44,30 +33,18 @@ class TicketMessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Ticket $ticket)
+    public function store(Request $request, Ticket $ticket)
     {
-        if ($ticket->user_id != auth()->user()->JID)
-        {
-            return redirect()->route('users.tickets.index');
-        }
-
-        if ($ticket->status == config('constants.ticket_system.status_from_name.Closed'))
-        {
-            Alert::warning('You can\'t post a message to this ticket!');
-
-            return redirect()->back();
-        }
-
         $validated = request()->validate([
             'message' => ['required', 'string', 'max:1800', 'min:6'],
-            'close_ticket' => ['sometimes', 'boolean'],
-            'attachments' => ['sometimes', 'array', 'max:' . setting('ticketsystem.attachments.maxfilecount', 3)],
-            'attachments.*' => ['image', 'distinct', 'max:' . setting('ticketsystem.attachments.maxfilesize', 1024), Rule::dimensions()->maxWidth(3840)->maxHeight(2160)],
+            'attachments' => ['sometimes', 'array', 'max:' . setting('ticketsystem.attachments.admin_maxfilecount', 3)],
+            'attachments.*' => ['image', 'distinct', 'max:' . setting('ticketsystem.attachments.admin_maxfilesize', 2048), Rule::dimensions()->maxWidth(3840)->maxHeight(2160)],
         ]);
 
         $newMessage = $ticket->messages()->create([
             'user_id' => auth()->user()->JID,
             'content' => $validated['message'],
+            'html' => true,
         ]);
 
         if (array_key_exists('attachments', $validated))
@@ -87,25 +64,23 @@ class TicketMessageController extends Controller
             }
         }
 
-        if (request()->has('close_ticket'))
+        if ($ticket->status != config('constants.ticket_system.status_from_name.Answered'))
         {
             $ticket->update([
-                'status' => config('constants.ticket_system.status_from_name.Closed'),
+                'status' => config('constants.ticket_system.status_from_name.Answered'),
             ]);
         }
-        else
-        {
-            if ($ticket->status != config('constants.ticket_system.status_from_name.New'))
-            {
-                $ticket->update([
-                    'status' => config('constants.ticket_system.status_from_name.NotAnswered'),
-                ]);
-            }
-        }
 
-        Alert::success('Success!', 'Your message has been sent to the support team.');
+        $ticket->user->notify(new TicketReplied($ticket));
 
-        return redirect()->route('users.tickets.show', $ticket);
+        $newMessage->load(['user', 'attachments']);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Your reply has been sent!',
+            'icon' => 'success',
+            'new_message' => $newMessage,
+        ]);
     }
 
     /**

@@ -172,6 +172,6 @@ class VoteProviderController extends Controller
     {
         $randomString = Str::random($length);
 
-        return VoteProvider::where('callback_secret', $randomString)->count() > 0 ? $this->generateVoteLogSecret() : $randomString;
+        return VoteProvider::where('callback_secret', $randomString)->count() > 0 ? $this->generateVoteLogSecret($length) : $randomString;
     }
 }

@@ -27,7 +27,7 @@
         <!-- ===============================================-->
         <script src="{{ Theme::url('js/config.navbar-vertical.js') }}"></script>
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-        <link href="{{ Theme::url('css/theme-dark.css') }}" rel="stylesheet">
+        {!! Theme::css('css/theme-dark.css') !!}
 
         @yield('css')
 	</head>
@@ -97,6 +97,11 @@
                 });
 
             element.addClass("active");
+        });
+        Vue.mixin({
+            methods: {
+                route: (name, params, absolute) => route(name, params, absolute, Ziggy),
+            },
         });
         </script>
 

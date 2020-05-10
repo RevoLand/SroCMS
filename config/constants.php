@@ -401,26 +401,32 @@ return [
             '0' => [
                 'name' => 'Low',
                 'color' => 'btn-light',
+                'adminclass' => 'btn-falcon-default',
             ],
             '1' => [
                 'name' => 'Below Normal',
                 'color' => 'btn-light',
+                'adminclass' => 'btn-falcon-info',
             ],
             '2' => [
                 'name' => 'Normal',
                 'color' => 'btn-info',
+                'adminclass' => 'btn-falcon-success',
             ],
             '3' => [
                 'name' => 'Above Normal',
                 'color' => 'btn-primary',
+                'adminclass' => 'btn-falcon-primary',
             ],
             '4' => [
                 'name' => 'High',
                 'color' => 'btn-warning',
+                'adminclass' => 'btn-falcon-warning',
             ],
             '5' => [
                 'name' => 'Urgent!',
                 'color' => 'btn-danger',
+                'adminclass' => 'btn-falcon-danger',
             ],
         ],
         'priority_array' => [
@@ -431,22 +437,32 @@ return [
             '4',
             '5',
         ],
+        'status_array' => [
+            '0',
+            '1',
+            '2',
+            '3',
+        ],
         'status' => [
             '0' => [
                 'name' => 'New',
                 'color' => 'btn-primary',
+                'adminclass' => 'btn-falcon-primary',
             ],
             '1' => [
                 'name' => 'Answered',
                 'color' => 'btn-success',
+                'adminclass' => 'btn-falcon-success',
             ],
             '2' => [
                 'name' => 'Not Answered',
                 'color' => 'btn-warning',
+                'adminclass' => 'btn-falcon-warning',
             ],
             '3' => [
                 'name' => 'Closed',
                 'color' => 'btn-danger',
+                'adminclass' => 'btn-falcon-danger',
             ],
         ],
         'status_from_name' => [

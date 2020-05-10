@@ -178,6 +178,6 @@ class VoteController extends Controller
     {
         $randomString = Str::random($length);
 
-        return VoteLog::where('secret', $randomString)->count() > 0 ? $this->generateVoteLogSecret() : $randomString;
+        return VoteLog::where('secret', $randomString)->count() > 0 ? $this->generateVoteLogSecret($length) : $randomString;
     }
 }
