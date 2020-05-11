@@ -43,8 +43,9 @@ class TicketController extends Controller
     {
         $usableCategories = TicketCategory::enabled()->get();
         $userOrders = auth()->user()->orders()->latest()->get();
+        $activeBan = auth()->user()->activeTicketBans()->first();
 
-        return view('user.tickets.create', compact('usableCategories', 'userOrders'));
+        return view('user.tickets.create', compact('usableCategories', 'userOrders', 'activeBan'));
     }
 
     /**
@@ -54,6 +55,14 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        $activeBan = auth()->user()->activeTicketBans()->first();
+        if ($activeBan)
+        {
+            Alert::error('Error!', "Your access to the Ticket System has been restricted until: {$activeBan->ban_end}");
+
+            return redirect()->route('users.tickets.index');
+        }
+
         $validated = request()->validate([
             'category' => ['required', 'integer', 'exists:App\TicketCategory,id'],
             'title' => ['required', 'string', 'min:6', 'max:100'],

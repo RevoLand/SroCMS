@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-falcon-primary btn-block" type="submit">Send</button>
+                            <button class="btn btn-falcon-primary btn-block" :disabled="reply_form.message == ''" type="submit">Send</button>
                         </div>
                     </div>
                     {!! Form::close() !!}
@@ -190,14 +190,14 @@
                             <label for="new_status">Update Status</label>
                             <br />
                             <div class="btn-group d-flex align-items-stretch" id="new_status" role="group">
-                                <button class="btn" type="button" v-for="(status, key) in available_statuses" v-bind:class="status.adminclass" v-text="status.name" @click="updateStatus(key)"></button>
+                                <button class="btn" type="button" v-for="(status, key) in available_statuses" :class="status.adminclass" v-text="status.name" :disabled="ticket.status == key" @click="updateStatus(key)"></button>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="new_priority">Update Priority</label>
                             <br />
                             <div class="btn-group d-flex align-items-stretch" id="new_priority" role="group">
-                                <button class="btn" type="button" v-for="(priority, key) in available_priorities" v-bind:class="priority.adminclass" v-text="priority.name" @click="updatePriority(key)"></button>
+                                <button class="btn" type="button" v-for="(priority, key) in available_priorities" :class="priority.adminclass" v-text="priority.name" :disabled="ticket.priority == key" @click="updatePriority(key)"></button>
                             </div>
                         </div>
                         <hr class="my-2"/>
@@ -208,7 +208,7 @@
                                     <option></option>
                                 </select>
                             </div>
-                            <button class="btn btn-falcon-primary" @click="updateAssignedUser">Update</button>
+                            <button class="btn btn-falcon-primary" :disabled="ticket.assigned_user_id == assigned_user_form.user_id" @click="updateAssignedUser">Update</button>
                         </div>
                     </div>
                 </div>
@@ -280,7 +280,7 @@
         template: `<div class="media p-3">
         <template v-if="$root.ticket.user.JID == message.user.JID">
             <div class="avatar avatar-l mr-2" v-if="message.user.gravatar">
-                <img class="rounded-circle" v-bind:src="message.user.gravatar" alt="" />
+                <img class="rounded-circle" :src="message.user.gravatar" alt="" />
             </div>
             <div class="media-body">
                 <div class="w-xxl-75">
@@ -294,7 +294,7 @@
                             </template>
                             <div class="row mx-n1" v-if="message.attachments">
                                 <div class="col-6 col-md-4 px-1" style="min-width: 50px; max-width: 150px;" v-for="attachment in message.attachments">
-                                    <a :href="attachment.file_url" v-bind:data-fancybox="message.id">
+                                    <a :href="attachment.file_url" :data-fancybox="message.id">
                                         <img :src="attachment.file_url" alt="" class="img-fluid rounded mb-2">
                                     </a>
                                 </div>
@@ -330,14 +330,14 @@
                             </p>
                             <div class="row mx-n1" v-if="message.attachments">
                                 <div class="col-6 col-md-4 px-1" style="min-width: 50px; max-width: 150px;" v-for="attachment in message.attachments">
-                                    <a :href="attachment.file_url" v-bind:data-fancybox="message.id">
+                                    <a :href="attachment.file_url" :data-fancybox="message.id">
                                         <img :src="attachment.file_url" alt="" class="img-fluid rounded mb-2">
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div class="avatar avatar-l ml-2" v-if="message.user.gravatar">
-                            <img class="rounded-circle" v-bind:src="message.user.gravatar" alt="" />
+                            <img class="rounded-circle" :src="message.user.gravatar" alt="" />
                         </div>
                     </div>
                     <div class="text-400 fs--2 text-right">

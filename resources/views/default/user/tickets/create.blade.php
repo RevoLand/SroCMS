@@ -10,6 +10,9 @@
         <div class="user-ticket-creation-page bg-dark px-3 py-3 shadow-sm rounded-sm">
             <div class="row">
                 <div class="col">
+                    @isset($activeBan)
+                    <h5>Your access to the Ticket System has been restricted until: {{ $activeBan->ban_end }}</h5>
+                    @else
                     <div class="ticket-form pb-3">
                         @if ($errors->any())
                         <ul class="alert alert-danger">
@@ -63,6 +66,7 @@
                             <button type="submit" class="btn btn-block btn-lg btn-primary">Create Ticket</button>
                         {!! Form::close() !!}
                     </div>
+                    @endisset
                 </div>
             </div>
         </div>
