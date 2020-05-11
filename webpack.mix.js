@@ -12,6 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['vue', 'axios', 'lodash', 'sweetalert2', 'is_js', 'jquery'])
+    .extract(['vue', 'axios', 'lodash', 'sweetalert2', 'is_js', 'dayjs', 'jquery'])
     .sourceMaps()
     .version();

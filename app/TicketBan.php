@@ -21,6 +21,16 @@ class TicketBan extends Model
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 
+    public function assigner()
+    {
+        return $this->belongsTo(User::class, 'assigner_user_id', 'JID');
+    }
+
+    public function getActiveAttribute()
+    {
+        return !isset($this->ban_cancelled_at) && $this->ban_start <= now() && $this->ban_end >= now();
+    }
+
     public function scopeActive($query)
     {
         return $query->whereNull('ban_cancelled_at')

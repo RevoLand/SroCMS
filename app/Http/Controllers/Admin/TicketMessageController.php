@@ -37,6 +37,7 @@ class TicketMessageController extends Controller
     {
         $validated = request()->validate([
             'message' => ['required', 'string', 'max:1800', 'min:6'],
+            'close_ticket' => ['required', 'boolean'],
             'attachments' => ['sometimes', 'array', 'max:' . setting('ticketsystem.attachments.admin_maxfilecount', 3)],
             'attachments.*' => ['image', 'distinct', 'max:' . setting('ticketsystem.attachments.admin_maxfilesize', 2048), Rule::dimensions()->maxWidth(3840)->maxHeight(2160)],
         ]);
@@ -64,10 +65,19 @@ class TicketMessageController extends Controller
             }
         }
 
-        if ($ticket->status != config('constants.ticket_system.status_from_name.Answered'))
+        if (!$validated['close_ticket'])
+        {
+            if ($ticket->status != config('constants.ticket_system.status_from_name.Answered') && $ticket->status != config('constants.ticket_system.status_from_name.Closed'))
+            {
+                $ticket->update([
+                    'status' => config('constants.ticket_system.status_from_name.Answered'),
+                ]);
+            }
+        }
+        else
         {
             $ticket->update([
-                'status' => config('constants.ticket_system.status_from_name.Answered'),
+                'status' => config('constants.ticket_system.status_from_name.Closed'),
             ]);
         }
 

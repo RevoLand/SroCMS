@@ -240,7 +240,7 @@
                     </select>
                 </span>
             </div>
-            <div class="card-body position-relative">
+            <div class="card-body position-relative p-0">
                 <div class="table-responsive">
                     <table class="table table-sm table-borderless fs--1">
                         <thead class="bg-dark text-900">

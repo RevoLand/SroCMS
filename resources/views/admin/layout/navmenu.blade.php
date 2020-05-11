@@ -225,6 +225,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.tickets.index') }}">List</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.ticketbans.index') }}">Ticket Bans</a>
+                    </li>
 				</ul>
             </li>
             @endcan

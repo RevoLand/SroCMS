@@ -15,6 +15,7 @@ class CreateTicketBansTable extends Migration
         {
             $table->id();
             $table->integer('user_id');
+            $table->integer('assigner_user_id');
             $table->string('reason', 500)->nullable();
             $table->timestamp('ban_start');
             $table->timestamp('ban_end');

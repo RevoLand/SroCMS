@@ -168,10 +168,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::patch('tickets/{ticket}/update_status', 'Admin\TicketController@update_status')->name('tickets.update_status');
         Route::patch('tickets/{ticket}/update_priority', 'Admin\TicketController@update_priority')->name('tickets.update_priority');
         Route::patch('tickets/{ticket}/update_assigned_user', 'Admin\TicketController@update_assigned_user')->name('tickets.update_assigned_user');
-        Route::resource('ticketmessages', 'Admin\TicketMessageController');
 
+        Route::resource('ticketmessages', 'Admin\TicketMessageController');
         Route::post('tickets/{ticket}', 'Admin\TicketMessageController@store')->name('ticketmessages.store');
-        // Route::patch('pages/{page}/toggleEnabled', 'Admin\PageController@toggleEnabled')->name('pages.toggle_enabled');
+
+        Route::resource('ticketbans', 'Admin\TicketBanController');
+        Route::patch('ticketbans/{ticketban}/cancel', 'Admin\TicketBanController@cancel')->name('ticketbans.cancel');
     });
 
     Route::group(['middleware' => 'can:manage votes'], function ()

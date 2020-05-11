@@ -1,11 +1,11 @@
 @extends('layout')
 
-@section('pagetitle', 'Tickets')
+@section('pagetitle', 'Ticket Bans')
 
 @section('content')
 <div class="card mb-3">
     <div class="card-header">
-        <h5 class="mb-0">Tickets</h5>
+        <h5 class="mb-0">Ticket Bans</h5>
     </div>
     <div class="card-body bg-light px-0">
         <div class="row">
@@ -63,31 +63,19 @@ $(document).ready( function () {
 
     let dataTableCustomSearchOptions = [
         {
-            'index': 2,
-            'selector': '#category_select'
-        },
-        {
-            'index': 4,
+            'index': 1,
             'selector': '#user_select'
         },
         {
-            'index': 5,
-            'selector': '#assigned_user_select'
-        },
-        {
-            'index': 6,
-            'selector': '#priority_select'
-        },
-        {
-            'index': 7,
-            'selector': '#status_select'
+            'index': 3,
+            'selector': '#assigner_user_select'
         }
     ];
 
     _.forEach(dataTableCustomSearchOptions, function(value) {
         $(value.selector).on('change', function() {
             let searchValue = $(this).children("option:selected").val();
-            $('#tickets-table').DataTable().column(value.index).search(searchValue).draw();
+            $('#ticketbans-datatable').DataTable().column(value.index).search(searchValue).draw();
         });
     });
 });
@@ -96,49 +84,10 @@ $(document).ready( function () {
     $(".card-body").on('submit','form', function(event) {
         event.preventDefault();
         switch (event.target.dataset.action) {
-            case 'delete':
-            swal.fire({ title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.value) {
-                        axios.delete(event.target.action)
-                        .then(response => {
-                            $('tr#' + event.target.dataset.id).fadeOut("slow", function() {
-                                $( this ).remove();
-                                swal.fire({
-                                    title: response.data.title,
-                                    html: response.data.message,
-                                    icon: response.data.icon
-                                });
-                            });
-                        })
-                        .catch(error => {
-                            var errors = '<ul class="list-unstyled">';
-                            jQuery.each(error.response.data.errors, function (key, value) {
-                                errors += '<li>';
-                                errors += value;
-                                errors += '</li>';
-                            });
-                            errors += '</ul>';
-
-                            swal.fire({
-                                type: 'error',
-                                title: error.response.data.message,
-                                html: errors
-                            });
-                        });
-                    }
-                })
-            break;
-            case 'toggle-enabled':
+            case 'cancel-ban':
                 axios.patch(event.target.action)
                     .then(response => {
-                        $('#tickets-datatable').DataTable().draw(false);
+                        $('#ticketbans-datatable').DataTable().draw(false);
                         swal.fire({
                             title: response.data.title,
                             html: response.data.message,

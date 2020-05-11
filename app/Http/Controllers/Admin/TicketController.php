@@ -51,7 +51,13 @@ class TicketController extends Controller
         $ticket->load(['category', 'messages' => function ($query)
         {
             $query->oldest()->with(['user', 'attachments']);
-        }, 'order', 'user', 'assignedUser', ]);
+        }, 'order', 'user' => function ($userq)
+        {
+            $userq->with(['ticketBans' => function ($ticketq)
+            {
+                $ticketq->latest('ban_end');
+            }, 'ticketBans.assigner', ]);
+        }, 'assignedUser', ]);
 
         return view('tickets.show', compact('ticket'));
     }

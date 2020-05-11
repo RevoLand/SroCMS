@@ -20,21 +20,25 @@ class TicketsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('actions', 'tickets.datatables.actions')
+            ->addColumn('actions', function ($ticket)
+            {
+                return '<a href="' . route('admin.tickets.show', $ticket) . '" class="btn btn-sm btn-falcon-primary"><span class="fas fa-eye fs--1"></span> View</a>';
+            })
+            ->addColumn('ticketbans', 'tickets.datatables.ticketbans')
             ->editColumn('user', 'tickets.datatables.user')
             ->editColumn('assigned_user', 'tickets.datatables.assignedUser')
             ->editColumn('priority', 'tickets.datatables.priority')
             ->editColumn('status', 'tickets.datatables.status')
             ->editColumn('created_at', function ($ticket)
             {
-                return '<div class="text-muted" data-toggle="tooltip" title="' . $ticket->created_at . '">' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
             })
             ->editColumn('updated_at', function ($ticket)
             {
-                return '<div class="text-muted" data-toggle="tooltip" title="' . $ticket->updated_at . '">' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
             })
             ->setRowId('id')
-            ->rawColumns(['actions', 'priority', 'status', 'user', 'assigned_user', 'created_at', 'updated_at']);
+            ->rawColumns(['actions', 'priority', 'status', 'user', 'assigned_user', 'ticketbans', 'created_at', 'updated_at']);
     }
 
     /**
@@ -46,7 +50,10 @@ class TicketsDataTable extends DataTable
      */
     public function query(Ticket $model)
     {
-        return $model->with(['category', 'user', 'assignedUser', 'order'])->withCount('messages')->newQuery();
+        return $model->with(['category', 'user' => function ($userq)
+        {
+            $userq->with('ticketBans', 'activeTicketBans');
+        }, 'assignedUser', 'order', ])->withCount('messages')->newQuery();
     }
 
     /**
@@ -109,6 +116,7 @@ class TicketsDataTable extends DataTable
             Column::make('id'),
             Column::make('title'),
             Column::make('category.name', 'ticket_category_id')->title('Category')->footer($category_selector),
+            Column::computed('ticketbans')->title('Ticket Ban(s)'),
             Column::make('messages_count')->searchable(false)->title('Messages')->width(20),
             Column::make('user', 'user_id')->title('User')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>'),
             Column::make('assigned_user', 'assigned_user_id')->title('Assigned To')->footer('<select id="assigned_user_select" class="custom-select user_select2"><option></option></select>'),
