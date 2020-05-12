@@ -21,6 +21,7 @@ class CreateTicketsTable extends Migration
             $table->string('title');
             $table->tinyInteger('priority')->default(0);
             $table->tinyInteger('status')->default(0);
+            $table->ipAddress('ip');
             $table->timestamps();
 
             $table->foreign('ticket_category_id')->references('id')->on('ticket_categories')->onDelete('cascade');

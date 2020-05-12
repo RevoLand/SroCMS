@@ -152,6 +152,10 @@
                             <label class="btn btn-sm" :class="available_priorities[ticket.priority].adminclass" v-html="available_priorities[ticket.priority].name"></label>
                         </p>
                     </div>
+                    <div class="col">
+                        <h5 class="fs-0 pb-2">IP</h5>
+                        <p class="fs--1" v-text="ticket.ip"></p>
+                    </div>
                 </div>
                 <hr class="py-1">
                 <div class="row">
@@ -422,7 +426,7 @@
                         </ul>
                     </div>
                     <div class="text-400 fs--2">
-                        <span>@{{ message.created_at | formatDate }}</span>
+                        <span>@{{ message.created_at | formatDate }} - IP: <span v-text="message.ip"></span></span>
                     </div>
                 </div>
             </div>
@@ -457,7 +461,7 @@
                         </div>
                     </div>
                     <div class="text-400 fs--2 text-right">
-                        <span>@{{ message.created_at | formatDate }}</span> - <a class="text-decoration-none" :href="route('admin.users.show', message.user.JID)">@{{ message.user.StrUserID }} <template v-if="message.user.Name">(@{{ message.user.Name }})</template></a>
+                        <span>@{{ message.created_at | formatDate }}</span> - <a class="text-decoration-none" :href="route('admin.users.show', message.user.JID)">@{{ message.user.StrUserID }} <template v-if="message.user.Name">(@{{ message.user.Name }})</template></a> - IP: <span v-text="message.ip"></span>
                     </div>
                 </div>
             </div>

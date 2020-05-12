@@ -68,6 +68,7 @@ class TicketMessageController extends Controller
         $newMessage = $ticket->messages()->create([
             'user_id' => auth()->user()->JID,
             'content' => $validated['message'],
+            'ip' => request()->getClientIp(),
         ]);
 
         if (array_key_exists('attachments', $validated))

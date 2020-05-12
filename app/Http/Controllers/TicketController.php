@@ -105,11 +105,13 @@ class TicketController extends Controller
             'priority' => $validated['priority'],
             'item_mall_order_id' => request('order'),
             'status' => config('constants.ticket_system.status_from_name.New'),
+            'ip' => request()->getClientIp(),
         ]);
 
         $ticketMessage = $ticket->messages()->create([
             'user_id' => auth()->user()->JID,
             'content' => $validated['message'],
+            'ip' => request()->getClientIp(),
         ]);
 
         if (array_key_exists('attachments', $validated))

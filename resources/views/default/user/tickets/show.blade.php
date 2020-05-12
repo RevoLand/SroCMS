@@ -20,27 +20,33 @@ Ticket: {{ $ticket->title }}
             </h3>
             <div class="ticket-meta">
                 <div class="row">
-                    <div class="col-4 d-flex align-items-baseline justify-content-between">
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
                         Category:
                         <div class="text-muted font-italic">
                             {{ $ticket->category->name }}
                         </div>
                     </div>
-                    <div class="col-4 d-flex align-items-baseline justify-content-between">
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
                         Status:
                         <label class="label btn-sm {{ config('constants.ticket_system.status.' . $ticket->status . '.color') }}">
                             {{ config('constants.ticket_system.status.' . $ticket->status . '.name') }}
                         </label>
                     </div>
-                    <div class="col-4 d-flex align-items-baseline justify-content-between">
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
                         Priority:
                         <label class="label btn-sm {{ config('constants.ticket_system.priority.' . $ticket->priority . '.color') }}">
                             {{ config('constants.ticket_system.priority.' . $ticket->priority . '.name') }}
                         </label>
                     </div>
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
+                        IP:
+                        <div class="text-muted font-italic">
+                            {{ $ticket->ip }}
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-4 d-flex align-items-baseline justify-content-between">
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
                         Assigned to:
                         <div class="text-muted font-italic">
                             @if ($ticket->assignedUser)
@@ -50,7 +56,7 @@ Ticket: {{ $ticket->title }}
                             @endif
                         </div>
                     </div>
-                    <div class="col-4 d-flex align-items-baseline justify-content-between">
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
                         Order:
                         <div class="text-muted font-italic">
                             @if ($ticket->order)
@@ -60,9 +66,13 @@ Ticket: {{ $ticket->title }}
                             @endif
                         </div>
                     </div>
-                    <div class="col-4 d-flex align-items-baseline justify-content-between">
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
                         Created at:
                         <div class="text-muted font-italic text-right" data-toggle="tooltip" title="{{ $ticket->created_at }}">{{ $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
+                    </div>
+                    <div class="col-3 d-flex align-items-baseline justify-content-between">
+                        Updated at:
+                        <div class="text-muted font-italic text-right" data-toggle="tooltip" title="{{ $ticket->updated_at }}">{{ $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 3, 'short' => true]) }}</div>
                     </div>
                 </div>
             </div>
@@ -79,6 +89,9 @@ Ticket: {{ $ticket->title }}
                 <div class="row">
                     <div class="col-md-3 pl-3 p-2 border-right border-secondary">
                         <h5>{{ $ticketMessage->user->getName() }}</h5>
+                        @if ($ticketMessage->user->JID == auth()->user()->JID)
+                            <small class="text-muted">IP: {{ $ticketMessage->ip }}</small>
+                        @endif
                     </div>
                     <div class="col-md-9 p-3">
                         @if ($ticketMessage->html)

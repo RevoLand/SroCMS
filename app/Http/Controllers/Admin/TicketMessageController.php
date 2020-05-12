@@ -46,6 +46,7 @@ class TicketMessageController extends Controller
             'user_id' => auth()->user()->JID,
             'content' => $validated['message'],
             'html' => true,
+            'ip' => request()->getClientIp(),
         ]);
 
         if (array_key_exists('attachments', $validated))

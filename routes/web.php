@@ -164,6 +164,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
     Route::group(['middleware' => 'can:manage tickets'], function ()
     {
+        Route::resource('tickets/categories', 'Admin\TicketCategoryController', ['as' => 'tickets']);
+        Route::patch('tickets/categories/{ticketcategory}/toggleEnabled', 'Admin\TicketCategoryController@toggleEnabled')->name('tickets.categories.toggle_enabled');
+
         Route::resource('tickets', 'Admin\TicketController');
         Route::patch('tickets/{ticket}/update_status', 'Admin\TicketController@update_status')->name('tickets.update_status');
         Route::patch('tickets/{ticket}/update_priority', 'Admin\TicketController@update_priority')->name('tickets.update_priority');

@@ -228,6 +228,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.ticketbans.index') }}">Ticket Bans</a>
                     </li>
+					<li class="nav-item">
+						<a class="nav-link dropdown-indicator" href="#ticket-system-categories" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="ticket-system-categories">Categories</a>
+						<ul class="nav collapse" id="ticket-system-categories" data-parent="#ticket-system">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('admin.tickets.categories.index') }}">List</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('admin.tickets.categories.create') }}">Create</a>
+							</li>
+						</ul>
+					</li>
 				</ul>
             </li>
             @endcan
