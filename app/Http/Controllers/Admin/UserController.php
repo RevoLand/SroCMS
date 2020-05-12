@@ -54,9 +54,9 @@ class UserController extends Controller
             $query->with('items.itemgroup')->latest()->take(40);
         }, 'referrals' => function ($query)
         {
-            $query->with(['user' => function ($q)
+            $query->with(['user' => function ($query)
             {
-                $q->select('JID', 'StrUserID', 'Name');
+                $query->select('JID', 'StrUserID', 'Name');
             }, ])->latest()->take(40);
         }, 'voteLogs' => function ($query)
         {
@@ -64,7 +64,7 @@ class UserController extends Controller
         }, 'articleComments', ]);
 
         //region Order related informations
-        $ordersByItemGroups = ItemMallOrderItem::groupBy('item_mall_item_group_id')->select('item_mall_item_group_id', DB::raw('SUM(quantity) as orders'))->where('user_id', $user->JID)->with(['itemgroup' => function ($query)
+        $ordersByItemGroups = ItemMallOrderItem::groupBy('item_mall_item_group_id')->select('item_mall_item_group_id')->selectRaw('SUM(quantity) as orders')->where('user_id', $user->JID)->with(['itemgroup' => function ($query)
         {
             $query->with(['categories' => function ($q)
             {
@@ -108,6 +108,7 @@ class UserController extends Controller
             'referrals' => $user->referrals()->count(),
             'epins' => $user->epins()->count(),
             'articlecomments' => $user->articleComments()->count(),
+            'tickets' => $user->tickets()->count(),
         ]);
     }
 
@@ -137,7 +138,7 @@ class UserController extends Controller
             abort(404);
         }
 
-        $votesByRewards = $user->voteLogs()->select('selected_reward_group_id', DB::raw('count(*) as reward_count'))->with(['rewardgroup' => function ($query)
+        $votesByRewards = $user->voteLogs()->select('selected_reward_group_id')->selectRaw('count(*) as reward_count')->with(['rewardgroup' => function ($query)
         {
             $query->select('id', 'name');
         }, ])->voted()->groupBy('selected_reward_group_id')->get();

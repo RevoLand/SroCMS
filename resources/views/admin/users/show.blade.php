@@ -144,6 +144,16 @@
                     </a>
                 </div>
             </div>
+            <div class="card mb-3">
+                <div class="bg-holder bg-card" style="background-image:url({{ Theme::url('img/illustrations/corner-1.png') }});"></div>
+                <div class="card-body position-relative">
+                    <h6>Tickets</h6>
+                    <div class="display-4 fs-4 mb-2 font-weight-normal text-sans-serif text-warning" v-text="tickets"></div>
+                    <a class="font-weight-semi-bold fs--1 text-nowrap" href="{{ route('admin.tickets.index', ['user_id' => $user]) }}">
+                        See all<span class="fas fa-angle-right ml-1" data-fa-transform="down-1"></span>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-lg-3 pl-lg-3">
@@ -287,7 +297,7 @@
             }
         },
         template: `<div><canvas ref="canvas"></canvas></div>`,
-        mounted() {
+        created() {
             axios.get(this.source)
             .then((response) => {
                 if (this.totals && response.data.total) {
@@ -358,6 +368,9 @@
             epins: 0,
             total_order_count: 0,
             articlecomments: 0,
+            tickets: 0,
+
+
             orderInfo: {
                 orders: '',
                 show_limit: 3

@@ -1,7 +1,7 @@
 @extends('layout')
 
-@section('pagetitle', 'Sipariş Geçmişim')
-@section('contenttitle', 'Sipariş Geçmişim')
+@section('pagetitle', 'Order History')
+@section('contenttitle', 'Order History')
 
 @section('content')
 <div class="row">
@@ -15,9 +15,17 @@
 </div>
 @endsection
 
+@section('css')
+<link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
+<link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/datatables/css/responsive.bootstrap4.min.css') }}">
+{{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/datatables/css/rowGroup.bootstrap4.min.css') }}"> --}}
+@endsection
 
 @section('js')
-<script src="{{ asset('vendor/datatables/datatables.bundle.js') }}"></script>
-<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/responsive.bootstrap4.min.js') }}"></script>
+{{-- <script src="{{ asset('vendor/datatables/js/dataTables.rowGroup.min.js') }}"></script> --}}
 {!! $dataTable->scripts() !!}
 @endsection

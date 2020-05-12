@@ -21,6 +21,11 @@ class TicketController extends Controller
             $this->middleware('verified');
         }
 
+        if (!setting('ticketsystem.enabled', 1))
+        {
+            return redirect()->route('users.current_user')->send();
+        }
+
         $this->middleware('throttle:60,1')->only(['index', 'store']);
     }
 
@@ -41,6 +46,11 @@ class TicketController extends Controller
      */
     public function create()
     {
+        if (!setting('ticketsystem.acceptnewtickets', 1))
+        {
+            return redirect()->route('users.tickets.index')->send();
+        }
+
         $usableCategories = TicketCategory::enabled()->get();
         $userOrders = auth()->user()->orders()->latest()->get();
         $activeBan = auth()->user()->activeTicketBans()->first();
@@ -55,6 +65,11 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        if (!setting('ticketsystem.acceptnewtickets', 1))
+        {
+            return redirect()->route('users.tickets.index')->send();
+        }
+
         $activeBan = auth()->user()->activeTicketBans()->first();
         if ($activeBan)
         {

@@ -1,9 +1,9 @@
 import Vue from "vue";
 import axios from "axios";
-import _ from "lodash";
+import _ from "lodash/core";
 import swal from "sweetalert2";
 import is from "is_js";
-import $ from "jquery";
+import jQuery from "jquery/dist/jquery.slim";
 import dayjs from "dayjs";
 import Form from "./core/Form";
 
@@ -13,7 +13,7 @@ window.Vue = Vue;
 window.swal = swal;
 window.is = is;
 window.dayjs = dayjs;
-window.$ = window.jQuery = $;
+window.$ = window.jQuery = jQuery;
 window.Form = Form;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";

@@ -61,6 +61,7 @@ class UserReferralsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
+            ->responsive(true)
             ->orderBy(1)
             ->buttons(
                         Button::make('print'),

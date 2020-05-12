@@ -77,11 +77,11 @@ class TicketCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TicketCategory $ticketcategory)
+    public function update(Request $request, TicketCategory $category)
     {
         $validated = $this->validateCategory();
 
-        $ticketcategory->update($validated);
+        $category->update($validated);
 
         return response()->json([
             'title' => 'Updated!',
@@ -110,9 +110,9 @@ class TicketCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TicketCategory $ticketcategory)
+    public function destroy(TicketCategory $category)
     {
-        $ticketcategory->delete();
+        $category->delete();
 
         // TODO: Delete related tickets?
 

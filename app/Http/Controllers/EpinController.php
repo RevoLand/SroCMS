@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Alert;
 use App\Epin;
-use Carbon\Carbon;
-use Redirect;
 
 class EpinController extends Controller
 {
@@ -13,7 +11,7 @@ class EpinController extends Controller
     {
         if (!setting('epin.enabled', 1))
         {
-            Redirect::route('home')->send();
+            return redirect()->route('home')->send();
         }
 
         $this->middleware('throttle:6,1')->only('use');
@@ -41,7 +39,7 @@ class EpinController extends Controller
 
         $epin->update([
             'enabled' => 'false',
-            'used_at' => Carbon::now(),
+            'used_at' => now(),
             'user_id' => auth()->user()->JID,
         ]);
 

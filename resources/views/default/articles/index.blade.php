@@ -23,7 +23,7 @@
     @forelse ($articles as $article)
     <div class="row">
         <div class="col-12">
-            <div class="article bg-dark shadow-sm rounded px-3 pb-5 mb-2 mb-5" role="article">
+            <div class="article bg-dark shadow-sm rounded px-3 py-2 mb-4" role="article">
                 <h2 class="article-title py-2">
                     <a href="{{ route('articles.show_article', [$article->slug]) }}">{{ $article->title }}</a>
                 </h2>

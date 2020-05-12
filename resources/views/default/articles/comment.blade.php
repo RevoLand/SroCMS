@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col">
-        <div class="media mt-2 border px-2 py-2">
+        <div class="media mt-2 border p-2">
             @if ($articleComment->user->gravatar)
                 <img src="{{ $articleComment->user->gravatar }}" class="mr-3">
             @endif
@@ -13,7 +13,7 @@
                         {{ $articleComment->user->getName() }}
                     </a>
                 </h5>
-                {{ $articleComment->content }}
+                <p class="text-wrap">{{ $articleComment->content }}</p>
             </div>
         </div>
     </div>

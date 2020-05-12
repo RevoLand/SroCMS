@@ -23,29 +23,38 @@ Ticket System
 </div>
 @endsection
 
+@section('css')
+<link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
+<link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/datatables/css/responsive.bootstrap4.min.css') }}">
+{{-- <link media="all" type="text/css" rel="stylesheet" href="{{ asset('vendor/datatables/css/rowGroup.bootstrap4.min.css') }}"> --}}
+@endsection
 
 @section('js')
-<script src="{{ asset('vendor/datatables/datatables.bundle.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/js/responsive.bootstrap4.min.js') }}"></script>
+{{-- <script src="{{ asset('vendor/datatables/js/dataTables.rowGroup.min.js') }}"></script> --}}
 {!! $dataTable->scripts() !!}
 <script>
     $(document).ready( function () {
         let dataTableCustomSearchOptions = [
             {
-                'index': 3,
+                'index': 4,
                 'selector': '#priority_select'
             },
             {
-                'index': 4,
+                'index': 5,
                 'selector': '#status_select'
             }
         ];
 
-        _.forEach(dataTableCustomSearchOptions, function(value) {
+        dataTableCustomSearchOptions.forEach(function(value) {
             $(value.selector).on('change', function() {
                 let searchValue = $(this).children("option:selected").val();
                 $('#usertickets-table').DataTable().column(value.index).search(searchValue).draw();
             });
         });
     });
-    </script>
+</script>
 @endsection

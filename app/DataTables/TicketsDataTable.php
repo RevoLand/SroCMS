@@ -53,7 +53,17 @@ class TicketsDataTable extends DataTable
         return $model->with(['category', 'user' => function ($userq)
         {
             $userq->with('ticketBans', 'activeTicketBans');
-        }, 'assignedUser', 'order', ])->withCount('messages')->newQuery();
+        }, 'assignedUser', 'order', ])->withCount('messages')->where(function ($query)
+        {
+            if (request()->filled('user_id'))
+            {
+                $validated = request()->validate([
+                    'user_id' => ['integer'],
+                ]);
+
+                $query->where('user_id', $validated['user_id']);
+            }
+        })->newQuery();
     }
 
     /**

@@ -42,7 +42,7 @@ class TicketCategoriesDataTable extends DataTable
      */
     public function query(TicketCategory $model)
     {
-        return $model->newQuery();
+        return $model->withCount('tickets')->newQuery();
     }
 
     /**
@@ -76,6 +76,7 @@ class TicketCategoriesDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
+            Column::make('tickets_count')->searchable(false),
             Column::make('enabled'),
             Column::make('created_at'),
             Column::make('updated_at'),

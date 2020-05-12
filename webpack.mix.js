@@ -12,6 +12,11 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .extract(['vue', 'axios', 'lodash', 'sweetalert2', 'is_js', 'dayjs', 'jquery'])
+    .extract()
+    .sass('resources/sass/app.scss', 'public/css')
     .sourceMaps()
     .version();
+
+/*
+mix.babel(['public/js/es6file.js'], 'public/js/app.es5.js')
+*/

@@ -23,7 +23,6 @@
 @section('css')
 {!! Theme::css('lib/datatables-bs4/dataTables.bootstrap4.min.css') !!}
 {!! Theme::css('lib/datatables.net-responsive-bs4/responsive.bootstrap4.css') !!}
-{!! Theme::css('lib/datatables-rowgroup/css/rowGroup.bootstrap4.min.css') !!}
 @endsection
 
 @section('js')
@@ -31,6 +30,5 @@
 {!! Theme::js('lib/datatables-bs4/dataTables.bootstrap4.min.js') !!}
 {!! Theme::js('lib/datatables.net-responsive/dataTables.responsive.js') !!}
 {!! Theme::js('lib/datatables.net-responsive-bs4/responsive.bootstrap4.js') !!}
-{!! Theme::js('lib/datatables-rowgroup/js/dataTables.rowGroup.min.js') !!}
 {!!  $dataTable->scripts() !!}
 @endsection
