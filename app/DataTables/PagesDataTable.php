@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Page;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -71,13 +70,7 @@ class PagesDataTable extends DataTable
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->orderBy(8)
-            ->pagingType('first_last_numbers')
-            ->buttons(
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+            ->pagingType('first_last_numbers');
     }
 
     /**

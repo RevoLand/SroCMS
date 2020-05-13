@@ -56,7 +56,7 @@
         {!! Theme::js('js/popper.min.js') !!}
         {!! Theme::js('js/bootstrap.min.js') !!}
         {!! Theme::js('js/theme.js') !!}
-        {!! Theme::js('lib/blockui/jquery.blockUI.min.js') !!}
+        <script src="{{ asset('vendor/lib/blockui/jquery.blockUI.min.js') }}"></script>
         {!! Theme::js('lib/@fortawesome/all.min.js') !!}
         {!! Theme::js('lib/stickyfilljs/stickyfill.min.js') !!}
         {!! Theme::js('lib/sticky-kit/sticky-kit.min.js') !!}

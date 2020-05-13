@@ -32,10 +32,42 @@
 {!!  $dataTable->scripts() !!}
 
 {!! Theme::js('lib/select2/select2.min.js') !!}
-    <script>
+<script>
     $(document).ready( function () {
         $('.select2').select2({});
+
+        $('.user_select2').select2({
+            placeholder: 'Search for User',
+            minimumInputLength: 2,
+            allowClear: true,
+            dropdownAutoWidth: true,
+            ajax: {
+                url: route('admin.ajax.users.get_usernames'),
+                dataType: 'json',
+                delay: 300,
+                cache: true,
+                data: function(params) {
+                    return {
+                        search: params.term || '',
+                        page: params.page || 1
+                    }
+                },
+                processResults: function (response, params) {
+                    return {
+                        results: response.data,
+                        pagination: {
+                            more: ((params.page || 1) < response.last_page)
+                        }
+                    };
+                },
+            }
+        });
+
         let dataTableCustomSearchOptions = [
+            {
+                'index': 1,
+                'selector': '#user_select'
+            },
             {
                 'index': 2,
                 'selector': '#vote_provider_select'
@@ -61,8 +93,8 @@
             });
         });
     });
-    </script>
-    <script>
+</script>
+<script>
     $(".card-body").on('submit', 'form', function(event) {
         event.preventDefault();
         axios.patch(event.target.action)
@@ -90,5 +122,5 @@
                 });
             });
         });
-    </script>
+</script>
 @endsection

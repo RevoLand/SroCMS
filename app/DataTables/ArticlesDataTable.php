@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Article;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -94,14 +93,7 @@ class ArticlesDataTable extends DataTable
             ->parameters([
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
-            ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->buttons(
-                    Button::make('create'),
-                    Button::make('export'),
-                    Button::make('print'),
-                    Button::make('reset'),
-                    Button::make('reload')
-        );
+            ->lengthMenu([10, 25, 50, 100, 250, 500]);
     }
 
     /**
@@ -114,11 +106,11 @@ class ArticlesDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('title'),
-            Column::computed('user')->title('Author'),
+            Column::make('user', 'author_id')->title('Author')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>'),
             Column::computed('article_comments_count', 'Comments')->sortable(true),
             Column::make('article_categories', 'articleCategories.name')->title('Categories'),
-            Column::make('is_visible'),
-            Column::make('can_comment_on'),
+            Column::make('is_visible')->footer('<select id="visible_select" class="custom-select custom-select-sm"><option value=""></option><option value="1">Visible</option><option value="0">Hidden</option></select>'),
+            Column::make('can_comment_on')->footer('<select id="can_comment_select" class="custom-select custom-select-sm"><option value=""></option><option value="1">Yes</option><option value="0">No</option></select>'),
             Column::make('published_at'),
             Column::make('created_at'),
             Column::make('updated_at'),
@@ -126,7 +118,7 @@ class ArticlesDataTable extends DataTable
                 ->title('Actions')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
+                ->width(30)
                 ->addClass('text-center'),
         ];
     }

@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\ItemMallCategory;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -61,14 +60,7 @@ class ItemMallCategoriesDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(3, 'asc')
-            ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->orderBy(3, 'asc');
     }
 
     /**
@@ -89,7 +81,7 @@ class ItemMallCategoriesDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(100)
+                ->width(60)
                 ->addClass('text-center'),
         ];
     }

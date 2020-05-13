@@ -137,6 +137,10 @@
                         <h5 class="fs-0">Latest Update</h5>
                         <p class="fs--1">@{{ ticket.updated_at | formatDate }}</p>
                     </div>
+                    <div class="col">
+                        <h5 class="fs-0 pb-2">IP</h5>
+                        <p class="fs--1" v-text="ticket.ip"></p>
+                    </div>
                 </div>
                 <hr class="py-1">
                 <div class="row">
@@ -153,8 +157,8 @@
                         </p>
                     </div>
                     <div class="col">
-                        <h5 class="fs-0 pb-2">IP</h5>
-                        <p class="fs--1" v-text="ticket.ip"></p>
+                        <h5 class="fs-0 pb-2">Total Tickets by User</h5>
+                        <p class="fs--1" v-text="ticket.user.total_tickets"></p>
                     </div>
                 </div>
                 <hr class="py-1">

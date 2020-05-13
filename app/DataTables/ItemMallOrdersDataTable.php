@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\ItemMallOrder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -72,13 +71,7 @@ class ItemMallOrdersDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(4)
-            ->buttons(
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->orderBy(4);
     }
 
     /**
@@ -90,7 +83,7 @@ class ItemMallOrdersDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('user', 'user_id'),
+            Column::make('user', 'user_id')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>'),
             Column::make('items', 'items.itemgroup.name'),
             Column::make('created_at'),
             Column::make('updated_at'),

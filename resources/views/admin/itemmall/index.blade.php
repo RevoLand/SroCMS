@@ -31,4 +31,50 @@
 {!! Theme::js('lib/datatables.net-responsive-bs4/responsive.bootstrap4.js') !!}
 {!! Theme::js('lib/datatables-rowgroup/js/dataTables.rowGroup.min.js') !!}
 {!!  $dataTable->scripts() !!}
+
+{!! Theme::js('lib/select2/select2.min.js') !!}
+<script>
+    $(document).ready( function () {
+        $('.user_select2').select2({
+            placeholder: 'Search for User',
+            minimumInputLength: 2,
+            allowClear: true,
+            dropdownAutoWidth: true,
+            ajax: {
+                url: route('admin.ajax.users.get_usernames'),
+                dataType: 'json',
+                delay: 300,
+                cache: true,
+                data: function(params) {
+                    return {
+                        search: params.term || '',
+                        page: params.page || 1
+                    }
+                },
+                processResults: function (response, params) {
+                    return {
+                        results: response.data,
+                        pagination: {
+                            more: ((params.page || 1) < response.last_page)
+                        }
+                    };
+                },
+            }
+        });
+
+        let dataTableCustomSearchOptions = [
+            {
+                'index': 1,
+                'selector': '#user_select'
+            }
+        ];
+
+        _.forEach(dataTableCustomSearchOptions, function(value) {
+            $(value.selector).on('change', function() {
+                let searchValue = $(this).children("option:selected").val();
+                $('#itemmallorders-table').DataTable().column(value.index).search(searchValue).draw();
+            });
+        });
+});
+</script>
 @endsection

@@ -118,7 +118,7 @@ class VoteLogsDataTable extends DataTable
 
         return [
             Column::make('id'),
-            Column::make('user', 'user_id')->title('User'),
+            Column::make('user', 'user_id')->title('User')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>'),
             Column::make('voteProvider', 'voteProvider.name')->title('Vote Provider')->footer('<select id="vote_provider_select" class="form-control select2"><option value="" selected>-</option>' . $voteProviderOptions . '</select>'),
             Column::make('rewardgroup', 'rewardgroup.name')->title('Reward Group Name')->footer('<select id="reward_group_select" class="form-control select2"><option value="" selected>-</option>' . $rewardGroupOptions . '</select>'),
             Column::make('voted')->footer('<select id="voted_select" class="form-control select2"><option value="" selected>-</option><option value="1">Voted</option><option value="0">Not Voted</option></select>'),

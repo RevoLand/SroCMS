@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\ArticleCategory;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -62,14 +61,7 @@ class ArticleCategoriesDataTable extends DataTable
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->orders([[3, 'desc'], [2, 'asc']])
-            ->pagingType('first_last_numbers')
-            ->buttons(
-                Button::make('create'),
-                Button::make('export'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
-            );
+            ->pagingType('first_last_numbers');
     }
 
     /**
@@ -89,7 +81,7 @@ class ArticleCategoriesDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(150)
+                ->width(60)
                 ->addClass('text-center'),
         ];
     }

@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\ArticleComment;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -104,13 +103,7 @@ class ArticleCommentsDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->rowGroupDataSrc(['article'])
-            ->buttons(
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->rowGroupDataSrc(['article']);
     }
 
     /**
@@ -123,7 +116,7 @@ class ArticleCommentsDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('article', 'article.title')->title('Article'),
-            Column::computed('user')->title('User'),
+            Column::make('user', 'user_id')->title('User')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>'),
             Column::computed('approvedComments')->title('Approved Comments')->width(50),
             Column::make('content')->width(800),
             Column::make('is_visible')->footer('<select id="is_visible_select" class="custom-select custom-select-sm"><option selected></option><option value="1">Visible</option><option value="0">Hidden</option></select>'),

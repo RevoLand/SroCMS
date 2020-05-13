@@ -1,9 +1,9 @@
 import Vue from "vue";
 import axios from "axios";
-import _ from "lodash/core";
+import _ from "lodash";
 import swal from "sweetalert2";
 import is from "is_js";
-import jQuery from "jquery/dist/jquery.slim";
+import jQuery from "jquery";
 import dayjs from "dayjs";
 import Form from "./core/Form";
 

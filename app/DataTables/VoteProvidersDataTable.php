@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\VoteProvider;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -68,14 +67,7 @@ class VoteProvidersDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(6)
-            ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->orderBy(6);
     }
 
     /**
@@ -88,7 +80,6 @@ class VoteProvidersDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            // Column::make('url'),
             Column::make('minutes_between_votes'),
             Column::make('total_vote_count')->title('Total Votes Started')->searchable(false),
             Column::make('completed_vote_count')->title('Succeed Votes')->searchable(false),
@@ -100,7 +91,7 @@ class VoteProvidersDataTable extends DataTable
                 ->title('Actions')
                 ->exportable(false)
                 ->printable(false)
-                ->width(140)
+                ->width(60)
                 ->addClass('text-center'),
         ];
     }

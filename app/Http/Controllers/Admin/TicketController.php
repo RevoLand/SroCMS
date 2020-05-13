@@ -59,6 +59,9 @@ class TicketController extends Controller
             }, 'ticketBans.assigner', ]);
         }, 'assignedUser', ]);
 
+        // TODO: withCount() --> laravel issue: #23042
+        $ticket->user->total_tickets = $ticket->user->tickets()->count();
+
         return view('tickets.show', compact('ticket'));
     }
 
