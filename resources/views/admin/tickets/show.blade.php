@@ -26,7 +26,7 @@
                                     </div>
                                 </div>
                                 <div class="col-auto">
-                                    <button class="btn btn-sm btn-falcon-primary btn-info" type="button" data-index="0" data-toggle="tooltip" data-placement="top" title="Conversation Information"><span class="fas fa-info"></span></button>
+                                    <button class="btn btn-sm btn-falcon-primary btn-info" type="button" data-index="0" data-toggle="tooltip" data-placement="top" title="Conversation Information"><span class="fad fa-info"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -47,19 +47,19 @@
                                     <div class="px-3 pt-2">
                                         <div class="nav flex-column text-sans-serif font-weight-medium">
                                             <a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!">
-                                                <span class="conversation-info-icon"><span class="fas fa-search mr-1" data-fa-transform="shrink-1 down-3"></span></span>Search in Conversation
+                                                <span class="conversation-info-icon"><span class="fad fa-search mr-1" data-fa-transform="shrink-1 down-3"></span></span>Search in Conversation
                                             </a>
                                             <a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!">
-                                                <span class="conversation-info-icon"><span class="fas fa-pencil-alt mr-1" data-fa-transform="shrink-1"></span></span>Edit Nicknames
+                                                <span class="conversation-info-icon"><span class="fad fa-pencil-alt mr-1" data-fa-transform="shrink-1"></span></span>Edit Nicknames
                                             </a>
                                             <a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!">
-                                                <span class="conversation-info-icon"><span class="fas fa-palette mr-1" data-fa-transform="shrink-1"></span></span><span>Change Color</span>
+                                                <span class="conversation-info-icon"><span class="fad fa-palette mr-1" data-fa-transform="shrink-1"></span></span><span>Change Color</span>
                                             </a>
                                             <a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!">
-                                                <span class="conversation-info-icon"><span class="fas fa-thumbs-up mr-1" data-fa-transform="shrink-1"></span></span>Change Emoji
+                                                <span class="conversation-info-icon"><span class="fad fa-thumbs-up mr-1" data-fa-transform="shrink-1"></span></span>Change Emoji
                                             </a>
                                             <a class="nav-link d-flex align-items-center py-1 px-0 text-600" href="#!">
-                                                <span class="conversation-info-icon"><span class="fas fa-bell mr-1" data-fa-transform="shrink-1"></span></span>Notifications
+                                                <span class="conversation-info-icon"><span class="fad fa-bell mr-1" data-fa-transform="shrink-1"></span></span>Notifications
                                             </a>
                                         </div>
                                     </div>
@@ -180,7 +180,9 @@
                                 <img class="d-flex align-self-center mr-2" :src="ticket.assigned_user.gravatar" :alt="ticket.assigned_user.StrUserID" width="30">
                             </template>
                             <div class="media-body">
-                                <h6 class="mb-0" v-text="ticket.assigned_user.StrUserID"></h6>
+                                <a :href="route('admin.users.show', ticket.assigned_user.JID).url()">
+                                    <h6 class="mb-0" v-text="ticket.assigned_user.StrUserID"></h6>
+                                </a>
                                 <small class="text-muted font-italic" v-if="ticket.assigned_user.Name" v-text="ticket.assigned_user.Name"></small>
                             </div>
                         </div>
@@ -247,11 +249,11 @@
                         <tbody>
                             <tr v-for="ticket_ban in ticket_bans" :key="ticket_ban.id" class="border-bottom border-200">
                                 <th class="align-middle" scope="row">
-                                    <template v-if="ticket_ban.ban_cancelled_at == null">
-                                        <i class="fas fa-check text-success"></i> Yes
+                                    <template v-if="ticket_ban.active">
+                                        <i class="fad fa-check text-success"></i> Yes
                                     </template>
                                     <template v-else>
-                                        <i class="fas fa-ban text-danger"></i> No
+                                        <i class="fad fa-ban text-danger"></i> No
                                     </template>
                                 </th>
                                 <th class="align-middle" v-text="ticket_ban.reason"></th>
@@ -260,8 +262,8 @@
                                 <td class="align-middle">@{{ ticket_ban.ban_end | formatDate }}</td>
                                 <td class="white-space-nowrap align-middle">
                                     <div class="btn-group flex-wrap" v-if="ticket_ban.ban_cancelled_at == null">
-                                        <button class="btn btn-sm" type="button" @click="updateSelectedTicketBan(ticket_ban)"><i class="fas fa-pen text-success"></i> Edit</button>
-                                        <button class="btn btn-sm" type="button" @click="cancelSelectedTicketBan(ticket_ban)"><i class="fas fa-recycle text-white"></i> Cancel</button>
+                                        <button class="btn btn-sm" type="button" @click="updateSelectedTicketBan(ticket_ban)"><i class="fad fa-pen text-success"></i> Edit</button>
+                                        <button class="btn btn-sm" type="button" @click="cancelSelectedTicketBan(ticket_ban)"><i class="fad fa-recycle text-white"></i> Cancel</button>
                                     </div>
                                 </td>
                             </tr>
@@ -304,7 +306,7 @@
         </div>
         {{-- user ticket new ban : modal ends --}}
         {{-- user ticket ban edit : modal starts --}}
-        <div class="modal fade show" style="position: fixed; display: unset !important;" v-if="show_ticketban_edit_form" role="dialog">
+        <div class="modal fade show" style="position: fixed; display: unset !important;" v-show="show_ticketban_edit_form" role="dialog">
             <div class="modal-wrapper">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -338,6 +340,7 @@
         </div>
         {{-- user ticket ban edit : modal ends --}}
     </div>
+    <modals-container />
 </div>
 @endsection
 
@@ -398,7 +401,95 @@
         props: ['message'],
         data() {
             return {
+                edit: false,
+                old_message: false
+            }
+        },
+        watch: {
+            'message.content': function(newValue, oldValue) {
+                if (this.old_message) {
+                    return;
+                }
 
+                this.old_message = oldValue;
+            }
+        },
+        components: {
+            editor: Editor
+        },
+        methods: {
+            saveMessage: function() {
+                if (is.empty(this.message.content) || is.falsy(this.old_message) ||is.equal(this.message.content, this.old_message)) {
+                    return this.discardMessage();
+                }
+
+                axios.patch(route('admin.ticketmessages.update', this.message.id).url(), {
+                    content: this.message.content
+                })
+                .then(response => {
+                    this.old_message = this.edit = false;
+                });
+            },
+            discardMessage: function() {
+                this.edit = false;
+                if (!this.old_message) {
+                    return;
+                }
+
+                this.message.content = this.old_message;
+                this.old_message = '';
+            },
+            showMessageHistory: function() {
+                this.$modal.show({
+                    props: ['message_history'],
+                    template: `
+                        <div>
+                            <div class="float-right">
+                                <i class="fas fa-times" @click="$emit('close')"></i>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div v-for="message in message_history">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="media">
+                                            <template v-if="message.user.gravatar">
+                                                <img class="d-flex align-self-center mr-2" :src="message.user.gravatar" :alt="message.user.StrUserID" width="30">
+                                            </template>
+                                            <div class="media-body">
+                                                <a :href="route('admin.users.show', message.user.JID).url()"><h6 class="mb-0" v-text="message.user.StrUserID"></h6></a>
+                                                <small class="text-muted font-italic" v-if="message.user.Name" v-text="message.user.Name"></small>
+                                            </div>
+                                            <div class="text-right fs--2">@{{ message.created_at | formatDate }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Before</label>
+                                            <textarea class="form-control form-control-plaintext p-2" readonly="true" v-text="message.old_content"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>After</label>
+                                            <textarea class="form-control form-control-plaintext p-2" readonly="true" v-text="message.new_content"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="py-2" />
+                            </div>
+                        </div>
+                    `,
+                },
+                    {
+                        message_history: this.message.history
+                    },
+                    {
+                        width: '40%',
+                        height: 'auto',
+                        scrollable: true,
+                        classes: 'bg-200 p-4 rounded-lg'
+                    }
+                );
             }
         },
         template: `<div class="media p-3">
@@ -410,11 +501,21 @@
                 <div class="w-xxl-75">
                     <div class="hover-actions-trigger d-flex align-items-center">
                         <div class="chat-message bg-200 p-2 rounded-soft" :class="{ 'chat-gallery' : message.attachments}">
-                            <template v-if="message.html">
-                                <span v-html="message.content"></span>
+                            <template v-if="message.html == 1">
+                                <template v-if="edit">
+                                    <editor :init="$root.forms.editor_config" v-model="message.content" />
+                                </template>
+                                <template v-else>
+                                    <span v-html="message.content"></span>
+                                </template>
                             </template>
                             <template v-else>
-                                <span v-text="message.content"></span>
+                                <template v-if="edit">
+                                    <input class="form-control form-control-sm" type="text" required maxlength="1800" v-model="message.content" v-on:keyup.enter.exact="saveMessage" v-on:keyup.esc.exact="discardMessage">
+                                </template>
+                                <template v-else>
+                                    <span v-text="message.content"></span>
+                                </template>
                             </template>
                             <div class="row mx-n1" v-if="message.attachments">
                                 <div class="col-6 col-md-4 px-1" style="min-width: 50px; max-width: 150px;" v-for="attachment in message.attachments">
@@ -425,12 +526,30 @@
                             </div>
                         </div>
                         <ul class="hover-actions position-relative list-inline mb-0 text-400 ml-2">
-                            <li class="list-inline-item"><a href="#!" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fas fa-edit"></span></a></li>
-                            <li class="list-inline-item"><a href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
+                            <template v-if="!edit">
+                                <li class="list-inline-item">
+                                    <a href="#!" @click.prevent="edit = true" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <span class="fad fa-edit"></span>
+                                    </a>
+                                </li>
+                            </template>
+                            <template v-else>
+                                <li class="list-inline-item">
+                                    <a href="#!" @click.prevent="saveMessage" data-toggle="tooltip" data-placement="top" title="Save">
+                                        <span class="fad fa-save"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#!" @click.prevent="discardMessage" data-toggle="tooltip" data-placement="top" title="Cancel">
+                                        <span class="fad fa-times-circle"></span>
+                                    </a>
+                                </li>
+                            </template>
+                            <li class="list-inline-item"><a href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="far fa-trash-alt"></span></a></li>
                         </ul>
                     </div>
                     <div class="text-400 fs--2">
-                        <span>@{{ message.created_at | formatDate }} - IP: <span v-text="message.ip"></span></span>
+                        <span><a href="#!" class="text-muted" @click.prevent="showMessageHistory">@{{ message.created_at | formatDate }}</a> - IP: <span v-text="message.ip"></span></span>
                     </div>
                 </div>
             </div>
@@ -440,16 +559,44 @@
                 <div class="w-100 w-xxl-75">
                     <div class="hover-actions-trigger d-flex align-items-center justify-content-end">
                         <ul class="hover-actions position-relative list-inline mb-0 text-400 mr-2">
-                            <li class="list-inline-item"><a href="#!" data-toggle="tooltip" data-placement="top" title="Edit"><span class="fas fa-edit"></span></a></li>
-                            <li class="list-inline-item"><a href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="fas fa-trash-alt"></span></a></li>
+                            <template v-if="!edit">
+                                <li class="list-inline-item">
+                                    <a href="#!" @click.prevent="edit = true" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <span class="fad fa-edit"></span>
+                                    </a>
+                                </li>
+                            </template>
+                            <template v-else>
+                                <li class="list-inline-item">
+                                    <a href="#!" @click.prevent="saveMessage" data-toggle="tooltip" data-placement="top" title="Save">
+                                        <span class="fad fa-save"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#!" @click.prevent="discardMessage" data-toggle="tooltip" data-placement="top" title="Cancel">
+                                        <span class="fad fa-times-circle"></span>
+                                    </a>
+                                </li>
+                            </template>
+                            <li class="list-inline-item"><a href="#!" data-toggle="tooltip" data-placement="top" title="Remove"><span class="fad fa-trash-alt"></span></a></li>
                         </ul>
                         <div class="bg-primary text-white p-2 rounded-soft chat-message" :class="{ 'chat-gallery' : message.attachments}">
                             <p class="mb-0">
-                                <template v-if="message.html">
-                                    <span v-html="message.content"></span>
+                                <template v-if="message.html == 1">
+                                    <template v-if="edit">
+                                        <editor :init="$root.forms.editor_config" v-model="message.content" />
+                                    </template>
+                                    <template v-else>
+                                        <span v-html="message.content"></span>
+                                    </template>
                                 </template>
                                 <template v-else>
-                                    <span v-text="message.content"></span>
+                                    <template v-if="edit">
+                                        <input class="form-control form-control-sm" type="text" required maxlength="1800" v-model="message.content" v-on:keyup.enter.exact="saveMessage" v-on:keyup.esc.exact="discardMessage">
+                                    </template>
+                                    <template v-else>
+                                        <span v-text="message.content"></span>
+                                    </template>
                                 </template>
                             </p>
                             <div class="row mx-n1" v-if="message.attachments">
@@ -465,7 +612,7 @@
                         </div>
                     </div>
                     <div class="text-400 fs--2 text-right">
-                        <span>@{{ message.created_at | formatDate }}</span> - <a class="text-decoration-none" :href="route('admin.users.show', message.user.JID)">@{{ message.user.StrUserID }} <template v-if="message.user.Name">(@{{ message.user.Name }})</template></a> - IP: <span v-text="message.ip"></span>
+                        <span><a class="text-muted" href="#!" @click.prevent="showMessageHistory">@{{ message.created_at | formatDate }}</a></span> - <a class="text-decoration-none" :href="route('admin.users.show', message.user.JID)">@{{ message.user.StrUserID }} <template v-if="message.user.Name">(@{{ message.user.Name }})</template></a> - IP: <span v-text="message.ip"></span>
                     </div>
                 </div>
             </div>
@@ -497,7 +644,7 @@
                 ban: new Form({
                     user_id: @json($ticket->user_id),
                     reason: '',
-                    ban_start: @json(date('Y-m-d H:i')),
+                    ban_start: @json(now()),
                     ban_end: ''
                 }),
                 editban: [],
@@ -521,7 +668,8 @@
                         tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | code wordcount' },
                         table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
                         help: { title: 'Help', items: 'help' }
-                    }
+                    },
+                    inline: false
                 }
             }
         },

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Notifications\TicketReplied;
 use App\Ticket;
+use App\TicketMessage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -123,8 +124,28 @@ class TicketMessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, TicketMessage $ticketmessage)
     {
+        $validated = request()->validate([
+            'content' => ['required', 'string', 'max:1800'],
+        ]);
+
+        if ($ticketmessage->content != $validated['content'])
+        {
+            $ticketmessage->history()->create([
+                'user_id' => auth()->user()->JID,
+                'old_content' => $ticketmessage->content,
+                'new_content' => $validated['content'],
+            ]);
+
+            $ticketmessage->update($validated);
+        }
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Message has been successfully updated.',
+            'icon' => 'success',
+        ]);
     }
 
     /**

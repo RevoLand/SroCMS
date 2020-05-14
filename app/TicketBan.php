@@ -8,6 +8,7 @@ class TicketBan extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $appends = ['active'];
     protected $dates = [
         'created_at',
         'updated_at',

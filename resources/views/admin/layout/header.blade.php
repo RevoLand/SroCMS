@@ -16,7 +16,9 @@
     </ul>
     <ul class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center">
         <li class="nav-item dropdown dropdown-on-hover">
-            <a class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator" id="navbarDropdownNotification" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-bell fs-4" data-fa-transform="shrink-6"></span></a>
+            <a class="nav-link notification-indicator notification-indicator-primary px-2" id="navbarDropdownNotification" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="fad fa-bell fs-2"></span>
+            </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-menu-card" aria-labelledby="navbarDropdownNotification">
                 <div class="card card-notification shadow-none" style="max-width: 20rem">
                 <div class="card-header">
@@ -64,9 +66,9 @@
             </div>
         </li>
         <li class="nav-item dropdown dropdown-on-hover">
-            <a class="nav-link pr-0" id="navbarDropdownUser" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link pr-0 d-flex align-items-center" id="navbarDropdownUser" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @isset(auth()->user()->gravatar)
-                <div class="avatar avatar-xl">
+                <div class="avatar avatar-xl mr-1">
                     <img class="rounded-circle" src="{{ auth()->user()->gravatar }}" alt="" />
                 </div>
                 @endisset

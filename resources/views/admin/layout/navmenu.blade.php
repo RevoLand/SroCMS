@@ -8,8 +8,7 @@
 			</button>
 		</div>
 		<a class="navbar-brand" href="{{ route('admin.dashboard.index') }}">
-			<div class="d-flex align-items-center py-3"><img class="mr-2" src="{{ Theme::url('img/illustrations/falcon.png') }}" alt="" width="40"/><span class="text-sans-serif">SroCMS</span>
-			</div>
+			<div class="d-flex align-items-center py-3"><img class="mr-2" src="{{ Theme::url('img/illustrations/falcon.png') }}" alt="" width="40"/><span class="text-sans-serif">SroCMS</span></div>
 		</a>
 	</div>
 	<div class="collapse navbar-collapse navbar-glass perfect-scrollbar scrollbar" id="navbarVerticalCollapse">
@@ -18,7 +17,7 @@
 				<a class="nav-link dropdown-indicator" href="#home" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="home">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-chart-pie"></span>
+							<span class="fad fa-chart-pie"></span>
 						</span>
 						<span class="nav-link-text">Home</span>
 					</div>
@@ -36,7 +35,7 @@
 				<a class="nav-link dropdown-indicator" href="#articles" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="articles">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-newspaper"></span>
+							<span class="fad fa-newspaper"></span>
 						</span>
 						<span class="nav-link-text">Articles</span>
 					</div>
@@ -65,7 +64,7 @@
 				<a class="nav-link dropdown-indicator" href="#article-comments" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="article-comments">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-comment"></span>
+							<span class="fad fa-comment"></span>
 						</span>
 						<span class="nav-link-text">Comments</span>
 						<span class="badge badge-pill ml-2 badge-soft-success"></span>
@@ -87,7 +86,7 @@
 				<a class="nav-link dropdown-indicator" href="#pages" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="pages">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-copy"></span>
+							<span class="fad fa-copy"></span>
 						</span>
 						<span class="nav-link-text">Pages</span>
 						<span class="badge badge-pill ml-2 badge-soft-success"></span>
@@ -106,7 +105,7 @@
 				<a class="nav-link dropdown-indicator" href="#vote-system" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="vote-system">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-trophy"></span>
+							<span class="fad fa-trophy"></span>
 						</span>
 						<span class="nav-link-text">Vote System</span>
 					</div>
@@ -154,7 +153,7 @@
 				<a class="nav-link dropdown-indicator" href="#web-item-mall" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="web-item-mall">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-cart-arrow-down"></span>
+							<span class="fad fa-cart-arrow-down"></span>
 						</span>
 						<span class="nav-link-text">Web Item Mall</span>
 					</div>
@@ -191,7 +190,7 @@
 				<a class="nav-link dropdown-indicator" href="#epin-system" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="epin-system">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-code"></span>
+							<span class="fad fa-code"></span>
 						</span>
 						<span class="nav-link-text">E-Pin System</span>
 					</div>
@@ -216,7 +215,7 @@
 				<a class="nav-link dropdown-indicator" href="#ticket-system" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="ticket-system">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-support"></span>
+							<span class="fad fa-envelope"></span>
 						</span>
 						<span class="nav-link-text">Tickets</span>
 					</div>
@@ -251,7 +250,7 @@
 				<a class="nav-link dropdown-indicator" href="#user-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="user-manager">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-users"></span>
+							<span class="fad fa-users"></span>
 						</span>
 						<span class="nav-link-text">User Manager</span>
 					</div>
@@ -266,7 +265,7 @@
 				<a class="nav-link dropdown-indicator" href="#teleport-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="teleport-manager">
 					<div class="d-flex align-items-center">
 						<span class="nav-link-icon">
-							<span class="fas fa-map-marked-alt"></span>
+							<span class="fad fa-map-marked-alt"></span>
 						</span>
 						<span class="nav-link-text">Teleport Manager</span>
 					</div>

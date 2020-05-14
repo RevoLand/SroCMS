@@ -26,6 +26,11 @@ class TicketMessage extends Model
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
 
+    public function history()
+    {
+        return $this->hasMany(TicketMessageHistory::class);
+    }
+
     public function getGroupDateAttribute()
     {
         return $this->created_at->toDateString();

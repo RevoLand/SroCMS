@@ -28,6 +28,7 @@
         <script src="{{ Theme::url('js/config.navbar-vertical.js') }}"></script>
         <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
         {!! Theme::css('css/theme-dark.css') !!}
+        {!! Theme::css('lib/@fortawesome/css/all.min.css') !!}
 
         @yield('css')
 	</head>
@@ -57,7 +58,6 @@
         {!! Theme::js('js/bootstrap.min.js') !!}
         {!! Theme::js('js/theme.js') !!}
         <script src="{{ asset('vendor/lib/blockui/jquery.blockUI.min.js') }}"></script>
-        {!! Theme::js('lib/@fortawesome/all.min.js') !!}
         {!! Theme::js('lib/stickyfilljs/stickyfill.min.js') !!}
         {!! Theme::js('lib/sticky-kit/sticky-kit.min.js') !!}
         <script>

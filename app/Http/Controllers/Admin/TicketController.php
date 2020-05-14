@@ -50,14 +50,29 @@ class TicketController extends Controller
     {
         $ticket->load(['category', 'messages' => function ($query)
         {
-            $query->oldest()->with(['user', 'attachments']);
+            $query->oldest()->with(['user' => function ($userq)
+            {
+                $userq->select(['JID', 'StrUserID', 'Name', 'Email']);
+            }, 'attachments', 'history' => function ($historyq)
+            {
+                $historyq->with(['user' => function ($userq)
+                {
+                    $userq->select(['JID', 'StrUserID', 'Name', 'Email']);
+                }, ]);
+            }, ]);
         }, 'order', 'user' => function ($userq)
         {
             $userq->with(['ticketBans' => function ($ticketq)
             {
                 $ticketq->latest('ban_end');
-            }, 'ticketBans.assigner', ]);
-        }, 'assignedUser', ]);
+            }, 'ticketBans.assigner' => function ($userq)
+            {
+                $userq->select(['JID', 'StrUserID', 'Name', 'Email']);
+            }, ]);
+        }, 'assignedUser' => function ($userq)
+        {
+            $userq->select(['JID', 'StrUserID', 'Name', 'Email']);
+        }, ]);
 
         // TODO: withCount() --> laravel issue: #23042
         $ticket->user->total_tickets = $ticket->user->tickets()->count();
