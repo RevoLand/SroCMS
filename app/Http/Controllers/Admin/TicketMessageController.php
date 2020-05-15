@@ -132,11 +132,16 @@ class TicketMessageController extends Controller
 
         if ($ticketmessage->content != $validated['content'])
         {
-            $ticketmessage->history()->create([
+            $history_message = $ticketmessage->history()->create([
                 'user_id' => auth()->user()->JID,
                 'old_content' => $ticketmessage->content,
                 'new_content' => $validated['content'],
             ]);
+
+            $history_message->load(['user' => function ($userq)
+            {
+                $userq->select(['JID', 'StrUserID', 'Name', 'Email']);
+            }, ]);
 
             $ticketmessage->update($validated);
         }
@@ -145,6 +150,7 @@ class TicketMessageController extends Controller
             'title' => 'Success!',
             'message' => 'Message has been successfully updated.',
             'icon' => 'success',
+            'history_entry' => $history_message,
         ]);
     }
 

@@ -39,8 +39,16 @@ class EpinsDataTable extends DataTable
             {
                 // return $epin->used_at ? 'alert-soft-warning' : 'alert-soft-success';
             })
+            ->editColumn('created_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+            })
             ->setRowId('id')
-            ->rawColumns(['action', 'enabled', 'user', 'creater']);
+            ->rawColumns(['action', 'enabled', 'user', 'creater', 'created_at', 'updated_at']);
     }
 
     /**
@@ -95,7 +103,7 @@ class EpinsDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(9)
+            ->orderBy(10)
             ->pagingType('first_last_numbers');
     }
 
@@ -110,7 +118,7 @@ class EpinsDataTable extends DataTable
             Column::make('id'),
             Column::make('code'),
             Column::make('type')->footer('<select id="type_select" class="custom-select custom-select-sm"><option value=""></option><option value="1">Balance</option><option value="2">Balance (Point)</option><option value="3">Silk</option><option value="4">Silk (Gift)</option><option value="5">Silk (Point)</option><option value="6">Item</option></select>'),
-            Column::make('balance'),
+            Column::make('balance')->title('Amount'),
             Column::make('items_count')->searchable(false),
             Column::make('user', 'user_id')->title('Used by')->footer('<select id="user_select" class="custom-select"><option></option></select>'),
             Column::computed('creater')->title('Created by'),

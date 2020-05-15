@@ -85,7 +85,7 @@ class TicketsDataTable extends DataTable
             ->lengthMenu([10, 20, 50, 100, 250, 500, 1000])
             ->pageLength(20)
             ->pagingType('first_last_numbers')
-            ->orders([['6', 'desc'], ['9', 'desc']]);
+            ->orders([['7', 'desc'], ['10', 'desc']]);
     }
 
     /**

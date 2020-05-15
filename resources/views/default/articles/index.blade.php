@@ -58,6 +58,7 @@
                                 Devamını Oku...
                             </a>
                         </div>
+                        <div class="clearfix"></div>
                         @endisset
                     </div>
                 </div>

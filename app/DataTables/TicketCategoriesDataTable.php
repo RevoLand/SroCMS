@@ -29,8 +29,16 @@ class TicketCategoriesDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
+            ->editColumn('created_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+            })
             ->setRowId('id')
-            ->rawColumns(['actions', 'enabled']);
+            ->rawColumns(['actions', 'enabled', 'created_at', 'updated_at']);
     }
 
     /**

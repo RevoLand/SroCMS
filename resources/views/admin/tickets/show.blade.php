@@ -419,7 +419,7 @@
         },
         methods: {
             saveMessage: function() {
-                if (is.empty(this.message.content) || is.falsy(this.old_message) ||is.equal(this.message.content, this.old_message)) {
+                if (is.empty(this.message.content) || is.falsy(this.old_message) || is.equal(this.message.content, this.old_message)) {
                     return this.discardMessage();
                 }
 
@@ -428,6 +428,10 @@
                 })
                 .then(response => {
                     this.old_message = this.edit = false;
+
+                    if (is.existy(response.data.history_entry)) {
+                        this.message.history.push(response.data.history_entry);
+                    }
                 });
             },
             discardMessage: function() {
@@ -477,6 +481,9 @@
                                 </div>
                                 <hr class="py-2" />
                             </div>
+                            <p v-if="message_history.length == 0">
+                                There are no changes to list.
+                            </p>
                         </div>
                     `,
                 },

@@ -22,7 +22,7 @@ class VoteProvidersDataTable extends DataTable
             ->addColumn('action', 'votes.providers.datatables.actions')
             ->addColumn('vote_completion_rate', function ($provider)
             {
-                return ($provider->total_vote_count) ? $provider->completed_vote_count * 100 / $provider->total_vote_count : 0;
+                return ($provider->total_vote_count) ? number_format($provider->completed_vote_count * 100 / $provider->total_vote_count, 3) : 0;
             })
             ->editColumn('enabled', function ($page)
             {
@@ -33,7 +33,15 @@ class VoteProvidersDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
-            ->rawColumns(['action', 'enabled'])
+            ->editColumn('created_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+            })
+            ->rawColumns(['action', 'enabled', 'created_at', 'updated_at'])
             ->setRowId('id');
     }
 
@@ -67,7 +75,7 @@ class VoteProvidersDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(6);
+            ->orderBy(8);
     }
 
     /**

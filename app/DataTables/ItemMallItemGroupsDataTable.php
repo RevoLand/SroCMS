@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\ItemMallItemGroup;
+use DB;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,10 +22,6 @@ class ItemMallItemGroupsDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', 'itemmall.itemgroups.datatables.actions')
             ->addColumn('categories', 'itemmall.itemgroups.datatables.categories')
-            ->editColumn('orders', function (ItemMallItemGroup $itemgroup)
-            {
-                return $itemgroup->totalOrders;
-            })
             ->editColumn('enabled', function (ItemMallItemGroup $itemgroup)
             {
                 if ($itemgroup->enabled)
@@ -65,7 +62,15 @@ class ItemMallItemGroupsDataTable extends DataTable
             {
                 return '<label class="badge badge-soft-info">' . config('constants.payment_types.' . $itemgroup->payment_type) . '</label>';
             })
-            ->rawColumns(['action', 'categories', 'enabled', 'on_sale', 'featured', 'limit_total_purchases', 'payment_type'])
+            ->editColumn('created_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+            })
+            ->rawColumns(['action', 'categories', 'enabled', 'on_sale', 'featured', 'limit_total_purchases', 'payment_type', 'created_at', 'updated_at'])
             ->setRowId('id');
     }
 
@@ -76,7 +81,10 @@ class ItemMallItemGroupsDataTable extends DataTable
      */
     public function query(ItemMallItemGroup $model)
     {
-        return $model->with(['categories', 'orders'])->newQuery();
+        return $model->with('categories')->withCount(['orders' => function ($orderq)
+        {
+            $orderq->select(DB::raw('SUM(quantity)'));
+        }, ])->newQuery();
     }
 
     /**
@@ -117,7 +125,7 @@ class ItemMallItemGroupsDataTable extends DataTable
             Column::make('featured')->footer('<select id="featured_select" class="custom-select custom-select-sm"><option value=""></option><option value="1">Yes</option><option value="0">No</option></select>'),
             Column::make('limit_total_purchases')->footer('<select id="limit_total_purchases_select" class="custom-select custom-select-sm"><option value=""></option><option value="1">Yes</option><option value="0">No</option></select>'),
             Column::make('total_purchase_limit'),
-            Column::computed('orders')->title('Total Purchases'),
+            Column::make('orders_count')->title('Total Purchases')->searchable(false),
             Column::make('enabled')->footer('<select id="enabled_select" class="custom-select custom-select-sm"><option value=""></option><option value="1">Yes</option><option value="0">No</option></select>'),
             Column::make('available_after'),
             Column::make('available_until'),

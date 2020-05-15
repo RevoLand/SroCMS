@@ -16,7 +16,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('slug');
             $table->string('title');
-            $table->string('excerpt')->nullable();
+            $table->text('excerpt')->nullable();
             $table->text('content');
             $table->foreignId('author_id');
             $table->boolean('is_visible')->default(true);

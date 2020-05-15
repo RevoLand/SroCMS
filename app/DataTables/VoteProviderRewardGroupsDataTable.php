@@ -31,8 +31,16 @@ class VoteProviderRewardGroupsDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
+            ->editColumn('created_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+            })
             ->setRowId('id')
-            ->rawColumns(['action', 'voteproviders', 'enabled']);
+            ->rawColumns(['action', 'voteproviders', 'enabled', 'created_at', 'updated_at']);
     }
 
     /**
@@ -74,7 +82,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(7)
+            ->orderBy(8)
             ->pageLength(20)
             ->buttons(
                         Button::make('create'),

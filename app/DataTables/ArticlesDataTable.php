@@ -44,7 +44,15 @@ class ArticlesDataTable extends DataTable
             {
                 return '<a class="badge badge-soft-success" href="' . route('admin.articles.comments.index', ['article_id' => $article->id]) . '">' . $article->article_comments_count . '</a>';
             })
-            ->rawColumns(['action', 'user', 'article_comments_count', 'is_visible',  'can_comment_on', 'article_categories'])
+            ->editColumn('created_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function ($ticket)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+            })
+            ->rawColumns(['action', 'user', 'article_comments_count', 'is_visible',  'can_comment_on', 'article_categories', 'created_at', 'updated_at'])
             ->setRowId('id');
     }
 
