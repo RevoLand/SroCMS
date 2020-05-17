@@ -72,7 +72,7 @@ class BlockedUserController extends Controller
             'Type' => request('type'),
             'Executor' => auth()->user()->JID,
             'Shard' => setting('server.shard', 3),
-            'Description' => request('reason'),
+            'Description' => request('reason', ''),
             'RaiseTime' => now(),
             'PunishTime' => now(),
             'BlockStartTime' => Carbon::parse(request('timeBegin')),
