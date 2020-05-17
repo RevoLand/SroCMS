@@ -24,22 +24,22 @@ class VoteProvidersDataTable extends DataTable
             {
                 return ($provider->total_vote_count) ? number_format($provider->completed_vote_count * 100 / $provider->total_vote_count, 3) : 0;
             })
-            ->editColumn('enabled', function ($page)
+            ->editColumn('enabled', function (VoteProvider $voteprovider)
             {
-                if ($page->enabled)
+                if ($voteprovider->enabled)
                 {
                     return '<label class="badge badge-soft-primary">Enabled</label>';
                 }
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (VoteProvider $voteprovider)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $voteprovider->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $voteprovider->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (VoteProvider $voteprovider)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $voteprovider->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $voteprovider->updated_at . '</div>';
             })
             ->rawColumns(['action', 'enabled', 'created_at', 'updated_at'])
             ->setRowId('id');

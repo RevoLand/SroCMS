@@ -167,6 +167,20 @@ class UserController extends Controller
         ]);
     }
 
+    public function getActiveBlocks(User $user)
+    {
+        if (!request()->expectsJson())
+        {
+            abort(404);
+        }
+
+        $user->load('activeUserBlocks');
+
+        return response()->json([
+            'active_blocks' => $user->activeUserBlocks,
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -1,11 +1,14 @@
 @extends('layout')
 
-@section('pagetitle', 'Tickets')
+@section('pagetitle', 'User Bans')
 
 @section('content')
 <div class="card mb-3">
-    <div class="card-header">
-        <h5 class="mb-0">Tickets</h5>
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="mb-0">User Bans</h5>
+        <div>
+            <a class="btn btn-falcon-primary" href="{{ route('admin.users.bans.create') }}">New Ban</a>
+        </div>
     </div>
     <div class="card-body bg-light px-0">
         <div class="row">
@@ -62,31 +65,23 @@ $(document).ready( function () {
 
     let dataTableCustomSearchOptions = [
         {
-            'index': 2,
-            'selector': '#category_select'
-        },
-        {
-            'index': 4,
+            'index': 1,
             'selector': '#user_select'
         },
         {
-            'index': 5,
-            'selector': '#assigned_user_select'
+            'index': 3,
+            'selector': '#type_select'
         },
         {
-            'index': 6,
-            'selector': '#priority_select'
-        },
-        {
-            'index': 7,
-            'selector': '#status_select'
+            'index': 4,
+            'selector': '#punisher_user_select'
         }
     ];
 
     _.forEach(dataTableCustomSearchOptions, function(value) {
         $(value.selector).on('change', function() {
             let searchValue = $(this).children("option:selected").val();
-            $('#tickets-table').DataTable().column(value.index).search(searchValue).draw();
+            $('#userbans-datatable').DataTable().column(value.index).search(searchValue).draw();
         });
     });
 });
@@ -96,7 +91,8 @@ $(document).ready( function () {
         event.preventDefault();
         switch (event.target.dataset.action) {
             case 'delete':
-            swal.fire({ title: 'Are you sure?',
+            swal.fire({
+                title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -133,32 +129,6 @@ $(document).ready( function () {
                         });
                     }
                 })
-            break;
-            case 'toggle-enabled':
-                axios.patch(event.target.action)
-                    .then(response => {
-                        $('#tickets-datatable').DataTable().draw(false);
-                        swal.fire({
-                            title: response.data.title,
-                            html: response.data.message,
-                            icon: response.data.icon
-                        });
-                    })
-                    .catch(error => {
-                        var errors = '<ul class="list-unstyled">';
-                        jQuery.each(error.response.data.errors, function (key, value) {
-                            errors += '<li>';
-                            errors += value;
-                            errors += '</li>';
-                        });
-                        errors += '</ul>';
-
-                        swal.fire({
-                            icon: 'error',
-                            title: error.response.data.message,
-                            html: errors
-                        });
-                    });
             break;
         }
     });

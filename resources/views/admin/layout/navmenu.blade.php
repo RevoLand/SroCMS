@@ -246,6 +246,7 @@
 			<hr class="border-300 my-2"/>
 		</div>
 		<ul class="navbar-nav flex-column">
+            @can('view users')
 			<li class="nav-item">
 				<a class="nav-link dropdown-indicator" href="#user-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="user-manager">
 					<div class="d-flex align-items-center">
@@ -258,9 +259,23 @@
 				<ul class="nav collapse" id="user-manager" data-parent="#navbarVerticalCollapse">
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('admin.users.index') }}">List</a>
-					</li>
+                    </li>
+                    @can('manage user bans')
+					<li class="nav-item">
+						<a class="nav-link dropdown-indicator" href="#nav-user-bans" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="nav-user-bans">Bans</a>
+						<ul class="nav collapse" id="nav-user-bans" data-parent="#user-manager">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('admin.users.bans.index') }}">List</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('admin.users.bans.create') }}">New Ban</a>
+							</li>
+						</ul>
+                    </li>
+                    @endcan
 				</ul>
-			</li>
+            </li>
+            @endcan
 			<li class="nav-item">
 				<a class="nav-link dropdown-indicator" href="#teleport-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="teleport-manager">
 					<div class="d-flex align-items-center">

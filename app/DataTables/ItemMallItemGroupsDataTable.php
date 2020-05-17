@@ -62,15 +62,23 @@ class ItemMallItemGroupsDataTable extends DataTable
             {
                 return '<label class="badge badge-soft-info">' . config('constants.payment_types.' . $itemgroup->payment_type) . '</label>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('available_after', function (ItemMallItemGroup $itemgroup)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap">' . $itemgroup->available_after . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('available_until', function (ItemMallItemGroup $itemgroup)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap">' . $itemgroup->available_until . '</div>';
             })
-            ->rawColumns(['action', 'categories', 'enabled', 'on_sale', 'featured', 'limit_total_purchases', 'payment_type', 'created_at', 'updated_at'])
+            ->editColumn('created_at', function (ItemMallItemGroup $itemgroup)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $itemgroup->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $itemgroup->created_at . '</div>';
+            })
+            ->editColumn('updated_at', function (ItemMallItemGroup $itemgroup)
+            {
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $itemgroup->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $itemgroup->updated_at . '</div>';
+            })
+            ->rawColumns(['action', 'categories', 'enabled', 'on_sale', 'featured', 'limit_total_purchases', 'payment_type', 'available_after', 'available_until', 'created_at', 'updated_at'])
             ->setRowId('id');
     }
 

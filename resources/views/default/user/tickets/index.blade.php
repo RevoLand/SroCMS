@@ -16,7 +16,7 @@ Ticket System
                 New Ticket
             </a>
             <!--begin: Datatable -->
-            {!! $dataTable->table(['class' => 'table table-striped table-bordered dataTable responsive-md'], true) !!}
+            {!! $dataTable->table(['class' => 'table table-striped table-bordered dataTable responsive-md'], false) !!}
             <!--end: Datatable -->
         </div>
     </div>

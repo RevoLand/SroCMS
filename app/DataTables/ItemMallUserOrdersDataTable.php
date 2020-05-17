@@ -49,13 +49,7 @@ class ItemMallUserOrdersDataTable extends DataTable
             ->dom('Bfrtip')
             ->orderBy(0)
             ->responsive(true)
-            ->pagingType('first_last_numbers')
-            ->buttons(
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->pagingType('first_last_numbers');
     }
 
     /**

@@ -340,7 +340,7 @@
         </div>
         {{-- user ticket ban edit : modal ends --}}
     </div>
-    <modals-container />
+<modals-container />
 </div>
 @endsection
 
@@ -494,7 +494,7 @@
                         width: '40%',
                         height: 'auto',
                         scrollable: true,
-                        classes: 'bg-200 p-4 rounded-lg'
+                        classes: 'bg-200 p-4'
                     }
                 );
             }
@@ -730,7 +730,7 @@
                 .then(response => {
                     this.ticket_messages.push(response.data.new_message);
 
-                    if (this.forms.reply.close_ticket) {
+                    if (is.equal(this.forms.reply.close_ticket, '1')) {
                         this.ticket.status = 3;
                     }
 

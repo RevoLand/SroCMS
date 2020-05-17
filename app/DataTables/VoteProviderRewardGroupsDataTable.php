@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\VoteProviderRewardGroup;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -22,22 +21,22 @@ class VoteProviderRewardGroupsDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', 'votes.rewardgroups.datatables.actions')
             ->editColumn('voteproviders', 'votes.rewardgroups.datatables.providers')
-            ->editColumn('enabled', function ($page)
+            ->editColumn('enabled', function (VoteProviderRewardGroup $voterewardgroup)
             {
-                if ($page->enabled)
+                if ($voterewardgroup->enabled)
                 {
                     return '<label class="badge badge-soft-primary">Enabled</label>';
                 }
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (VoteProviderRewardGroup $voterewardgroup)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $voterewardgroup->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $voterewardgroup->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (VoteProviderRewardGroup $voterewardgroup)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $voterewardgroup->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $voterewardgroup->updated_at . '</div>';
             })
             ->setRowId('id')
             ->rawColumns(['action', 'voteproviders', 'enabled', 'created_at', 'updated_at']);
@@ -83,14 +82,7 @@ class VoteProviderRewardGroupsDataTable extends DataTable
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->orderBy(8)
-            ->pageLength(20)
-            ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->pageLength(20);
     }
 
     /**

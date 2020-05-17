@@ -13,7 +13,7 @@ class AddJobsuitColumnToCharTable extends Migration
     {
         Schema::connection('shard')->table('_Char', function (Blueprint $table)
         {
-            $table->boolean('JobSuit')->default(0);
+            $table->boolean('JobSuit')->default(false);
         });
     }
 

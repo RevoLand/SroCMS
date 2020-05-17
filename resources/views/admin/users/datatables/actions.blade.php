@@ -7,7 +7,7 @@
 			<a class="dropdown-item" href="{{ route('admin.users.show', $JID) }}">View</a>
             <a class="dropdown-item" href="{{ route('admin.users.edit', $JID) }}">Edit</a>
             <div class="dropdown-divider"></div>
-            <button type="submit" class="dropdown-item">Ban/Unban(?)</button>
+            <a class="dropdown-item" href="{{ route('admin.users.bans.create', ['user' => $JID]) }}">Ban</a>
             <div class="dropdown-divider"></div>
             {{-- {!! Form::open([ 'route' => ['admin.users.destroy', $id], 'method' => 'delete', 'data-action' => 'delete', 'data-id' => $id ]) !!} --}}
             <button class="dropdown-item text-danger" type="submit">Delete</button>

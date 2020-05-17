@@ -24,6 +24,7 @@ class AddIdColumnToReftelelinkTable extends Migration
     {
         Schema::connection('shard')->table('_RefTeleLink', function (Blueprint $table)
         {
+            $table->dropIndex('ID');
             $table->dropColumn('ID');
         });
     }

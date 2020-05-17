@@ -10,21 +10,14 @@ class BlockedUser extends Model
     public $timestamps = false;
     protected $connection = 'account';
     protected $table = '_BlockedUser';
-    protected $primaryKey; // UserJID, Type
     protected $guarded = [];
     protected $dates = [
         'timeBegin',
         'timeEnd',
     ];
-
-    /*
-        'punishment' => [
-            'login' => '1',
-            'login_inspection' => '2',
-            'p2p_trade' => '3',
-            'chat' => '4',
-        ],
-    */
+    protected $appends = [
+        'active',
+    ];
 
     public function punishment()
     {
@@ -33,7 +26,12 @@ class BlockedUser extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'UserID', 'JID');
+        return $this->belongsTo(User::class, 'UserJID', 'JID');
+    }
+
+    public function getActiveAttribute()
+    {
+        return $this->timeEnd > now();
     }
 
     public function scopeActive($query)

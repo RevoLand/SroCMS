@@ -22,13 +22,13 @@ class ItemMallOrdersDataTable extends DataTable
             ->addColumn('action', 'itemmall.datatables.actions')
             ->editColumn('items', 'itemmall.datatables.items')
             ->editColumn('user', 'itemmall.datatables.user')
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (ItemMallOrder $itemmallorder)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $itemmallorder->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $itemmallorder->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (ItemMallOrder $itemmallorder)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $itemmallorder->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $itemmallorder->updated_at . '</div>';
             })
             ->setRowId('id')
             ->rawColumns(['action', 'items', 'user', 'created_at', 'updated_at']);
@@ -59,7 +59,7 @@ class ItemMallOrdersDataTable extends DataTable
                 {
                     $query->where('item_mall_item_group_id', request('item_group_id'));
                 }
-            })->newQuery();
+            })->select(['item_mall_orders.*'])->newQuery();
     }
 
     /**

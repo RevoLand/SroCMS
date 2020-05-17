@@ -20,7 +20,7 @@ class ItemMallCategoriesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'itemmall.categories.datatables.actions')
-            ->editColumn('enabled', function ($category)
+            ->editColumn('enabled', function (ItemMallCategory $category)
             {
                 if ($category->enabled)
                 {
@@ -29,13 +29,13 @@ class ItemMallCategoriesDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (ItemMallCategory $category)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $category->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $category->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (ItemMallCategory $category)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $category->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $category->updated_at . '</div>';
             })
             ->rawColumns(['action', 'enabled', 'created_at', 'updated_at'])
             ->setRowId('id');

@@ -6,6 +6,7 @@ use App\DataTables\ItemMallItemGroupsDataTable;
 use App\Http\Controllers\Controller;
 use App\ItemMallCategory;
 use App\ItemMallItemGroup;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -60,8 +61,8 @@ class ItemMallItemGroupController extends Controller
             'referral_commission_percentage' => request('referral_commission_percentage'),
             'featured' => request('featured'),
             'order' => request('order'),
-            'available_after' => request('available_after'),
-            'available_until' => request('available_until'),
+            'available_after' => request()->filled('available_after') ? Carbon::parse(request('available_after')) : '',
+            'available_until' => request()->filled('available_until') ? Carbon::parse(request('available_until')) : '',
             'enabled' => request('enabled'),
         ]);
 
@@ -137,8 +138,8 @@ class ItemMallItemGroupController extends Controller
             'referral_commission_percentage' => request('referral_commission_percentage'),
             'featured' => request('featured'),
             'order' => request('order'),
-            'available_after' => request('available_after'),
-            'available_until' => request('available_until'),
+            'available_after' => request()->filled('available_after') ? Carbon::parse(request('available_after')) : '',
+            'available_until' => request()->filled('available_until') ? Carbon::parse(request('available_until')) : '',
             'enabled' => request('enabled'),
         ]);
 

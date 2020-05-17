@@ -232,13 +232,30 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('itemmall/orders/{order}', 'Admin\ItemMallOrderController@show')->name('itemmall.orders.show');
     });
 
-    Route::resource('users', 'Admin\UserController');
+    Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'can:view users'], function ()
+    {
+        Route::group(['middleware' => 'can:manage user bans'], function ()
+        {
+            Route::resource('bans', 'Admin\BlockedUserController');
+        });
+
+        Route::get('', 'Admin\UserController@index')->name('index');
+        Route::get('{user}', 'Admin\UserController@show')->name('show');
+
+        Route::group(['middleware' => 'can:manage users'], function ()
+        {
+            Route::get('create', 'Admin\UserController@create')->name('create');
+            Route::get('{user}/edit', 'Admin\UserController@edit')->name('edit');
+        });
+    });
+
     Route::group(['prefix' => 'ajax/users/{user}/', 'as' => 'ajax.users.'], function ()
     {
         Route::get('getCounts', 'Admin\UserController@getCounts')->name('get_counts');
         Route::get('getVoteInfo', 'Admin\UserController@getVoteInfo')->name('get_voteinfo');
         Route::get('getVoteInfoByRewards', 'Admin\UserController@getVoteInfoByRewards')->name('get_voteinfobyrewards');
         Route::get('getVoteInfoByProviders', 'Admin\UserController@getVoteInfoByProviders')->name('get_voteinfobyproviders');
+        Route::get('getActiveBlocks', 'Admin\UserController@getActiveBlocks')->name('get_activeblocks');
     });
     Route::group(['prefix' => 'ajaxData', 'as' => 'ajax.'], function ()
     {

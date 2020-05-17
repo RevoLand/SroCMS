@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use Yajra\DataTables\Html\Button;
+use App\Referral;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -19,7 +19,7 @@ class UserReferralsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('referrerUser', function ($referral)
+            ->editColumn('referrerUser', function (Referral $referral)
             {
                 $referralPoints = $referral->load(['referrerUser.balanceLogs' => function ($balancelog) use ($referral)
                 {
@@ -30,7 +30,7 @@ class UserReferralsDataTable extends DataTable
 
                 return view('user.referrals.datatables.pointsearned', compact('groupedPoints'));
             })
-            ->editColumn('user', function ($referral)
+            ->editColumn('user', function (Referral $referral)
             {
                 return "<a href='" . route('users.show_user', $referral->user->JID) . "'>{$referral->user->getName()}</a>";
             })
@@ -62,12 +62,7 @@ class UserReferralsDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->responsive(true)
-            ->orderBy(1)
-            ->buttons(
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->orderBy(1);
     }
 
     /**

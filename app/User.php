@@ -164,7 +164,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function activeUserBlocks()
     {
-        return $this->blockedUser()->active();
+        return $this->userBlocks()->active();
     }
 
     public function userBlock()

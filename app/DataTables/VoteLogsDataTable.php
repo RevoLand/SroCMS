@@ -23,7 +23,7 @@ class VoteLogsDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', 'votes.datatables.actions')
             ->setRowId('id')
-            ->editColumn('voted', function ($votelog)
+            ->editColumn('voted', function (VoteLog $votelog)
             {
                 if ($votelog->voted)
                 {
@@ -32,7 +32,7 @@ class VoteLogsDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">No</label>';
             })
-            ->editColumn('active', function ($votelog)
+            ->editColumn('active', function (VoteLog $votelog)
             {
                 if ($votelog->active)
                 {
@@ -44,13 +44,13 @@ class VoteLogsDataTable extends DataTable
             ->editColumn('user', 'votes.datatables.user')
             ->editColumn('voteProvider', 'votes.datatables.voteprovider')
             ->editColumn('rewardgroup', 'votes.datatables.rewardgroup')
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (VoteLog $votelog)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $votelog->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $votelog->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (VoteLog $votelog)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $votelog->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $votelog->updated_at . '</div>';
             })
             ->rawColumns(['action', 'voted', 'active', 'user', 'voteProvider', 'rewardgroup', 'created_at', 'updated_at']);
     }

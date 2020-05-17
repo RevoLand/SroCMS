@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Ticket;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,11 +22,11 @@ class UserTicketsDataTable extends DataTable
             ->addColumn('actions', 'user.tickets.datatables.actions')
             ->editColumn('priority', 'user.tickets.datatables.priority')
             ->editColumn('status', 'user.tickets.datatables.status')
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (Ticket $ticket)
             {
                 return '<div class="text-muted" data-toggle="tooltip" title="' . $ticket->created_at . '">' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (Ticket $ticket)
             {
                 return '<div class="text-muted" data-toggle="tooltip" title="' . $ticket->updated_at . '">' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '</div>';
             })
@@ -54,7 +55,7 @@ class UserTicketsDataTable extends DataTable
             ->setTableId('usertickets-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('frtipl')
+            ->dom('frtip')
             ->orderBy(7);
     }
 

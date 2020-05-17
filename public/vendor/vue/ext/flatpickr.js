@@ -3,6 +3,6 @@ $(document).ready(function() {
         enableTime: true,
         dateFormat: 'Y-m-d H:i',
         weekNumbers: true,
-        time_24hr: true
+        time_24hr: true,
     });
 });

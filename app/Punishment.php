@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Punishment extends Model
@@ -20,14 +19,10 @@ class Punishment extends Model
         'PunishTime',
     ];
 
-    /*
-        'punishment' => [
-            'login' => '1',
-            'login_inspection' => '2',
-            'p2p_trade' => '3',
-            'chat' => '4',
-        ],
-    */
+    public function blockeduser()
+    {
+        return $this->hasOne(BlockedUser::class, 'SerialNo', 'SerialNo');
+    }
 
     public function user()
     {
@@ -41,6 +36,6 @@ class Punishment extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('BlockEndTime', '>', Carbon::now());
+        return $query->where('BlockEndTime', '>', now());
     }
 }

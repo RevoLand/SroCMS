@@ -16,8 +16,13 @@
             <div class="col-12">
                 {{ Form::open(['route' => ['admin.tickets.categories.update', $category], 'method' => 'patch', '@submit.prevent' => 'onSubmit', '@change' => 'form.errors.clear($event.target.name)', 'class' => 'form-validation']) }}
                     @include('tickets.categories.forms.category')
-                    <button type="submit" :disabled="form.errors.any()" class="btn btn-falcon-primary">Submit</button>
-                {{ Form::close() }}
+                    <div class="btn-group">
+                        <button type="submit" :disabled="form.errors.any()" class="btn btn-falcon-primary">Submit</button>
+                    {{ Form::close() }}
+                    {!! Form::open([ 'route' => ['admin.tickets.categories.destroy', $category], 'method' => 'delete', '@submit.prevent' => 'onDelete']) !!}
+                        <button type="submit" class="btn btn-falcon-danger">Delete</button>
+                    {!! Form::close() !!}
+                    </div>
             </div>
         </div>
     </div>
@@ -39,6 +44,12 @@
                 this.form.patch(event.target.action)
                 .then(response => {
                     this.form.reset();
+                });
+            },
+            onDelete() {
+                this.form.delete(event.target.action)
+                .then(response => {
+                    window.location = @json(route('admin.tickets.categories.index'))
                 });
             }
         }

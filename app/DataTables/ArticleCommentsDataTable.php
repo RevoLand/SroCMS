@@ -20,16 +20,16 @@ class ArticleCommentsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'articles.comments.datatables.actions')
-            ->addColumn('approvedComments', function ($comment)
+            ->addColumn('approvedComments', function (ArticleComment $comment)
             {
                 return $comment->user->articleComments->count();
             })
-            ->editColumn('article', function ($comment)
+            ->editColumn('article', function (ArticleComment $comment)
             {
                 return '<a href="' . route('admin.articles.comments.index', ['article_id' => $comment->article_id, 'user_id' => request('user_id')]) . '">' . $comment->article->title . '</a>';
             })
             ->editColumn('user', 'articles.comments.datatables.user')
-            ->editColumn('is_visible', function ($comment)
+            ->editColumn('is_visible', function (ArticleComment $comment)
             {
                 if ($comment->is_visible)
                 {
@@ -38,7 +38,7 @@ class ArticleCommentsDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Hidden</label>';
             })
-            ->editColumn('is_approved', function ($comment)
+            ->editColumn('is_approved', function (ArticleComment $comment)
             {
                 if ($comment->is_approved)
                 {
@@ -47,13 +47,13 @@ class ArticleCommentsDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Not Approved</label>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (ArticleComment $comment)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $comment->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $comment->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (ArticleComment $comment)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $comment->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $comment->updated_at . '</div>';
             })
             ->setRowId('id')
             ->rawColumns(['article', 'user', 'is_visible', 'is_approved', 'action', 'created_at', 'updated_at']);
@@ -90,7 +90,7 @@ class ArticleCommentsDataTable extends DataTable
                 {
                     $query->where('is_approved', request('is_approved'));
                 }
-            })->newQuery();
+            })->select(['article_comments.*'])->newQuery();
     }
 
     /**

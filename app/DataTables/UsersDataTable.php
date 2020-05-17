@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\User;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,16 +20,16 @@ class UsersDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'users.datatables.actions')
-            ->editColumn('orders', function ($user)
+            ->editColumn('orders', function (User $user)
             {
                 return '<a href="' . route('admin.itemmall.index', ['user_id' => $user->JID]) . '">' . $user->orders->count() . '</a>';
             })
-            ->editColumn('referrals', function ($user)
+            ->editColumn('referrals', function (User $user)
             {
                 // TODO: Referrals List/Page link
                 return '<a href="' . route('admin.itemmall.index', ['user_id' => $user->JID]) . '">' . $user->referrals->count() . '</a>';
             })
-            ->editColumn('vote_logs', function ($user)
+            ->editColumn('vote_logs', function (User $user)
             {
                 $totalVotes = $user->voteLogs->count();
                 $rewardedVotes = $user->voteLogs->where('voted', true)->count();
@@ -38,16 +37,17 @@ class UsersDataTable extends DataTable
 
                 return view('users.datatables.votelogs', compact('totalVotes', 'rewardedVotes', 'completionRate'));
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('regtime', function (User $user)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
-            })
-            ->editColumn('updated_at', function ($ticket)
-            {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                if (!isset($user->regtime))
+                {
+                    return '';
+                }
+
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $user->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $user->regtime . '</div>';
             })
             ->setRowId('id')
-            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs', 'created_at', 'updated_at']);
+            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs', 'regtime']);
     }
 
     /**
@@ -75,19 +75,12 @@ class UsersDataTable extends DataTable
             ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
             ->responsive(true)
             ->parameters([
-                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white table-sm'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 20, 50, 100, 250, 500, 1000])
             ->pageLength(20)
             ->orderBy(0, 'asc')
-            ->pagingType('first_last_numbers')
-            ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->pagingType('first_last_numbers');
     }
 
     /**

@@ -23,7 +23,6 @@
         "webpack": "^4.43.0"
     },
     "dependencies": {
-        "@braid/vue-formulate": "^2.2.13",
         "bootstrap": "^4.5.0",
         "dayjs": "^1.8.27",
         "jquery": "^3.5.1",

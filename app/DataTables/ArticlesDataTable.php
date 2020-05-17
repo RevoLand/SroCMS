@@ -20,7 +20,7 @@ class ArticlesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'articles.datatables.actions')
-            ->editColumn('is_visible', function ($article)
+            ->editColumn('is_visible', function (Article $article)
             {
                 if ($article->is_visible)
                 {
@@ -29,7 +29,7 @@ class ArticlesDataTable extends DataTable
 
                 return '<span class="badge badge-soft-danger">Hidden</span>';
             })
-            ->editColumn('can_comment_on', function ($article)
+            ->editColumn('can_comment_on', function (Article $article)
             {
                 if ($article->can_comment_on)
                 {
@@ -40,17 +40,17 @@ class ArticlesDataTable extends DataTable
             })
             ->editColumn('user', 'articles.datatables.user')
             ->editColumn('article_categories', 'articles.datatables.categories')
-            ->editColumn('article_comments_count', function ($article)
+            ->editColumn('article_comments_count', function (Article $article)
             {
                 return '<a class="badge badge-soft-success" href="' . route('admin.articles.comments.index', ['article_id' => $article->id]) . '">' . $article->article_comments_count . '</a>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (Article $article)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $article->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $article->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (Article $article)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $article->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $article->updated_at . '</div>';
             })
             ->rawColumns(['action', 'user', 'article_comments_count', 'is_visible',  'can_comment_on', 'article_categories', 'created_at', 'updated_at'])
             ->setRowId('id');
@@ -81,7 +81,7 @@ class ArticlesDataTable extends DataTable
                     $q->where('article_category_id', request('category_id'));
                 });
             }
-        })->with(['user', 'articleCategories'])->withCount('articleComments')->newQuery();
+        })->with(['user', 'articleCategories'])->withCount('articleComments')->select(['articles.*'])->newQuery();
     }
 
     /**

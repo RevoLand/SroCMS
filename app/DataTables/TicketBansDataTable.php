@@ -20,9 +20,9 @@ class TicketBansDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('actions', 'ticketbans.datatables.actions')
-            ->addColumn('active', function ($ticketBan)
+            ->addColumn('active', function (TicketBan $ticketban)
             {
-                if ($ticketBan->active)
+                if ($ticketban->active)
                 {
                     return '<label class="badge badge-soft-danger">Yes</label>';
                 }
@@ -31,21 +31,21 @@ class TicketBansDataTable extends DataTable
             })
             ->editColumn('user', 'ticketbans.datatables.user')
             ->editColumn('assigner', 'ticketbans.datatables.assigner')
-            ->editColumn('ban_start', function ($ticket)
+            ->editColumn('ban_start', function (TicketBan $ticketban)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->ban_start->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->ban_start . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticketban->ban_start->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticketban->ban_start . '</div>';
             })
-            ->editColumn('ban_end', function ($ticket)
+            ->editColumn('ban_end', function (TicketBan $ticketban)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->ban_end->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->ban_end . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticketban->ban_end->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticketban->ban_end . '</div>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (TicketBan $ticketban)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticketban->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticketban->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (TicketBan $ticketban)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticketban->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticketban->updated_at . '</div>';
             })
             ->rawColumns(['actions', 'user', 'assigner', 'active', 'ban_start', 'ban_end', 'created_at', 'updated_at'])
             ->setRowId('id');

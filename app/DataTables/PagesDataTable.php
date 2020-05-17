@@ -20,7 +20,7 @@ class PagesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'pages.datatables.actions')
-            ->editColumn('showsidebar', function ($page)
+            ->editColumn('showsidebar', function (Page $page)
             {
                 if ($page->showsidebar)
                 {
@@ -29,7 +29,7 @@ class PagesDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">No</label>';
             })
-            ->editColumn('enabled', function ($page)
+            ->editColumn('enabled', function (Page $page)
             {
                 if ($page->enabled)
                 {
@@ -38,13 +38,13 @@ class PagesDataTable extends DataTable
 
                 return '<label class="badge badge-soft-danger">Disabled</label>';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (Page $page)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $page->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $page->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (Page $page)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $page->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $page->updated_at . '</div>';
             })
             ->rawColumns(['action', 'enabled', 'showsidebar', 'created_at', 'updated_at'])
             ->setRowId('id');

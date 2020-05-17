@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\VoteProviderIp;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -21,17 +20,17 @@ class VoteProviderIpsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'votes.providers.ips.datatables.actions')
-            ->addColumn('callbacks_from_ip', function ($voteProviderIp)
+            ->addColumn('callbacks_from_ip', function (VoteProviderIp $voteProviderIp)
             {
                 return $voteProviderIp->logs->where('callback_ip', $voteProviderIp->ip)->count();
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (VoteProviderIp $voteProviderIp)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $voteProviderIp->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $voteProviderIp->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (VoteProviderIp $voteProviderIp)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $voteProviderIp->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $voteProviderIp->updated_at . '</div>';
             })
             ->setRowId('id')
             ->rawColumns(['action', 'created_at', 'updated_at']);
@@ -64,14 +63,7 @@ class VoteProviderIpsDataTable extends DataTable
                 'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
-            ->orderBy(3)
-            ->buttons(
-                        Button::make('create'),
-                        Button::make('export'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    );
+            ->orderBy(3);
     }
 
     /**

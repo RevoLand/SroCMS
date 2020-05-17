@@ -26,9 +26,9 @@ class EpinsDataTable extends DataTable
             {
                 return config('constants.payment_types.' . $epin->type);
             })
-            ->editColumn('enabled', function ($page)
+            ->editColumn('enabled', function (Epin $epin)
             {
-                if ($page->enabled)
+                if ($epin->enabled)
                 {
                     return '<label class="badge badge-soft-primary">Enabled</label>';
                 }
@@ -39,13 +39,13 @@ class EpinsDataTable extends DataTable
             {
                 // return $epin->used_at ? 'alert-soft-warning' : 'alert-soft-success';
             })
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (Epin $epin)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $epin->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $epin->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (Epin $epin)
             {
-                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
+                return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $epin->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $epin->updated_at . '</div>';
             })
             ->setRowId('id')
             ->rawColumns(['action', 'enabled', 'user', 'creater', 'created_at', 'updated_at']);

@@ -396,6 +396,30 @@ return [
         'p2p_trade' => '3',
         'chat' => '4',
     ],
+    'punishment_type' => [
+        '1' => [
+            'text' => 'Login',
+            'class' => 'btn-falcon-primary',
+        ],
+        '2' => [
+            'text' => 'Login (Inspection)',
+            'class' => 'btn-falcon-default',
+        ],
+        '3' => [
+            'text' => 'P2P Trade',
+            'class' => 'btn-falcon-warning',
+        ],
+        '4' => [
+            'text' => 'Chat',
+            'class' => 'btn-falcon-danger',
+        ],
+    ],
+    'punishment_array' => [
+        '1',
+        '2',
+        '3',
+        '4',
+    ],
     'ticket_system' => [
         'priority' => [
             '0' => [

@@ -17,10 +17,10 @@
                 </h4>
                 <h5 class="fs-0 font-weight-normal">{{ $user->Email }}</h5>
                 <p class="text-500">{{ $user->StrUserID }}</p>
-                <a class="btn btn-falcon-primary btn-sm px-3" type="button" href="{{ route('users.show_user', $user) }}">Profile</a>
+                <a class="btn btn-falcon-primary btn-sm px-3" href="{{ route('users.show_user', $user) }}">Profile</a>
                 <a class="btn btn-falcon-default btn-sm px-3 ml-2" type="button">Edit</a>
                 {{-- TODO: Open a modal? --}}
-                <a class="btn btn-falcon-danger btn-sm px-3 ml-2" type="button">Quick Ban</a>
+                <a class="btn btn-falcon-danger btn-sm px-3 ml-2" href="{{ route('admin.users.bans.create', ['user' => $user]) }}">Ban</a>
                 <hr class="border-dashed my-4 d-lg-none">
             </div>
             <div class="col-lg-3 pl-lg-3 fs--1 align-self-center">

@@ -34,6 +34,7 @@
                                 <label for="title">Title</label>
                                 <input type="text" id="title" name="title" class="form-control" minlength="6" maxlength="100" required value="{{ old('title') }}">
                             </div>
+                            @isset($userOrders)
                             <div class="form-group">
                                 <label for="order">Related Order (?)</label>
                                 <select class="custom-control custom-select" id="order" name="order">
@@ -44,6 +45,7 @@
                                 </select>
                                 <p class="text-muted font-italic">Select the Order you have placed if this ticket is related to an Order.</p>
                             </div>
+                            @endisset
                             <div class="form-group">
                                 <label for="message">Message</label>
                                 <textarea class="form-control" id="message" name="message" minlength="20" maxlength="1800" required>{{ old('message') }}</textarea>

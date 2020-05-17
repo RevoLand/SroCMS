@@ -7,7 +7,6 @@ import jQuery from "jquery";
 import dayjs from "dayjs";
 import Form from "./core/Form";
 import VModal from 'vue-js-modal'
-import VueFormulate from '@braid/vue-formulate'
 
 window._ = _;
 window.axios = axios;
@@ -28,5 +27,4 @@ window.Vue.filter('formatDate', function(value, format) {
 });
 
 // Vuejs custom components
-window.Vue.use(VueFormulate);
 window.Vue.use(VModal, { dynamic: true });

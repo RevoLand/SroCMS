@@ -13,7 +13,7 @@ class AddOnlineColumnToCharTable extends Migration
     {
         Schema::connection('shard')->table('_Char', function (Blueprint $table)
         {
-            $table->boolean('Online')->default(0);
+            $table->boolean('Online')->default(false);
         });
     }
 

@@ -20,7 +20,7 @@ class TicketsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('actions', function ($ticket)
+            ->addColumn('actions', function (Ticket $ticket)
             {
                 return '<a href="' . route('admin.tickets.show', $ticket) . '" class="btn btn-sm btn-falcon-primary"><span class="fas fa-eye fs--1"></span> View</a>';
             })
@@ -29,11 +29,11 @@ class TicketsDataTable extends DataTable
             ->editColumn('assigned_user', 'tickets.datatables.assignedUser')
             ->editColumn('priority', 'tickets.datatables.priority')
             ->editColumn('status', 'tickets.datatables.status')
-            ->editColumn('created_at', function ($ticket)
+            ->editColumn('created_at', function (Ticket $ticket)
             {
                 return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->created_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->created_at . '</div>';
             })
-            ->editColumn('updated_at', function ($ticket)
+            ->editColumn('updated_at', function (Ticket $ticket)
             {
                 return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $ticket->updated_at->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $ticket->updated_at . '</div>';
             })
@@ -126,18 +126,18 @@ class TicketsDataTable extends DataTable
             Column::make('id'),
             Column::make('title'),
             Column::make('category.name', 'ticket_category_id')->title('Category')->footer($category_selector),
-            Column::computed('ticketbans')->title('Ticket Ban(s)'),
+            Column::computed('ticketbans')->title('Ticket Ban(s)')->width(20),
             Column::make('messages_count')->searchable(false)->title('Messages')->width(20),
-            Column::make('user', 'user_id')->title('User')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>'),
-            Column::make('assigned_user', 'assigned_user_id')->title('Assigned To')->footer('<select id="assigned_user_select" class="custom-select user_select2"><option></option></select>'),
-            Column::make('priority')->footer($priority_selector),
-            Column::make('status')->footer($status_selector),
-            Column::make('created_at')->width(50),
-            Column::make('updated_at')->width(50),
+            Column::make('user', 'user_id')->title('User')->footer('<select id="user_select" class="custom-select user_select2"><option></option></select>')->width(20),
+            Column::make('assigned_user', 'assigned_user_id')->title('Assigned To')->footer('<select id="assigned_user_select" class="custom-select user_select2"><option></option></select>')->width(20),
+            Column::make('priority')->footer($priority_selector)->width(20),
+            Column::make('status')->footer($status_selector)->width(20),
+            Column::make('created_at')->width(20),
+            Column::make('updated_at')->width(20),
             Column::computed('actions')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                ->width(20)
                 ->addClass('text-center'),
         ];
     }
