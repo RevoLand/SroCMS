@@ -21,6 +21,11 @@ class UserBalance extends Model
 
     public function increase($type, $balance, $source, $comment = '', $source_user_id = '')
     {
+        if (!$this->exists)
+        {
+            $this->saveOrFail();
+        }
+
         $balanceBefore = $this->{$type};
         $this->increment($type, $balance);
         $balanceAfter = $this->{$type};
@@ -30,6 +35,11 @@ class UserBalance extends Model
 
     public function decrease($type, $balance, $source, $comment = '', $source_user_id = '')
     {
+        if (!$this->exists)
+        {
+            $this->saveOrFail();
+        }
+
         $balanceBefore = $this->{$type};
         $this->decrement($type, $balance);
         $balanceAfter = $this->{$type};

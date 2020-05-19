@@ -52,7 +52,6 @@ class User extends Authenticatable implements MustVerifyEmail
             $default->silk_own = 0;
             $default->silk_gift = 0;
             $default->silk_point = 0;
-            $default->save();
         });
     }
 
@@ -62,7 +61,6 @@ class User extends Authenticatable implements MustVerifyEmail
         {
             $default->balance = 0;
             $default->balance_point = 0;
-            $default->save();
         });
     }
 

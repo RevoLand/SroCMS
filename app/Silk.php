@@ -19,6 +19,11 @@ class Silk extends Model
 
     public function increase($type, $offset, $reason, $desc = '')
     {
+        if (!$this->exists)
+        {
+            $this->saveOrFail();
+        }
+
         $this->increment(config('constants.silk.type.name.' . $type), $offset);
 
         $this->logSilkChange($type, $offset, $reason, $desc);
@@ -26,6 +31,11 @@ class Silk extends Model
 
     public function decrease($type, $offset, $reason, $desc = '')
     {
+        if (!$this->exists)
+        {
+            $this->saveOrFail();
+        }
+
         $this->decrement(config('constants.silk.type.name.' . $type), $offset);
 
         $this->logSilkChange($type, $offset, $reason, $desc);
