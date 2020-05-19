@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\ItemMallOrderItem;
+use App\Notifications\EmailChangedToNew;
+use App\Notifications\EmailChangedToOld;
+use App\Notifications\PasswordChange;
 use App\User;
+use Auth;
 use DB;
+use Hash;
 use Illuminate\Http\Request;
 use stdClass;
+use Str;
 
 class UserController extends Controller
 {
@@ -181,6 +187,24 @@ class UserController extends Controller
         ]);
     }
 
+    public function getUserInfo(User $user)
+    {
+        if (!request()->expectsJson())
+        {
+            abort(404);
+        }
+
+        $user->load([
+            'balance',
+            'silk',
+            'characters',
+        ]);
+
+        return response()->json([
+            'user' => $user,
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -188,8 +212,20 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user = null)
     {
+        if (isset($user))
+        {
+            $user->load([
+                'balance',
+                'silk',
+                'characters',
+            ]);
+        }
+
+        return view('users.edit', [
+            'user' => $user ?? '',
+        ]);
     }
 
     /**
@@ -212,6 +248,79 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+    }
+
+    public function updatePassword(User $user)
+    {
+        request()->validate([
+            'auto_generate' => ['required', 'boolean'],
+            'inform_mail_user' => ['required', 'boolean'],
+            'new_password' => ['nullable', 'required_if:auto_generate,0', 'confirmed'],
+        ]);
+
+        if ($user->hasRole('Super Admin') && !auth()->user()->hasRole('Super Admin'))
+        {
+            return response()->json([
+                'title' => 'ERROR!',
+                'message' => 'You don\'t have permission for this action.',
+                'icon' => 'error',
+            ]);
+        }
+
+        $newPassword = request('auto_generate') ? Str::random(16) : request('new_password');
+
+        $user->update([
+            'password' => Hash::make($newPassword),
+        ]);
+
+        if (request('inform_mail_user'))
+        {
+            $user->notify(new PasswordChange($newPassword));
+        }
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => "User's password has been successfully changed.<br/><br/>New Password:<br/><input type='text' value='{$newPassword}' class='form-control bg-200' readonly />",
+            'icon' => 'success',
+        ]);
+    }
+
+    public function updateEmail(User $user)
+    {
+        request()->validate([
+            'reset_email_verification_state' => ['required', 'boolean'],
+            'inform_old_email' => ['required', 'boolean'],
+            'inform_new_email' => ['required', 'boolean'],
+            'new_email' => ['required', 'email', 'confirmed'],
+        ]);
+
+        if (request('inform_old_email'))
+        {
+            $user->notify(new EmailChangedToOld(request('new_email'), $user->StrUserID));
+        }
+
+        $oldEmail = $user->Email;
+
+        $user->update([
+            'Email' => request('new_email'),
+            'email_verified_at' => request('reset_email_verification_state') ? null : $user->email_verified_at,
+        ]);
+
+        if (request('inform_new_email'))
+        {
+            $user->notify(new EmailChangedToNew($oldEmail, $user->StrUserID));
+        }
+
+        if (setting('users.email_must_be_verified', 0))
+        {
+            $user->sendEmailVerificationNotification();
+        }
+
+        return response()->json([
+            'title' => 'Success',
+            'message' => "User's E-mail has been successfully changed.<br/><br/>New Email:<br/><input type='email' value='{$user->Email}' class='form-control bg-200' readonly />",
+            'icon' => 'success',
+        ]);
     }
 
     public function getUsernames()

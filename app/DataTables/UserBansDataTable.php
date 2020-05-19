@@ -38,7 +38,7 @@ class UserBansDataTable extends DataTable
             })
             ->editColumn('Type', function (BlockedUser $blockeduser)
             {
-                return '<button class="btn btn-sm ' . config('constants.punishment_type.' . $blockeduser->Type . '.class') . '"> ' . config('constants.punishment_type.' . $blockeduser->Type . '.text') . '</button>';
+                return '<span class="badge ' . config('constants.punishment_type.' . $blockeduser->Type . '.class') . '"> ' . config('constants.punishment_type.' . $blockeduser->Type . '.text') . '</span>';
             })
             ->editColumn('timeBegin', function (BlockedUser $blockeduser)
             {

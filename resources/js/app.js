@@ -11,7 +11,7 @@ import VModal from 'vue-js-modal'
 window._ = _;
 window.axios = axios;
 window.Vue = Vue;
-window.swal = swal;
+window.swal = window.Swal = swal;
 window.is = is;
 window.dayjs = dayjs;
 window.$ = window.jQuery = jQuery;

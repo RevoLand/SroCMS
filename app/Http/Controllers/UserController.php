@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\ItemMallUserOrdersDataTable;
 use App\User;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -81,7 +82,10 @@ class UserController extends Controller
             return redirect()->back();
         }
 
-        auth()->user()->updateEmail($request->new_email);
+        auth()->user()->update([
+            'Email' => $request->new_email,
+            'email_verified_at' => null,
+        ]);
 
         Alert::success('E-posta adresiniz başarıyla değiştirildi.');
 
@@ -95,7 +99,11 @@ class UserController extends Controller
             'new_password' => ['bail', 'required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        auth()->user()->updatePassword($request->new_password);
+        auth()->user()->update([
+            'password' => Hash::make($request->new_password),
+            'email_verified_at' => null,
+        ]);
+
         Alert::success('Şifreniz başarıyla değiştirildi, otomatik olarak çıkış yaptınız.');
 
         auth()->logout();

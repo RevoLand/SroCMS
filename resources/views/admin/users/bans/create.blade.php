@@ -70,9 +70,7 @@
                 }
 
                 $(".content").block();
-                axios.get(route('admin.ajax.users.get_activeblocks', newValue).url(), {
-                    user: newValue
-                })
+                axios.get(route('admin.ajax.users.get_activeblocks', newValue).url())
                 .then(response => {
                     if (is.existy(response.data.active_blocks)) {
                         this.active_blocks = response.data.active_blocks;

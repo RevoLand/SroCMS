@@ -7,7 +7,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -92,22 +91,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function loginAttempts()
     {
         return $this->hasMany(LoginAttempt::class, 'username', 'StrUserID');
-    }
-
-    public function updateEmail(string $newEmail)
-    {
-        $this->update([
-            'Email' => $newEmail,
-            'email_verified_at' => null,
-        ]);
-    }
-
-    public function updatePassword(string $newPassword)
-    {
-        $this->update([
-            'password' => Hash::make($newPassword),
-            'email_verified_at' => null,
-        ]);
     }
 
     public function getEmailForPasswordReset()

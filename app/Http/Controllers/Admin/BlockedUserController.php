@@ -65,6 +65,7 @@ class BlockedUserController extends Controller
 
         foreach ($userBlocks as $activeBlock)
         {
+            $activeBlock->punishment()->delete();
             $activeBlock->delete();
         }
 
@@ -158,11 +159,12 @@ class BlockedUserController extends Controller
 
         if ($ban->Type != $validated['type'])
         {
-            $activeBans = $ban->user->userBlocks()->Type($validated['type'])->get();
+            $activeBlocks = $ban->user->userBlocks()->Type($validated['type'])->get();
 
-            foreach ($activeBans as $activeBan)
+            foreach ($activeBlocks as $activeBlock)
             {
-                $activeBan->delete();
+                $activeBlock->punishment()->delete();
+                $activeBlock->delete();
             }
         }
 
@@ -177,7 +179,7 @@ class BlockedUserController extends Controller
             'Executor' => auth()->user()->JID,
             'BlockStartTime' => Carbon::parse($validated['timeBegin']),
             'BlockEndTime' => Carbon::parse($validated['timeEnd']),
-            'Description' => $validated['reason'],
+            'Description' => request('reason', ''),
             'PunishTime' => now(),
         ]);
 

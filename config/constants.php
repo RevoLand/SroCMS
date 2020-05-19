@@ -399,19 +399,19 @@ return [
     'punishment_type' => [
         '1' => [
             'text' => 'Login',
-            'class' => 'btn-falcon-primary',
+            'class' => 'badge-soft-primary',
         ],
         '2' => [
             'text' => 'Login (Inspection)',
-            'class' => 'btn-falcon-default',
+            'class' => 'badge-soft-info',
         ],
         '3' => [
             'text' => 'P2P Trade',
-            'class' => 'btn-falcon-warning',
+            'class' => 'badge-soft-warning',
         ],
         '4' => [
             'text' => 'Chat',
-            'class' => 'btn-falcon-danger',
+            'class' => 'badge-soft-danger',
         ],
     ],
     'punishment_array' => [
