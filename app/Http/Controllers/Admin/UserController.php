@@ -9,6 +9,7 @@ use App\Notifications\EmailChangedToNew;
 use App\Notifications\EmailChangedToOld;
 use App\Notifications\PasswordChange;
 use App\User;
+use App\UserBalance;
 use Auth;
 use DB;
 use Hash;
@@ -320,6 +321,38 @@ class UserController extends Controller
             'title' => 'Success',
             'message' => "User's E-mail has been successfully changed.<br/><br/>New Email:<br/><input type='email' value='{$user->Email}' class='form-control bg-200' readonly />",
             'icon' => 'success',
+        ]);
+    }
+
+    public function updateBalance(User $user)
+    {
+        request()->validate([
+            'balance' => ['required', 'numeric', 'min:0'],
+            'balance_point' => ['required', 'numeric', 'min:0'],
+            'reason' => ['nullable', 'string', 'max:250']
+        ]);
+
+        $compareBalance = bccomp(request()->balance, $user->balance->balance, 2);
+        $compareBalancePoint = bccomp(request()->balance_point, $user->balance->balance_point, 2);
+
+        if ($compareBalance === 1) {
+            $user->balance->increase('balance', bcsub(request()->balance, $user->balance->balance, 2), config('constants.balance.source.admin'), request('reason', 'Added by Admin'), auth()->user()->JID);
+        }
+        else if ($compareBalance === -1) {
+            $user->balance->decrease('balance', bcsub($user->balance->balance, request()->balance, 2), config('constants.balance.source.admin'), request('reason', 'Removed by Admin'), auth()->user()->JID);
+        }
+
+        if ($compareBalancePoint === 1) {
+            $user->balance->increase('balance_point', bcsub(request()->balance_point, $user->balance->balance_point, 2), config('constants.balance.source.admin'), request('reason', 'Added by Admin'), auth()->user()->JID);
+        }
+        else if ($compareBalancePoint === -1) {
+            $user->balance->decrease('balance_point', bcsub($user->balance->balance_point, request()->balance_point, 2), config('constants.balance.source.admin'), request('reason', 'Removed by Admin'), auth()->user()->JID);
+        }
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'User\'s point has been successfully updated.',
+            'icon' => 'success'
         ]);
     }
 

@@ -33,12 +33,13 @@
                 <hr class="my-3" />
                 <div class="fancy-tab" v-show="user != ''">
                     <div class="nav-bar">
-                        <div class="nav-bar-item px-3 px-sm-4 active">Home</div>
+                        <div class="nav-bar-item px-3 px-sm-4">Home</div>
                         <div class="nav-bar-item px-3 px-sm-4">Change Password</div>
                         <div class="nav-bar-item px-3 px-sm-4">Change E-mail</div>
+                        <div class="nav-bar-item px-3 px-sm-4 active">Balance Management</div>
                     </div>
                     <div class="tab-contents">
-                        <div class="tab-content active">
+                        <div class="tab-content">
                             Home?
                         </div>
                         {{-- password-change-tab --}}
@@ -123,6 +124,77 @@
                             <button type="button" class="btn btn-falcon-primary" @click="changeEmail" :disabled="CanSendChangeEmailForm">Change E-mail</button>
                         </div>
                         {{-- /email-change-tab --}}
+                        {{-- balance-management-tab --}}
+                        <div class="tab-content form-validation active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="balance">Balance</label>
+                                        <input id="balance" type="number" class="form-control" min="0" step="any" v-model.number="user.balance.balance" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label>Increase Balance</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="increaseBalance(5)" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increaseBalance(10)" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increaseBalance(20)" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increaseBalance(50)" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increaseBalance(100)" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increaseBalance(200)" class="btn btn-sm btn-falcon-success">+200</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Decrease Balance</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="decreaseBalance(5)" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreaseBalance(10)" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreaseBalance(20)" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreaseBalance(50)" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreaseBalance(100)" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreaseBalance(200)" class="btn btn-sm btn-falcon-danger">-200</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="balance_point">Balance (Point)</label>
+                                        <input id="balance_point" type="number" class="form-control" min="0" step="any" v-model.number="user.balance.balance_point" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label>Increase Balance (Point)</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="increasePointBalance(5)" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increasePointBalance(10)" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increasePointBalance(20)" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increasePointBalance(50)" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increasePointBalance(100)" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increasePointBalance(200)" class="btn btn-sm btn-falcon-success">+200</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Decrease Balance (Point)</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="decreasePointBalance(5)" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreasePointBalance(10)" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreasePointBalance(20)" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreasePointBalance(50)" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreasePointBalance(100)" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreasePointBalance(200)" class="btn btn-sm btn-falcon-danger">-200</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="balance_change_reason">Change Reason <small class="text-muted">Optional</small></label>
+                                <input id="balance_change_reason" type="text" maxlength="255" class="form-control" v-model="user.balance.change_reason" />
+                            </div>
+                            <button type="button" class="btn btn-falcon-primary" :disabled="CanSendUpdateBalanceForm" @click="updateBalance">Save</button>
+                        </div>
+                        {{-- /balance-management-tab --}}
                     </div>
                 </div>
                 {{-- tabs ends here --}}
@@ -133,6 +205,7 @@
 @endsection
 
 @section('js')
+{!! Theme::js('lib/decimal/decimal.min.js') !!}
 {!! Theme::js('lib/flatpickr/flatpickr.min.js') !!}
 <script src="{{ asset('vendor/vue/ext/flatpickr.js') }}"></script>
 {!! Theme::js('lib/select2/select2.min.js') !!}
@@ -158,7 +231,7 @@
                 reset_email_verification_state: '1'
             })
         },
-        mounted() {
+        created() {
             if (this.user == '') {
                 this.user = [];
             }
@@ -185,6 +258,13 @@
                 }
 
                 return false;
+            },
+            CanSendUpdateBalanceForm: function() {
+                if (is.negative(this.user.balance.balance) || is.negative(this.user.balance.balance_point)) {
+                    return true;
+                }
+
+                return false;
             }
         },
         watch: {
@@ -203,6 +283,16 @@
                 .finally(() => {
                     $(".content").unblock();
                 });
+            },
+            'user.balance.balance': function(newValue, oldValue) {
+                if (is.negative(newValue)) {
+                    this.user.balance.balance = 0;
+                }
+            },
+            'user.balance.balance_point': function(newValue, oldValue) {
+                if (is.negative(newValue)) {
+                    this.user.balance.balance_point = 0;
+                }
             }
         },
         methods: {
@@ -218,6 +308,37 @@
                     this.user.Email = this.email_change_form.new_email;
                     this.email_change_form.reset();
                 });
+            },
+            updateBalance() {
+                let balanceForm = new Form({
+                    balance: this.user.balance.balance,
+                    balance_point: this.user.balance.balance_point,
+                    reason: this.user.balance.change_reason
+                });
+
+                balanceForm.patch(route('admin.users.update_balance', this.user.JID).url());
+            },
+            increaseBalance(balance) {
+                this.user.balance.balance = new Decimal(this.user.balance.balance).plus(new Decimal(balance));
+            },
+            increasePointBalance(balance) {
+                this.user.balance.balance_point = new Decimal(this.user.balance.balance_point).plus(new Decimal(balance));
+            },
+            decreaseBalance(balance) {
+                let newBalance = new Decimal(this.user.balance.balance).minus(new Decimal(balance));
+                if (newBalance > 0) {
+                    this.user.balance.balance = newBalance;
+                } else {
+                    this.user.balance.balance = 0;
+                }
+            },
+            decreasePointBalance(balance) {
+                let newBalance = new Decimal(this.user.balance.balance).minus(new Decimal(balance));
+                if (newBalance > 0) {
+                    this.user.balance.balance_point = newBalance;
+                } else {
+                    this.user.balance.balance_point = 0;
+                }
             }
         }
     });

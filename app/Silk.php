@@ -17,38 +17,38 @@ class Silk extends Model
         return $this->belongsTo(User::class, 'JID', 'JID');
     }
 
-    public function increase($type, $offset, $reason, $desc = '')
+    public function increase(int $type, int $amount, int $reason, string $desc = null): void
     {
         if (!$this->exists)
         {
             $this->saveOrFail();
         }
 
-        $this->increment(config('constants.silk.type.name.' . $type), $offset);
+        $this->increment(config('constants.silk.type.name.' . $type), $amount);
 
-        $this->logSilkChange($type, $offset, $reason, $desc);
+        $this->logSilkChange($type, $amount, $reason, $desc);
     }
 
-    public function decrease($type, $offset, $reason, $desc = '')
+    public function decrease(int $type, int $amount, int $reason, string $desc = null): void
     {
         if (!$this->exists)
         {
             $this->saveOrFail();
         }
 
-        $this->decrement(config('constants.silk.type.name.' . $type), $offset);
+        $this->decrement(config('constants.silk.type.name.' . $type), $amount);
 
-        $this->logSilkChange($type, $offset, $reason, $desc);
+        $this->logSilkChange($type, $amount, $reason, $desc);
     }
 
-    private function logSilkChange($type, $offset, $reason, $desc = '')
+    private function logSilkChange(int $type, int $amount, int $reason, string $desc = null): void
     {
         $remain = $this->{config('constants.silk.type.name.' . $type)};
 
         $this->user->silkBuyList()->create([
             'Silk_Type' => $type,
             'Silk_Reason' => $reason,
-            'Silk_Offset' => $offset,
+            'Silk_Offset' => $amount,
             'Silk_Remain' => $remain,
             'BuyQuantity' => '1',
             'SlipPaper' => $desc,
@@ -56,7 +56,7 @@ class Silk extends Model
 
         $this->user->silkChangeByWeb()->create([
             'silk_remain' => $remain,
-            'silk_offset' => $offset,
+            'silk_offset' => $amount,
             'silk_type' => $type,
             'reason' => $reason,
         ]);

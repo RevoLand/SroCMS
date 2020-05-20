@@ -246,6 +246,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
             Route::patch('{user}/updatePassword', 'Admin\UserController@updatePassword')->middleware('can:manage user password')->name('update_password');
             Route::patch('{user}/updateEmail', 'Admin\UserController@updateEmail')->middleware('can:manage user email')->name('update_email');
+            Route::patch('{user}/updateBalance', 'Admin\UserController@updateBalance')->middleware('can:manage user balance')->name('update_balance');
         });
 
         Route::get('', 'Admin\UserController@index')->name('index');

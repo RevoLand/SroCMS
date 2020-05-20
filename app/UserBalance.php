@@ -19,7 +19,7 @@ class UserBalance extends Model
         return $this->hasMany(UserBalanceLog::class, 'user_id', 'user_id');
     }
 
-    public function increase($type, $balance, $source, $comment = '', $source_user_id = '')
+    public function increase(string $type, float $balance, int $source, string $comment = null, int $source_user_id = null): void
     {
         if (!$this->exists)
         {
@@ -33,7 +33,7 @@ class UserBalance extends Model
         $this->logBalanceChange(config('constants.balance.log_type.' . $type), $balanceAfter, $balanceBefore, $source, $comment, $source_user_id);
     }
 
-    public function decrease($type, $balance, $source, $comment = '', $source_user_id = '')
+    public function decrease(string $type, float $balance, int $source, string $comment = null, int $source_user_id = null): void
     {
         if (!$this->exists)
         {
@@ -47,7 +47,7 @@ class UserBalance extends Model
         $this->logBalanceChange(config('constants.balance.log_type.' . $type), $balanceAfter, $balanceBefore, $source, $comment, $source_user_id);
     }
 
-    private function logBalanceChange($type, $balanceAfter, $balanceBefore, $source, $comment = '', $source_user_id = '')
+    private function logBalanceChange(int $type, float $balanceAfter, float $balanceBefore, int $source, string $comment = null, int $source_user_id = null): void
     {
         $this->logs()->create([
             'balance_before' => $balanceBefore,
