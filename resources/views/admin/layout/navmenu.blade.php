@@ -260,6 +260,11 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('admin.users.index') }}">List</a>
                     </li>
+                    @can('manage users')
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('admin.users.edit') }}">Edit</a>
+                    </li>
+                    @endcan
                     @can('manage user bans')
 					<li class="nav-item">
 						<a class="nav-link dropdown-indicator" href="#nav-user-bans" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="nav-user-bans">Bans</a>

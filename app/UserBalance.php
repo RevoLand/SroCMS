@@ -8,6 +8,10 @@ class UserBalance extends Model
 {
     protected $connection = 'srocms';
     protected $guarded = [];
+    protected $attributes = [
+        'balance' => 0,
+        'balance_point' => 0,
+    ];
 
     public function user()
     {

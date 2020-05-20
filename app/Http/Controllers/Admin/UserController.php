@@ -8,11 +8,13 @@ use App\ItemMallOrderItem;
 use App\Notifications\EmailChangedToNew;
 use App\Notifications\EmailChangedToOld;
 use App\Notifications\PasswordChange;
+use App\ShardCharNames;
 use App\User;
 use App\UserBalance;
 use Auth;
 use DB;
 use Hash;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use stdClass;
 use Str;
@@ -351,7 +353,45 @@ class UserController extends Controller
 
         return response()->json([
             'title' => 'Success!',
-            'message' => 'User\'s point has been successfully updated.',
+            'message' => 'User\'s balance has been successfully updated.',
+            'icon' => 'success'
+        ]);
+    }
+
+    public function updateSilk(User $user)
+    {
+        request()->validate([
+            'silk_own' => ['required', 'integer', 'min:0'],
+            'silk_gift' => ['required', 'integer', 'min:0'],
+            'silk_point' => ['required', 'integer', 'min:0'],
+            'reason' => ['nullable', 'string', 'max:250']
+        ]);
+
+        $compareSilkOwn = bccomp(request('silk_own'), $user->silk->silk_own);
+        $compareSilkGift = bccomp(request('silk_gift'), $user->silk->silk_gift);
+        $compareSilkPoint = bccomp(request('silk_point'), $user->silk->silk_point);
+
+        if ($compareSilkOwn === 1) {
+            $user->silk->increase(config('constants.silk.type.id.silk_own'), request('silk_own') - $user->silk->silk_own, config('constants.silk.reason.inc.silk_own'), request('reason', 'Added by Admin'));
+        } else if($compareSilkOwn === -1) {
+            $user->silk->decrease(config('constants.silk.type.id.silk_own'), $user->silk->silk_own - request('silk_own'), config('constants.silk.reason.dec.silk_own'), request('reason', 'Removed by Admin'));
+        }
+
+        if ($compareSilkGift === 1) {
+            $user->silk->increase(config('constants.silk.type.id.silk_gift'), request('silk_gift') - $user->silk->silk_gift, config('constants.silk.reason.inc.silk_gift'), request('reason', 'Added by Admin'));
+        } else if($compareSilkGift === -1) {
+            $user->silk->decrease(config('constants.silk.type.id.silk_gift'), $user->silk->silk_gift - request('silk_gift'), config('constants.silk.reason.dec.silk_gift'), request('reason', 'Removed by Admin'));
+        }
+
+        if ($compareSilkPoint === 1) {
+            $user->silk->increase(config('constants.silk.type.id.silk_point'), request('silk_point') - $user->silk->silk_point, config('constants.silk.reason.inc.silk_point'), request('reason', 'Added by Admin'));
+        } else if($compareSilkPoint === -1) {
+            $user->silk->decrease(config('constants.silk.type.id.silk_point'), $user->silk->silk_point - request('silk_point'), config('constants.silk.reason.dec.silk_point'), request('reason', 'Removed by Admin'));
+        }
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'User\'s Silk data has been successfully updated.',
             'icon' => 'success'
         ]);
     }
@@ -367,6 +407,22 @@ class UserController extends Controller
             'search' => ['string'],
         ])['search'];
 
-        return User::select(['JID as id', 'StrUserID as text'])->where('StrUserID', 'like', "{$search}%")->orWhere('Name', 'like', "{$search}%")->paginate(10);
+        $paginator = User::select(['StrUserID', 'JID'])->where('StrUserID', 'like', "{$search}%")->orWhere('Name', 'like', "{$search}%")->orWhereHas('characternames', function (Builder $query) use ($search) {
+            $query->where('CharName', 'like', "{$search}%");
+        })->with('characternames')->paginate(10);
+
+        $newCollection = $paginator->getCollection()->map(function (User $item) {
+            $characterNames = $item->characternames->map(function (ShardCharNames $characterName) {
+                return $characterName->CharName;
+            })->join(', ');
+
+            return [
+                'id' => $item->JID,
+                'text' => $item->StrUserID . ($characterNames != '' ? " - Characters: ({$characterNames})" : '')
+            ];
+        });
+
+        $paginator->setCollection($newCollection);
+        return $paginator;
     }
 }

@@ -33,13 +33,14 @@
                 <hr class="my-3" />
                 <div class="fancy-tab" v-show="user != ''">
                     <div class="nav-bar">
-                        <div class="nav-bar-item px-3 px-sm-4">Home</div>
+                        <div class="nav-bar-item px-3 px-sm-4 active">Home</div>
                         <div class="nav-bar-item px-3 px-sm-4">Change Password</div>
                         <div class="nav-bar-item px-3 px-sm-4">Change E-mail</div>
-                        <div class="nav-bar-item px-3 px-sm-4 active">Balance Management</div>
+                        <div class="nav-bar-item px-3 px-sm-4">Balance Management</div>
+                        <div class="nav-bar-item px-3 px-sm-4">Silk Management</div>
                     </div>
-                    <div class="tab-contents">
-                        <div class="tab-content">
+                    <div class="tab-contents" v-if="user != ''">
+                        <div class="tab-content active">
                             Home?
                         </div>
                         {{-- password-change-tab --}}
@@ -125,7 +126,7 @@
                         </div>
                         {{-- /email-change-tab --}}
                         {{-- balance-management-tab --}}
-                        <div class="tab-content form-validation active">
+                        <div class="tab-content">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -136,23 +137,23 @@
                                         <div class="col-md">
                                             <label>Increase Balance</label>
                                             <div class="btn-group d-flex flex-wrap">
-                                                <button type="button" @click="increaseBalance(5)" class="btn btn-sm btn-falcon-success">+5</button>
-                                                <button type="button" @click="increaseBalance(10)" class="btn btn-sm btn-falcon-success">+10</button>
-                                                <button type="button" @click="increaseBalance(20)" class="btn btn-sm btn-falcon-success">+20</button>
-                                                <button type="button" @click="increaseBalance(50)" class="btn btn-sm btn-falcon-success">+50</button>
-                                                <button type="button" @click="increaseBalance(100)" class="btn btn-sm btn-falcon-success">+100</button>
-                                                <button type="button" @click="increaseBalance(200)" class="btn btn-sm btn-falcon-success">+200</button>
+                                                <button type="button" @click="increaseBalance(5, 'balance')" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increaseBalance(10, 'balance')" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increaseBalance(20, 'balance')" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increaseBalance(50, 'balance')" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increaseBalance(100, 'balance')" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increaseBalance(200, 'balance')" class="btn btn-sm btn-falcon-success">+200</button>
                                             </div>
                                         </div>
                                         <div class="col-md">
                                             <label>Decrease Balance</label>
                                             <div class="btn-group d-flex flex-wrap">
-                                                <button type="button" @click="decreaseBalance(5)" class="btn btn-sm btn-falcon-danger">-5</button>
-                                                <button type="button" @click="decreaseBalance(10)" class="btn btn-sm btn-falcon-danger">-10</button>
-                                                <button type="button" @click="decreaseBalance(20)" class="btn btn-sm btn-falcon-danger">-20</button>
-                                                <button type="button" @click="decreaseBalance(50)" class="btn btn-sm btn-falcon-danger">-50</button>
-                                                <button type="button" @click="decreaseBalance(100)" class="btn btn-sm btn-falcon-danger">-100</button>
-                                                <button type="button" @click="decreaseBalance(200)" class="btn btn-sm btn-falcon-danger">-200</button>
+                                                <button type="button" @click="decreaseBalance(5, 'balance')" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreaseBalance(10, 'balance')" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreaseBalance(20, 'balance')" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreaseBalance(50, 'balance')" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreaseBalance(100, 'balance')" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreaseBalance(200, 'balance')" class="btn btn-sm btn-falcon-danger">-200</button>
                                             </div>
                                         </div>
                                     </div>
@@ -166,23 +167,23 @@
                                         <div class="col-md">
                                             <label>Increase Balance (Point)</label>
                                             <div class="btn-group d-flex flex-wrap">
-                                                <button type="button" @click="increasePointBalance(5)" class="btn btn-sm btn-falcon-success">+5</button>
-                                                <button type="button" @click="increasePointBalance(10)" class="btn btn-sm btn-falcon-success">+10</button>
-                                                <button type="button" @click="increasePointBalance(20)" class="btn btn-sm btn-falcon-success">+20</button>
-                                                <button type="button" @click="increasePointBalance(50)" class="btn btn-sm btn-falcon-success">+50</button>
-                                                <button type="button" @click="increasePointBalance(100)" class="btn btn-sm btn-falcon-success">+100</button>
-                                                <button type="button" @click="increasePointBalance(200)" class="btn btn-sm btn-falcon-success">+200</button>
+                                                <button type="button" @click="increaseBalance(5, 'balance_point')" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increaseBalance(10, 'balance_point')" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increaseBalance(20, 'balance_point')" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increaseBalance(50, 'balance_point')" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increaseBalance(100, 'balance_point')" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increaseBalance(200, 'balance_point')" class="btn btn-sm btn-falcon-success">+200</button>
                                             </div>
                                         </div>
                                         <div class="col-md">
                                             <label>Decrease Balance (Point)</label>
                                             <div class="btn-group d-flex flex-wrap">
-                                                <button type="button" @click="decreasePointBalance(5)" class="btn btn-sm btn-falcon-danger">-5</button>
-                                                <button type="button" @click="decreasePointBalance(10)" class="btn btn-sm btn-falcon-danger">-10</button>
-                                                <button type="button" @click="decreasePointBalance(20)" class="btn btn-sm btn-falcon-danger">-20</button>
-                                                <button type="button" @click="decreasePointBalance(50)" class="btn btn-sm btn-falcon-danger">-50</button>
-                                                <button type="button" @click="decreasePointBalance(100)" class="btn btn-sm btn-falcon-danger">-100</button>
-                                                <button type="button" @click="decreasePointBalance(200)" class="btn btn-sm btn-falcon-danger">-200</button>
+                                                <button type="button" @click="decreaseBalance(5, 'balance_point')" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreaseBalance(10, 'balance_point')" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreaseBalance(20, 'balance_point')" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreaseBalance(50, 'balance_point')" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreaseBalance(100, 'balance_point')" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreaseBalance(200, 'balance_point')" class="btn btn-sm btn-falcon-danger">-200</button>
                                             </div>
                                         </div>
                                     </div>
@@ -195,6 +196,119 @@
                             <button type="button" class="btn btn-falcon-primary" :disabled="CanSendUpdateBalanceForm" @click="updateBalance">Save</button>
                         </div>
                         {{-- /balance-management-tab --}}
+                        {{-- silk management tab --}}
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="silk_own">Silk</label>
+                                        <input id="silk_own" type="number" class="form-control" min="0" step="1" v-model.number="user.silk.silk_own" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label>Increase Silk</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="increaseSilk(5, 'silk_own')" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increaseSilk(10, 'silk_own')" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increaseSilk(20, 'silk_own')" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increaseSilk(50, 'silk_own')" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increaseSilk(100, 'silk_own')" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increaseSilk(200, 'silk_own')" class="btn btn-sm btn-falcon-success">+200</button>
+                                                <button type="button" @click="increaseSilk(500, 'silk_own')" class="btn btn-sm btn-falcon-success">+500</button>
+                                                <button type="button" @click="increaseSilk(1000, 'silk_own')" class="btn btn-sm btn-falcon-success">+1000</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Decrease Silk</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="decreaseSilk(5, 'silk_own')" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreaseSilk(10, 'silk_own')" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreaseSilk(20, 'silk_own')" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreaseSilk(50, 'silk_own')" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreaseSilk(100, 'silk_own')" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreaseSilk(200, 'silk_own')" class="btn btn-sm btn-falcon-danger">-200</button>
+                                                <button type="button" @click="decreaseSilk(500, 'silk_own')" class="btn btn-sm btn-falcon-danger">-500</button>
+                                                <button type="button" @click="decreaseSilk(1000, 'silk_own')" class="btn btn-sm btn-falcon-danger">-1000</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="silk_gift">Silk (Gift)</label>
+                                        <input id="silk_gift" type="number" class="form-control" min="0" step="1" v-model.number="user.silk.silk_gift" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label>Increase Silk (Gift)</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="increaseSilk(5, 'silk_gift')" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increaseSilk(10, 'silk_gift')" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increaseSilk(20, 'silk_gift')" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increaseSilk(50, 'silk_gift')" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increaseSilk(100, 'silk_gift')" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increaseSilk(200, 'silk_gift')" class="btn btn-sm btn-falcon-success">+200</button>
+                                                <button type="button" @click="increaseSilk(500, 'silk_gift')" class="btn btn-sm btn-falcon-success">+500</button>
+                                                <button type="button" @click="increaseSilk(1000, 'silk_gift')" class="btn btn-sm btn-falcon-success">+1000</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Decrease Silk (Gift)</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="decreaseSilk(5, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreaseSilk(10, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreaseSilk(20, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreaseSilk(50, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreaseSilk(100, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreaseSilk(200, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-200</button>
+                                                <button type="button" @click="decreaseSilk(500, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-500</button>
+                                                <button type="button" @click="decreaseSilk(1000, 'silk_gift')" class="btn btn-sm btn-falcon-danger">-1000</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="silk_point">Silk (Point)</label>
+                                        <input id="silk_point" type="number" class="form-control" min="0" step="1" v-model.number="user.silk.silk_point" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label>Increase Silk (Point)</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="increaseSilk(5, 'silk_point')" class="btn btn-sm btn-falcon-success">+5</button>
+                                                <button type="button" @click="increaseSilk(10, 'silk_point')" class="btn btn-sm btn-falcon-success">+10</button>
+                                                <button type="button" @click="increaseSilk(20, 'silk_point')" class="btn btn-sm btn-falcon-success">+20</button>
+                                                <button type="button" @click="increaseSilk(50, 'silk_point')" class="btn btn-sm btn-falcon-success">+50</button>
+                                                <button type="button" @click="increaseSilk(100, 'silk_point')" class="btn btn-sm btn-falcon-success">+100</button>
+                                                <button type="button" @click="increaseSilk(200, 'silk_point')" class="btn btn-sm btn-falcon-success">+200</button>
+                                                <button type="button" @click="increaseSilk(500, 'silk_point')" class="btn btn-sm btn-falcon-success">+500</button>
+                                                <button type="button" @click="increaseSilk(1000, 'silk_point')" class="btn btn-sm btn-falcon-success">+1000</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <label>Decrease Silk (Point)</label>
+                                            <div class="btn-group d-flex flex-wrap">
+                                                <button type="button" @click="decreaseSilk(5, 'silk_point')" class="btn btn-sm btn-falcon-danger">-5</button>
+                                                <button type="button" @click="decreaseSilk(10, 'silk_point')" class="btn btn-sm btn-falcon-danger">-10</button>
+                                                <button type="button" @click="decreaseSilk(20, 'silk_point')" class="btn btn-sm btn-falcon-danger">-20</button>
+                                                <button type="button" @click="decreaseSilk(50, 'silk_point')" class="btn btn-sm btn-falcon-danger">-50</button>
+                                                <button type="button" @click="decreaseSilk(100, 'silk_point')" class="btn btn-sm btn-falcon-danger">-100</button>
+                                                <button type="button" @click="decreaseSilk(200, 'silk_point')" class="btn btn-sm btn-falcon-danger">-200</button>
+                                                <button type="button" @click="decreaseSilk(500, 'silk_point')" class="btn btn-sm btn-falcon-danger">-500</button>
+                                                <button type="button" @click="decreaseSilk(1000, 'silk_point')" class="btn btn-sm btn-falcon-danger">-1000</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="silk_change_reason">Change Reason <small class="text-muted">Optional</small></label>
+                                <input id="silk_change_reason" type="text" maxlength="255" class="form-control" v-model="user.silk.change_reason" />
+                            </div>
+                            <button type="button" class="btn btn-falcon-primary" :disabled="CanSendUpdateSilkForm" @click="updateSilk">Save</button>
+                        </div>
+                        {{-- /silk management tab --}}
                     </div>
                 </div>
                 {{-- tabs ends here --}}
@@ -265,6 +379,13 @@
                 }
 
                 return false;
+            },
+            CanSendUpdateSilkForm: function() {
+                if (is.negative(this.user.silk.silk_own) || is.negative(this.user.silk.silk_gift) || is.negative(this.user.silk.silk_point)) {
+                    return true;
+                }
+
+                return false;
             }
         },
         watch: {
@@ -318,34 +439,48 @@
 
                 balanceForm.patch(route('admin.users.update_balance', this.user.JID).url());
             },
-            increaseBalance(balance) {
-                this.user.balance.balance = new Decimal(this.user.balance.balance).plus(new Decimal(balance));
+            updateSilk() {
+                let silkForm = new Form({
+                    silk_own: this.user.silk.silk_own,
+                    silk_gift: this.user.silk.silk_gift,
+                    silk_point: this.user.silk.silk_point,
+                    reason: this.user.silk.change_reason
+                });
+
+                silkForm.patch(route('admin.users.update_silk', this.user.JID).url());
             },
-            increasePointBalance(balance) {
-                this.user.balance.balance_point = new Decimal(this.user.balance.balance_point).plus(new Decimal(balance));
+            increaseBalance(balance, balanceType) {
+                this.user.balance[balanceType] = new Decimal(this.user.balance[balanceType]).plus(new Decimal(balance));
             },
-            decreaseBalance(balance) {
-                let newBalance = new Decimal(this.user.balance.balance).minus(new Decimal(balance));
-                if (newBalance > 0) {
-                    this.user.balance.balance = newBalance;
-                } else {
-                    this.user.balance.balance = 0;
+            decreaseBalance(balance, balanceType) {
+                let newBalance = new Decimal(this.user.balance[balanceType]).minus(new Decimal(balance));
+
+                if (newBalance.isNegative()) {
+                    console.log('negative');
+                    newBalance = 0;
                 }
+
+                this.user.balance[balanceType] = newBalance;
             },
-            decreasePointBalance(balance) {
-                let newBalance = new Decimal(this.user.balance.balance).minus(new Decimal(balance));
-                if (newBalance > 0) {
-                    this.user.balance.balance_point = newBalance;
-                } else {
-                    this.user.balance.balance_point = 0;
+            increaseSilk(silk, silkType) {
+                let newSilk = Number(this.user.silk[silkType]) + Number(silk);
+                this.user.silk[silkType] = newSilk;
+            },
+            decreaseSilk(silk, silkType) {
+                let newSilk = Number(this.user.silk[silkType]) - Number(silk);
+
+                if (newSilk < 0) {
+                    newSilk = 0;
                 }
+
+                this.user.silk[silkType] = newSilk;
             }
         }
     });
 
     $(document).ready(function() {
         $('.user_select2').select2({
-            placeholder: 'Search for User',
+            placeholder: 'Search for Character/User',
             minimumInputLength: 2,
             allowClear: false,
             dropdownAutoWidth: true,

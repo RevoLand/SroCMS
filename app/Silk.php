@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Silk extends Model
 {
     public $timestamps = false;
+    public $incrementing = false;
     protected $connection = 'account';
     protected $table = 'SK_Silk';
     protected $primaryKey = 'JID';
     protected $guarded = [];
+    protected $attributes = [
+        'silk_own' => 0,
+        'silk_gift' => 0,
+        'silk_point' => 0,
+    ];
 
     public function user()
     {

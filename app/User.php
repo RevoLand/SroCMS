@@ -46,21 +46,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function silk()
     {
-        return $this->hasOne(Silk::class, 'JID', 'JID')->withDefault(function ($default)
-        {
-            $default->silk_own = 0;
-            $default->silk_gift = 0;
-            $default->silk_point = 0;
-        });
+        return $this->hasOne(Silk::class, 'JID', 'JID')->withDefault();
     }
 
     public function balance()
     {
-        return $this->hasOne(UserBalance::class, 'user_id', 'JID')->withDefault(function ($default)
-        {
-            $default->balance = 0;
-            $default->balance_point = 0;
-        });
+        return $this->hasOne(UserBalance::class, 'user_id', 'JID')->withDefault();
     }
 
     public function orders()
@@ -101,6 +92,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function routeNotificationForMail()
     {
         return $this->Email;
+    }
+
+    public function characternames()
+    {
+        return $this->hasMany(ShardCharNames::class, 'UserJID', 'JID');
     }
 
     public function characters()
