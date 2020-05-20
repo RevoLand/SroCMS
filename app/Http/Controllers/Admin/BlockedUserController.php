@@ -71,7 +71,7 @@ class BlockedUserController extends Controller
 
         $punishment = $user->punishments()->create([
             'Type' => request('type'),
-            'Executor' => auth()->user()->JID,
+            'Executor' => auth()->user()->StrUserID,
             'Shard' => setting('server.shard', 3),
             'Description' => request('reason', ''),
             'RaiseTime' => now(),
@@ -176,7 +176,7 @@ class BlockedUserController extends Controller
 
         $ban->punishment()->update([
             'Type' => $validated['type'],
-            'Executor' => auth()->user()->JID,
+            'Executor' => auth()->user()->StrUserID,
             'BlockStartTime' => Carbon::parse($validated['timeBegin']),
             'BlockEndTime' => Carbon::parse($validated['timeEnd']),
             'Description' => request('reason', ''),

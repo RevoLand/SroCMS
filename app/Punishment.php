@@ -31,7 +31,7 @@ class Punishment extends Model
 
     public function executor()
     {
-        return $this->belongsTo(User::class, 'Executor', 'JID');
+        return $this->belongsTo(User::class, 'Executor', 'StrUserID');
     }
 
     public function scopeActive($query)
