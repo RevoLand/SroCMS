@@ -46,8 +46,9 @@ class UsersDataTable extends DataTable
 
                 return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $user->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $user->regtime . '</div>';
             })
+            ->editColumn('characternames', 'users.datatables.characternames')
             ->setRowId('id')
-            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs', 'regtime']);
+            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs', 'regtime', 'characternames']);
     }
 
     /**
@@ -58,7 +59,7 @@ class UsersDataTable extends DataTable
     public function query(User $model)
     {
         // TODO: withCount düzeltildiğinde elden geçirilecek.
-        return $model->with(['orders', 'referrals', 'voteLogs'])->newQuery();
+        return $model->with(['orders', 'referrals', 'voteLogs', 'characternames.character'])->newQuery();
     }
 
     /**
@@ -95,6 +96,7 @@ class UsersDataTable extends DataTable
             Column::make('StrUserID'),
             Column::make('Name'),
             Column::make('Email'),
+            Column::make('characternames', 'characternames.CharName')->title('Characters')->sortable(false),
             Column::computed('orders'),
             Column::computed('referrals'),
             Column::computed('vote_logs'),

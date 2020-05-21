@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 
 class CharacterController extends Controller
 {
+    public function show(Character $character)
+    {
+        ddd($character);
+    }
+
     public function getPosition()
     {
         request()->validate([

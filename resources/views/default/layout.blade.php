@@ -22,7 +22,6 @@
 
         <!-- Additional CSS -->
         {!! Theme::css('vendor/fontawesome/css/fontawesome-all.min.css') !!}
-        {!! Theme::css('vendor/lineawesome/css/line-awesome.min.css') !!}
 
         <!-- Custom CSS -->
         @yield('css')

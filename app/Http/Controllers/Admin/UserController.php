@@ -10,7 +10,6 @@ use App\Notifications\EmailChangedToOld;
 use App\Notifications\PasswordChange;
 use App\ShardCharNames;
 use App\User;
-use App\UserBalance;
 use Auth;
 use DB;
 use Hash;
@@ -253,6 +252,27 @@ class UserController extends Controller
     {
     }
 
+    public function updateInformation(User $user)
+    {
+        request()->validate([
+            'name' => ['nullable', 'string', 'max:50'],
+            'regtime' => ['nullable', 'date'],
+            'reg_ip' => ['nullable', 'ip'],
+        ]);
+
+        $user->update([
+            'Name' => request('name'),
+            'regtime' => request('regtime'),
+            'reg_ip' => request('reg_ip'),
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Changes has been successfully saved.',
+            'icon' => 'success',
+        ]);
+    }
+
     public function updatePassword(User $user)
     {
         request()->validate([
@@ -331,30 +351,34 @@ class UserController extends Controller
         request()->validate([
             'balance' => ['required', 'numeric', 'min:0'],
             'balance_point' => ['required', 'numeric', 'min:0'],
-            'reason' => ['nullable', 'string', 'max:250']
+            'reason' => ['nullable', 'string', 'max:250'],
         ]);
 
         $compareBalance = bccomp(request()->balance, $user->balance->balance, 2);
         $compareBalancePoint = bccomp(request()->balance_point, $user->balance->balance_point, 2);
 
-        if ($compareBalance === 1) {
+        if ($compareBalance === 1)
+        {
             $user->balance->increase('balance', bcsub(request()->balance, $user->balance->balance, 2), config('constants.balance.source.admin'), request('reason', 'Added by Admin'), auth()->user()->JID);
         }
-        else if ($compareBalance === -1) {
+        elseif ($compareBalance === -1)
+        {
             $user->balance->decrease('balance', bcsub($user->balance->balance, request()->balance, 2), config('constants.balance.source.admin'), request('reason', 'Removed by Admin'), auth()->user()->JID);
         }
 
-        if ($compareBalancePoint === 1) {
+        if ($compareBalancePoint === 1)
+        {
             $user->balance->increase('balance_point', bcsub(request()->balance_point, $user->balance->balance_point, 2), config('constants.balance.source.admin'), request('reason', 'Added by Admin'), auth()->user()->JID);
         }
-        else if ($compareBalancePoint === -1) {
+        elseif ($compareBalancePoint === -1)
+        {
             $user->balance->decrease('balance_point', bcsub($user->balance->balance_point, request()->balance_point, 2), config('constants.balance.source.admin'), request('reason', 'Removed by Admin'), auth()->user()->JID);
         }
 
         return response()->json([
             'title' => 'Success!',
             'message' => 'User\'s balance has been successfully updated.',
-            'icon' => 'success'
+            'icon' => 'success',
         ]);
     }
 
@@ -364,35 +388,44 @@ class UserController extends Controller
             'silk_own' => ['required', 'integer', 'min:0'],
             'silk_gift' => ['required', 'integer', 'min:0'],
             'silk_point' => ['required', 'integer', 'min:0'],
-            'reason' => ['nullable', 'string', 'max:250']
+            'reason' => ['nullable', 'string', 'max:250'],
         ]);
 
         $compareSilkOwn = bccomp(request('silk_own'), $user->silk->silk_own);
         $compareSilkGift = bccomp(request('silk_gift'), $user->silk->silk_gift);
         $compareSilkPoint = bccomp(request('silk_point'), $user->silk->silk_point);
 
-        if ($compareSilkOwn === 1) {
+        if ($compareSilkOwn === 1)
+        {
             $user->silk->increase(config('constants.silk.type.id.silk_own'), request('silk_own') - $user->silk->silk_own, config('constants.silk.reason.inc.silk_own'), request('reason', 'Added by Admin'));
-        } else if($compareSilkOwn === -1) {
+        }
+        elseif ($compareSilkOwn === -1)
+        {
             $user->silk->decrease(config('constants.silk.type.id.silk_own'), $user->silk->silk_own - request('silk_own'), config('constants.silk.reason.dec.silk_own'), request('reason', 'Removed by Admin'));
         }
 
-        if ($compareSilkGift === 1) {
+        if ($compareSilkGift === 1)
+        {
             $user->silk->increase(config('constants.silk.type.id.silk_gift'), request('silk_gift') - $user->silk->silk_gift, config('constants.silk.reason.inc.silk_gift'), request('reason', 'Added by Admin'));
-        } else if($compareSilkGift === -1) {
+        }
+        elseif ($compareSilkGift === -1)
+        {
             $user->silk->decrease(config('constants.silk.type.id.silk_gift'), $user->silk->silk_gift - request('silk_gift'), config('constants.silk.reason.dec.silk_gift'), request('reason', 'Removed by Admin'));
         }
 
-        if ($compareSilkPoint === 1) {
+        if ($compareSilkPoint === 1)
+        {
             $user->silk->increase(config('constants.silk.type.id.silk_point'), request('silk_point') - $user->silk->silk_point, config('constants.silk.reason.inc.silk_point'), request('reason', 'Added by Admin'));
-        } else if($compareSilkPoint === -1) {
+        }
+        elseif ($compareSilkPoint === -1)
+        {
             $user->silk->decrease(config('constants.silk.type.id.silk_point'), $user->silk->silk_point - request('silk_point'), config('constants.silk.reason.dec.silk_point'), request('reason', 'Removed by Admin'));
         }
 
         return response()->json([
             'title' => 'Success!',
             'message' => 'User\'s Silk data has been successfully updated.',
-            'icon' => 'success'
+            'icon' => 'success',
         ]);
     }
 
@@ -407,22 +440,26 @@ class UserController extends Controller
             'search' => ['string'],
         ])['search'];
 
-        $paginator = User::select(['StrUserID', 'JID'])->where('StrUserID', 'like', "{$search}%")->orWhere('Name', 'like', "{$search}%")->orWhereHas('characternames', function (Builder $query) use ($search) {
+        $paginator = User::select(['StrUserID', 'JID'])->where('StrUserID', 'like', "{$search}%")->orWhere('Name', 'like', "{$search}%")->orWhereHas('characternames', function (Builder $query) use ($search)
+        {
             $query->where('CharName', 'like', "{$search}%");
         })->with('characternames')->paginate(10);
 
-        $newCollection = $paginator->getCollection()->map(function (User $item) {
-            $characterNames = $item->characternames->map(function (ShardCharNames $characterName) {
+        $newCollection = $paginator->getCollection()->map(function (User $item)
+        {
+            $characterNames = $item->characternames->map(function (ShardCharNames $characterName)
+            {
                 return $characterName->CharName;
             })->join(', ');
 
             return [
                 'id' => $item->JID,
-                'text' => $item->StrUserID . ($characterNames != '' ? " - Characters: ({$characterNames})" : '')
+                'text' => $item->StrUserID . ($characterNames != '' ? " - Characters: ({$characterNames})" : ''),
             ];
         });
 
         $paginator->setCollection($newCollection);
+
         return $paginator;
     }
 }

@@ -244,6 +244,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
             Route::get('edit/{user?}', 'Admin\UserController@edit')->name('edit');
             Route::get('create', 'Admin\UserController@create')->name('create');
 
+            Route::patch('{user}/updateInformation', 'Admin\UserController@updateInformation')->middleware('can:manage user information')->name('update_information');
             Route::patch('{user}/updatePassword', 'Admin\UserController@updatePassword')->middleware('can:manage user password')->name('update_password');
             Route::patch('{user}/updateEmail', 'Admin\UserController@updateEmail')->middleware('can:manage user email')->name('update_email');
             Route::patch('{user}/updateBalance', 'Admin\UserController@updateBalance')->middleware('can:manage user balance')->name('update_balance');
@@ -284,6 +285,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
 
     Route::group(['prefix' => 'characters', 'as' => 'characters.'], function ()
     {
+        Route::get('{character}', 'Admin\CharacterController@show')->name('show');
         Route::post('getPosition', 'Admin\CharacterController@getPosition')->name('get_position');
     });
 });

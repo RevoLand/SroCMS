@@ -33,7 +33,7 @@
                 <hr class="my-3" />
                 <div class="fancy-tab" v-show="user != ''">
                     <div class="nav-bar">
-                        <div class="nav-bar-item px-3 px-sm-4 active">Home</div>
+                        <div class="nav-bar-item px-3 px-sm-4 active">Basic Information</div>
                         <div class="nav-bar-item px-3 px-sm-4">Change Password</div>
                         <div class="nav-bar-item px-3 px-sm-4">Change E-mail</div>
                         <div class="nav-bar-item px-3 px-sm-4">Balance Management</div>
@@ -41,7 +41,19 @@
                     </div>
                     <div class="tab-contents" v-if="user != ''">
                         <div class="tab-content active">
-                            Home?
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" class="form-control" v-model="user.Name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="regdate">Registration Date</label>
+                                <input id="regdate" type="datetime" class="form-control flatpickr" v-model="user.regtime" />
+                            </div>
+                            <div class="form-group">
+                              <label for="reg_ip">Registration IP</label>
+                              <input type="text" id="reg_ip" class="form-control" v-model="user.reg_ip">
+                            </div>
+                            <button type="button" class="btn btn-falcon-primary" @click="updateUserInformation">Save</button>
                         </div>
                         {{-- password-change-tab --}}
                         <div class="tab-content form-validation">
@@ -417,6 +429,15 @@
             }
         },
         methods: {
+            updateUserInformation() {
+                let userInfoForm = new Form({
+                    name: this.user.Name,
+                    regtime: this.user.regtime,
+                    reg_ip: this.user.reg_ip
+                });
+
+                userInfoForm.patch(route('admin.users.update_information', this.user.JID).url());
+            },
             changePassword() {
                 this.password_change_form.patch(route('admin.users.update_password', this.user.JID).url())
                 .then(response => {
@@ -478,6 +499,7 @@
         }
     });
 
+@empty($user)
     $(document).ready(function() {
         $('.user_select2').select2({
             placeholder: 'Search for Character/User',
@@ -506,5 +528,6 @@
             }
         });
     });
+@endif
 </script>
 @endsection
