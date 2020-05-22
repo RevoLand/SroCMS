@@ -1,7 +1,7 @@
 @extends('layout')
 
-@section('pagetitle', 'Kayıt')
-@section('contenttitle', 'Kayıt')
+@section('pagetitle', 'Register')
+@section('contenttitle', 'Register')
 
 @section('content')
 

@@ -46,9 +46,10 @@ class UsersDataTable extends DataTable
 
                 return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $user->regtime->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $user->regtime . '</div>';
             })
+            ->editColumn('StrUserID', 'users.datatables.user')
             ->editColumn('characternames', 'users.datatables.characternames')
             ->setRowId('id')
-            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs', 'regtime', 'characternames']);
+            ->rawColumns(['action', 'orders', 'referrals', 'vote_logs', 'regtime', 'StrUserID', 'characternames']);
     }
 
     /**
@@ -93,7 +94,7 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('JID', 'JID'),
-            Column::make('StrUserID'),
+            Column::make('StrUserID')->title('Username'),
             Column::make('Name'),
             Column::make('Email'),
             Column::make('characternames', 'characternames.CharName')->title('Characters')->sortable(false),

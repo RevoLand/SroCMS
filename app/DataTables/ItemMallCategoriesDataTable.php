@@ -82,7 +82,7 @@ class ItemMallCategoriesDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('item_groups_count')->title('Item Groups Attached')->searchable(false),
-            Column::make('order'),
+            Column::make('order')->title('List Order'),
             Column::make('enabled'),
             Column::make('created_at'),
             Column::make('updated_at'),

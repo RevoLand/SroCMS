@@ -99,7 +99,7 @@ class VoteLogsDataTable extends DataTable
             ])
             ->lengthMenu([10, 25, 50, 100, 250, 500])
             ->orders([['4', 'asc'], ['2', 'asc'], ['3', 'asc']])
-            ->rowGroupDataSrc(['voteprovider', 'rewardgroup']);
+            ->rowGroupDataSrc(['voteProvider', 'rewardgroup']);
     }
 
     /**
@@ -138,7 +138,7 @@ class VoteLogsDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
+                ->width(20)
                 ->addClass('text-center'),
         ];
     }

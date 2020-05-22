@@ -1,29 +1,28 @@
 @extends('layout')
 
-@section('pagetitle', 'User: ' . $user->getName())
+@section('pagetitle', 'User: ' . $user->StrUserID)
 
 @section('content')
 <div class="card mb-3">
     <div class="card-body position-relative">
         <div class="row">
-            <div class="col-lg-9">
+            <div class="col-lg-10">
                 @isset($user->gravatar)
                 <div class="avatar avatar-5xl">
                     <img class="rounded-circle img-thumbnail shadow-sm" src="{{ $user->gravatar }}?s=256" alt="">
                 </div>
                 @endisset
                 <h4 class="mb-1">
-                    {{ $user->getName() }}
+                    {{ $user->StrUserID }}
                 </h4>
                 <h5 class="fs-0 font-weight-normal">{{ $user->Email }}</h5>
-                <p class="text-500">{{ $user->StrUserID }}</p>
-                <a class="btn btn-falcon-primary btn-sm px-3" href="{{ route('users.show_user', $user) }}">Profile</a>
-                <a class="btn btn-falcon-default btn-sm px-3 ml-2" type="button">Edit</a>
-                {{-- TODO: Open a modal? --}}
+                @isset($user->Name)<p class="text-500">{{ $user->Name }}</p>@endisset
+                <a class="btn btn-falcon-primary btn-sm px-3" href="{{ route('users.show_user', $user) }}">Public Profile</a>
+                <a class="btn btn-falcon-default btn-sm px-3 ml-2" href="{{ route('admin.users.edit', $user) }}" type="button">Edit</a>
                 <a class="btn btn-falcon-danger btn-sm px-3 ml-2" href="{{ route('admin.users.bans.create', ['user' => $user]) }}">Ban</a>
                 <hr class="border-dashed my-4 d-lg-none">
             </div>
-            <div class="col-lg-3 pl-lg-3 fs--1 align-self-center">
+            <div class="col-lg-2 pl-lg-2 fs--1 align-self-center">
                 <ul class="list-group shadow-sm list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Balance <span>{{ number_format($user->balance->balance, 2) }}</span>
@@ -192,7 +191,7 @@
                                         </li>
                                     </ul>
                                 </td>
-                                <td class="white-space-nowrap align-middle">@{{ order.created_at }}</td>
+                                <td class="white-space-nowrap align-middle">@{{ order.created_at | formatDate }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -230,7 +229,7 @@
                                 <td class="align-middle"><a :href="getVoteProviderUrl(vote.vote_provider_id)" v-text="vote.vote_provider.name"></a></td>
                                 <td class="align-middle"><a :href="getVoteRewardGroupUrl(vote.selected_reward_group_id)" v-text="vote.rewardgroup.name"></a></td>
                                 <td class="align-middle"><template v-if="vote.voted"><label class="badge badge-soft-primary">Yes</label></template><template v-else><label class="badge badge-soft-warning">No</label></template></td>
-                                <td class="white-space-nowrap align-middle" v-text="vote.created_at"></td>
+                                <td class="white-space-nowrap align-middle">@{{ vote.created_at | formatDate }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -239,7 +238,7 @@
         </div>
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between">
-                Latest Referrals
+                <h6>Latest Referrals</h6>
                 <span>
                     <select class="custom-select custom-select-sm" v-model.number="referralInfo.show_limit">
                         <option>3</option>
@@ -263,8 +262,8 @@
                         <tbody>
                             <tr v-for="referral in filteredReferrals" class="border-bottom border-200">
                                 <th class="align-middle" scope="row" v-text="referral.id"></th>
-                                <td class="align-middle"><a :href="getUserUrl(referral.user.JID)">@{{ referral.user.Name || referral.user.StrUserID }}</a></td>
-                                <td class="white-space-nowrap align-middle" v-text="referral.created_at"></td>
+                                <td class="align-middle"><a :href="route('admin.users.show', referral.user.JID)">@{{ referral.user.StrUserID }}</a> <small class="text-muted" v-if="referral.user.Name" v-text="referral.user.Name"></small></td>
+                                <td class="white-space-nowrap align-middle"> @{{ referral.created_at | formatDate }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -418,15 +417,9 @@
                     title: error.response.data.message,
                     html: errors
                 });
-            })
-            .finally(() => {
-
             });
         },
         methods: {
-            getUserUrl(userJID) {
-                return route('admin.users.show', userJID);
-            },
             getVoteProviderUrl(providerId) {
                 return route('admin.votes.providers.show', providerId);
             },
