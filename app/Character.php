@@ -11,6 +11,9 @@ class Character extends Model
     protected $primaryKey = 'CharID';
     protected $table = '_Char';
     protected $guarded = [];
+    protected $dates = [
+        'LastLogout',
+    ];
 
     public function user()
     {
@@ -19,7 +22,7 @@ class Character extends Model
 
     public function logEventChar()
     {
-        return $this->hasMany(LogEventChar::class, 'CharID', 'CharID')->latest();
+        return $this->hasMany(LogEventChar::class, 'CharID', 'CharID');
     }
 
     public function guild()
@@ -47,6 +50,23 @@ class Character extends Model
         return $this->hasMany(CharacterSkillMastery::class, 'CharID', 'CharID');
     }
 
+    public function academy()
+    {
+        return $this->hasOneThrough(
+            TrainingCamp::class, // _TrainignCamp
+            TrainingCampMember::class, // _TrainingCampMember
+            'CharID', // _TrainingCampMember.CharID
+            'ID', // _TrainingCamp.ID
+            'CharID', // _Char.CharID (this)
+            'CampID' // _TrainingCampMember.CampID
+        );
+    }
+
+    public function academyMember()
+    {
+        return $this->hasOne(TrainingCampMember::class, 'CharID', 'CharID');
+    }
+
     public function getItemPointAttribute()
     {
         $itemPoint = 0;
@@ -56,5 +76,10 @@ class Character extends Model
         });
 
         return $itemPoint;
+    }
+
+    public function scopeIgnoreDummy($query)
+    {
+        return $query->where('CharID', '>', '0');
     }
 }

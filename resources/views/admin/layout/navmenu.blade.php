@@ -281,6 +281,23 @@
 				</ul>
             </li>
             @endcan
+            @can('view characters')
+			<li class="nav-item">
+				<a class="nav-link dropdown-indicator" href="#character-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="character-manager">
+					<div class="d-flex align-items-center">
+						<span class="nav-link-icon">
+							<span class="fad fa-user-alien"></span>
+						</span>
+						<span class="nav-link-text">Character Manager</span>
+					</div>
+				</a>
+				<ul class="nav collapse" id="character-manager" data-parent="#navbarVerticalCollapse">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('admin.characters.index') }}">List</a>
+                    </li>
+				</ul>
+            </li>
+            @endcan
 			<li class="nav-item">
 				<a class="nav-link dropdown-indicator" href="#teleport-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="teleport-manager">
 					<div class="d-flex align-items-center">

@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Character;
+use App\DataTables\CharactersDataTable;
 use App\Http\Controllers\Controller;
 
 class CharacterController extends Controller
 {
+    public function index(CharactersDataTable $dataTable)
+    {
+        return $dataTable->render('characters.index');
+    }
+
     public function show(Character $character)
     {
         ddd($character);

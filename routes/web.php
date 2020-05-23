@@ -283,8 +283,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::post('reverse-points/destroy', 'Admin\OptionalTeleportController@destroy')->name('reverse_points.destroy');
     });
 
-    Route::group(['prefix' => 'characters', 'as' => 'characters.'], function ()
+    Route::group(['prefix' => 'characters', 'as' => 'characters.', 'middleware' => 'can:view characters'], function ()
     {
+        Route::get('', 'Admin\CharacterController@index')->name('index');
         Route::get('{character}', 'Admin\CharacterController@show')->name('show');
         Route::post('getPosition', 'Admin\CharacterController@getPosition')->name('get_position');
     });
