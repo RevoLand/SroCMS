@@ -31,8 +31,13 @@ class CharactersDataTable extends DataTable
             })
             ->addColumn('username', function (Character $character)
             {
-                return '<a class="text-reset" href="' . route('admin.users.show', $character->user->account->JID) . '">' . $character->user->account->StrUserID . '</a>';
+                return '<a class="text-reset text-wrap" href="' . route('admin.users.show', $character->user->account->JID) . '">' . $character->user->account->StrUserID . '</a>';
             })
+            ->editColumn('RemainGold', function (Character $character)
+            {
+                return '<div class="text-wrap">' . number_format($character->RemainGold) . '</div>';
+            })
+            ->editColumn('job', 'characters.datatables.job')
             ->editColumn('guild', 'characters.datatables.guild')
             ->editColumn('Online', function (Character $character)
             {
@@ -53,7 +58,8 @@ class CharactersDataTable extends DataTable
                 return '<div class="text-muted text-wrap" data-toggle="tooltip" title="' . $character->LastLogout->locale(env('APP_LOCALE', 'tr_TR'))->diffForHumans(['parts' => 2, 'short' => true]) . '">' . $character->LastLogout . '</div>';
             })
             ->setRowId('CharID')
-            ->rawColumns(['actions', 'level', 'guild', 'username', 'LastLogout', 'Online']);
+            ->setRowClass('btn-reveal-trigger')
+            ->rawColumns(['actions', 'level', 'guild', 'username', 'LastLogout', 'Online', 'job', 'RemainGold']);
     }
 
     /**
@@ -105,7 +111,8 @@ class CharactersDataTable extends DataTable
             Column::make('Strength')->title('Str'),
             Column::make('Intellect')->title('Int'),
             Column::make('guild', 'guild.Name'),
-            Column::make('LastLogout')->title('LastLogout'),
+            Column::computed('job'),
+            Column::make('LastLogout')->title('Last Logout'),
             Column::make('Online'),
             Column::computed('actions')
                 ->exportable(false)

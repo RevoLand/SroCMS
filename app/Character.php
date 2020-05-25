@@ -20,6 +20,12 @@ class Character extends Model
         return $this->belongsTo(ShardUser::class, 'CharID', 'CharID');
     }
 
+    // public function account()
+    // {
+    //     // Laravel issue (actually multiple connection issue), doesn't works
+    //     // return $this->hasOneThrough(User::class, ShardUser::class, 'CharID', 'JID', 'CharID', 'UserJID');
+    // }
+
     public function logEventChar()
     {
         return $this->hasMany(LogEventChar::class, 'CharID', 'CharID');
@@ -30,6 +36,11 @@ class Character extends Model
         return $this->hasOne(Guild::class, 'ID', 'GuildID')->ignoreDummy();
     }
 
+    public function guildmember()
+    {
+        return $this->hasOne(GuildMember::class, 'CharID', 'CharID');
+    }
+
     public function inventory()
     {
         return $this->hasMany(Inventory::class, 'CharID', 'CharID');
@@ -38,6 +49,11 @@ class Character extends Model
     public function inventoryForAvatar()
     {
         return $this->hasMany(InventoryForAvatar::class, 'CharID', 'CharID');
+    }
+
+    public function createdItems()
+    {
+        return $this->hasMany(Item::class, 'CreaterName', 'CharName16');
     }
 
     public function job()
@@ -65,6 +81,21 @@ class Character extends Model
     public function academyMember()
     {
         return $this->hasOne(TrainingCampMember::class, 'CharID', 'CharID');
+    }
+
+    public function charname()
+    {
+        return $this->hasOne(CharNameList::class, 'CharID', 'CharID');
+    }
+
+    public function charnickname()
+    {
+        return $this->hasOne(CharNickNameList::class, 'CharID', 'CharID');
+    }
+
+    public function shardcharname()
+    {
+        return $this->hasOne(ShardCharNames::class, 'CharName', 'CharName16');
     }
 
     public function getItemPointAttribute()

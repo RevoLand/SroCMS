@@ -110,7 +110,7 @@ Kontrol Paneli: {{ auth()->user()->getName() }}
                     @forelse(auth()->user()->characters as $character)
                     <div class="col">
                         <figure class="figure">
-                            <img class="figure-img img-fluid border-0 shadow-sm rounded" alt="{{ $character->CharName16 }}" src="{{ Theme::url('img/silkroad/characters/' . $character->RefObjID . '.gif') }}">
+                            <img class="figure-img img-fluid border-0 shadow-sm rounded" alt="{{ $character->CharName16 }}" src="{{ asset('vendor/img/silkroad/characters/' . $character->RefObjID . '.gif') }}">
                             <figcaption class="figure-caption">
                                 <a href="{{ route('users.characters.show', $character) }}" class="stretched-link">
                                 {{ $character->CharName16 }} <small class="text-muted">- {{ $character->CurLevel }} Level</small>

@@ -54,7 +54,7 @@
 
                             <td>{{ $guildMember->MemberClass }}</td>
                             <td scope="row">
-                                <a data-toggle="tooltip" data-html="true" title="<img class='img-fluid rounded' src='{{ Theme::url('img/silkroad/characters/' . $guildMember->RefObjID . '.gif') }}'>" href="{{ route('users.characters.show', $guildMember->CharID) }}">
+                                <a data-toggle="tooltip" data-html="true" title="<img class='img-fluid rounded' src='{{ asset('vendor/img/silkroad/characters/' . $guildMember->RefObjID . '.gif') }}'>" href="{{ route('users.characters.show', $guildMember->CharID) }}">
                                     {{ $guildMember->CharName }}
                                 </a>
                                 @if ($guildMember->Nickname)<small class="text-muted">* {{ $guildMember->Nickname }}</small>@endif

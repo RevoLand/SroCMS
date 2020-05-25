@@ -295,6 +295,11 @@
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('admin.characters.index') }}">List</a>
                     </li>
+                    @can('manage characters')
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('admin.characters.edit') }}">Edit</a>
+                    </li>
+                    @endcan
 				</ul>
             </li>
             @endcan

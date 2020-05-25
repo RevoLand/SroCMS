@@ -255,6 +255,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('{user}', 'Admin\UserController@show')->name('show');
     });
 
+    // TODO: Ajax'lar için ana grup/prefix
     Route::group(['prefix' => 'ajax/users/{user}/', 'as' => 'ajax.users.'], function ()
     {
         Route::get('getCounts', 'Admin\UserController@getCounts')->name('get_counts');
@@ -264,9 +265,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('getActiveBlocks', 'Admin\UserController@getActiveBlocks')->name('get_activeblocks');
         Route::get('getUserInfo', 'Admin\UserController@getUserInfo')->name('get_userinfo');
     });
+
+    Route::group(['prefix' => 'ajax/characters/{character}', 'as' => 'ajax.characters.'], function ()
+    {
+        Route::get('getInfo', 'Admin\CharacterController@getInfo')->name('get_info');
+    });
+
     Route::group(['prefix' => 'ajaxData', 'as' => 'ajax.'], function ()
     {
         Route::get('users/getUsername', 'Admin\UserController@getUsernames')->name('users.get_usernames');
+        Route::get('characters/getCharNames', 'Admin\CharacterController@getCharNames')->name('characters.get_names');
     });
 
     Route::group(['prefix' => 'teleports', 'as' => 'teleports.', 'middleware' => 'can:manage teleports'], function ()
@@ -286,6 +294,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     Route::group(['prefix' => 'characters', 'as' => 'characters.', 'middleware' => 'can:view characters'], function ()
     {
         Route::get('', 'Admin\CharacterController@index')->name('index');
+        Route::get('edit/{character?}', 'Admin\CharacterController@edit')->middleware('can:manage characters')->name('edit');
+        Route::patch('{character}/updateName', 'Admin\CharacterController@updateName')->middleware('can:manage character name')->name('update_character_name');
+
         Route::get('{character}', 'Admin\CharacterController@show')->name('show');
         Route::post('getPosition', 'Admin\CharacterController@getPosition')->name('get_position');
     });

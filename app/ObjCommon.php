@@ -38,10 +38,10 @@ class ObjCommon extends Model
     {
         if ($this->AssocFileIcon128 == 'xxx')
         {
-            return theme_url('img/silkroad/no_item.png');
+            return asset('vendor/img/silkroad/no_item.png');
         }
 
-        return theme_url('img/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
+        return asset('vendor/img/silkroad/' . Str::lower(Str::replaceFirst('.ddj', '.png', $this->AssocFileIcon128)));
     }
 
     public function getSortOfItemAttribute()

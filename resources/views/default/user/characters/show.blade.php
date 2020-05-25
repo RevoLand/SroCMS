@@ -10,7 +10,7 @@
             {{-- Character image, name, stats --}}
             <div class="row">
                 <div class="col-12 col-md-2">
-                    <img class="img-fluid rounded-sm" alt="{{ $character->CharName16 }}" src="{{ Theme::url('img/silkroad/characters/' . $character->RefObjID . '.gif') }}">
+                    <img class="img-fluid rounded-sm" alt="{{ $character->CharName16 }}" src="{{ asset('vendor/img/silkroad/characters/' . $character->RefObjID . '.gif') }}">
                 </div>
                 <div class="col-12 col-md-10 mt-2 mt-md-0">
                     <div class="row">
@@ -51,7 +51,7 @@
                             <div class="card-text">
                                 <div class="row row-cols-1">
                                     @if($character->job->JobType)
-                                        <div class="col">{!! Theme::img('img/silkroad/job/'.$character->job->JobType.'.png') !!} {{ config('constants.job.' . $character->job->JobType) }}</div>
+                                        <div class="col">{!! asset('vendor/img/silkroad/job/'.$character->job->JobType.'.png') !!} {{ config('constants.job.' . $character->job->JobType) }}</div>
                                         <div class="col"><strong>Name:</strong> @if(setting('characters.show_job_alias', 0)) {{ $character->NickName16 }} @else <small class="text-muted">Hidden</small> @endif</div>
                                         <div class="col"><strong>Level:</strong> {{ $character->job->Level }}</div>
                                         <div class="col"><strong>Exp:</strong> {{ $character->job->Exp }}</div>
@@ -73,7 +73,7 @@
                             <div class="card-text">
                                 @foreach ($character->skillMastery as $mastery)
                                 <span>
-                                    <img class="img-fluid" src="{{ Theme::url('img/silkroad/skills/masteries/' . $mastery->MasteryID . '.png') }}" width="16" height="16">
+                                    <img class="img-fluid" src="{{ asset('vendor/img/silkroad/skills/masteries/' . $mastery->MasteryID . '.png') }}" width="16" height="16">
                                     <small class="text-muted">{{ config('constants.skillmastery.names.' . $mastery->MasteryID) }}</small>
                                 </span>
                                 <div class="progress rounded-0" style="height: 20px;">

@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CharTriJob extends Model
+class CharNameList extends Model
 {
     public $timestamps = false;
     public $incrementing = false;
     protected $connection = 'shard';
     protected $primaryKey = 'CharID';
-    protected $table = '_CharTrijob';
+    protected $table = '_CharNameList';
     protected $guarded = [];
 
     public function character()

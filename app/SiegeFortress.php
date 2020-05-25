@@ -19,7 +19,7 @@ class SiegeFortress extends Model
 
     public function getImageAttribute()
     {
-        return theme_url('img/silkroad/siege/' . $this->FortressID . '.png');
+        return asset('vendor/img/silkroad/siege/' . $this->FortressID . '.png');
     }
 
     public function getNameAttribute()

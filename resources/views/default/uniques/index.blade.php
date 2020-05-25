@@ -24,7 +24,7 @@
                             @foreach ($uniques as $unique)
                                 <tr>
                                     <th scope="row">{{ $unique->unique->getName() }}</th>
-                                    <td data-toggle="tooltip" data-html="true" title="<img class='img-fluid rounded' src='{{ Theme::url('img/silkroad/characters/' . $unique->character->RefObjID . '.gif') }}'>">
+                                    <td data-toggle="tooltip" data-html="true" title="<img class='img-fluid rounded' src='{{ asset('vendor/img/silkroad/characters/' . $unique->character->RefObjID . '.gif') }}'>">
                                         <a href="{{ route('users.characters.show', $unique->CharacterID) }}">
                                             {{ $unique->CharacterName }}
                                         </a>
