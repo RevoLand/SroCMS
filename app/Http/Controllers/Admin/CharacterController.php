@@ -47,9 +47,16 @@ class CharacterController extends Controller
     {
         request()->validate([
             'CharName16' => ['required', 'string', Rule::unique('shard._CharNameList', 'CharName16')->ignore($character->CharName16, 'CharName16')],
-            'NickName16' => ['required', 'nullable', 'string', Rule::unique('shard._CharNickNameList', 'NickName16')->ignore($character->NickName16, 'NickName16')],
-            'force_name_change' => ['required', 'boolean'],
+            'NickName16' => ['required', 'nullable', 'alpha_num', Rule::unique('shard._CharNickNameList', 'NickName16')->ignore($character->NickName16, 'NickName16')],
+            'force_name_change' => ['sometimes', 'boolean'],
         ]);
+
+        if (!request('force_name_change'))
+        {
+            request()->validate([
+                'CharName16' => ['alpha_num'],
+            ]);
+        }
 
         if ($character->CharName16 != request('CharName16'))
         {
@@ -61,13 +68,11 @@ class CharacterController extends Controller
             }
             else
             {
-                $currentCharacterName = $character->CharName16;
-                // SRO_VT_ACCOUNT.SR_ShardCharNames
                 $character->shardcharname()->update([
                     'CharName' => request('CharName16'),
                 ]);
-                // SRO_VT_SHARD._CharNameList
-                $character->charname()->update([
+
+                $character->charname()->create([
                     'CharName16' => request('CharName16'),
                 ]);
 
@@ -96,14 +101,17 @@ class CharacterController extends Controller
                 DB::connection('shard')->table('_BlockedWhisperers')->where('TargetName', $character->CharName16)->update([
                     'TargetName' => request('CharName16'),
                 ]);
+
                 // _Friend
                 DB::connection('shard')->table('_Friend')->where('FriendCharID', $character->CharID)->update([
                     'FriendCharName' => request('CharName16'),
                 ]);
+
                 // _GPHistory
                 DB::connection('shard')->table('_GPHistory')->where('CharName', $character->CharName16)->update([
                     'CharName' => request('CharName16'),
                 ]);
+
                 // _Memo
                 DB::connection('shard')->table('_Memo')->where('FromCharName', $character->CharName16)->update([
                     'FromCharName' => request('CharName16'),
@@ -115,28 +123,18 @@ class CharacterController extends Controller
             }
         }
 
-        // TODO: Job'a bağlı olmayan karakterin nickini değiştir?
         if ($character->NickName16 != request('NickName16') && request()->filled('NickName16'))
         {
-            if ($character->charnickname()->exists())
-            {
-                $character->charnickname()->update([
-                    'NickName16' => request('NickName16'),
-                ]);
-            }
-            else
-            {
-                $character->charnickname()->create([
-                    'NickName16' => request('NickName16'),
-                ]);
-            }
+            $character->charnickname()->create([
+                'NickName16' => request('NickName16'),
+            ]);
 
             $character->update([
                 'NickName16' => request('NickName16'),
             ]);
         }
 
-        request()->json([
+        return response()->json([
             'title' => 'Success!',
             'message' => 'Updated!',
             'icon' => 'success',

@@ -85,12 +85,12 @@ class Character extends Model
 
     public function charname()
     {
-        return $this->hasOne(CharNameList::class, 'CharID', 'CharID');
+        return $this->hasMany(CharNameList::class, 'CharID', 'CharID');
     }
 
     public function charnickname()
     {
-        return $this->hasOne(CharNickNameList::class, 'CharID', 'CharID');
+        return $this->hasMany(CharNickNameList::class, 'CharID', 'CharID');
     }
 
     public function shardcharname()
