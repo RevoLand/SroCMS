@@ -32,17 +32,38 @@ class CharacterController extends Controller
         ]);
     }
 
-    /*
-        // UPDATE _Char set CharName16 = @NewName where CharID = @CharID
-        // update _Friend set friendcharname = @NewName where friendcharid = @CharID
-        // update _GuildMember set charname = @NewName where charid = @CharID
-        // update _Memo set fromcharname = @NewName where fromcharname = @old_name
-        // update _TrainingCampMember set charname = @NewName where charid = @CharID
-        // insert _CharNameList values(@NewName, @CharID)
-        // update _Items set CreaterName = @NewName
-        // _GPHistory
-        // _BlockedWhisperers
-    */
+    public function updateBasicInfo(Character $character)
+    {
+        request()->validate([
+            'level' => ['required', 'integer', 'min:1', 'max:140'],
+            'strength' => ['required', 'integer', 'min:1', 'max:30000'],
+            'intellect' => ['required', 'integer', 'min:1', 'max:30000'],
+            'refobjid' => ['required', 'integer'],
+            'gold' => ['required', 'integer', 'min:0', 'max:9000000000000000000'],
+            'skillpoint' => ['required', 'integer', 'min:0', 'max:2000000000'],
+            'statpoint' => ['required', 'integer', 'min:0', 'max:32000'],
+            'inventorysize' => ['required', 'integer', 'min:45', 'max:109'],
+        ]);
+
+        $character->update([
+            'CurLevel' => request('level'),
+            'MaxLevel' => request('level'),
+            'Strength' => request('strength'),
+            'Intellect' => request('intellect'),
+            'RefObjID' => request('refobjid'),
+            'RemainGold' => request('gold'),
+            'RemainSkillPoint' => request('skillpoint'),
+            'RemainStatPoint' => request('statpoint'),
+            'InventorySize' => request('inventorysize'),
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Character\'s basic information has been successfully updated!',
+            'icon' => 'success',
+        ]);
+    }
+
     public function updateName(Character $character)
     {
         request()->validate([
@@ -136,7 +157,7 @@ class CharacterController extends Controller
 
         return response()->json([
             'title' => 'Success!',
-            'message' => 'Updated!',
+            'message' => 'Character Name / Job Name has been successfully updated!',
             'icon' => 'success',
         ]);
     }

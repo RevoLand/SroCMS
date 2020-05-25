@@ -15,7 +15,7 @@
             <div class="col-12">
                 @if($character !== '')
                     <div class="media align-items-center">
-                        <img class="d-flex align-self-center mr-2" src="{{ asset('vendor/img/silkroad/characters/' . $character->RefObjID . '.gif') }}" alt="{{ $character->CharName16 }}">
+                        <img class="d-flex align-self-center mr-2" :src="character_image" alt="{{ $character->CharName16 }}">
                         <div class="media-body">
                             <h5 class="mb-0"><a href="{{ route('admin.characters.show', $character) }}">{{ $character->CharName16 }}</a></h5>
                             <h6 class="mb-0">Account: <a href="{{ route('admin.users.show', $character->user->account->JID) }}">{{ $character->user->account->StrUserID }}</a></h6>
@@ -31,9 +31,53 @@
                 <div class="fancy-tab" v-show="character != ''">
                     <div class="nav-bar">
                         <div class="nav-bar-item px-3 px-sm-4 active">Basic Information</div>
+                        <div class="nav-bar-item px-3 px-sm-4">Name / Job Name</div>
                     </div>
                     <div class="tab-contents" v-if="character != ''">
                         <div class="tab-content active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="level">Level</label>
+                                        <input id="level" class="form-control" type="number" step="1" min="1" max="140" v-model="character.CurLevel" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="strength">Strength</label>
+                                        <input id="strength" class="form-control" type="number" step="1" min="1" max="30000" v-model="character.Strength" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="intellect">Intellect</label>
+                                        <input id="intellect" class="form-control" type="number" step="1" min="1" max="30000" v-model="character.Intellect" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="refobjid">Model (RefObjID)</label>
+                                        <select id="refobjid" class="custom-select" v-model="character.RefObjID">
+                                            <option v-for="characters in available_characters[character_race]" :value="characters" v-text="characters"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gold">Gold</label>
+                                        <input id="gold" class="form-control" type="number" step="1" min="0" max="9000000000000000000" v-model="character.RemainGold">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="skillpoint">Skill Points</label>
+                                        <input id="skillpoint" class="form-control" type="number" step="1" min="0" max="2000000000" v-model="character.RemainSkillPoint">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="statpoint">Stat Points</label>
+                                        <input id="statpoint" class="form-control" type="number" step="1" min="0" max="32000" v-model="character.RemainStatPoint">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inventorysize">Inventory Size</label>
+                                        <input id="inventorysize" class="form-control" type="number" step="1" min="45" max="109" v-model="character.InventorySize">
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-falcon-primary" @click="UpdateBasicInformation">Save</button>
+                        </div>
+                        <div class="tab-content">
                             <div class="form-group">
                                 <label for="CharName16">Character Name <small class="text-muted" v-if="character.CharName16_original && character.CharName16 != character.CharName16_original">(Original Name: @{{ character.CharName16_original }})</small></label>
                                 <input type="text" id="CharName16" class="form-control" v-model.trim="character.CharName16" :disabled="character.force_name_change == 1" />
@@ -69,7 +113,12 @@
     new Vue({
         el: '.content',
         data: {
-            character: @json($character ?? '')
+            assets_base_url: @json(asset('vendor/img/silkroad/characters/')),
+            character: @json($character ?? ''),
+            available_characters: {
+                1: _.range(1907, 1933, 1),
+                2: _.range(14875, 14901, 1)
+            }
         },
         created() {
             if (this.character == '') {
@@ -83,6 +132,20 @@
                 }
 
                 return false;
+            },
+            character_image: function() {
+                if (is.empty(this.character.RefObjID)) {
+                    return '';
+                }
+
+                return `${this.assets_base_url}/${this.character.RefObjID}.gif`;
+            },
+            character_race: function() {
+                if (this.character.RefObjID <= 1932) {
+                    return 1;
+                }
+
+                return 2;
             }
         },
         watch: {
@@ -124,6 +187,21 @@
             }
         },
         methods: {
+            UpdateBasicInformation: function() {
+                let basicInfoForm = new Form({
+                    level: this.character.CurLevel,
+                    strength: this.character.Strength,
+                    intellect: this.character.Intellect,
+                    refobjid: this.character.RefObjID,
+
+                    gold: this.character.RemainGold,
+                    skillpoint: this.character.RemainSkillPoint,
+                    statpoint: this.character.RemainStatPoint,
+                    inventorysize: this.character.InventorySize
+                });
+
+                basicInfoForm.patch(route('admin.characters.update_basic_information', this.character.CharID).url());
+            },
             UpdateCharacterName: function() {
                 let nameChangeForm = new Form({
                     CharName16: this.character.CharName16,
