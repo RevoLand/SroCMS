@@ -30,11 +30,12 @@
                 <hr class="my-3" />
                 <div class="fancy-tab" v-show="character != ''">
                     <div class="nav-bar">
-                        <div class="nav-bar-item px-3 px-sm-4 active">Basic Information</div>
+                        <div class="nav-bar-item px-3 px-sm-4">Basic Information</div>
                         <div class="nav-bar-item px-3 px-sm-4">Name / Job Name</div>
+                        <div class="nav-bar-item px-3 px-sm-4 active" v-if="character.guildmember">Guild</div>
                     </div>
                     <div class="tab-contents" v-if="character != ''">
-                        <div class="tab-content active">
+                        <div class="tab-content">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -95,6 +96,40 @@
                             </div>
                             <button type="button" class="btn btn-falcon-primary" @click="UpdateCharacterName">Save</button>
                         </div>
+                        <div class="tab-content active" v-if="character.guildmember">
+                            <div class="form-group">
+                                <label for="guildmember_nickname">Nickname</label>
+                                <input id="guildmember_nickname" type="text" class="form-control" v-model.trim="character.guildmember.Nickname" maxlength="64">
+                            </div>
+                            <div class="form-group">
+                                <label>Permissions</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="permission_join" type="checkbox" v-model="guild_permission_join" :disabled="character.guildmember.MemberClass == 0">
+                                    <label class="custom-control-label" for="permission_join">Join</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="permission_withdraw" type="checkbox" v-model="guild_permission_withdraw" :disabled="character.guildmember.MemberClass == 0">
+                                    <label class="custom-control-label" for="permission_withdraw">Withdraw (Kick)</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="permission_union" type="checkbox" v-model="guild_permission_union" :disabled="character.guildmember.MemberClass == 0">
+                                    <label class="custom-control-label" for="permission_union">Union Chat</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="permission_storage" type="checkbox" v-model="guild_permission_storage" :disabled="character.guildmember.MemberClass == 0">
+                                    <label class="custom-control-label" for="permission_storage">Guild Storage</label>
+                                </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="permission_notice" type="checkbox" v-model="guild_permission_notice" :disabled="character.guildmember.MemberClass == 0">
+                                    <label class="custom-control-label" for="permission_notice">Notice</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Siege Authority</label>
+                                <h6 v-text="available_siege_perms[character.guildmember.SiegeAuthority]"></h6>
+                            </div>
+                            <button type="button" class="btn btn-falcon-primary" @click="UpdateGuildmemberInformation">Save</button>
+                        </div>
                     </div>
                 </div>
                 {{-- tabs ends here --}}
@@ -118,7 +153,8 @@
             available_characters: {
                 1: _.range(1907, 1933, 1),
                 2: _.range(14875, 14901, 1)
-            }
+            },
+            available_siege_perms: @json(config('constants.guild.siege'))
         },
         created() {
             if (this.character == '') {
@@ -146,7 +182,67 @@
                 }
 
                 return 2;
-            }
+            },
+            guild_permission_join: {
+                get: function() {
+                    return this.character.guildmember.Permission & 1;
+                },
+                set: function(newValue) {
+                    if (newValue) {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission | 1;
+                    } else {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission ^ 1;
+                    }
+                }
+            },
+            guild_permission_withdraw: {
+                get: function() {
+                    return this.character.guildmember.Permission & 2;
+                },
+                set: function(newValue) {
+                    if (newValue) {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission | 2;
+                    } else {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission ^ 2;
+                    }
+                }
+            },
+            guild_permission_union: {
+                get: function() {
+                    return this.character.guildmember.Permission & 4;
+                },
+                set: function(newValue) {
+                    if (newValue) {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission | 4;
+                    } else {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission ^ 4;
+                    }
+                }
+            },
+            guild_permission_storage: {
+                get: function() {
+                    return this.character.guildmember.Permission & 8;
+                },
+                set: function(newValue) {
+                    if (newValue) {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission | 8;
+                    } else {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission ^ 8;
+                    }
+                }
+            },
+            guild_permission_notice: {
+                get: function() {
+                    return this.character.guildmember.Permission & 16;
+                },
+                set: function(newValue) {
+                    if (newValue) {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission | 16;
+                    } else {
+                        this.character.guildmember.Permission = this.character.guildmember.Permission ^ 16;
+                    }
+                }
+            },
         },
         watch: {
             'character.CharID': function(newValue, oldValue) {
@@ -210,6 +306,14 @@
                 });
 
                 nameChangeForm.patch(route('admin.characters.update_character_name', this.character.CharID).url());
+            },
+            UpdateGuildmemberInformation: function() {
+                let guildMemberInfoForm = new Form({
+                    nickname: this.character.guildmember.Nickname,
+                    permission: this.character.guildmember.Permission
+                });
+
+                guildMemberInfoForm.patch(route('admin.characters.update_guild_information', this.character.CharID).url());
             }
         }
     });

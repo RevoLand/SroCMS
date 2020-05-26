@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GuildMember extends Model
 {
+    const OWNER = 0;
+    const MEMBER = 10;
     const CREATED_AT = 'JoinDate';
     const UPDATED_AT = null;
     protected $connection = 'shard';

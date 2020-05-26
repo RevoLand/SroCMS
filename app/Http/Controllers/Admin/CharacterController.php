@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Character;
 use App\DataTables\CharactersDataTable;
+use App\GuildMember;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Validation\Rule;
@@ -24,7 +25,7 @@ class CharacterController extends Controller
     {
         if (isset($character))
         {
-            $character->load(['user.account']);
+            $character->load(['user.account', 'guildmember']);
         }
 
         return view('characters.edit', [
@@ -162,6 +163,33 @@ class CharacterController extends Controller
         ]);
     }
 
+    public function updateGuildmemberInfo(Character $character)
+    {
+        request()->validate([
+            'nickname' => ['nullable',  'alpha_num', 'min:0', 'max:64'],
+            'permission' => ['required', 'integer'],
+        ]);
+
+        $character->loadMissing('guildmember');
+
+        if ($character->guildmember->MemberClass != GuildMember::OWNER)
+        {
+            $character->guildmember()->update([
+                'Permission' => request('permission'),
+            ]);
+        }
+
+        $character->guildmember()->update([
+            'Nickname' => request('nickname'),
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Character\'s guild info successfully updated.',
+            'icon' => 'success',
+        ]);
+    }
+
     public function getPosition()
     {
         request()->validate([
@@ -190,7 +218,7 @@ class CharacterController extends Controller
             abort(404);
         }
 
-        $character->load(['user.account']);
+        $character->load(['user.account', 'guildmember']);
 
         return response()->json([
             'character' => $character,

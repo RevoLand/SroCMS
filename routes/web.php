@@ -297,6 +297,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('edit/{character?}', 'Admin\CharacterController@edit')->middleware('can:manage characters')->name('edit');
         Route::patch('{character}/updateName', 'Admin\CharacterController@updateName')->middleware('can:manage character name')->name('update_character_name');
         Route::patch('{character}/updateBasicInformation', 'Admin\CharacterController@updateBasicInfo')->middleware('can:manage character basic information')->name('update_basic_information');
+        Route::patch('{character}/updateGuildmemberInfo', 'Admin\CharacterController@updateGuildmemberInfo')->middleware('can:manage character guild information')->name('update_guild_information');
 
         Route::get('{character}', 'Admin\CharacterController@show')->name('show');
         Route::post('getPosition', 'Admin\CharacterController@getPosition')->name('get_position');
