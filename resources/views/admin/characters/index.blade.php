@@ -23,7 +23,7 @@
 @endsection
 
 @section('js')
-{!! Theme::js('lib/datatables/js/jquery.dataTables.min.js') !!}
+{!! Theme::js('lib/datatables.net/jquery.dataTables.min.js') !!}
 {!! Theme::js('lib/datatables-bs4/dataTables.bootstrap4.min.js') !!}
 {!! Theme::js('lib/datatables.net-responsive/dataTables.responsive.js') !!}
 {!! Theme::js('lib/datatables.net-responsive-bs4/responsive.bootstrap4.js') !!}
