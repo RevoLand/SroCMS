@@ -10,8 +10,8 @@ return [
         'item' => 6,
 
         // Vice versa for visual
-        '1' => 'Bakiye',
-        '2' => 'Bakiye (Puan)',
+        '1' => 'Balance',
+        '2' => 'Balance (Point)',
         '3' => 'Silk',
         '4' => 'Silk (Gift)',
         '5' => 'Silk (Point)',

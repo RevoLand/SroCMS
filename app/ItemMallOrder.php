@@ -18,4 +18,12 @@ class ItemMallOrder extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'JID');
     }
+
+    public function getTotals()
+    {
+        return $this->items->groupBy('payment_type')->map(function ($item)
+        {
+            return $item->sum('total_paid');
+        });
+    }
 }
