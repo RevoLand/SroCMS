@@ -365,13 +365,6 @@ class CartController extends Controller
 
             foreach ($itemGroup->items()->enabled()->get() as $item)
             {
-                /*
-                    "type" => "6"
-                    "codename" => "ITEM_MALL_GLOBAL_CHATTING"
-                    "amount" => "5"
-                    "balance" => ".00"
-                    "plus" => "0"
-                */
                 switch ($item->type)
                 {
                     // Bakiye
@@ -401,7 +394,8 @@ class CartController extends Controller
 
                         while ($amountToGive > 0)
                         {
-                            Auth::user()->addChestItem($item->codename, ($maxStack % $amountToGive === $maxStack) ? $maxStack : $amountToGive, $item->plus);
+                            $itemsToGiveInThisIteration = ($maxStack % $amountToGive === $maxStack) ? $maxStack : $amountToGive;
+                            Auth::user()->addChestItem($item->codename, $itemsToGiveInThisIteration, $item->plus);
 
                             $amountToGive -= $maxStack;
                         }

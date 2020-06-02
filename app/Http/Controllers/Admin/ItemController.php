@@ -24,22 +24,13 @@ class ItemController extends Controller
 
     public function giveItem()
     {
-        /*
-            "type" => 1
-            "target" => 1
-            "character" => "6697"
-            "account" => false
-            "codename" => "ITEM_MALL_GLOBAL_CHATTING"
-            "quantity" => "50"
-            "optlevel" => 0
-        */
         request()->validate([
             'type' => ['required', 'integer', Rule::in([1, 2])],
             'target' => ['required', 'integer', Rule::in([1, 2])],
             'character' => ['nullable', 'integer', 'exists:App\Character,CharID'],
             'account' => ['nullable', 'integer', 'exists:App\User,JID'],
             'codename' => ['required', 'string', 'exists:App\ObjCommon,CodeName128'],
-            'quantity' => ['required', 'integer', 'min:0', 'max:50000'],
+            'quantity' => ['required', 'integer', 'min:1', 'max:50000'],
             'optlevel' => ['required', 'integer', 'min:0', 'max:32'],
         ]);
 
@@ -47,6 +38,7 @@ class ItemController extends Controller
         $quantity = request('quantity');
         $optlevel = request('optlevel');
         $maxStack = $item->objItem->MaxStack;
+        $itemToGive = ($maxStack % $quantity == $maxStack) ? $maxStack : $quantity;
 
         if (request('type') == self::SELECTOR_TARGET_USER)
         { // Account
@@ -62,7 +54,7 @@ class ItemController extends Controller
 
             while ($quantity > 0)
             {
-                $user->addChestItem($item->CodeName128, ($maxStack % $quantity === $maxStack) ? $maxStack : $quantity, $optlevel);
+                $user->addChestItem($item->CodeName128, $itemToGive, $optlevel);
 
                 $quantity -= $maxStack;
             }
@@ -73,6 +65,7 @@ class ItemController extends Controller
                 'icon' => 'success',
             ]);
         }
+
         if (request('type') == self::SELECTOR_TARGET_CHARACTER)
         {
             $character = Character::find(request('character'));
@@ -89,11 +82,11 @@ class ItemController extends Controller
             {
                 if (request('target') == self::ITEM_TARGET_CHARACTER)
                 {
-                    $character->addItem($item->CodeName128, ($maxStack % $quantity === $maxStack) ? $maxStack : $quantity, $optlevel);
+                    $character->addItem($item->CodeName128, $itemToGive, $optlevel);
                 }
                 elseif (request('target') == self::ITEM_TARGET_USER)
                 {
-                    $character->user->account->addChestItem($item->CodeName128, ($maxStack % $quantity === $maxStack) ? $maxStack : $quantity, $optlevel);
+                    $character->user->account->addChestItem($item->CodeName128, $itemToGive, $optlevel);
                 }
 
                 $quantity -= $maxStack;
@@ -125,7 +118,7 @@ class ItemController extends Controller
             // {
             //     $query->where('name', 'like', "%{$search}%");
             // })
-            ->paginate(10);
+            ->paginate(30);
 
         $newColleciton = $paginator->getCollection()
             ->map(function (ObjCommon $objCommon)

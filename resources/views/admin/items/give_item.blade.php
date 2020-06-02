@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="data">Data (Count)</label>
-                    <input id="data" type="text" class="form-control" v-model.trim="quantity" min="0" />
+                    <input id="data" type="text" class="form-control" v-model.trim="quantity" min="1" />
                 </div>
                 <div class="form-group">
                     <label for="optlevel">Plus (OptLevel)</label>
