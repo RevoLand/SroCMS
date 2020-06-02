@@ -303,6 +303,24 @@
 				</ul>
             </li>
             @endcan
+            @can('manage items')
+            <li class="nav-item">
+                <a class="nav-link dropdown-indicator" href="#item-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="item-manager">
+                    <div class="d-flex align-items-center">
+                        <span class="nav-link-icon">
+                            <span class="fad fa-directions"></span>
+                        </span>
+                        <span class="nav-link-text">Item Manager</span>
+                    </div>
+                </a>
+                <ul class="nav collapse" id="item-manager" data-parent="#navbarVerticalCollapse">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('admin.item-manager.give_item_form') }}">Give Item</a>
+                    </li>
+                </ul>
+            </li>
+            @endcan
+            @can('manage teleports')
 			<li class="nav-item">
 				<a class="nav-link dropdown-indicator" href="#teleport-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="teleport-manager">
 					<div class="d-flex align-items-center">
@@ -320,7 +338,8 @@
 						<a class="nav-link" href="{{ route('admin.teleports.reverse_points.index') }}">Reverse Points</a>
 					</li>
 				</ul>
-			</li>
+            </li>
+            @endcan
 		</ul>
 	</div>
 </nav>

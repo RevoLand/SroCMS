@@ -181,7 +181,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="order in filteredOrders" class="border-bottom border-200">
-                                <th scope="row" class="align-middle">@{{ order.id }}</th>
+                                <th scope="row" class="align-middle"><a class="text-decoration-none text-reset" :href="route('admin.itemmall.orders.show', order.id)">@{{ order.id }}</a></th>
                                 <td class="fs--2 align-middle">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex justify-content-between align-content-center" v-for="item in order.items">
@@ -226,8 +226,8 @@
                         <tbody>
                             <tr v-for="vote in filteredVotes" class="border-bottom border-200">
                                 <th class="align-middle" scope="row" v-text="vote.id"></th>
-                                <td class="align-middle"><a :href="getVoteProviderUrl(vote.vote_provider_id)" v-text="vote.vote_provider.name"></a></td>
-                                <td class="align-middle"><a :href="getVoteRewardGroupUrl(vote.selected_reward_group_id)" v-text="vote.rewardgroup.name"></a></td>
+                                <td class="align-middle"><a class="text-decoration-none text-reset" :href="getVoteProviderUrl(vote.vote_provider_id)" v-text="vote.vote_provider.name"></a></td>
+                                <td class="align-middle"><a class="text-decoration-none text-reset" :href="getVoteRewardGroupUrl(vote.selected_reward_group_id)" v-text="vote.rewardgroup.name"></a></td>
                                 <td class="align-middle"><template v-if="vote.voted"><label class="badge badge-soft-primary">Yes</label></template><template v-else><label class="badge badge-soft-warning">No</label></template></td>
                                 <td class="white-space-nowrap align-middle">@{{ vote.created_at | formatDate }}</td>
                             </tr>
@@ -262,7 +262,7 @@
                         <tbody>
                             <tr v-for="referral in filteredReferrals" class="border-bottom border-200">
                                 <th class="align-middle" scope="row" v-text="referral.id"></th>
-                                <td class="align-middle"><a :href="route('admin.users.show', referral.user.JID)">@{{ referral.user.StrUserID }}</a> <small class="text-muted" v-if="referral.user.Name" v-text="referral.user.Name"></small></td>
+                                <td class="align-middle"><a class="text-decoration-none text-reset" :href="route('admin.users.show', referral.user.JID)">@{{ referral.user.StrUserID }}</a> <small class="text-muted" v-if="referral.user.Name" v-text="referral.user.Name"></small></td>
                                 <td class="white-space-nowrap align-middle"> @{{ referral.created_at | formatDate }}</td>
                             </tr>
                         </tbody>

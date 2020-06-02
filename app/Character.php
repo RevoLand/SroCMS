@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Character extends Model
@@ -112,5 +113,26 @@ class Character extends Model
     public function scopeIgnoreDummy($query)
     {
         return $query->where('CharID', '>', '0');
+    }
+
+    public function addItem(string $itemCodeName, int $data, int $optLevel): bool
+    {
+        /*
+            0 = Procedure was successfully executed.
+            1 = The transaction is in an uncommittable state, rolling back transaction.
+            2 = There is an undefined error that has occurred.
+            100 = The specified character could not be found.
+            101 = The specified characters inventory is already full.
+            102 = The specified item could not be found or is disabled.
+        */
+        return DB::connection('shard')->statement(
+            'exec _AddItemByCodeName @intCharID = ?, @vcItemCodeName = ?, @intData = ?, @inyOptLevel = ?',
+            [
+                $this->CharID,
+                $itemCodeName,
+                $data,
+                $optLevel,
+            ]
+        );
     }
 }

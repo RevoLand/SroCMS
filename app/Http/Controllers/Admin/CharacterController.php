@@ -232,19 +232,22 @@ class CharacterController extends Controller
             return;
         }
 
-        $search = request()->validate([
-            'search' => ['string'],
-        ])['search'];
+        $search = request()->validate(['search' => 'string|max:100'])['search'];
 
-        $paginator = Character::select(['CharID', 'CharName16', 'NickName16', 'CurLevel'])->where('CharName16', 'like', "{$search}%")->orWhere('NickName16', 'like', "{$search}%")->paginate(10);
+        $paginator = Character::select(['CharID', 'CharName16', 'NickName16', 'CurLevel'])
+            ->where('CharName16', 'like', "{$search}%")
+            ->orWhere('NickName16', 'like', "{$search}%")
+            ->with('user.account:JID,StrUserID,Name')
+            ->paginate(10);
 
-        $newCollection = $paginator->getCollection()->map(function (Character $item)
-        {
-            return [
-                'id' => $item->CharID,
-                'text' => $item->CharName16 . ' - Level: ' . $item->CurLevel . ($item->NickName16 != '' ? " - JobName: *{$item->NickName16}" : ''),
-            ];
-        });
+        $newCollection = $paginator->getCollection()
+            ->map(function (Character $item)
+            {
+                return [
+                    'id' => $item->CharID,
+                    'text' => "[{$item->user->account->StrUserID}] " . $item->CharName16 . ' - Level: ' . $item->CurLevel . ($item->NickName16 != '' ? " - JobName: *{$item->NickName16}" : ''),
+                ];
+            });
 
         $paginator->setCollection($newCollection);
 

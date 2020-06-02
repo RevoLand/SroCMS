@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class ObjCommon extends Model
 {
+    const ENABLED = 1;
+    const DISABLED = 0;
     public $timestamps = false;
     protected $connection = 'shard';
     protected $table = '_RefObjCommon';
@@ -85,6 +87,11 @@ class ObjCommon extends Model
     public function scopeIgnoreDummy($query)
     {
         return $query->where('ID', '!=', 0);
+    }
+
+    public function scopeEnabled($query)
+    {
+        return $query->where('Service', self::ENABLED);
     }
 
     protected static function booted()

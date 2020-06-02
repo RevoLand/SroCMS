@@ -232,6 +232,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('itemmall/orders/{order}', 'Admin\ItemMallOrderController@show')->name('itemmall.orders.show');
     });
 
+    Route::group(['middleware' => 'can:manage items', 'prefix' => 'item-manager', 'as' => 'item-manager.'], function ()
+    {
+        Route::get('', 'Admin\ItemController@giveItemForm')->name('give_item_form');
+        Route::post('giveItem', 'Admin\ItemController@giveItem')->name('give_item');
+    });
+
     Route::group(['prefix' => 'users', 'as' => 'users.', 'middleware' => 'can:view users'], function ()
     {
         Route::group(['middleware' => 'can:manage user bans'], function ()
@@ -275,6 +281,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
     {
         Route::get('users/getUsername', 'Admin\UserController@getUsernames')->name('users.get_usernames');
         Route::get('characters/getCharNames', 'Admin\CharacterController@getCharNames')->name('characters.get_names');
+        Route::get('items/getEnabledItems', 'Admin\ItemController@getEnabledItems')->name('items.get_enabled_items');
+        // items.get_enabled_items
     });
 
     Route::group(['prefix' => 'teleports', 'as' => 'teleports.', 'middleware' => 'can:manage teleports'], function ()

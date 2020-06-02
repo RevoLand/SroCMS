@@ -51,7 +51,7 @@
                             <div class="card-text">
                                 <div class="row row-cols-1">
                                     @if($character->job->JobType)
-                                        <div class="col">{!! asset('vendor/img/silkroad/job/'.$character->job->JobType.'.png') !!} {{ config('constants.job.' . $character->job->JobType) }}</div>
+                                        <div class="col"><img src="{!! asset('vendor/img/silkroad/job/'.$character->job->JobType.'.png') !!}"/> {{ config('constants.job.' . $character->job->JobType) }}</div>
                                         <div class="col"><strong>Name:</strong> @if(setting('characters.show_job_alias', 0)) {{ $character->NickName16 }} @else <small class="text-muted">Hidden</small> @endif</div>
                                         <div class="col"><strong>Level:</strong> {{ $character->job->Level }}</div>
                                         <div class="col"><strong>Exp:</strong> {{ $character->job->Exp }}</div>
