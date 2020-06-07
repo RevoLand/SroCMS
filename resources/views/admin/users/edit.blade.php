@@ -524,7 +524,7 @@
                             more: ((params.page || 1) < response.last_page)
                         }
                     };
-            },
+                },
             }
         });
     });

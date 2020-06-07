@@ -372,6 +372,14 @@ return [
             'storage' => 8,
             'notice' => 16,
         ],
+        'permission_names' => [
+            -1 => 'All',
+            1 => 'Join',
+            2 => 'Withdraw',
+            4 => 'Union',
+            8 => 'Storage',
+            16 => 'Notice',
+        ],
         'siege' => [
             '1' => 'Commander',
             '2' => 'Deputy Commander',

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Guild extends Model
 {
-    public $timestamps = false;
+    const CREATED_AT = 'FoundationDate';
+    const UPDATED_AT = null;
     protected $connection = 'shard';
     protected $table = '_Guild';
     protected $primaryKey = 'ID';

@@ -19,12 +19,20 @@ window.Form = Form;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-// Vuejs custom filters
+//#region Vuejs custom filters
 window.Vue.filter('formatDate', function(value, format) {
     if (value) {
         return dayjs(String(value)).format(format || 'DD MMMM YY hh:mm:ss');
     }
 });
+
+window.Vue.filter('formatNumber', function(value) {
+    if (value) {
+        return new Intl.NumberFormat().format(value);
+    }
+})
+
+//#endregion
 
 // Vuejs custom components
 window.Vue.use(VModal, { dynamic: true });

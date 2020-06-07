@@ -303,6 +303,23 @@
 				</ul>
             </li>
             @endcan
+            @can('view guilds')
+			<li class="nav-item">
+				<a class="nav-link dropdown-indicator" href="#guild-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="guild-manager">
+					<div class="d-flex align-items-center">
+						<span class="nav-link-icon">
+							<span class="fad fa-user-friends"></span>
+						</span>
+						<span class="nav-link-text">Guild Manager</span>
+					</div>
+				</a>
+				<ul class="nav collapse" id="guild-manager" data-parent="#navbarVerticalCollapse">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('admin.guilds.index') }}">List</a>
+                    </li>
+				</ul>
+            </li>
+            @endcan
             @can('manage items')
             <li class="nav-item">
                 <a class="nav-link dropdown-indicator" href="#item-manager" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="item-manager">

@@ -310,6 +310,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin', '
         Route::get('{character}', 'Admin\CharacterController@show')->name('show');
         Route::post('getPosition', 'Admin\CharacterController@getPosition')->name('get_position');
     });
+
+    Route::group(['prefix' => 'guilds', 'as' => 'guilds.', 'middleware' => 'can:view guilds'], function ()
+    {
+        Route::get('', 'Admin\GuildController@index')->name('index');
+        Route::get('{guild}', 'Admin\GuildController@show')->name('show');
+    });
 });
 
 Route::match(['get', 'post'], 'item-test', function ()

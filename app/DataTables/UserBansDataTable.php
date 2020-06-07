@@ -77,7 +77,7 @@ class UserBansDataTable extends DataTable
             ->dom("<'row mx-1'<'col-sm-12 col-md-6 px-3'l><'col-sm-12 col-md-6 px-3'f>><'table-responsive'tr><'row mx-1 align-items-center justify-content-center justify-content-md-between'<'col-auto mb-2 mb-sm-0'i><'col-auto'p>>")
             ->responsive(true)
             ->parameters([
-                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200'); $('.data-table tbody').addClass('bg-white table-sm'); $('.data-table tfoot').addClass('bg-200'); }",
+                'drawCallback' => "function() { $('.pagination').addClass('pagination-sm'); $('.data-table thead').addClass('bg-200 text-900'); $('.data-table tbody').addClass('bg-white table-sm'); $('.data-table tfoot').addClass('bg-200'); }",
             ])
             ->lengthMenu([10, 20, 50, 100, 250, 500, 1000])
             ->pageLength(20)
